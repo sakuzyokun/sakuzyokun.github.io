@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>削除くんのホームページ マインスイーパ</title>
+        <link rel="icon" href="favicon.ico">
+		<link rel="stylesheet" href="Minesweeper.css">
+    </head>
+    <body>
+        <header>
+			<h1>削除くんのホームページ</h1>
+			<a href="index.html" class="home-link">ホームに戻る</a>
+		</header>
+		<main>
+    <script>
+/*
+	マインスイーパ
+
+	2010-06-12 創作プログラミングの街
+
+	ゲーム画面表示用のHTMLタグやスタイルシート設定などすべてコードに含まれているので、scriptタグで貼り付けるだけで実行できます
+*/
+
+//セル情報配列作成
+var fjsMineSwCellValue = Array();
+
+for (fjsMineSwWork = 0;fjsMineSwWork < 8; fjsMineSwWork++) {
+	fjsMineSwCellValue[fjsMineSwWork] = Array();
+}
+
+// セル状態配列作成
+var fjsMineSwCellState = Array();
+
+for (fjsMineSwWork = 0;fjsMineSwWork < 8; fjsMineSwWork++) {
+	fjsMineSwCellState[fjsMineSwWork] = Array();
+}
+
+// ゲーム状態変数
+var fjsMineSwState;
+
+// 接触地雷座標
+var fjsMineSwMineX;
+var fjsMineSwMineY;
+
+// 地雷設定数
+var fjsMineSwMineNum = 10;
+
+// 現在のフラグ数
+var fjsMineSwFlagNum = 0;
+
+// 初期化＆表示
+fjsMineSwInit();
+
+// 初期化メソッド
+function fjsMineSwInit() {
+
+	fjsMineSwWriteHTML();
+
+}
+
+function fjsMineSwWriteHTML() {
+
+	// 出力するHTML文字列
+	var html = '';
+
+	html = html + '<div style="padding: 0px; margin-top: 0px; margin-bottom: 0px; margin-left: auto; margin-right: auto; width: 225px; background: #f58220;">' + "\n";
+
+	html = html + '<div style="padding-left: 0px; padding-right: 0px; padding-top: 4px; padding-bottom: 4px; margin: 0px; width: 225px; background: #ff7f00; color: #ffffff; text-align: center; font-size: 16px; font-family: monospace;">マインスイーパ</div>' + "\n";
+
+	html = html + '<div id="fjsMineSwMessage" style="padding-left: 0px; padding-right: 0px; padding-top: 2px; padding-bottom: 2px; margin: 0px; width: 225px; background: #ffa500; text-align: center; font-size: 14px; font-family: monospace;">開始ボタンで開始</div>' + "\n";
+
+	html = html + '<table id="wjsReversiTable" style="padding: 0; margin: 0; background: #000033; font-size: 22px;" cellspacing="1" cellpadding="0">' + "\n";
+
+	// 表示用テーブル各セル作成
+	for (i = 0;i < 8;i++) {
+
+		html = html + '<tr style="padding: 0; margin: 0;">' + "\n";
+
+		for (j = 0;j < 8;j++) {
+
+			// セルID文字列作成
+			id = 'fjsMineSwCell' + new String(j) + new String(i);
+
+			style = "color: #000000; background: #ffffff; padding: 0; margin: 0; width: 27px; height: 27px; text-align: center; vertical-align: middle;";
+
+			html = html + '<td id="' + id + '" style="' + style + '" onclick="fjsMineSwCellClick(event, ' + new String(j) + "," + new String(i) + ')"></td>' + "\n";
+
+		}
+
+		html = html + '</tr>' + "\n";
+
+	}
+
+	html = html + "</table>\n";
+
+	html = html + '<div style="padding: 0px; margin: 0px; font-size: 18px; text-align: center;"><form name="fjsMineSwControlForm" style="margin: 0; padding: 0;"><p style="margin: 0; padding: 8px;"><input type="checkbox" name="fjsMineSwFlag">フラグ設置</p>';
+
+	html = html + '<p style="margin: 0; padding: 8px;">地雷<input type="radio" name="fjsMineSwMenu" value="8">8 <input type="radio" name="fjsMineSwMenu" value="10">10 <input type="radio" name="fjsMineSwMenu" value="12">12</p></form>';
+
+	html = html + '<p style="margin: 0; padding: 8px;"><button style="padding: 2px; margin: 0px;" onClick="fjsMineSwStartClick()">開 始</button></p>';
+	html = html + "</div>\n";
+
+	html = html + "</div>\n";
+
+	document.write(html);
+
+	document.fjsMineSwControlForm.fjsMineSwMenu[0].checked = true;
+
+	fjsMineSwReset();
+	fjsMineSwDraw();
+
+}
+
+// ゲーム初期化
+function fjsMineSwReset() {
+
+	fjsMineSwState = 0;
+
+	// セル情報配列初期化
+	for (i = 0;i < 8;i++) {
+		for (j = 0;j < 8;j++) {
+
+			fjsMineSwCellValue[j][i] = 0;
+			fjsMineSwCellState[j][i] = 0;
+
+		}
+	}
+
+	// フラグカウンタリセット
+	fjsMineSwFlagNum = 0;
+
+	// 選択メニューに応じて地雷数設定
+	for (i = 0;i < 3;i++) {
+		if (document.fjsMineSwControlForm.fjsMineSwMenu[i].checked) {
+			fjsMineSwMineNum = 8 + (i * 2);
+		}
+	}
+
+}
+
+// ゲームを描画
+function fjsMineSwDraw() {
+
+	// 各セルを描画
+	for (i = 0;i < 8;i++) {
+		for (j = 0;j < 8;j++) {
+
+			// 表示セルを取得
+			id = 'fjsMineSwCell' + new String(j) + new String(i);
+			elm = document.getElementById(id);
+
+			switch (fjsMineSwCellState[j][i]) {
+
+			case 0: // 調査前
+
+				elm.style.background = '#ffffff';
+				elm.innerHTML = '';
+
+				break;
+
+			case 1: // 調査済み
+
+				elm.style.background = '#cccccc';
+
+				switch (fjsMineSwCellValue[j][i]) {
+
+				case -1: // 地雷
+
+					// 文字の色設定
+					elm.style.color = '#000000';
+
+					// 地雷を表示
+					elm.innerHTML = '●';
+
+					break;
+
+				case 0: // 地雷隣接なし
+
+					elm.innerHTML = '';
+
+					break;
+
+				default: // 地雷隣接あり
+
+					red = '';
+					blue = '';
+
+					red = (fjsMineSwCellValue[j][i] * 30).toString(16);
+
+					if (fjsMineSwCellValue[j][i] == 1) {
+						blue = 'a0';
+					} else {
+						blue = '00';
+					}
+
+					// 文字の色設定
+					elm.style.color = '#' + red + '00' + blue;
+
+					// 隣接地雷数を表示
+					elm.innerHTML = fjsMineSwCellValue[j][i];
+
+				}
+
+				break;
+
+			case 2: // 印
+
+				elm.style.color = '#0000ff';
+				elm.style.background = '#ffffff';
+
+				elm.innerHTML = '▲';
+
+				break;
+
+			case 4: // 地雷接触
+
+				elm.style.color = '#800000';
+				elm.style.background = '#ffffff';
+
+				elm.innerHTML = '●';
+
+				break;
+
+			case 5: // 地雷接触
+
+				elm.style.color = '#ff8000';
+				elm.style.background = '#ffffff';
+
+				elm.innerHTML = '●';
+
+				break;
+
+			case 6: // 爆発開始
+
+				elm.style.color = '#ffffff';
+				elm.style.background = '#cc4000';
+
+				elm.innerHTML = '';
+
+				break;
+
+			case 7: // 爆発
+
+				elm.style.color = '#ffffff';
+				elm.style.background = '#ff8000';
+
+				elm.innerHTML = '';
+
+				break;
+
+			case 8: // 爆発
+
+				elm.style.color = '#ffffff';
+				elm.style.background = '#ffcc80';
+
+				elm.innerHTML = '';
+
+				break;
+
+			case 9: // 爆発
+
+				elm.style.color = '#ffffff';
+				elm.style.background = '#e0e0cc';
+
+				elm.innerHTML = '';
+
+				break;
+
+			case 10: // 爆発最終段階
+
+				elm.style.color = '#ffffff';
+				elm.style.background = '#d8d8d0';
+
+				elm.innerHTML = '';
+
+				break;
+
+			}
+
+		}
+	}
+
+	// メッセージ表示領域の参照取得
+	mesLabel = document.getElementById('fjsMineSwMessage');
+
+	// メッセージ表示
+	switch (fjsMineSwState) {
+
+	case 0:
+
+		mesLabel.innerHTML = "開始ボタンで開始";
+
+		break;
+
+	case 1:
+	case 2:
+
+		mesLabel.innerHTML = "地雷:" + new String(fjsMineSwFlagNum) + "/" + new String(fjsMineSwMineNum);
+
+		break;
+
+	case 3:
+
+		mesLabel.innerHTML = "クリア";
+
+		break;
+
+	case 4:
+
+		mesLabel.innerHTML = "地雷に接触";
+
+		break;
+
+	}
+
+}
+
+// 開始ボタンクリック時
+function fjsMineSwStartClick() {
+
+	switch (fjsMineSwState) {
+
+	// 爆発中でなければ、新規ゲーム開始
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 13:
+
+		fjsMineSwReset();
+
+		fjsMineSwState = 1;
+
+		fjsMineSwDraw();
+
+		break;
+
+	}
+
+}
+
+// セルクリック時の処理
+function fjsMineSwCellClick(e, x, y) {
+
+	// フラグ設置中かコントロールキーが押されていたら、印のオン／オフ
+	if (document.fjsMineSwControlForm.fjsMineSwFlag.checked || e.ctrlKey) {
+
+		switch (fjsMineSwState) {
+
+		case 1:
+		case 2:
+
+			fjsMineSwFlagCell(x, y);
+
+			fjsMineSwDraw();
+
+			break;
+
+		}
+
+	} else {
+
+		switch (fjsMineSwState) {
+
+		// 最初のクリックで地雷を配置
+		case 1:
+
+			fjsMineSwMineInit(x, y);
+
+			fjsMineSwOpenCell(x, y);
+
+			fjsMineSwDraw();
+
+			fjsMineSwState = 2;
+
+			break;
+
+		case 2:
+
+			// 地雷に接触
+			if (fjsMineSwCellValue[x][y] == -1) {
+
+				fjsMineSwCellState[x][y] = 4;
+
+				// 接触処理開始
+				fjsMineSwState = 4;
+
+				// 接触位置を記録
+				fjsMineSwMineX = x;
+				fjsMineSwMineY = y;
+
+				fjsMineSwDraw();
+
+				// 接触アニメ処理へ
+				setTimeout("fjsMineSwMissProcess()", 500);
+
+				return;
+
+			}
+
+			fjsMineSwOpenCell(x, y);
+
+			// クリア判定
+			if (fjsMineSwIsClear()) {
+
+				fjsMineSwState = 3;
+
+				// 全セルを開いた状態に設定
+				for (i = 0;i < 8;i++) {
+					for (j = 0;j < 8;j++) {
+						fjsMineSwCellState[j][i] = 1;
+					}
+				}
+
+			}
+
+			fjsMineSwDraw();
+
+			break;
+
+		}
+
+	}
+
+}
+
+// 指定セルを開く
+function fjsMineSwOpenCell(x, y) {
+
+	// ループ変数をローカル変数宣言（再起呼び出し対策）
+	var i = 0;
+	var j = 0;
+
+	if (x < 0 || x > 7 || y < 0 || y > 7) {
+		return;
+	}
+
+	if (fjsMineSwCellValue[x][y] == 0 && fjsMineSwCellState[x][y] == 0) {
+
+		// セル状態を設定
+		fjsMineSwCellState[x][y] = 1;
+
+		for (i = -1;i <= 1;i++) {
+			for (j = -1;j <= 1;j++) {
+				if (j != 0 || i != 0) {
+					if ((x + j) >= 0 && (x + j) < 8 && (y + i) >= 0 && (y + i) < 8) {
+
+						// 隣接セルに隣接地雷がなければ、再起呼び出しで開く
+						if (fjsMineSwCellValue[x + j][y + i] == 0) {
+							fjsMineSwOpenCell(x + j, y + i);
+						}
+
+						if (fjsMineSwCellValue[x + j][y + i] > 0) {
+							fjsMineSwCellState[x + j][y + i] = 1;
+						}
+
+					}
+
+				}
+			}
+		}
+
+	}
+
+	if (fjsMineSwCellValue[x][y] != -1) {
+		fjsMineSwCellState[x][y] = 1;
+	}
+
+}
+
+function fjsMineSwFlagCell(x, y) {
+
+	switch (fjsMineSwCellState[x][y]) {
+
+	case 0:
+
+		fjsMineSwCellState[x][y] = 2;
+
+		fjsMineSwFlagNum++;
+
+		break;
+
+	case 2:
+
+		fjsMineSwCellState[x][y] = 0;
+
+		fjsMineSwFlagNum--;
+
+		break;
+
+	}
+
+}
+
+// 地雷接触後の爆発処理
+function fjsMineSwMissProcess() {
+
+	switch (fjsMineSwState) {
+
+	// 対象セルを爆発状態に
+	case 4:
+
+		fjsMineSwCellState[fjsMineSwMineX][fjsMineSwMineY] = 5;
+
+		break;
+
+	// 対象セルと上下左右のセルを爆発状態に
+	case 5:
+
+		fjsMineSwCellState[fjsMineSwMineX][fjsMineSwMineY] = 6;
+
+		if (fjsMineSwMineX > 0) {
+			fjsMineSwCellState[fjsMineSwMineX - 1][fjsMineSwMineY] = 6;
+		}
+
+		if (fjsMineSwMineX < 7) {
+			fjsMineSwCellState[fjsMineSwMineX + 1][fjsMineSwMineY] = 6;
+		}
+
+		if (fjsMineSwMineY > 0) {
+			fjsMineSwCellState[fjsMineSwMineX][fjsMineSwMineY - 1] = 6;
+		}
+
+		if (fjsMineSwMineY < 7) {
+			fjsMineSwCellState[fjsMineSwMineX][fjsMineSwMineY + 1] = 6;
+		}
+
+		break;
+
+	// 対象セルと隣接セルを爆発状態に
+	case 6:
+
+		for (i = -1;i <= 1;i++) {
+			for (j = -1;j <= 1;j++) {
+				if (fjsMineSwMineX + j >= 0 && fjsMineSwMineX + j <= 7 && fjsMineSwMineY + i >= 0 && fjsMineSwMineY + i <= 7) {
+					fjsMineSwCellState[fjsMineSwMineX + j][fjsMineSwMineY + i] = 7;
+				}
+			}
+		}
+
+		break;
+
+	case 7:
+
+		for (i = -1;i <= 1;i++) {
+			for (j = -1;j <= 1;j++) {
+				if (fjsMineSwMineX + j >= 0 && fjsMineSwMineX + j <= 7 && fjsMineSwMineY + i >= 0 && fjsMineSwMineY + i <= 7) {
+					fjsMineSwCellState[fjsMineSwMineX + j][fjsMineSwMineY + i] = 8;
+				}
+			}
+		}
+
+		break;
+
+	// 全体を爆発状態に
+	case 8:
+
+		for (i = 0;i < 8;i++) {
+			for (j = 0;j < 8;j++) {
+				fjsMineSwCellState[j][i] = 8;
+			}
+		}
+
+		break;
+
+	case 9:
+
+		for (i = 0;i < 8;i++) {
+			for (j = 0;j < 8;j++) {
+				fjsMineSwCellState[j][i] = 9;
+			}
+		}
+
+		break;
+
+	case 10:
+
+		for (i = 0;i < 8;i++) {
+			for (j = 0;j < 8;j++) {
+				fjsMineSwCellState[j][i] = 10;
+			}
+		}
+
+		break;
+
+	// 爆発状態を解除し、全セルを開いた状態に
+	case 12:
+
+		for (i = 0;i < 8;i++) {
+			for (j = 0;j < 8;j++) {
+				fjsMineSwCellState[j][i] = 1;
+			}
+		}
+
+		break;
+
+	}
+
+	fjsMineSwDraw();
+
+	fjsMineSwState++;
+
+	if (fjsMineSwState < 13) {
+		setTimeout("fjsMineSwMissProcess()", 100);
+	}
+
+}
+
+// 地雷配置
+function fjsMineSwMineInit(x, y) {
+
+	mines = 0;
+
+	do {
+
+		// 乱数で地雷位置設定
+		mx = Math.floor(Math.random() * 8)
+		my = Math.floor(Math.random() * 8)
+
+		// 地雷が配置可能なら配置
+		if ((Math.abs(mx - x) > 1 || Math.abs(my - y) > 1) && fjsMineSwCellValue[mx][my] == 0) {
+
+			fjsMineSwCellValue[mx][my] = -1;
+
+			mines++;
+
+		}
+
+	} while (mines < fjsMineSwMineNum);
+
+	// セルに隣接地雷数を設定
+	for (i = 0;i < 8;i++) {
+		for (j = 0;j < 8;j++) {
+
+			fjsMineSwCellState[j][i] = 0;
+
+			if (fjsMineSwCellValue[j][i] == 0) {
+
+				n = 0;
+
+				for (k = -1;k <= 1;k++) {
+					for (l = -1;l <= 1;l++) {
+						if ((j + l) >= 0 && (j + l) <= 7 && (i + k) >= 0 && (i + k) <= 7 && fjsMineSwCellValue[j + l][i + k] == -1) {
+							n++;
+						}
+					}
+				}
+
+				fjsMineSwCellValue[j][i] = n;
+
+			}
+
+		}
+	}
+
+}
+
+// クリア判定
+function fjsMineSwIsClear() {
+
+	// 地雷以外のセルに開かれていないものがあれば、未クリア
+	for (i = 0;i < 8;i++) {
+		for (j = 0;j < 8;j++) {
+			if (fjsMineSwCellValue[j][i] != -1 && fjsMineSwCellState[j][i] != 1) {
+				return false;
+			}
+		}
+	}
+
+	return true;
+
+}
+</script>
+	</main>
+    </body>
+</html>

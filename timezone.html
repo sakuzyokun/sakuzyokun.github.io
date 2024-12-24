@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ タイムゾーン変換ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="timezone.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>タイムゾーン変換ツール</h1>
+        <input type="datetime-local" id="local-time" placeholder="日時を入力">
+        <select id="from-timezone">
+            <option value="Asia/Tokyo">東京 (Asia/Tokyo)</option>
+            <option value="America/New_York">ニューヨーク (America/New_York)</option>
+            <option value="Europe/London">ロンドン (Europe/London)</option>
+            <option value="Australia/Sydney">シドニー (Australia/Sydney)</option>
+            <!-- 他のタイムゾーンも追加可能 -->
+        </select>
+        <select id="to-timezone">
+            <option value="Asia/Tokyo">東京 (Asia/Tokyo)</option>
+            <option value="America/New_York">ニューヨーク (America/New_York)</option>
+            <option value="Europe/London">ロンドン (Europe/London)</option>
+            <option value="Australia/Sydney">シドニー (Australia/Sydney)</option>
+            <!-- 他のタイムゾーンも追加可能 -->
+        </select>
+        <button onclick="convertTime()">時間を変換</button>
+        <div class="result" id="result"></div>
+    </main>
+    <script>
+        function convertTime() {
+            const localTime = document.getElementById('local-time').value;
+            const fromTimezone = document.getElementById('from-timezone').value;
+            const toTimezone = document.getElementById('to-timezone').value;
+
+            if (!localTime) {
+                alert('日時を入力してください。');
+                return;
+            }
+
+            const date = new Date(localTime);
+            const options = {
+                timeZone: fromTimezone,
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+            };
+            const formatter = new Intl.DateTimeFormat([], options);
+            const fromTime = new Date(formatter.format(date));
+
+            options.timeZone = toTimezone;
+            const toTime = new Date(formatter.format(fromTime));
+
+            document.getElementById('result').innerText = `変換後の時間: ${toTime.toLocaleString()}`;
+        }
+    </script>
+</body>
+</html>

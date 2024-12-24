@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 画像アップロードツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="photo.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>画像アップロードツール</h1>
+        <p>画像用です。アップロードされた画像を確認することはできませんので安心してご利用ください</p>
+        <input type="file" id="imageInput" accept="image/*" onchange="displayImage()">
+        <div class="image-container" id="imageContainer"></div>
+    </main>
+    <script>
+        function displayImage() {
+            const file = document.getElementById('imageInput').files[0];
+            if (!file) {
+                alert('画像を選択してください');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.src = event.target.result;
+                document.getElementById('imageContainer').innerHTML = '';
+                document.getElementById('imageContainer').appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html>

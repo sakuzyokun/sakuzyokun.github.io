@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ Windows 7</title>
+    <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .desktop {
+            width: 100vw;
+            height: 100vh;
+            background: url('https://miya-it.com/wp-content/uploads/2020/01/win-7.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .taskbar {
+            width: 100%;
+            height: 50px;
+            background-color: rgba(0,0,255,0.6);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            bottom: 0;
+        }
+        .start-button {
+            width: 50px;
+            height: 50px;
+            background: url('https://lh3.google.com/u/0/d/1b9W08v0dO1HYHQV3blyyQL2bHXJd8Pse=w1920-h868-iv1') no-repeat center center;
+            background-size: cover;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .taskbar-icons {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .taskbar-icons img {
+            margin: 0 5px;
+            height: 24px;
+        }
+        .window {
+            width: 600px;
+            height: 400px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            flex-direction: column;
+        }
+        .window-header {
+            background-color: #0078d7;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .window-content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .window-close {
+            cursor: pointer;
+        }
+        .start-menu {
+            position: absolute;
+            bottom: 50px;
+            left: 10px;
+            width: 200px;
+            background-color: #FFFFFF;
+            border: 1px solid #000;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .start-menu-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            font-family: 'Arial', sans-serif;
+        }
+        .start-menu-item:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop" id="desktop">
+        <div class="window" id="exampleWindow">
+            <div class="window-header">
+                <span>ウィンドウのタイトル</span>
+                <span class="window-close" onclick="closeWindow('exampleWindow')">✖</span>
+            </div>
+            <div class="window-content">
+                ここにウィンドウの内容が表示されます。
+            </div>
+        </div>
+        <div class="taskbar">
+            <div class="start-button" onclick="toggleStartMenu()"></div>
+            <div class="taskbar-icons">
+                <img src="https://img.icons8.com/ios-glyphs/30/000000/volume.png" alt="音量アイコン">
+                <img src="https://img.icons8.com/ios-glyphs/30/000000/wifi.png" alt="ネットワークアイコン">
+                <img src="https://img.icons8.com/ios-glyphs/30/000000/battery.png" alt="バッテリーアイコン">
+            </div>
+        </div>
+        <div class="start-menu" id="startMenu">
+            <div class="start-menu-item" onclick="openWindow('exampleWindow')">プログラム</div>
+            <div class="start-menu-item" onclick="closeStartMenu()">終了</div>
+        </div>
+    </div>
+    <script>
+        function openWindow(windowId) {
+            document.getElementById(windowId).style.display = 'flex';
+        }
+        function closeWindow(windowId) {
+            document.getElementById(windowId).style.display = 'none';
+        }
+        function toggleStartMenu() {
+            const startMenu = document.getElementById('startMenu');
+            startMenu.style.display = startMenu.style.display === 'none' ? 'flex' : 'none';
+        }
+        function closeStartMenu() {
+            document.getElementById('startMenu').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

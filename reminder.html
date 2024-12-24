@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ リマインダー</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="reminder.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>リマインダー</h1>
+        <input type="text" id="task" placeholder="タスクを入力">
+        <input type="datetime-local" id="reminder-time">
+        <button onclick="addReminder()">リマインダーを追加</button>
+        <div class="reminder-list" id="reminder-list"></div>
+    </main>
+    <script>
+        function addReminder() {
+            const task = document.getElementById('task').value;
+            const reminderTime = document.getElementById('reminder-time').value;
+
+            if (!task || !reminderTime) {
+                alert('タスクとリマインダー時間を入力してください。');
+                return;
+            }
+
+            const reminderItem = document.createElement('div');
+            reminderItem.className = 'reminder-item';
+            reminderItem.innerHTML = `<strong>タスク:</strong> ${task} <br> <strong>リマインダー時間:</strong> ${new Date(reminderTime).toLocaleString()}`;
+            
+            document.getElementById('reminder-list').appendChild(reminderItem);
+
+            document.getElementById('task').value = '';
+            document.getElementById('reminder-time').value = '';
+        }
+    </script>
+</body>
+</html>

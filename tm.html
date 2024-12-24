@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ タイマー</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="tm.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>タイマー</h1>
+        <div>
+            <input type="number" id="minutes" placeholder="分" min="0">
+            <input type="number" id="seconds" placeholder="秒" min="0">
+        </div>
+        <div id="timer">00:00</div>
+        <button onclick="startTimer()">スタート</button>
+        <button onclick="stopTimer()">ストップ</button>
+        <button onclick="resetTimer()">リセット</button>
+    </main>
+    <script>
+        let timer;
+        let totalTime;
+        let running = false;
+
+        function startTimer() {
+            if (!running) {
+                let minutes = parseInt(document.getElementById("minutes").value) || 0;
+                let seconds = parseInt(document.getElementById("seconds").value) || 0;
+                totalTime = (minutes * 60) + seconds;
+                if (totalTime > 0) {
+                    timer = setInterval(updateTimer, 1000);
+                    running = true;
+                }
+            }
+        }
+
+        function updateTimer() {
+            if (totalTime <= 0) {
+                clearInterval(timer);
+                document.getElementById("timer").innerText = "00:00";
+                running = false;
+                const audio = new Audio('alarm.mp3');
+                audio.play();
+                alert("タイマーが終了しました！");
+            } else {
+                totalTime--;
+                let minutes = Math.floor(totalTime / 60);
+                let seconds = totalTime % 60;
+                minutes = (minutes < 10) ? "0" + minutes : minutes;
+                seconds = (seconds < 10) ? "0" + seconds : seconds;
+                document.getElementById("timer").innerText = minutes + ":" + seconds;
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            running = false;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            document.getElementById("timer").innerText = "00:00";
+            running = false;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ OS･ブラウザ判定ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="OS.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>OS･ブラウザ判定ツール</h1>
+        <div class="info" id="osInfo">OS: 判定中...</div>
+        <div class="info" id="browserInfo">ブラウザ: 判定中...</div>
+    </main>
+    <script>
+        function getOS() {
+            const userAgent = window.navigator.userAgent;
+            if (userAgent.indexOf('Windows NT 10.0') !== -1) return 'Windows 10, Windows 11';
+            if (userAgent.indexOf('Windows NT 6.3') !== -1) return 'Windows 8.1';
+            if (userAgent.indexOf('Windows NT 6.2') !== -1) return 'Windows 8';
+            if (userAgent.indexOf('Windows NT 6.1') !== -1) return 'Windows 7';
+            if (userAgent.indexOf('Windows NT 6.0') !== -1) return 'Windows Vista';
+            if (userAgent.indexOf('Windows NT 5.1') !== -1) return 'Windows XP';
+            if (userAgent.indexOf('Windows NT 5.0') !== -1) return 'Windows 2000';
+            if (userAgent.indexOf('Mac OS X') !== -1) return 'macOS';
+            if (userAgent.indexOf('Android') !== -1) return 'Android';
+            if (userAgent.indexOf('iPhone') !== -1) return 'iOS (iPhone)';
+            if (userAgent.indexOf('iPad') !== -1) return 'iOS (iPad)';
+            return 'Unknown';
+        }
+
+        function getBrowser() {
+            const userAgent = window.navigator.userAgent;
+            if (userAgent.indexOf('Firefox') !== -1) return 'Mozilla Firefox';
+            if (userAgent.indexOf('SamsungBrowser') !== -1) return 'Samsung Internet';
+            if (userAgent.indexOf('Opera') !== -1 || userAgent.indexOf('OPR') !== -1) return 'Opera';
+            if (userAgent.indexOf('Trident') !== -1) return 'Microsoft Internet Explorer';
+            if (userAgent.indexOf('Edge') !== -1) return 'Microsoft Edge';
+            if (userAgent.indexOf('Chrome') !== -1) return 'Google Chrome';
+            if (userAgent.indexOf('Safari') !== -1) return 'Apple Safari';
+            return 'Unknown';
+        }
+
+        document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
+        document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
+    </script>
+</body>
+</html>

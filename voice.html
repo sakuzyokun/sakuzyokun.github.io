@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音声メモツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="voice.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>音声メモツール</h1>
+        <button id="recordButton">録音開始</button>
+        <button id="stopButton" disabled>録音停止</button>
+        <div class="recordings-list" id="recordingsList"></div>
+    </main>
+    <script>
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        document.getElementById('recordButton').addEventListener('click', startRecording);
+        document.getElementById('stopButton').addEventListener('click', stopRecording);
+
+        function startRecording() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    mediaRecorder = new MediaRecorder(stream);
+                    mediaRecorder.ondataavailable = event => {
+                        recordedChunks.push(event.data);
+                    };
+                    mediaRecorder.onstop = saveRecording;
+                    mediaRecorder.start();
+                    document.getElementById('recordButton').disabled = true;
+                    document.getElementById('stopButton').disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error accessing microphone: ', error);
+                });
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+            document.getElementById('recordButton').disabled = false;
+            document.getElementById('stopButton').disabled = true;
+        }
+
+        function saveRecording() {
+            const blob = new Blob(recordedChunks, { type: 'audio/wav' });
+            const url = URL.createObjectURL(blob);
+            const audio = document.createElement('audio');
+            audio.controls = true;
+            audio.src = url;
+            const listItem = document.createElement('div');
+            listItem.appendChild(audio);
+            document.getElementById('recordingsList').appendChild(listItem);
+            recordedChunks = [];
+        }
+    </script>
+</body>
+</html>

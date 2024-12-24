@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 温度変換ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="temp.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>温度変換ツール</h1>
+        <input type="number" id="inputValue" placeholder="温度を入力">
+        <select id="unitFrom">
+            <option value="celsius">摂氏 (°C)</option>
+            <option value="fahrenheit">華氏 (°F)</option>
+        </select>
+        <button onclick="convertTemperature()">変換</button>
+        <div class="result" id="result"></div>
+    </main>
+    <script>
+        function convertTemperature() {
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            const unitFrom = document.getElementById('unitFrom').value;
+
+            if (isNaN(inputValue)) {
+                alert('正しい温度を入力してください。');
+                return;
+            }
+
+            let result;
+            if (unitFrom === 'celsius') {
+                result = (inputValue * 9/5) + 32; // 摂氏から華氏への変換
+                document.getElementById('result').innerText = `変換結果: ${result.toFixed(2)} °F`;
+            } else {
+                result = (inputValue - 32) * 5/9; // 華氏から摂氏への変換
+                document.getElementById('result').innerText = `変換結果: ${result.toFixed(2)} °C`;
+            }
+        }
+    </script>
+</body>
+</html>

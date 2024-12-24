@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ メモ帳</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="note.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>メモ帳</h1>
+        <textarea id="note" placeholder="ここにメモを書いてください..."></textarea>
+        <br>
+        <button onclick="saveNote()">メモを保存</button>
+        <button onclick="loadNote()">メモを読み込む</button>
+        <button onclick="clearNote()">メモをクリア</button>
+        <button onclick="downloadFile()">メモをダウンロード</button>
+    </main>
+    <script>
+        function saveNote() {
+            const noteContent = document.getElementById('note').value;
+            localStorage.setItem('note', noteContent);
+            alert('メモが保存されました');
+        }
+
+        function loadNote() {
+            const savedNote = localStorage.getItem('note');
+            if (savedNote) {
+                document.getElementById('note').value = savedNote;
+            } else {
+                alert('保存されたメモがありません');
+            }
+        }
+
+        function clearNote() {
+            document.getElementById('note').value = '';
+        }
+
+        function downloadFile() {
+            const content = document.getElementById('note').value;
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'sakuzyohome_NOTE.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

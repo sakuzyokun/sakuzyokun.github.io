@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ ユニット変換ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="unit.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>ユニット変換ツール</h1>
+        <input type="number" id="inputValue" placeholder="値を入力" min="0">
+        <select id="unitFrom">
+            <option value="kilometers">キロメートル (km)</option>
+            <option value="meters">メートル (m)</option>
+            <option value="centimeters">センチメートル (cm)</option>
+            <option value="miles">マイル (mi)</option>
+            <option value="feet">フィート (ft)</option>
+            <option value="inches">インチ (in)</option>
+        </select>
+        <select id="unitTo">
+            <option value="kilometers">キロメートル (km)</option>
+            <option value="meters">メートル (m)</option>
+            <option value="centimeters">センチメートル (cm)</option>
+            <option value="miles">マイル (mi)</option>
+            <option value="feet">フィート (ft)</option>
+            <option value="inches">インチ (in)</option>
+        </select>
+        <button onclick="convertUnit()">変換</button>
+        <div class="result" id="result"></div>
+    </main>
+    <script>
+        const conversionRates = {
+            kilometers: 1,
+            meters: 1000,
+            centimeters: 100000,
+            miles: 0.621371,
+            feet: 3280.84,
+            inches: 39370.1
+        };
+
+        function convertUnit() {
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            const unitFrom = document.getElementById('unitFrom').value;
+            const unitTo = document.getElementById('unitTo').value;
+
+            if (isNaN(inputValue)) {
+                alert('正しい数値を入力してください。');
+                return;
+            }
+
+            const result = (inputValue / conversionRates[unitFrom]) * conversionRates[unitTo];
+            document.getElementById('result').innerText = `変換結果: ${result.toFixed(2)} ${unitTo}`;
+        }
+    </script>
+</body>
+</html>

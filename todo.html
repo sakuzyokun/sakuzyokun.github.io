@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico">
+    <title>削除くんのホームページ ToDoリスト</title>
+    <link rel="stylesheet" href="todo.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>ToDoリスト</h1>
+        <div id="todo-container">
+            <input type="text" id="todo-input" placeholder="新しいタスクを追加">
+            <button onclick="addTask()">追加</button>
+            <ul id="todo-list"></ul>
+        </div>
+    </main>
+    <script>
+        function addTask() {
+            const taskText = document.getElementById('todo-input').value;
+            if (taskText === '') {
+                alert('タスクを入力してください');
+                return;
+            }
+
+            const li = document.createElement('li');
+            li.textContent = taskText;
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = '削除';
+            removeButton.classList.add('delete-button');
+            removeButton.onclick = function() {
+                li.remove();
+            };
+
+            const completeButton = document.createElement('button');
+            completeButton.textContent = '完了';
+            completeButton.classList.add('complete-button');
+            completeButton.onclick = function() {
+                li.classList.toggle('completed');
+            };
+
+            li.appendChild(completeButton);
+            li.appendChild(removeButton);
+
+            document.getElementById('todo-list').appendChild(li);
+
+            document.getElementById('todo-input').value = '';
+        }
+    </script>
+</body>
+</html>

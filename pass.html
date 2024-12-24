@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ パスワードジェネレーター</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="pass.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>パスワードジェネレーター</h1>
+        <input type="number" id="length" placeholder="パスワードの長さを入力" min="1" max="128">
+        <button onclick="generatePassword()">パスワードを生成</button>
+        <div class="result" id="result"></div>
+    </main>
+    <script>
+        function generatePassword() {
+            const length = parseInt(document.getElementById('length').value);
+            if (isNaN(length) || length <= 0) {
+                alert('正しいパスワードの長さを入力してください。');
+                return;
+            }
+
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?';
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * characters.length);
+                password += characters[randomIndex];
+            }
+
+            document.getElementById('result').innerText = `生成されたパスワード: ${password}`;
+        }
+    </script>
+</body>
+</html>

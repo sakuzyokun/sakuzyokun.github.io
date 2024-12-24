@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ ペイント</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="paint.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <div class="controls">
+            <button onclick="clearCanvas()">クリア</button>
+            <label for="colorPicker">色:</label>
+            <input type="color" id="colorPicker" value="#000000">
+            <label for="sizePicker">サイズ:</label>
+            <input type="number" id="sizePicker" value="5" min="1" max="50">
+            <button onclick="saveCanvas()">保存</button>
+            <button onclick="loadCanvas()">読み込み</button>
+            <button onclick="downloadCanvas()">画像として保存</button>
+        </div>
+        <canvas id="paintCanvas" width="800" height="600"></canvas>
+    </main>
+    <script>
+        const canvas = document.getElementById('paintCanvas');
+        const ctx = canvas.getContext('2d');
+        let painting = false;
+
+        function startPosition(e) {
+            painting = true;
+            draw(e);
+        }
+
+        function endPosition() {
+            painting = false;
+            ctx.beginPath();
+        }
+
+        function draw(e) {
+            if (!painting) return;
+            ctx.lineWidth = document.getElementById('sizePicker').value;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = document.getElementById('colorPicker').value;
+
+            ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function saveCanvas() {
+            const canvasData = canvas.toDataURL();
+            document.cookie = `canvasData=${canvasData}; max-age=31536000; path=/`;
+            alert("保存しました！");
+        }
+
+        function loadCanvas() {
+            const cookies = document.cookie.split('; ');
+            const canvasData = cookies.find(cookie => cookie.startsWith('canvasData='));
+            if (canvasData) {
+                const data = canvasData.split('=')[1];
+                const image = new Image();
+                image.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(image, 0, 0);
+                };
+                image.src = data;
+                alert("読み込みました！");
+            } else {
+                alert("保存されたデータがありません。");
+            }
+        }
+
+        function downloadCanvas() {
+            const link = document.createElement('a');
+            link.download = 'drawing.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        canvas.addEventListener('mousedown', startPosition);
+        canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousemove', draw);
+    </script>
+</body>
+</html>

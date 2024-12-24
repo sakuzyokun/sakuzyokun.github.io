@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 簡易レシピ管理ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="recipe.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>簡易レシピ管理ツール</h1>
+        <input type="text" id="recipeTitle" placeholder="レシピのタイトルを入力">
+        <textarea id="recipeInstructions" placeholder="レシピの手順を入力"></textarea>
+        <button onclick="addRecipe()">レシピを追加</button>
+        <ul id="recipeList"></ul>
+    </main>
+    <script>
+        function addRecipe() {
+            const title = document.getElementById('recipeTitle').value;
+            const instructions = document.getElementById('recipeInstructions').value;
+
+            if (title === '' || instructions === '') {
+                alert('タイトルと手順を入力してください。');
+                return;
+            }
+
+            const li = document.createElement('li');
+            li.innerHTML = `<strong>${title}</strong><br>${instructions}`;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = '削除';
+            deleteButton.classList.add('delete-button');
+            deleteButton.onclick = () => li.remove();
+            li.appendChild(deleteButton);
+
+            document.getElementById('recipeList').appendChild(li);
+            document.getElementById('recipeTitle').value = '';
+            document.getElementById('recipeInstructions').value = '';
+        }
+    </script>
+</body>
+</html>

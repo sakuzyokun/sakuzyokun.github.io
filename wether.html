@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 天気情報</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="wether.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>GPS天気予報ツール</h1>
+        <p>GPSが使えない場合は下の手動の物を使ってください<br>
+        また、サポートされていない地域があります。その場合は手動の物に県庁所在地を入力するといいとおもいます</p>
+        <button onclick="getLocation()">現在地を取得</button>
+        <div class="result" id="weatherResult"></div>
+        <hr>
+        <h1>天気情報</h1>
+        <p>自分の地域を<b>ローマ字</b>で入力してください<br>
+        また、入力された文字はサーバーに送信されずブラウザ内で処理されます</p>
+        <input type="text" id="city" placeholder="都市名を入力してください">
+        <button onclick="getWeather()">天気を表示</button>
+        <div id="weather"></div>
+    </main>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        getWeather(lat, lon);
+                    },
+                    function(error) {
+                        alert('現在地の取得に失敗しました: ' + error.message);
+                    }
+                );
+            } else {
+                alert('このブラウザではGPSの取得がサポートされていません。');
+            }
+        }
+
+        function getWeather(lat, lon) {
+            const apiKey = '327780fce90bf88b1f040547fbc8a758'; // OpenWeatherMap APIのAPIキーをここに入力
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=ja`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const weather = `天気: ${data.weather[0].description}\n温度: ${data.main.temp}°C\n湿度: ${data.main.humidity}%\n風速: ${data.wind.speed}m/s`;
+                    document.getElementById('weatherResult').innerText = weather;
+                })
+                .catch(error => {
+                    alert('天気情報の取得に失敗しました: ' + error.message);
+                });
+        }
+
+        async function getWeather() {
+            const city = document.getElementById('city').value;
+            const apiKey = '327780fce90bf88b1f040547fbc8a758'; // OpenWeatherMap APIキーをここに入力してください
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ja`;
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.cod === 200) {
+                    const weather = `
+                        <h2>${data.name}の天気</h2>
+                        <p>温度: ${data.main.temp}°C</p>
+                        <p>天気: ${data.weather[0].description}</p>
+                        <p>風速: ${data.wind.speed} m/s</p>
+                    `;
+                    document.getElementById('weather').innerHTML = weather;
+                } else {
+                    document.getElementById('weather').innerHTML = '<p>天気情報が見つかりませんでした。</p>';
+                }
+            } catch (error) {
+                document.getElementById('weather').innerHTML = '<p>エラーが発生しました。</p>';
+            }
+        }
+    </script>
+</body>
+</html>

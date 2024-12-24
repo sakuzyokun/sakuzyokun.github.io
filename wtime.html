@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.ico">
+    <title>削除くんのホームページ 世界時計</title>
+    <link rel="stylesheet" href="wtime.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>世界時計</h1>
+        <div id="tokyo" class="clock">東京: --:--:--</div>
+        <div id="new-york" class="clock">ニューヨーク: --:--:--</div>
+        <div id="london" class="clock">ロンドン: --:--:--</div>
+        <div id="sydney" class="clock">シドニー: --:--:--</div>
+    </main>
+    <script>
+        function updateTime() {
+            const now = new Date();
+
+            const tokyoTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+            const newYorkTime = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+            const londonTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/London" }));
+            const sydneyTime = new Date(now.toLocaleString("en-US", { timeZone: "Australia/Sydney" }));
+
+            document.getElementById("tokyo").innerText = "東京: " + formatTime(tokyoTime);
+            document.getElementById("new-york").innerText = "ニューヨーク: " + formatTime(newYorkTime);
+            document.getElementById("london").innerText = "ロンドン: " + formatTime(londonTime);
+            document.getElementById("sydney").innerText = "シドニー: " + formatTime(sydneyTime);
+        }
+
+        function formatTime(date) {
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            return hours + ":" + minutes + ":" + seconds;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime(); // 初回呼び出し
+    </script>
+</body>
+</html>

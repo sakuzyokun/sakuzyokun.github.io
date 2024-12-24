@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ トピック投票ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="topic.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>トピック投票ツール</h1>
+        <div class="topic">
+            <span>AIに作ってもらったもの</span>
+            <div>
+                <button class="vote-button" onclick="vote(1)">投票</button>
+                <span class="vote-count" id="vote1">0</span>
+            </div>
+        </div>
+        <div class="topic">
+            <span>コメント欄β</span>
+            <div>
+                <button class="vote-button" onclick="vote(2)">投票</button>
+                <span class="vote-count" id="vote2">0</span>
+            </div>
+        </div>
+        <div class="topic">
+            <span>お問い合わせ</span>
+            <div>
+                <button class="vote-button" onclick="vote(3)">投票</button>
+                <span class="vote-count" id="vote3">0</span>
+            </div>
+        </div>
+    </main>
+    <script>
+        function vote(topicNumber) {
+            const voteCountElement = document.getElementById(`vote${topicNumber}`);
+            let voteCount = parseInt(voteCountElement.innerText);
+            voteCount++;
+            voteCountElement.innerText = voteCount;
+        }
+    </script>
+</body>
+</html>

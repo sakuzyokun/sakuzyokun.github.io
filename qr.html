@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ QRコード生成ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="qr.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>QRコード生成ツール</h1>
+        <input type="text" id="text" placeholder="テキストを入力してください">
+        <button onclick="generateQRCode()">QRコードを生成</button>
+        <div class="qr-code" id="qrCode"></div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
+    <script>
+        function generateQRCode() {
+            const text = document.getElementById('text').value;
+            document.getElementById('qrCode').innerHTML = '';
+            QRCode.toCanvas(document.getElementById('qrCode'), text, function (error) {
+                if (error) console.error(error);
+                console.log('QRコード生成完了');
+            });
+        }
+    </script>
+</body>
+</html>

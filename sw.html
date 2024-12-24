@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ ストップウォッチ</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="sw.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>ストップウォッチ</h1>
+        <div id="stopwatch">00:00:00:000</div>
+        <button onclick="start()">スタート</button>
+        <button onclick="stop()">ストップ</button>
+        <button onclick="reset()">リセット</button>
+    </main>
+    <script>
+        let startTime;
+        let updatedTime;
+        let difference;
+        let tInterval;
+        let running = false;
+
+        function start() {
+            if (!running) {
+                startTime = new Date().getTime();
+                tInterval = setInterval(updateTime, 1);
+                running = true;
+            }
+        }
+
+        function stop() {
+            if (running) {
+                clearInterval(tInterval);
+                running = false;
+            }
+        }
+
+        function reset() {
+            clearInterval(tInterval);
+            running = false;
+            document.getElementById("stopwatch").innerHTML = "00:00:00:000";
+        }
+
+        function updateTime() {
+            updatedTime = new Date().getTime();
+            difference = updatedTime - startTime;
+
+            let hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            let milliseconds = Math.floor((difference % 1000));
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+            milliseconds = milliseconds.toString().padStart(3, '0');
+
+            document.getElementById("stopwatch").innerHTML = hours + ":" + minutes + ":" + seconds + ":" + milliseconds;
+        }
+    </script>
+</body>
+</html>

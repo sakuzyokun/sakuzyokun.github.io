@@ -1,0 +1,103 @@
+body {
+    font-family: 'DotGothic16', sans-serif;
+    background: url('Minecraft world.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    color: #ffa500;
+    font-size: 2.5em;
+    margin: 0;
+}
+
+header .home-link {
+    display: block;
+    margin-top: 10px;
+    color: #ffa500;
+    font-size: 1.5em;
+    text-decoration: none;
+}
+
+main {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1 {
+    color: #ffa500;
+}
+
+#todo-container {
+    margin: 20px;
+}
+
+input[type="text"] {
+    padding: 10px;
+    font-size: 1em;
+    width: calc(100% - 22px);
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px;
+    font-size: 1em;
+    margin-left: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffa500;
+    color: #fff;
+}
+
+button:hover {
+    background-color: #ff7f00;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    font-size: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+li.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.delete-button {
+    background-color: red;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
+
+.complete-button {
+    background-color: green;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+}
