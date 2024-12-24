@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ チャット</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>チャット</h1>
+        <div id="chatbox"></div>
+        <input type="text" id="input" placeholder="メッセージを入力">
+        <button onclick="sendMessage()">送信</button>
+    </main>
+    <script>
+        async function sendMessage() {
+            const message = document.getElementById('input').value;
+            document.getElementById('input').value = '';
+
+            const chatbox = document.getElementById('chatbox');
+            const newMessage = document.createElement('div');
+            newMessage.textContent = 'あなた: ' + message;
+            chatbox.appendChild(newMessage);
+
+            await fetch('http://localhost:5000/save_message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message }),
+            });
+        }
+    </script>
+</body>
+</html>

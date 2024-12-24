@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ BMI計算ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="bmi.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>BMI計算ツール</h1>
+        <input type="number" id="weight" placeholder="体重 (kg)" step="0.1">
+        <input type="number" id="height" placeholder="身長 (cm)" step="0.1">
+        <button onclick="calculateBMI()">BMIを計算</button>
+        <div class="result" id="result"></div>
+    </main>
+    <script>
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100;
+
+            if (isNaN(weight) || isNaN(height) || height === 0) {
+                alert('正しい数値を入力してください。');
+                return;
+            }
+
+            const bmi = (weight / (height * height)).toFixed(2);
+            let category;
+
+            if (bmi < 18.5) {
+                category = '低体重（やせ）';
+            } else if (bmi < 25) {
+                category = '普通体重';
+            } else if (bmi < 30) {
+                category = '肥満（1度）';
+            } else if (bmi < 35) {
+                category = '肥満（2度）';
+            } else if (bmi < 40) {
+                category = '肥満（3度）';
+            } else {
+                category = '肥満（4度）';
+            }
+
+            document.getElementById('result').innerHTML = `BMI: ${bmi} (${category})`;
+        }
+    </script>
+</body>
+</html>

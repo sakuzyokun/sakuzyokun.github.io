@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 目覚まし時計</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="alarm.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>目覚まし時計</h1>
+        <input type="time" id="alarmTime">
+        <button onclick="setAlarm()">アラームをセット</button>
+        <div id="message"></div>
+    </main>
+    <script>
+        let alarmTimeout;
+
+        function setAlarm() {
+            const alarmTime = document.getElementById('alarmTime').value;
+            if (!alarmTime) {
+                alert('有効な時間を入力してください。');
+                return;
+            }
+
+            const now = new Date();
+            const alarmDate = new Date(now.toDateString() + ' ' + alarmTime);
+            if (alarmDate < now) {
+                alarmDate.setDate(alarmDate.getDate() + 1);
+            }
+
+            const timeToAlarm = alarmDate - now;
+            clearTimeout(alarmTimeout);
+            alarmTimeout = setTimeout(() => {
+                alert('時間です！');
+                document.getElementById('message').innerText = 'アラームが鳴りました！';
+            }, timeToAlarm);
+
+            document.getElementById('message').innerText = `アラームがセットされました：${alarmDate.toLocaleTimeString()}`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コメント欄</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="commant.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>コメント欄</h1>
+        <div id="comment-section">
+            <input type="text" id="name" placeholder="名前">
+            <textarea id="comment" placeholder="コメントを入力してください"></textarea>
+            <button onclick="addComment()">送信</button>
+            <ul id="comment-list"></ul>
+        </div>
+    </main>
+    <script>
+        function addComment() {
+            const name = document.getElementById('name').value;
+            const comment = document.getElementById('comment').value;
+
+            if (name === '' || comment === '') {
+                alert('名前とコメントを入力してください');
+                return;
+            }
+
+            const commentList = document.getElementById('comment-list');
+            const newComment = document.createElement('li');
+            newComment.innerHTML = `<strong>${name}</strong>: ${comment}`;
+
+            commentList.appendChild(newComment);
+
+            document.getElementById('name').value = '';
+            document.getElementById('comment').value = '';
+        }
+    </script>
+</body>
+</html>

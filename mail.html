@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 定型メールジェネレーター</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="mail.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>定型メールジェネレーター</h1>
+        <input type="text" id="name" placeholder="名前を入力">
+        <input type="text" id="company" placeholder="会社名を入力">
+        <textarea id="message" placeholder="メッセージを入力"></textarea>
+        <button onclick="generateEmail()">メールを生成</button>
+        <div class="result" id="result"></div>
+    </main>
+    <script>
+        function generateEmail() {
+            const name = document.getElementById('name').value;
+            const company = document.getElementById('company').value;
+            const message = document.getElementById('message').value;
+
+            const emailTemplate = `こんにちは ${name} 様,
+
+${company} の皆様のおかげで、このプロジェクトを成功裏に進めることができました。
+心から感謝しています。
+
+${message}
+
+よろしくお願いします。
+`;
+
+            document.getElementById('result').innerText = emailTemplate;
+        }
+    </script>
+</body>
+</html>

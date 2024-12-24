@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ カウントダウンタイマー</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="countdown.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>カウントダウンタイマー</h1>
+        <input type="datetime-local" id="target-time">
+        <button onclick="startCountdown()">カウントダウン開始</button>
+        <div class="timer" id="countdown"></div>
+    </main>
+    <script>
+        let countdownInterval;
+
+        function startCountdown() {
+            const targetTime = new Date(document.getElementById('target-time').value);
+            if (isNaN(targetTime)) {
+                alert('有効な日時を入力してください。');
+                return;
+            }
+
+            clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                const now = new Date();
+                const distance = targetTime - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown').innerText = 'タイムアップ！';
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('countdown').innerText =
+                    `${days}日 ${hours}時間 ${minutes}分 ${seconds}秒`;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

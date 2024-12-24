@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ コマンドプロンプト風メモ帳</title>
+    <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #1e1e1e;
+            color: #00ff00;
+            margin: 0;
+            padding: 20px;
+        }
+        .console {
+            border: 1px solid #333;
+            padding: 10px;
+            height: 400px;
+            overflow-y: auto;
+        }
+        .input-line {
+            display: flex;
+        }
+        .input-line span {
+            flex-shrink: 0;
+        }
+        .input-line input {
+            flex-grow: 1;
+            border: none;
+            background: none;
+            color: #00ff00;
+            font-family: monospace;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="console" id="console">
+        <div class="input-line">
+            <span>&gt;</span><input type="text" id="input" onkeydown="handleCommand(event)">
+        </div>
+    </div>
+
+    <script>
+        const consoleElement = document.getElementById('console');
+        const inputElement = document.getElementById('input');
+        let notes = [];
+
+        function handleCommand(event) {
+            if (event.key === 'Enter') {
+                const command = inputElement.value;
+                appendOutput(`> ${command}`);
+                processCommand(command);
+                inputElement.value = '';
+            }
+        }
+
+        function appendOutput(output) {
+            const outputElement = document.createElement('div');
+            outputElement.textContent = output;
+            consoleElement.insertBefore(outputElement, consoleElement.lastElementChild);
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        }
+
+        function processCommand(command) {
+            const args = command.split(' ');
+            const cmd = args[0].toLowerCase();
+            switch (cmd) {
+                case 'help':
+                    appendMessage('Available commands: help, clear, new [note], list, home');
+                    break;
+                case 'clear':
+                    clearConsole();
+                    break;
+                case 'new':
+                    const note = args.slice(1).join(' ');
+                    addNewNote(note);
+                    break;
+                case 'list':
+                    listNotes();
+                    break;
+                case 'home':
+                    location.href = 'index.html';
+                    break;
+                default:
+                    appendMessage(`Unknown command: ${command}`);
+            }
+        }
+
+        function appendMessage(message) {
+            appendOutput(message);
+        }
+
+        function clearConsole() {
+            const inputLine = document.querySelector('.input-line');
+            consoleElement.innerHTML = '';
+            consoleElement.appendChild(inputLine);
+        }
+
+        function addNewNote(note) {
+            if (note) {
+                notes.push(note);
+                appendMessage(`New note added: ${note}`);
+            } else {
+                appendMessage('Usage: new [note]');
+            }
+        }
+
+        function listNotes() {
+            if (notes.length === 0) {
+                appendMessage('No notes available.');
+            } else {
+                notes.forEach((note, index) => {
+                    appendMessage(`${index + 1}: ${note}`);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

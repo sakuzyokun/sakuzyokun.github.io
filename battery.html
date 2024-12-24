@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>バッテリー残量表示ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .battery-status {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>バッテリー残量表示ツール</h1>
+    <div class="battery-status" id="batteryStatus">バッテリー残量を取得中...</div>
+    <script>
+        navigator.getBattery().then(function(battery) {
+            function updateBatteryStatus() {
+                const batteryLevel = (battery.level * 100).toFixed(0);
+                const isCharging = battery.charging ? '充電中' : 'バッテリー使用中';
+                document.getElementById('batteryStatus').innerText = `バッテリー残量: ${batteryLevel}% (${isCharging})`;
+            }
+            updateBatteryStatus();
+            battery.addEventListener('levelchange', updateBatteryStatus);
+            battery.addEventListener('chargingchange', updateBatteryStatus);
+        });
+    </script>
+</body>
+</html>

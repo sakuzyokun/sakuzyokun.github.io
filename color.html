@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 色選択ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="color.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>色選択ツール</h1>
+        <input type="color" id="colorPicker" onchange="updateColor()">
+        <div class="color-display" id="colorDisplay"></div>
+        <div class="hex-value" id="hexValue">#FFFFFF</div>
+    </main>
+    <script>
+        function updateColor() {
+            const color = document.getElementById('colorPicker').value;
+            document.getElementById('colorDisplay').style.backgroundColor = color;
+            document.getElementById('hexValue').innerText = color.toUpperCase();
+        }
+    </script>
+</body>
+</html>

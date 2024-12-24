@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ テキストエンコーディングツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="bace64.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>テキストエンコーディングツール</h1>
+        <textarea id="inputText" placeholder="テキストを入力してください"></textarea>
+        <button onclick="encodeText()">エンコード</button>
+        <button onclick="decodeText()">デコード</button>
+        <div class="result" id="result"></div>
+    </main>
+    <script>
+        function encodeText() {
+            const text = document.getElementById('inputText').value;
+            const encodedText = btoa(text);
+            document.getElementById('result').innerText = `エンコードされたテキスト:\n${encodedText}`;
+        }
+
+        function decodeText() {
+            const text = document.getElementById('inputText').value;
+            try {
+                const decodedText = atob(text);
+                document.getElementById('result').innerText = `デコードされたテキスト:\n${decodedText}`;
+            } catch (e) {
+                document.getElementById('result').innerText = '無効なエンコードされたテキストです。';
+            }
+        }
+    </script>
+</body>
+</html>

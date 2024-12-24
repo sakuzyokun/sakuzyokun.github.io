@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ ファイルアップロードツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="file.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>ファイルアップロードツール</h1>
+        <p>文章用です。アップロードされたファイルを確認することはできませんので安心してご利用ください<br>
+        怪しいメールで送られてきたファイルなどをここで開いてみてください</p>
+        <input type="file" id="file-input">
+        <button onclick="readFile()">ファイルを表示</button>
+        <div class="result" id="file-content"></div>
+    </main>
+    <script>
+        function readFile() {
+            const fileInput = document.getElementById('file-input');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('ファイルを選択してください。');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const content = event.target.result;
+                document.getElementById('file-content').innerText = content;
+            };
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>

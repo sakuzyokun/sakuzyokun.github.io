@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ ランダムな色生成ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="colorrandom.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>ランダムな色生成ツール</h1>
+        <button onclick="generateRandomColor()">ランダムな色を生成</button>
+        <div class="color-display" id="colorDisplay"></div>
+        <div class="color-code" id="colorCode">#FFFFFF</div>
+    </main>
+    <script>
+        function generateRandomColor() {
+            const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+            document.getElementById('colorDisplay').style.backgroundColor = randomColor;
+            document.getElementById('colorCode').innerText = randomColor.toUpperCase();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 履歴管理ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="data.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>履歴管理ツール</h1>
+        <input type="text" id="inputText" placeholder="テキストを入力してください">
+        <button onclick="addHistory()">履歴に追加</button>
+        <ul id="historyList"></ul>
+    </main>
+    <script>
+        function addHistory() {
+            const text = document.getElementById('inputText').value;
+            if (text === '') {
+                alert('テキストを入力してください');
+                return;
+            }
+
+            const li = document.createElement('li');
+            li.innerText = text;
+            document.getElementById('historyList').appendChild(li);
+            document.getElementById('inputText').value = '';
+        }
+    </script>
+</body>
+</html>

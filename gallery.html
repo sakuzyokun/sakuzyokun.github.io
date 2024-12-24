@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 画像ギャラリー</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="gallery.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>画像ギャラリー</h1>
+        <input type="file" id="fileInput" accept="image/*" multiple onchange="displayImages()">
+        <div class="gallery" id="gallery"></div>
+    </main>
+    <script>
+        function displayImages() {
+            const files = document.getElementById('fileInput').files;
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = '';
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    gallery.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
+</body>
+</html>

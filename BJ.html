@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>削除くんのホームページ ブラックジャック</title>
+        <link rel="icon" href="favicon.ico">
+        <link rel="stylesheet" href="BJ.css">
+    </head>
+    <body>
+        <header>
+			<h1>削除くんのホームページ</h1>
+			<a href="index.html" class="home-link">ホームに戻る</a>
+		</header>
+        <main>
+        <h1>ブラックジャック</h1>
+        <div>
+            <div>
+                <span id="button"></span>
+                <p id="result"></p>
+                <p id="deck"></p>
+                <p id="winner"></p>
+                <p id="player01Info"></p>
+                <p id="dealer01Info"></p>
+            </div>
+        </div>
+        <script language="JavaScript">
+            
+            // カード基本情報
+            JOKER = 0;
+            MAX_NUM = 13;
+            MIN_NUM = 1;
+            CARD_SPADE = "&#9824;";
+            CARD_CLUB  = "&#9827;";
+            CARD_HEART = "&#9829;";
+            CARD_DIA   = "&#9830;";
+            COLOR_01   = "black";
+            COLOR_02   = "red";
+            
+            // ブラックジャック情報
+            MAX_BJ_SCORE = 21;
+            MIN_DEALER_SCORE = 17;
+            MAX_BJ_NUM = 10;
+            MIN_BJ_NUM = MIN_NUM;
+            ACE_01 = 1;
+            ACE_11 = 11;
+            
+            // カード
+            function Card(mark, num, value) {
+                // プロパティ
+                this.mark = mark;
+                this.num = num;
+                this.value = value;
+            }
+            
+            // デッキ
+            function Deck() {
+                // プロパティ
+                this.deck = [];
+                
+                // 初期化処理
+                this.init = function() {
+                    this.deck = [];
+                    return;
+                };
+                
+                // デッキ作成処理
+                this.make = function() {
+                    for (num = MIN_NUM; num <= MAX_NUM; num++) {
+                        if (num < MAX_BJ_NUM) {
+                            value = num;
+                        } else {
+                            value = MAX_BJ_NUM;
+                        }
+                        card = new Card(CARD_SPADE, num, value);
+                        this.deck.push(card);
+                        card = new Card(CARD_CLUB, num, value);
+                        this.deck.push(card);
+                        card = new Card(CARD_HEART, num, value);
+                        this.deck.push(card);
+                        card = new Card(CARD_DIA, num, value);
+                        this.deck.push(card);
+                    }
+                    return;
+                };
+                
+                // デッキシャッフル処理
+                this.shuffle = function() {
+                    for (loop = 0; loop < this.deck.length; loop++) {
+                      random = Math.floor(Math.random() * this.deck.length);
+                      work = this.deck[0];
+                      this.deck[0] = this.deck[random];
+                      this.deck[random] = work;
+                    }
+                    return;
+                };
+                
+                // ドロー処理
+                this.draw = function() {
+                    return this.deck.shift();
+                };
+            }
+            
+            // 手札
+            function Hand() {
+                // プロパティ
+                this.hand = [];
+                this.score = 0;
+                
+                // 初期化処理
+                this.init = function() {
+                    this.hand = [];
+                    this.score = 0;
+                    return;
+                };
+                
+                // セット処理
+                this.set = function(card) {
+                    this.hand.push(card);
+                    this.score += card.value;
+                    return;
+                };
+                
+                // 取得処理
+                this.get = function() {
+                    return this;
+                };
+                
+                // シフト処理
+                this.shift = function() {
+                    card = this.hand.shift();
+                    this.score -= card.value;
+                    return card;
+                };
+            }
+            
+            // 桁数整形処理
+            function spacePadding(num){
+                return (Array(2).join(" ") + num).slice(-2);
+            }
+            
+            // ブラックジャック
+            function BrackJack () {
+                // プロパティ
+                deck = new Deck();
+                player01 = new Hand();
+                dealer01 = new Hand();
+                win = 0;
+                lose = 0;
+                bj = 0;
+                nogame = 0;
+                
+                // 通算、勝敗を初期化する。
+                work = "<p id='result' style='color:white'>";
+                work += "0勝(BJ) 0勝 0負 0引分";
+                work += "</p>";
+                document.getElementById("result").innerHTML = work;
+                work = "<p id='winner' style='color:white'>"
+                work += "勝敗：";
+                work += "</p>";
+                document.getElementById("winner").innerHTML = work;
+                
+                // 初期化処理
+                this.init = function() {
+                    // 手札の初期化処理を呼び出す。
+                    player01.init();
+                    dealer01.init();
+                    
+                    // デッキの初期化処理を呼び出す。
+                    deck.init();
+                    
+                    // 勝敗を初期化する。
+                    work = "<p id='winner' style='color:white'>"
+                    work += "勝敗：";
+                    work += "</p>";
+                    document.getElementById("winner").innerHTML = work;
+                    
+                    // 開始ボタンを非活性に変更する。
+                    document.getElementById("start").disabled = true;
+                    
+                    // ヒットボタンを活性に変更する。
+                    document.getElementById("draw").disabled = false;
+                    
+                    // スタンドボタンを活性に変更する。
+                    document.getElementById("fin").disabled = false;
+                    return;
+                };
+                
+                // プレイヤー01手札表示処理
+                this.outputplayer01Hand = function() {
+                    // プレイヤー01の手札を表示する。
+                    detail = "";
+                    handInfo = player01.get();
+                    for(loop = 0; loop < handInfo.hand.length; loop++) {
+                        card = handInfo.hand[loop];
+                        if ((card.mark == CARD_SPADE) || (card.mark == CARD_CLUB)) {
+                            color = COLOR_01;
+                        } else {
+                            color = COLOR_02;
+                        }
+                        detail += "<span id='card' style='color:" + color + "'>";
+                        detail += card.mark + spacePadding(card.num);
+                        detail += "</span>";
+                        detail += "<span>";
+                        detail += "※得点" + spacePadding(card.value) + "　";
+                        detail += "</span>";
+                        if (card.value == ACE_01) {
+                            detail += "<input type='radio' id='card' name='radio" + loop + "' ";
+                            detail += "value='" + ACE_01 + "' checked>" + ACE_01 + "</input>";
+                            detail += "<input type='radio' id='card' name='radio" + loop + "' ";
+                            detail += "value='" + ACE_11 + "'>" + ACE_11 + "</input>";
+                        }
+                        detail += "<br>";
+                    }
+                    work = "<p>プレイヤーの手札(合計得点" + spacePadding(handInfo.score) + ") : </p>";
+                    work += detail;
+                    document.getElementById("player01Info").innerHTML = work;
+                    return;
+                };
+                
+                // ディーラー01手札表示処理
+                this.outputdealer01Hand = function(flag) {
+                    if (flag == false) {
+                        // ディーラー01の手札を一枚目のみ表示する。
+                        detail = "";
+                        handInfo = dealer01.get();
+                        card = handInfo.hand[0];
+                        if ((card.mark == CARD_SPADE) || (card.mark == CARD_CLUB)) {
+                            color = COLOR_01;
+                        } else {
+                            color = COLOR_02;
+                        }
+                        detail += "<span id='card' style='color:" + color + "'>";
+                        detail += card.mark + spacePadding(card.num);
+                        detail += "</span>";
+                        detail += "<span>";
+                        detail += "※得点" + spacePadding(card.value) + "　";
+                        detail += "</span>";
+                        detail += "<br>";
+                        work = "<p>ディーラーの手札(合計得点??) : </p>";
+                        work += detail;
+                        document.getElementById("dealer01Info").innerHTML = work;
+                    } else {
+                        // ディーラー01の手札を表示する。
+                        detail = "";
+                        handInfo = dealer01.get();
+                        for(loop = 0; loop < handInfo.hand.length; loop++) {
+                            card = handInfo.hand[loop];
+                            if ((card.mark == CARD_SPADE) || (card.mark == CARD_CLUB)) {
+                                color = COLOR_01;
+                            } else {
+                                color = COLOR_02;
+                            }
+                            detail += "<span id='card' style='color:" + color + "'>";
+                            detail += card.mark + spacePadding(card.num);
+                            detail += "</span>";
+                            detail += "<span>";
+                            detail += "※得点" + spacePadding(card.value) + "　";
+                            detail += "</span>";
+                            detail += "<br>";
+                        }
+                        work = "<p>ディーラーの手札(合計得点" + spacePadding(handInfo.score) + ") : </p>";
+                        work += detail;
+                        document.getElementById("dealer01Info").innerHTML = work;
+                    }
+                    return;
+                };
+                
+                // 手札表示処理
+                this.outputHand = function() {
+                    // プレイヤー01手札表示処理を呼び出す。
+                    this.outputplayer01Hand();
+                    
+                    // ディーラー01手札表示処理を呼び出す。
+                    this.outputdealer01Hand(false);
+                    return;
+                };
+                
+                // バースト確認処理
+                this.isBurst = function() {
+                    result = [];
+                    
+                    // プレイヤー01の得点を確認。
+                    result["player01"] = false;
+                    handInfo = player01.get();
+                    if (handInfo.score > MAX_BJ_SCORE) {
+                        result["player01"] = true;
+                    }
+                    
+                    // ディーラー01の得点を確認。
+                    result["dealer01"] = false;
+                    handInfo = dealer01.get();
+                    if (handInfo.score > MAX_BJ_SCORE) {
+                        result["dealer01"] = true;
+                    }
+                    return result;
+                };
+                
+                // プレイヤー01ドロー処理
+                this.player01Draw = function() {
+                    // ドロー処理を呼び出す。
+                    card = deck.draw();
+                    
+                    // セット処理を呼び出す。
+                    player01.set(card);
+                    return;
+                };
+                
+                // ディーラー01ドロー処理
+                this.dealer01Draw = function() {
+                    // ドロー処理を呼び出す。
+                    card = deck.draw();
+                    
+                    // セット処理を呼び出す。
+                    dealer01.set(card);
+                    return;
+                };
+                
+                // 開始処理
+                this.start = function() {
+                    // 初期化処理を呼び出す。
+                    this.init();
+                    
+                    // デッキ作成処理を呼び出す。
+                    deck.make();
+                    
+                    // 作成したデッキをシャッフルする。
+                    deck.shuffle();
+                    
+                    // プレイヤー01ドロー処理を呼び出す。
+                    this.player01Draw();
+                    
+                    // ディーラー01ドロー処理を呼び出す。
+                    this.dealer01Draw();
+                    
+                    // プレイヤー01ドロー処理を呼び出す。
+                    this.player01Draw();
+                    
+                    // ディーラー01ドロー処理を呼び出す。
+                    this.dealer01Draw();
+                    
+                    // 手札表示処理を呼び出す。
+                    this.outputHand();
+                    return;
+                };
+                
+                // ドロー処理
+                this.draw = function() {
+                    // プレイヤー01ドロー処理を呼び出す。
+                    this.player01Draw();
+                    
+                    // 手札表示処理を呼び出す。
+                    this.outputHand();
+                    return card;
+                };
+                
+                // ディーラーメイン処理
+                this.dealerMain = function() {
+                    // ディーラー01ドロー処理を呼び出す。
+                    this.dealer01Draw();
+                    
+                    // 手札表示処理を呼び出す。
+                    this.outputHand();
+                    
+                    // 得点が17未満であれば強制的にもう一枚カードをドロー。
+                    handInfo = dealer01.get();
+                    if (handInfo.score < MIN_DEALER_SCORE) {
+                        this.dealerMain();
+                    }
+                    return;
+                };
+                
+                // ディーラー思考処理
+                this.dealerCtrl = function() {
+                    //alert("ディーラー思考中...");
+                    
+                    // 得点が17未満であればディーラーメイン処理を呼び出す。
+                    handInfo = dealer01.get();
+                    if (handInfo.score < MIN_DEALER_SCORE) {
+                        this.dealerMain();
+                    }
+                    
+                    //alert("ディーラー思考終了");
+                    
+                    return;
+                };
+                
+                // 勝敗判定処理
+                this.JudgeWinner = function() {
+                    // バースト確認処理を呼び出す。
+                    burstFlag = false;
+                    result = this.isBurst();
+                    if(result["player01"] == true) {
+                        work = "<p id='winner' style='color:white'>勝敗：負け(バースト)</p>";
+                        lose++;
+                        burstFlag = true;
+                    } else if (result["dealer01"] == true) {
+                        work = "<p id='winner' style='color:white'>勝敗：勝ち(バースト)</p>";
+                        win++;
+                        burstFlag = true;
+                    }
+                    
+                    if (burstFlag == false) {
+                        handInfoP01 = player01.get();
+                        handInfoD01 = dealer01.get();
+                        if ((handInfoP01.hand.length == 2) && (handInfoP01.score == MAX_BJ_SCORE)) {
+                            work = "<p id='winner' style='color:white'>勝敗：勝ち(ブラックジャック)</p>";
+                            bj++;
+                        } else if (handInfoP01.score == handInfoD01.score) {
+                            if (handInfoP01.hand.length > handInfoD01.hand.length) {
+                                work = "<p id='winner' style='color:white'>勝敗：勝ち(手札枚数差)</p>";
+                                win++;
+                            } else if (handInfoP01.hand.length < handInfoD01.hand.length) {
+                                work = "<p id='winner' style='color:white'>勝敗：負け(手札枚数差)</p>";
+                                lose++;
+                            } else {
+                                work = "<p id='winner' style='color:white'>勝敗：引き分け</p>";
+                                nogame++;
+                            }
+                        } else if (handInfoP01.score > handInfoD01.score) {
+                            work = "<p id='winner' style='color:white'>勝敗：勝ち(得点差)</p>";
+                            win++;
+                        } else {
+                            work = "<p id='winner' style='color:white'>勝敗：負け(得点差)</p>";
+                            lose++;
+                        }
+                    }
+                    
+                    result = "<p id='result' style='color:white'>";
+                    result += bj + "勝(BJ) ";
+                    result += win + "勝 ";
+                    result += lose + "負 ";
+                    result += nogame + "引分";
+                    result += "</p>";
+                    document.getElementById("result").innerHTML = result;
+                    document.getElementById("winner").innerHTML = work;
+                    return;
+                };
+                
+                // エース制御処理
+                this.ctrlAce = function() {
+                    // エースがあるか検索する。
+                    handInfo = player01.get();
+                    for (cardIndex = 0; cardIndex < handInfo.hand.length; cardIndex++) {
+                        card = player01.shift();
+                        if (card.value == ACE_01) {
+                            // エースであれば、ラジオボタンの選択値に得点を合わせる。
+                            radios = document.getElementsByName("radio" + cardIndex);
+                            for (loop = 0; loop < radios.length; loop++) {
+                                if (radios[loop].checked == true) {
+                                    radioVal = radios[loop].value;
+                                    break;
+                                }
+                            }
+                            card.value = parseInt(radioVal, 10);
+                        }
+                        // セット処理を呼び出す。
+                        player01.set(card);
+                    }
+                    // 手札表示処理を呼び出す。
+                    this.outputHand();
+                    return;
+                };
+                
+                // 手番終了処理
+                this.fin = function() {
+                    // ヒットボタンを非活性に変更する。
+                    document.getElementById("draw").disabled = true;
+                    
+                    // スタンドボタンを非活性に変更する。
+                    document.getElementById("fin").disabled = true;
+                    
+                    // エース制御処理を呼び出す。
+                    this.ctrlAce();
+                    
+                    // バースト確認処理を呼び出す。
+                    result = this.isBurst();
+                    if(result["player01"] == true) {
+                        work = "<p id='winner' style='color:white'>勝敗：負け(バースト)</p>";
+                        lose++;
+                        result = "<p id='result' style='color:white'>";
+                        result += bj + "勝(BJ) ";
+                        result += win + "勝 ";
+                        result += lose + "負 ";
+                        result += nogame + "引分";
+                        result += "</p>";
+                        document.getElementById("result").innerHTML = result;
+                        document.getElementById("winner").innerHTML = work;
+                        
+                        // ディーラー01手札表示処理を呼び出す。
+                        this.outputdealer01Hand(true);
+                    } else {
+                        // ディーラー思考処理を呼び出す。
+                        this.dealerCtrl();
+                        
+                        // 勝敗判定処理を呼び出す。
+                        this.JudgeWinner();
+                        
+                        // ディーラー01手札表示処理を呼び出す。
+                        this.outputdealer01Hand(true);
+                    }
+                    // 開始ボタンを活性に変更する。
+                    document.getElementById("start").disabled = false;
+                    return;
+                };
+                
+                // ボタン表示処理
+                this.outputButton = function() {
+                    work =  "<span>";
+                    work +=   "<input type='button' id='start' value='開始' onclick='game.start()'>";
+                    work +=   "<input type='button' id='draw' value='ヒット' onclick='game.draw()'>";
+                    work +=   "<input type='button' id='fin' value='スタンド' onclick='game.fin()'>";
+                    work += "</span>";
+                    document.getElementById("button").innerHTML = work;
+                    return;
+                };
+            }
+            
+            // ボタン表示処理を呼び出す。
+            game = new BrackJack();
+            game.outputButton();
+        </script>
+        </main>
+    </body>
+</html>

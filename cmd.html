@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ コマンドプロンプト</title>
+    <link rel="icon" href="favicon.ico">
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #1c1c1c;
+            color: #a6a6a6;
+            margin: 0;
+            padding: 20px;
+        }
+        .console {
+            border: 1px solid #333;
+            padding: 10px;
+            height: 400px;
+            overflow-y: auto;
+        }
+        .input-line {
+            display: flex;
+        }
+        .input-line span {
+            flex-shrink: 0;
+        }
+        .input-line input {
+            flex-grow: 1;
+            border: none;
+            background: none;
+            color: #a6a6a6;
+            font-family: monospace;
+            outline: none;
+        }
+        .memory-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="console" id="console">
+        <div class="input-line">
+            <span>C:/></span><input type="text" id="input" onkeydown="handleCommand(event)">
+        </div>
+    </div>
+    <div class="memory-info" id="memoryInfo"></div>
+    <script>
+        const consoleElement = document.getElementById('console');
+        const inputElement = document.getElementById('input');
+
+        function handleCommand(event) {
+            if (event.key === 'Enter') {
+                const command = inputElement.value;
+                appendOutput(command);
+                inputElement.value = '';
+            }
+        }
+
+        function appendOutput(command) {
+            const output = document.createElement('div');
+            output.textContent = `C:/> ${command}`;
+            consoleElement.insertBefore(output, consoleElement.lastElementChild);
+
+            const args = command.split(' ');
+
+            // Add actual command handling here
+            switch (args[0].toLowerCase()) {
+                case 'help':
+                    //appendMessage('利用可能なコマンド: help, cls, echo [message], exit, ver, info, color #[color], mem, date');
+                    window.open('cmdhelp.html','_blank');
+                    break;
+                case 'cls':
+                    clearConsole();
+                    break;
+                case '':
+                    break;
+                case 'exit':
+                    location.href = 'index.html';
+                    break;
+                case 'ver':
+                    appendMessage('SAKUZYO-DOS バージョン:1.45');
+                    break;
+                case 'info':
+                    appendMessage('ホームページ バージョン:4.6.5');
+                    break;
+                case 'error':
+                    location.href = '404.html';
+                    break;
+                case 'color':
+                    const color = args[1];
+                    changeColor(color);
+                    break;
+                case 'mem':
+                    displayMemoryInfo();
+                    break;
+                case 'date':
+                    displayDate();
+                    break;
+                case 'dir':
+                    appendMessage('ドライブC: のボリュームラベルは Sakuzyo です')
+                    appendMessage('ボリューム シリアル番号は 30SA-90KU です')
+                    appendMessage('C:/ のディレクトリ')
+                    appendMessage('<dir>    Sakuzyo')
+                    appendMessage('<dir>    Program Files')
+                    appendMessage('<dir>    Program Files (x86)')
+                    appendMessage('<dir>    Users')
+                    appendMessage('             0個のファイル          0バイト')
+                    appendMessage('             3個のディレクトリ      ')
+                    appendMessage('MBの空き領域')
+                    break;
+                default:
+                    if (command.startsWith('echo ')) {
+                        const message = command.substring(5);
+                        appendMessage(message);
+                    } else {
+                        appendMessage(`Unknown command: ${command}`);
+                    }
+            }
+
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        }
+
+        function appendMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            consoleElement.insertBefore(messageElement, consoleElement.lastElementChild);
+        }
+
+        function clearConsole() {
+            const inputLine = document.querySelector('.input-line');
+            consoleElement.innerHTML = '';
+            consoleElement.appendChild(inputLine);
+        }
+
+        function changeColor(color) {
+            const validColor = /^#[0-9A-F]{6}$/i.test(color) || /^[a-zA-Z]+$/.test(color);
+            if (validColor) {
+                consoleElement.style.color = color;
+            } else {
+                appendMessage('形式が無効です。色の名前または #ff0000 のような16進数コードを使用してください。');
+            }
+        }
+
+        function displayMemoryInfo2() {
+            if (performance.memory) {
+                const memoryInfo = performance.memory;
+                const usedJSHeapSize = (memoryInfo.usedJSHeapSize / 1048576).toFixed(2);
+                //const totalJSHeapSize = (memoryInfo.totalJSHeapSize / 1048576).toFixed(2);
+                //const jsHeapSizeLimit = (memoryInfo.jsHeapSizeLimit / 1048576).toFixed(2);
+                appendMessage(`${usedJSHeapSize} M ハイメモリ領域が有効です`);
+                //appendMessage(`全JSヒープサイズ: ${totalJSHeapSize} MB`);
+                //appendMessage(`JSヒープサイズ制限: ${jsHeapSizeLimit} MB`);
+            } else {
+                appendMessage('メモリ情報を取得できません。');
+            }
+        }
+
+        function displayMemoryInfo() {
+            if (performance.memory) {
+                const memoryInfo = performance.memory;
+                const usedJSHeapSize = (memoryInfo.usedJSHeapSize / 1048576).toFixed(2);
+                const totalJSHeapSize = (memoryInfo.totalJSHeapSize / 1048576).toFixed(2);
+                const jsHeapSizeLimit = (memoryInfo.jsHeapSizeLimit / 1048576).toFixed(2);
+                appendMessage(`使用中のJSヒープサイズ:${usedJSHeapSize} MB`);
+                appendMessage(`全JSヒープサイズ: ${totalJSHeapSize} MB`);
+                appendMessage(`JSヒープサイズ制限: ${jsHeapSizeLimit} MB`);
+            } else {
+                appendMessage('メモリ情報を取得できません。');
+            }
+        }
+
+        function displayDate() {
+            const date = new Date();
+            appendMessage(`Current date and time: ${date.toLocaleString()}`);
+        }
+
+        function dirDate() {
+            const date = new Date();
+            appendMessage(date.toLocaleString());
+        }
+
+        function dirMemory(){
+            if (performance.memory) {
+                const memoryInfo = performance.memory;
+                const usedJSHeapSize = (memoryInfo.usedJSHeapSize / 1048576).toFixed(2);
+                const totalJSHeapSize = (memoryInfo.totalJSHeapSize / 1048576).toFixed(2);
+                const jsHeapSizeLimit = (memoryInfo.jsHeapSizeLimit / 1048576).toFixed(2);
+                const dirmemory1 = (jsHeapSizeLimit - usedJSHeapSize);
+                appendMessage(dirmemory1);
+            } else {
+                appendMessage('メモリ情報を取得できません。');
+            }
+        }
+
+        // 初期化メッセージ
+        appendMessage('Starting SAKUZYO-DOS...');
+        appendMessage('\n')
+        appendMessage('ｻｸｼﾞｮ SAKUZYO-DOS ﾊﾞｰｼﾞｮﾝ 1.45');
+        appendMessage('Copyright (C) 2024 Sakuzyo Corp.');
+        
+        // 初期メモリ情報表示
+        displayMemoryInfo2();
+    </script>
+</body>
+</html>

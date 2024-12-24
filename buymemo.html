@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 買い物リスト</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="buymemo.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>買い物リスト</h1>
+        <input type="text" id="itemInput" placeholder="アイテムを入力してください">
+        <button onclick="addItem()">アイテムを追加</button>
+        <ul id="itemList"></ul>
+    </main>
+    <script>
+        function addItem() {
+            const itemInput = document.getElementById('itemInput').value;
+            if (itemInput === '') {
+                alert('アイテムを入力してください');
+                return;
+            }
+
+            const li = document.createElement('li');
+            const itemText = document.createTextNode(itemInput);
+            li.appendChild(itemText);
+
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = '削除';
+            deleteButton.classList.add('delete-button');
+            deleteButton.onclick = () => li.remove();
+            li.appendChild(deleteButton);
+
+            document.getElementById('itemList').appendChild(li);
+            document.getElementById('itemInput').value = '';
+        }
+    </script>
+</body>
+</html>

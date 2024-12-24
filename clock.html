@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ PCと日本標準時の差を表示するツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="clock.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>PCと日本標準時の差を表示するツール</h1>
+        <button onclick="showTimeDifference()">差を表示</button>
+        <div class="time-difference" id="timeDifference"></div>
+    </main>
+    <script>
+        function showTimeDifference() {
+            const now = new Date();
+            const jstOffset = 9 * 60 * 60; // JSTはUTC+9（秒単位）
+            const pcOffset = now.getTimezoneOffset() * 60; // 現在のPCのタイムゾーンオフセット（秒単位）
+            const differenceInSeconds = jstOffset + pcOffset; // オフセットの差（秒単位）
+
+            const hours = Math.floor(differenceInSeconds / 3600);
+            const minutes = Math.floor((Math.abs(differenceInSeconds) % 3600) / 60);
+            const seconds = Math.abs(differenceInSeconds % 60);
+
+            let differenceText = `日本標準時（JST）との差は ${hours}時間`;
+            if (minutes > 0) {
+                differenceText += `と${minutes}分`;
+            }
+            if (seconds > 0) {
+                differenceText += `と${seconds}秒`;
+            }
+            differenceText += `です。`;
+
+            document.getElementById('timeDifference').innerText = differenceText;
+        }
+    </script>
+</body>
+</html>

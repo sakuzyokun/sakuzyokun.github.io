@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 日付差分計算ツール</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="date.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>日付差分計算ツール</h1>
+        <input type="date" id="date1" placeholder="開始日">
+        <input type="date" id="date2" placeholder="終了日">
+        <button onclick="calculateDateDifference()">差分を計算</button>
+        <div class="result" id="result"></div>
+    </main>
+    <script>
+        function calculateDateDifference() {
+            const date1 = new Date(document.getElementById('date1').value);
+            const date2 = new Date(document.getElementById('date2').value);
+            
+            if (isNaN(date1.getTime()) || isNaN(date2.getTime())) {
+                alert('有効な日付を入力してください。');
+                return;
+            }
+
+            const diffTime = Math.abs(date2 - date1);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+            document.getElementById('result').innerText = `日付の差: ${diffDays}日`;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 電卓</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="calc.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>電卓</h1>
+        <div id="calculator">
+            <input type="text" id="display" disabled>
+            <br>
+            <div class="button-row">
+                <button onclick="appendToDisplay('1')">1</button>
+                <button onclick="appendToDisplay('2')">2</button>
+                <button onclick="appendToDisplay('3')">3</button>
+                <button onclick="performOperation('+')">+</button>
+            </div>
+            <div class="button-row">
+                <button onclick="appendToDisplay('4')">4</button>
+                <button onclick="appendToDisplay('5')">5</button>
+                <button onclick="appendToDisplay('6')">6</button>
+                <button onclick="performOperation('-')">-</button>
+            </div>
+            <div class="button-row">
+                <button onclick="appendToDisplay('7')">7</button>
+                <button onclick="appendToDisplay('8')">8</button>
+                <button onclick="appendToDisplay('9')">9</button>
+                <button onclick="performOperation('*')">*</button>
+            </div>
+            <div class="button-row">
+                <button onclick="appendToDisplay('0')">0</button>
+                <button onclick="performOperation('/')">/</button>
+                <button onclick="calculateResult()">=</button>
+                <button onclick="clearDisplay()">C</button>
+            </div>
+        </div>
+    </main>
+    <script>
+        let displayValue = '';
+        let currentOperation = '';
+        let firstValue = null;
+
+        function appendToDisplay(value) {
+            displayValue += value;
+            document.getElementById('display').value = displayValue;
+        }
+
+        function performOperation(operation) {
+            firstValue = parseFloat(displayValue);
+            currentOperation = operation;
+            displayValue = '';
+            document.getElementById('display').value = displayValue;
+        }
+
+        function calculateResult() {
+            let secondValue = parseFloat(displayValue);
+            let result;
+            switch (currentOperation) {
+                case '+':
+                    result = firstValue + secondValue;
+                    break;
+                case '-':
+                    result = firstValue - secondValue;
+                    break;
+                case '*':
+                    result = firstValue * secondValue;
+                    break;
+                case '/':
+                    result = firstValue / secondValue;
+                    break;
+                default:
+                    return;
+            }
+            displayValue = result.toString();
+            document.getElementById('display').value = displayValue;
+            firstValue = null;
+            currentOperation = '';
+        }
+
+        function clearDisplay() {
+            displayValue = '';
+            firstValue = null;
+            currentOperation = '';
+            document.getElementById('display').value = displayValue;
+        }
+    </script>
+</body>
+</html>
