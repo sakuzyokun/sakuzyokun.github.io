@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Echo.png">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-box">
+            <div class="chat-log" id="chatLog"></div>
+            <div class="chat-input">
+                <input type="text" id="userInput" placeholder="メッセージを入力..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">送信</button>
+            </div>
+        </div>
+        <div class="loading" id="loading"> <img src="Echo.gif" alt="Loading..."> </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
