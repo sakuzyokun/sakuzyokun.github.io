@@ -1,0 +1,103 @@
+body {
+    font-family: 'DotGothic16', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #ffa500;
+    color: #ffffff;
+    padding: 10px;
+    text-align: center;
+}
+
+header input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+nav {
+    background-color: #f0f0f0;
+    padding: 10px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000000;
+}
+
+main {
+    padding: 20px;
+}
+
+.video-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.video {
+    flex: 1 1 calc(33.333% - 20px);
+    box-sizing: border-box;
+}
+
+.video img {
+    width: 100%;
+    height: auto;
+}
+
+.video h2 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.video p {
+    font-size: 1em;
+    color: #666666;
+}
+
+.playlist {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.playlist h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.video {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.video img {
+    width: 120px;
+    height: auto;
+}
+
+.video h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+.video p {
+    color: #666;
+}
