@@ -9,6 +9,8 @@
     --user-bgcolor-dark: #003296;
     --bot-bgcolor-light: #dddddd;
     --bot-bgcolor-dark: #151515;
+    --user-text-light: #ffffff;
+    --user-text-dark: #000000;
 }
 
 body {
@@ -58,7 +60,7 @@ body {
 
 .chat-message.user {
     background-color: var(--user-bgcolor-light);
-    color: #ffffff;
+    color: var(--user-text-light);
     text-align: right;
     justify-content: flex-end;
     transition: background-color 0.5s;
@@ -66,7 +68,7 @@ body {
 
 .chat-message.bot {
     background-color: var(--bot-bgcolor-light);
-    color: #000000;
+    color: var(--text-color-light);
     text-align: left;
     justify-content: flex-start;
     transition: background-color 0.5s;
@@ -114,8 +116,10 @@ body.dark-mode .chat-box {
 
 body.dark-mode .chat-message.user {
     background-color: var(--user-bgcolor-dark); /* ダークモードの色を適用 */
+    color: var(--user-text-dark);
 }
 
 body.dark-mode .chat-message.bot {
     background-color: var(--bot-bgcolor-dark); /* ダークモードの色を適用 */
+    color: var(--text-color-dark);
 }
