@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 1000);
             }, 1500); // 1.5秒後にBotの返信を表示
             
-        } else if (['情報', 'info', 'zyouhou', 'じょうほう', 'ジョウホウ'].includes(message)) {
+        } else if (['情報', 'info', 'zyouhou', 'じょうほう', 'ジョウホウ', 'バージョン', 'ばーじょん', 'ba-zyon', 'ba-zyonn', 'ver', 'version'].includes(message)) {
             appendMessage(message, 'user');
             userInput.value = '';
             // Botの考える時間を表すダミーメッセージを追加
