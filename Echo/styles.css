@@ -84,3 +84,24 @@ body {
     transform: translate(-50%, -50%);
     z-index: 1000;
 }
+
+:root {
+    --background-color-light: #ffffff;
+    --background-color-dark: #333333;
+    --text-color-light: #000000;
+    --text-color-dark: #ffffff;
+}
+
+body {
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+    transition: background-color 0.5s, color 0.5s;
+}
+
+body.dark-mode {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
+}
+
+/* 他のスタイルも必要に応じて追加してください */
+
