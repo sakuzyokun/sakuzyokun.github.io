@@ -3,8 +3,8 @@
     --background-color-dark: #333333;
     --text-color-light: #000000;
     --text-color-dark: #ffffff;
-    --chat-bgcolor-light: #ffffff; /* ここで chat-box のライトモードの背景色を設定 */
-    --chat-bgcolor-dark: #444444; /* ここで chat-box のダークモードの背景色を設定 */
+    --chat-bgcolor-light: #f0f0f0; /* ここで chat-box のライトモードの背景色を設定 */
+    --chat-bgcolor-dark: #333333; /* ここで chat-box のダークモードの背景色を設定 */
 }
 
 body {
