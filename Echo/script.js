@@ -1,9 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const chatLog = document.getElementById('chatLog');
     const userInput = document.getElementById('userInput');
-    if (localStorage.getItem('dark-mode') === 'true') {
-        document.body.classList.add('dark-mode');
-    }
     
     function appendMessage(message, sender) {
         const messageElement = document.createElement('div');
@@ -250,6 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         appendMessage('こんにちは! Echoです!', 'bot');
     }, 500); // 0.5秒後に表示
+    if (localStorage.getItem('dark-mode') === 'true') {
+        document.body.classList.add('dark-mode');
+    }
 
     window.sendMessage = sendMessage;
     window.handleKeyPress = handleKeyPress;
