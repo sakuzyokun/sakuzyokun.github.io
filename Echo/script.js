@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     chatLog.removeChild(botThinkingMessage);
                     
                     // Botの返信を追加
-                    appendMessage('落ち着いてやりましょう!対応しているコマンドは以下の通りです:\n情報:このBotの情報を表示します\nクリア:新しいチャットを開始します\nホーム:削除くんのホームページに戻ります\nEchoの問い合わせ:Echoのお問い合わせページを表示します\nヘルプ:ヘルプを表示します', 'bot');
+                    appendMessage('落ち着いてやりましょう!対応しているコマンドは以下の通りです:\n情報:このBotの情報を表示します\nクリア:新しいチャットを開始します\nホーム:削除くんのホームページに戻ります\nEchoの問い合わせ:Echoのお問い合わせページを表示します\nモード:表示される色を変更します\nヘルプ:ヘルプを表示します', 'bot');
                 }, 1500); // 1.5秒後にBotの返信を表示
             }else if (['こんにちは', 'こんにちは!', 'こんちくわ', 'こんちわ', 'コンニチハ', 'konnnitiha', 'hello'].includes(message)) {
             appendMessage(message, 'user');
