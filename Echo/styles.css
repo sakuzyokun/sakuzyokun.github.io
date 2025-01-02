@@ -5,6 +5,10 @@
     --text-color-dark: #ffffff;
     --chat-bgcolor-light: #f0f0f0; /* ここで chat-box のライトモードの背景色を設定 */
     --chat-bgcolor-dark: #333333; /* ここで chat-box のダークモードの背景色を設定 */
+    --user-bgcolor-light: #0078d7;
+    --user-bgcolor-dark: #003296;
+    --bot-bgcolor-light: #dddddd;
+    --bot-bgcolor-dark: #151515;
 }
 
 body {
@@ -53,17 +57,19 @@ body {
 }
 
 .chat-message.user {
-    background-color: #0078d7;
+    background-color: var(--user-color-light);
     color: #ffffff;
     text-align: right;
     justify-content: flex-end;
+    transition: background-color 0.5s;
 }
 
 .chat-message.bot {
-    background-color: #dddddd;
+    background-color: var(--bot-bgcolor-light);
     color: #000000;
     text-align: left;
     justify-content: flex-start;
+    transition: background-color 0.5s;
 }
 
 .chat-input {
