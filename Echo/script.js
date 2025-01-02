@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 chatLog.removeChild(botThinkingMessage);
                 
                 // Botの返信を追加
-                appendMessage('Bot バージョン 1.4.5', 'bot');
+                appendMessage('Bot バージョン 1.4.8', 'bot');
             }, 1500); // 1.5秒後にBotの返信を表示
         } else if (['ヘルプ', 'help', 'helupu', 'へるぷ'].includes(message)) {
                 appendMessage(message, 'user');
