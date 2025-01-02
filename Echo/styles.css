@@ -2,11 +2,13 @@ body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-color: var(--background-color-light);
+    color: var(--text-color-light);
+    transition: background-color 0.5s, color 0.5s;
 }
 
 .container {
@@ -86,7 +88,7 @@ body {
 }
 
 :root {
-    --background-color-light: #ffffff;
+    --background-color-light: #f0f0f0;
     --background-color-dark: #333333;
     --text-color-light: #000000;
     --text-color-dark: #ffffff;
@@ -101,7 +103,4 @@ body {
 body.dark-mode {
     background-color: var(--background-color-dark);
     color: var(--text-color-dark);
-}
-
-/* 他のスタイルも必要に応じて追加してください */
 
