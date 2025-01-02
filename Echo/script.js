@@ -201,11 +201,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Botの返信を追加
                     appendMessage('モードを変更します…', 'bot');
-                    document.body.classList.toggle('dark-mode');
-                    localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
-
                     if (localStorage.getItem('dark-mode') === 'true') {
                         document.body.classList.add('dark-mode');
+                    } else {
+                        document.body.classList.remove('dark-mode');
                     }
                 }, 1500); // 1.5秒後にBotの返信を表示
             } else if (message){
