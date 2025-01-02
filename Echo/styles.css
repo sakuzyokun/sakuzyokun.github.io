@@ -1,3 +1,12 @@
+:root {
+    --background-color-light: #f0f0f0;
+    --background-color-dark: #333333;
+    --text-color-light: #000000;
+    --text-color-dark: #ffffff;
+    --chat-bgcolor-light: #ffffff; /* ここで chat-box のライトモードの背景色を設定 */
+    --chat-bgcolor-dark: #444444; /* ここで chat-box のダークモードの背景色を設定 */
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -18,11 +27,12 @@ body {
 }
 
 .chat-box {
-    background-color: var(--chat-bgcolor-light);
+    background-color: var(--chat-bgcolor-light); /* ライトモードの色を適用 */
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
+    transition: background-color 0.5s; /* スムーズな切り替えを追加 */
 }
 
 .chat-log {
@@ -87,24 +97,11 @@ body {
     z-index: 1000;
 }
 
-:root {
-    --background-color-light: #f0f0f0;
-    --background-color-dark: #333333;
-    --text-color-light: #000000;
-    --text-color-dark: #ffffff;
-    --chat-bgcolor-light: #f0f0f0;
-    --chat-bgcolor-dark: #333333;
-}
-
-body {
-    background-color: var(--background-color-light);
-    color: var(--text-color-light);
-    chat-box-background-color: var(--chat-bgcolor-light);
-    transition: background-color 0.5s, color 0.5s;
-}
-
 body.dark-mode {
     background-color: var(--background-color-dark);
     color: var(--text-color-dark);
-    chat-box-background-color: var(--chat-bgcolor-dark);
+}
+
+body.dark-mode .chat-box {
+    background-color: var(--chat-bgcolor-dark); /* ダークモードの色を適用 */
 }
