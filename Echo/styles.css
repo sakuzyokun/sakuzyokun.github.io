@@ -18,7 +18,7 @@ body {
 }
 
 .chat-box {
-    background-color: var(--background-color-light);
+    background-color: var(--chat-bgcolor-light);
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -92,15 +92,19 @@ body {
     --background-color-dark: #333333;
     --text-color-light: #000000;
     --text-color-dark: #ffffff;
+    --chat-bgcolor-light: #f0f0f0;
+    --chat-bgcolor-dark: #333333;
 }
 
 body {
     background-color: var(--background-color-light);
     color: var(--text-color-light);
+    chat-box-background-color: var(--chat-bgcolor-light);
     transition: background-color 0.5s, color 0.5s;
 }
 
 body.dark-mode {
     background-color: var(--background-color-dark);
     color: var(--text-color-dark);
-
+    chat-box-background-color: var(--chat-bgcolor-dark);
+}
