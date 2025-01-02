@@ -182,7 +182,41 @@ document.addEventListener('DOMContentLoaded', () => {
                         window.open('https://forms.office.com/r/SDnfkrirdc','_blank');
                     }, 1000);
                 }, 1500); // 1.5秒後にBotの返信を表示
-            }else if (message){
+            } else if (['モード変更','モード','mo-dohenkou','mo-dohennkou','mo-do','mode','modechange'].includes(message)) {
+                appendMessage(message, 'user');
+                userInput.value = '';
+                // Botの考える時間を表すダミーメッセージを追加
+                const botThinkingMessage = document.createElement('div');
+                botThinkingMessage.className = 'chat-message bot';
+                const botImage = document.createElement('img');
+                botImage.src = 'Echo.gif'; // Botが考えている間に表示する画像
+                botImage.alt = 'Bot is thinking';
+                botThinkingMessage.appendChild(botImage);
+                chatLog.appendChild(botThinkingMessage);
+                chatLog.scrollTop = chatLog.scrollHeight;
+    
+                setTimeout(() => {
+                    // ダミーメッセージを削除
+                    chatLog.removeChild(botThinkingMessage);
+                    
+                    // Botの返信を追加
+                    appendMessage('モードを変更します…', 'bot');
+                    document.addEventListener('DOMContentLoaded', function() {
+                    const toggleButton = document.createElement('button');
+                    toggleButton.textContent = 'ダークモード切り替え';
+                    document.body.appendChild(toggleButton);
+
+                    toggleButton.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-mode');
+                    localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
+                    });
+
+                    if (localStorage.getItem('dark-mode') === 'true') {
+                        document.body.classList.add('dark-mode');
+                    }
+                    });
+                }, 1500); // 1.5秒後にBotの返信を表示
+            } else if (message){
             appendMessage(message, 'user');
             userInput.value = '';
             
@@ -224,18 +258,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.sendMessage = sendMessage;
     window.handleKeyPress = handleKeyPress;
-    document.addEventListener('DOMContentLoaded', function() {
-    const toggleButton = document.createElement('button');
-    toggleButton.textContent = 'ダークモード切り替え';
-    document.body.appendChild(toggleButton);
-
-    toggleButton.addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
-    });
-
-    if (localStorage.getItem('dark-mode') === 'true') {
-        document.body.classList.add('dark-mode');
-    }
-});
 });
