@@ -57,7 +57,7 @@ body {
 }
 
 .chat-message.user {
-    background-color: var(--user-color-light);
+    background-color: var(--user-bgcolor-light);
     color: #ffffff;
     text-align: right;
     justify-content: flex-end;
