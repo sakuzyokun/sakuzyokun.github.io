@@ -87,7 +87,7 @@ body {
 
 .chat-input button {
     padding: 10px 20px;
-    background-color: #0078d7;
+    background-color: var(--user-bgcolor-light);
     color: #ffffff;
     border: none;
     border-radius: 5px;
@@ -112,7 +112,7 @@ body.dark-mode .chat-box {
     background-color: var(--chat-bgcolor-dark); /* ダークモードの色を適用 */
 }
 
-body.dark-mode .chat-message.user {
+body.dark-mode .chat-message.user .chat-input {
     background-color: var(--user-bgcolor-dark); /* ダークモードの色を適用 */
 }
 
