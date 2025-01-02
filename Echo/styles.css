@@ -108,6 +108,14 @@ body.dark-mode {
     color: var(--text-color-dark);
 }
 
-body.dark-mode .chat-box .chat-message.user　.chat-message.bot {
+body.dark-mode .chat-box {
     background-color: var(--chat-bgcolor-dark); /* ダークモードの色を適用 */
+}
+
+body.dark-mode .chat-messege.user {
+    background-color: var(--user-bgcolor-dark); /* ダークモードの色を適用 */
+}
+
+body.dark-mode .chat-messege.bot {
+    background-color: var(--bot-bgcolor-dark); /* ダークモードの色を適用 */
 }
