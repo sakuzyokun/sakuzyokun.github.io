@@ -8,21 +8,34 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'DotGothic16', sans-serif;
+        }
+        #txt {
+            background-color: white;
+            width: 10px;
+            height: 5px;
+        }
+    </style>
 </head>
-<body style="background-color:black">
-    <p style="color:white;font-size:20px;">Operating Systes not found</p>
-    <p id="txt" style="background-color:white; width:10px; height:5px;"></p>
+<body>
+    <p>Operating System not found</p>
+    <p id="txt"></p>
     <script>
       async function loop() {
         var i = 0;
-          while(i<10){
-            avait new Promise(resolve => set Timeout (resolve, 500));
+        while (i < 10) {
+            await new Promise(resolve => setTimeout(resolve, 500));
             document.getElementById("txt").style.display = "none";
-            avait new Promise(resolve => set Timeout (resolve, 500));
-            document.getElementById("txt").style.display="block";
-          }
+            await new Promise(resolve => setTimeout(resolve, 500));
+            document.getElementById("txt").style.display = "block";
+            i++; // Loop increment to ensure it terminates after 10 iterations
         }
-      loop() ;
+      }
+      loop();
     </script>
 </body>
 </html>
