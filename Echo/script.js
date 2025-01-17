@@ -227,6 +227,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Botの返信を追加
                 appendMessage('すみません。分かりませんでした。くわしくは「ヘルプ」をご覧ください!', 'bot');
+                setTimeout(() => {
+                    window.open('https://www.google.com/search?q=''user','_blank');
+                }, 1000);
             }, 1500); // 1.5秒後にBotの返信を表示
         }
     }
