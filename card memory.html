@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ メモリゲーム</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="card memory.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>メモリゲーム</h1>
+        <div class="grid" id="grid"></div>
+    </main>
+    <script>
+        const grid = document.getElementById('grid');
+        const emojis = ['😊', '😊', '🎉', '🎉', '🚀', '🚀', '🏀', '🏀', '🐶', '🐶', '🍕', '🍕', '🌟', '🌟', '❤️', '❤️'];
+        let selectedCards = [];
+        let matchedCount = 0;
+
+        emojis.sort(() => Math.random() - 0.5);
+
+        emojis.forEach(emoji => {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.textContent = emoji;
+            card.style.visibility = 'hidden';
+            card.addEventListener('click', () => {
+                if (selectedCards.length < 2 && card.style.visibility === 'hidden') {
+                    card.style.visibility = 'visible';
+                    selectedCards.push(card);
+                    if (selectedCards.length === 2) {
+                        setTimeout(checkMatch, 1000);
+                    }
+                }
+            });
+            grid.appendChild(card);
+        });
+
+        function checkMatch() {
+            const [card1, card2] = selectedCards;
+            if (card1.textContent === card2.textContent) {
+                matchedCount++;
+                if (matchedCount === emojis.length / 2) {
+                    alert('おめでとう！すべてのペアを見つけました！');
+                }
+            } else {
+                card1.style.visibility = 'hidden';
+                card2.style.visibility = 'hidden';
+            }
+            selectedCards = [];
+        }
+    </script>
+</body>
+</html>
