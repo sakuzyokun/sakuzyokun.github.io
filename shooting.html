@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ シューティングゲーム</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="shooting.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>シューティングゲーム</h1>
+        <canvas id="canvas" width="400" height="400"></canvas>
+    </main>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const player = { x: 200, y: 350, width: 20, height: 20 };
+        const bullets = [];
+        const enemies = [];
+
+        function drawPlayer() {
+            ctx.fillStyle = 'blue';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        function drawBullets() {
+            ctx.fillStyle = 'black';
+            bullets.forEach(bullet => {
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+                bullet.y -= 2;
+            });
+        }
+
+        function drawEnemies() {
+            ctx.fillStyle = 'red';
+            enemies.forEach(enemy => {
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+                enemy.y += 1;
+            });
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPlayer();
+            drawBullets();
+            drawEnemies();
+            requestAnimationFrame(update);
+        }
+
+        canvas.addEventListener('click', () => {
+            bullets.push({ x: player.x + 9, y: player.y, width: 2, height: 10 });
+        });
+
+        setInterval(() => {
+            enemies.push({ x: Math.random() * 380, y: 0, width: 20, height: 20 });
+        }, 1000);
+
+        update();
+    </script>
+</body>
+</html>
