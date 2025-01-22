@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ クリックゲーム</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>クリックゲーム</h1>
+        <button id="button">クリック</button>
+        <p id="score">スコア: 0</p>
+    </main>
+    <script>
+        let score = 0;
+        const button = document.getElementById('button');
+        const scoreDisplay = document.getElementById('score');
+
+        button.addEventListener('click', () => {
+            score++;
+            scoreDisplay.textContent = `スコア: ${score}`;
+        });
+
+        setTimeout(() => {
+            alert(`ゲーム終了！あなたのスコアは ${score} です。`);
+            button.disabled = true;
+        }, 10000); // 10秒後にゲーム終了
+    </script>
+</body>
+</html>
