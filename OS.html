@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>削除くんのホームページ OS･ブラウザ判定ツール</title>
+    <title>削除くんのホームページ 多機能取得ツール</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="OS.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,9 +16,10 @@
         <a href="index.html" class="home-link">ホームに戻る</a>
     </header>
     <main>
-        <h1>OS･ブラウザ判定ツール</h1>
+        <h1>多機能取得ツール</h1>
         <div class="info" id="osInfo">OS: 判定中...</div>
         <div class="info" id="browserInfo">ブラウザ: 判定中...</div>
+        <div class="info" id="batteryInfo">バッテリー: 判定中...</div>
     </main>
     <script>
         function getOS() {
@@ -48,9 +49,28 @@
             if (userAgent.indexOf('Safari') !== -1) return 'Apple Safari';
             return 'Unknown';
         }
-
+        function getBatteryLev() {
+            navigator.getBattery().then(function(battery) {
+            let batteryLevel = battery.level * 100;
+            // ここで変数を利用できます
+            });
+        }
+        function getBattery() {
+            navigator.getBattery().then(function(battery) {
+            let isCharging = battery.charging;
+            // ここで変数を利用できます
+            });
+        }
+        function getResolution() {
+            let screenWidth = screen.width;
+            let screenHeight = screen.height;
+            // ここで変数を利用できます
+        }
         document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
         document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
+        document.getElementById('batteryLevel').innerText = `バッテリー残量: ${getBatteryLev()}`;
+        document.getElementById('isCharging').innerText = `バッテリー状態: ${getBattery()}`;
+        document.getElementById('isCharging').innerText = `バッテリー状態: ${getResolution()}`;
     </script>
 </body>
 </html>
