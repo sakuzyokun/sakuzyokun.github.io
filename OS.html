@@ -65,14 +65,14 @@
             document.getElementById('isCharging').innerText = `バッテリー状態: ${isCharging ? '充電中' : '充電していません'}`;
         }
 
-        function getResolution() {
+        function updateResolution() {
             const screenWidth = screen.width;
             const screenHeight = screen.height;
             document.getElementById('screenWidth').innerText = `画面横幅: ${screenWidth}px`;
             document.getElementById('screenHeight').innerText = `画面縦幅: ${screenHeight}px`;
         }
 
-        function getWindowInfo() {
+        function updateWindowInfo() {
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
             const windowX = window.screenX;
@@ -83,18 +83,23 @@
             document.getElementById('windowY').innerText = `ウィンドウY座標: ${windowY}`;
         }
 
-        function getMemory() {
+        function updateMemory() {
             const deviceMemory = navigator.deviceMemory;
             document.getElementById('deviceMemory').innerText = `メモリ: ${deviceMemory}GB`;
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        function updateAll() {
             document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
             document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
             navigator.getBattery().then(updateBatteryInfo);
-            getResolution();
-            getWindowInfo();
-            getMemory();
+            updateResolution();
+            updateWindowInfo();
+            updateMemory();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAll();
+            setInterval(updateAll, 1);  // 1ミリ秒ごとに更新
         });
     </script>
 </body>
