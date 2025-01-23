@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateScore() {
-        document.getElementById('score').innerText = player.score;
+        document.getElementById('score').innerText = `スコア: ${player.score}`;
     }
 
     const colors = [
