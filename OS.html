@@ -57,45 +57,45 @@
             if (userAgent.indexOf('Safari') !== -1) return 'Apple Safari';
             return 'Unknown';
         }
-        function getBatteryLev() {
-            navigator.getBattery().then(function(battery) {
-            let batteryLevel = battery.level * 100;
-            // ここで変数を利用できます
-            });
+
+        function updateBatteryInfo(battery) {
+            const batteryLevel = battery.level * 100;
+            const isCharging = battery.charging;
+            document.getElementById('batteryLevel').innerText = `バッテリー残量: ${batteryLevel}%`;
+            document.getElementById('isCharging').innerText = `バッテリー状態: ${isCharging ? '充電中' : '充電していません'}`;
         }
-        function getBattery() {
-            navigator.getBattery().then(function(battery) {
-            let isCharging = battery.charging;
-            // ここで変数を利用できます
-            });
-        }
+
         function getResolution() {
-            let screenWidth = screen.width;
-            let screenHeight = screen.height;
-            // ここで変数を利用できます
+            const screenWidth = screen.width;
+            const screenHeight = screen.height;
+            document.getElementById('screenWidth').innerText = `画面横幅: ${screenWidth}px`;
+            document.getElementById('screenHeight').innerText = `画面縦幅: ${screenHeight}px`;
         }
-        function getWindow() {
-            let windowWidth = window.innerWidth;
-            let windowHeight = window.innerHeight;
-            let windowX = window.screenX;
-            let windowY = window.screenY;
-            // ここで変数を利用できます
+
+        function getWindowInfo() {
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            const windowX = window.screenX;
+            const windowY = window.screenY;
+            document.getElementById('windowWidth').innerText = `ウィンドウ横幅: ${windowWidth}px`;
+            document.getElementById('windowHeight').innerText = `ウィンドウ縦幅: ${windowHeight}px`;
+            document.getElementById('windowX').innerText = `ウィンドウX座標: ${windowX}`;
+            document.getElementById('windowY').innerText = `ウィンドウY座標: ${windowY}`;
         }
+
         function getMemory() {
-            let deviceMemory = navigator.deviceMemory;
-            // ここで変数を利用できます
+            const deviceMemory = navigator.deviceMemory;
+            document.getElementById('deviceMemory').innerText = `メモリ: ${deviceMemory}GB`;
         }
-        document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
-        document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
-        document.getElementById('batteryLevel').innerText = `バッテリー残量: ${getBatteryLev()} %`;
-        document.getElementById('isCharging').innerText = `バッテリー状態: ${getBattery()}`;
-        document.getElementById('screenWidth').innerText = `画面横幅: ${getResolution()} px`;
-        document.getElementById('screenHeight').innerText = `画面縦幅: ${getResolution()} px`;
-        document.getElementById('windowWidth').innerText = `ウィンドウ縦幅: ${getWindow()} px`;
-        document.getElementById('windowHeight').innerText = `ウィンドウ縦幅: ${getWindow()} px`;
-        document.getElementById('windowX').innerText = `ウィンドウX座標: ${getWindow()}`;
-        document.getElementById('windowY').innerText = `ウィンドウY座標: ${getWindow()}`;
-        document.getElementById('deviceMemory').innerText = `メモリ: ${getMemory()} GB`;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
+            document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
+            navigator.getBattery().then(updateBatteryInfo);
+            getResolution();
+            getWindowInfo();
+            getMemory();
+        });
     </script>
 </body>
 </html>
