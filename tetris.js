@@ -3,10 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const context = canvas.getContext('2d');
     context.scale(20, 20);
 
-    // Arena (場) の作成
     const arena = createMatrix(12, 20);
 
-    // プレイヤーの状態
     const player = {
         pos: { x: 0, y: 0 },
         matrix: null,
