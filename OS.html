@@ -79,15 +79,15 @@
         }
         document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
         document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
-        document.getElementById('batteryLevel').innerText = `バッテリー残量: ${getBatteryLev()}`;
+        document.getElementById('batteryLevel').innerText = `バッテリー残量: ${getBatteryLev()} %`;
         document.getElementById('isCharging').innerText = `バッテリー状態: ${getBattery()}`;
-        document.getElementById('screenWidth').innerText = `画面横幅: ${getResolution()}`;
-        document.getElementById('screenHeight').innerText = `画面縦幅: ${getResolution()}`;
-        document.getElementById('windowWidth').innerText = `ウィンドウ縦幅: ${getWindow()}`;
-        document.getElementById('windowHeight').innerText = `ウィンドウ縦幅: ${getWindow()}`;
+        document.getElementById('screenWidth').innerText = `画面横幅: ${getResolution()} px`;
+        document.getElementById('screenHeight').innerText = `画面縦幅: ${getResolution()} px`;
+        document.getElementById('windowWidth').innerText = `ウィンドウ縦幅: ${getWindow()} px`;
+        document.getElementById('windowHeight').innerText = `ウィンドウ縦幅: ${getWindow()} px`;
         document.getElementById('windowX').innerText = `ウィンドウX座標: ${getWindow()}`;
         document.getElementById('windowY').innerText = `ウィンドウY座標: ${getWindow()}`;
-        document.getElementById('deviceMemory').innerText = `メモリ: ${getMemory()}`;
+        document.getElementById('deviceMemory').innerText = `メモリ: ${getMemory()} GB`;
     </script>
 </body>
 </html>
