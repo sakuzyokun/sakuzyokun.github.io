@@ -1,0 +1,46 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('Minecraft world.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'DotGothic16', sans-serif;
+    color: #ffffff;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    color: #ffa500;
+    font-size: 2.5em;
+    margin: 0;
+}
+
+header .home-link {
+    display: block;
+    margin-top: 10px;
+    color: #ffa500;
+    font-size: 1.5em;
+    text-decoration: none;
+}
+
+main {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+h1 {
+    color: #ffa500;
+}
+
+canvas {
+    border: 1px solid black;
+    background-color: #ffffff;
+}
