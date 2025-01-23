@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 蛇ゲーム</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="snake game.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>蛇ゲーム</h1>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+    </main>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const grid = 20;
+        let count = 0;
+        let snake = [{x: 160, y: 160}, {x: 140, y: 160}, {x: 120, y: 160}];
+        let dx = grid;
+        let dy = 0;
+        let food = {x: 0, y: 0};
+        let score = 0;
+
+        function randomFood() {
+            food.x = Math.floor(Math.random() * 20) * grid;
+            food.y = Math.floor(Math.random() * 20) * grid;
+        }
+
+        function gameLoop() {
+            if (++count < 4) return;
+            count = 0;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            snake.unshift({x: snake[0].x + dx, y: snake[0].y + dy});
+            if (snake[0].x === food.x && snake[0].y === food.y) {
+                score++;
+                randomFood();
+            } else {
+                snake.pop();
+            }
+            ctx.fillStyle = 'red';
+            ctx.fillRect(food.x, food.y, grid - 1, grid - 1);
+            ctx.fillStyle = 'green';
+            snake.forEach((part) => ctx.fillRect(part.x, part.y, grid - 1, grid - 1));
+            for (let i = 4; i < snake.length; i++) {
+                if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
+                    return document.location.reload();
+                }
+            }
+            if (snake[0].x < 0 || snake[0].x >= canvas.width || snake[0].y < 0 || snake[0].y >= canvas.height) {
+                return document.location.reload();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && dx === 0) {
+                dx = -grid;
+                dy = 0;
+            } else if (e.key === 'ArrowUp' && dy === 0) {
+                dx = 0;
+                dy = -grid;
+            } else if (e.key === 'ArrowRight' && dx === 0) {
+                dx = grid;
+                dy = 0;
+            } else if (e.key === 'ArrowDown' && dy === 0) {
+                dx = 0;
+                dy = grid;
+            }
+        });
+
+        randomFood();
+        setInterval(gameLoop, 100);
+    </script>
+</body>
+</html>
