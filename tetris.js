@@ -209,4 +209,36 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('score').innerText = `スコア: ${player.score}`;
     }
 
-    const colors = [_{{{CITATION{{{_1{](https://github.com/l-julius/tetris/tree/e192a622586627ef7376659ee754b4e53f694220/tetris.js)[_{{{CITATION{{{_2{](https://github.com/aliemir/tetris-clone/tree/ed12998a0c2b7df36c7992fadea58b556d9a2cf6/tetris.js)[_{{{CITATION{{{_3{](https://github.com/xeviert/Tetris/tree/5ebfa63e79888cd4c0eaad5cf7185ed93c4ad589/tetris.js)[_{{{CITATION{{{_4{](https://github.com/W-Conway/tetrisjs/tree/b7208c1cfac0cf4fb6b4a99fca8820253c9098b6/Resources%2Ftetris.js)[_{{{CITATION{{{_5{](https://github.com/getromandev/tetrisJavscript/tree/5d6cf7460add2a2f47c391e950d06c1099db1e6b/tetris.js)[_{{{CITATION{{{_6{](https://github.com/beadx6ggwp/Tetris/tree/5e87da69cbb896fa9f1e0b7d9c5760c476eb7f75/ver0.2%2Fmain.js)[_{{{CITATION{{{_7{](https://github.com/fathidk/tetris/tree/41982ff99128f763ded1a62da8a53edc1b9c189f/script.js)[_{{{CITATION{{{_8{](https://github.com/morshinin/tetris/tree/5eb56562bd053188a3fce7cbaf72b0337c7502c2/tetris.js)[_{{{CITATION{{{_9{](https://github.com/vaibhav111tandon/Tetris/tree/2d5d2bc15c2e452fd48b1a1c1c5258cb397e0b50/script.js)[_{{{CITATION{{{_10{](https://github.com/MrMace/Tetris/tree/330be953227160a0257d86bb2248b85ffd976ccb/script.js)[_{{{CITATION{{{_11{](https://github.com/thomasongley/tetris/tree/e0c1a3729515cc02f10d21b7a046ada871b47f8c/tetris.js)
+    const colors = [
+        null,
+        '#FF0D72',
+        '#0DC2FF',
+        '#0DFF72',
+        '#F538FF',
+        '#FF8E0D',
+        '#FFE138',
+        '#3877FF',
+    ];
+
+    let dropCounter = 0;
+    let dropInterval = 1000;
+
+    let lastTime = 0;
+
+    document.addEventListener('keydown', event => {
+        if (event.keyCode === 37) {
+            playerMove(-1);
+        } else if (event.keyCode === 39) {
+            playerMove(1);
+        } else if (event.keyCode === 40) {
+            playerDrop();
+        } else if (event.keyCode === 81) {
+            playerRotate(-1);
+        } else if (event.keyCode === 87) {
+            playerRotate(1);
+        }
+    });
+
+    playerReset();
+    update();
+});
