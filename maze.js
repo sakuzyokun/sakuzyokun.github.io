@@ -7,6 +7,7 @@ const cols = canvas.width / cellSize;
 const maze = generateMaze(rows, cols);
 
 let player = { row: 0, col: 0 };
+const goal = { row: rows - 1, col: cols - 1 };
 
 function generateMaze(rows, cols) {
     const grid = Array.from({ length: rows }, () =>
@@ -95,6 +96,13 @@ function drawPlayer() {
     ctx.fillRect(x, y, cellSize / 2, cellSize / 2);
 }
 
+function drawGoal() {
+    const x = goal.col * cellSize + cellSize / 4;
+    const y = goal.row * cellSize + cellSize / 4;
+    ctx.fillStyle = 'green';
+    ctx.fillRect(x, y, cellSize / 2, cellSize / 2);
+}
+
 function movePlayer(event) {
     const { row, col } = player;
     switch (event.key) {
@@ -111,11 +119,18 @@ function movePlayer(event) {
             if (!maze[row][col].left) player.col--;
             break;
     }
+
+    if (player.row === goal.row && player.col === goal.col) {
+        alert('ゴールしました！おめでとうございます！');
+    }
+
     drawMaze(maze);
+    drawGoal();
     drawPlayer();
 }
 
 document.addEventListener('keydown', movePlayer);
 
 drawMaze(maze);
+drawGoal();
 drawPlayer();
