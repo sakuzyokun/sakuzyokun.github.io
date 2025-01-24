@@ -1,11 +1,13 @@
 body {
-    font-family: 'DotGothic16', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     background: url('Minecraft world.jpeg') no-repeat center center fixed;
     background-size: cover;
+    font-family: 'DotGothic16', sans-serif;
     color: #ffffff;
     margin: 0;
-    padding: 20px;
-    text-align: center;
 }
 
 header {
@@ -31,14 +33,19 @@ main {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
+    text-align: center;
 }
 
 h1 {
     color: #ffa500;
 }
 
-#canvas {
+canvas {
     border: 1px solid black;
-    display: block;
-    margin: auto;
+    background-color: #ffffff;
+}
+
+#score {
+    font-size: 24px;
+    margin: 10px;
 }
