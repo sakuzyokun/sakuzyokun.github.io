@@ -15,13 +15,14 @@ let score = 0;
 
 document.addEventListener("keydown", keyDownHandler);
 document.addEventListener("keyup", keyUpHandler);
-canvas.addEventListener("click", shootBullet);
 
 function keyDownHandler(e) {
     if (e.key === "Right" || e.key === "ArrowRight") {
         player.dx = 5;
     } else if (e.key === "Left" || e.key === "ArrowLeft") {
         player.dx = -5;
+    } else if (e.key === "Enter") {
+        shootBullet();
     }
 }
 
