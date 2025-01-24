@@ -122,6 +122,7 @@ function movePlayer(event) {
 
     if (player.row === goal.row && player.col === goal.col) {
         alert('ゴールしました！おめでとうございます！');
+        window.location.reload();
     }
 
     drawMaze(maze);
