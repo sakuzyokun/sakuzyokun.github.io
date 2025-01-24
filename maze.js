@@ -6,6 +6,8 @@ const rows = canvas.height / cellSize;
 const cols = canvas.width / cellSize;
 const maze = generateMaze(rows, cols);
 
+let player = { row: 0, col: 0 };
+
 function generateMaze(rows, cols) {
     const grid = Array.from({ length: rows }, () =>
         Array.from({ length: cols }, () => ({ top: true, right: true, bottom: true, left: true }))
@@ -86,4 +88,34 @@ function drawMaze(maze) {
     });
 }
 
+function drawPlayer() {
+    const x = player.col * cellSize + cellSize / 4;
+    const y = player.row * cellSize + cellSize / 4;
+    ctx.fillStyle = 'blue';
+    ctx.fillRect(x, y, cellSize / 2, cellSize / 2);
+}
+
+function movePlayer(event) {
+    const { row, col } = player;
+    switch (event.key) {
+        case 'ArrowUp':
+            if (!maze[row][col].top) player.row--;
+            break;
+        case 'ArrowRight':
+            if (!maze[row][col].right) player.col++;
+            break;
+        case 'ArrowDown':
+            if (!maze[row][col].bottom) player.row++;
+            break;
+        case 'ArrowLeft':
+            if (!maze[row][col].left) player.col--;
+            break;
+    }
+    drawMaze(maze);
+    drawPlayer();
+}
+
+document.addEventListener('keydown', movePlayer);
+
 drawMaze(maze);
+drawPlayer();
