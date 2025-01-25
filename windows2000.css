@@ -1,0 +1,148 @@
+body {
+    background-color: #008080;
+    color: #000;
+    font-family: Tahoma, sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.startup-screen {
+    background-color: #000080;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.startup-logo {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+.startup-text {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.progress-bar {
+    width: 80%;
+    height: 20px;
+    background-color: #ffffff;
+    border: 1px solid #000;
+    margin-top: 10px;
+    position: relative;
+}
+.progress {
+    width: 0;
+    height: 100%;
+    background-color: #00ff00;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.taskbar {
+    background-color: #c0c0c0;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+.start-button {
+    background-color: #c0c0c0;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.start-button:hover {
+    background-color: #fff;
+}
+.start-menu {
+    background-color: #c0c0c0;
+    border: 1px solid #000;
+    width: 200px;
+    position: absolute;
+    bottom: 40px;
+    left: 10px;
+    display: none;
+    z-index: 1000;
+}
+.start-menu-item {
+    padding: 10px;
+    cursor: pointer;
+}
+.start-menu-item:hover {
+    background-color: #fff;
+}
+.desktop-icon {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    cursor: pointer;
+}
+.desktop-icon img {
+    width: 100%;
+    height: auto;
+}
+.desktop-icon-label {
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+}
+.window {
+    background-color: #fff;
+    border: 2px solid #000;
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    box-shadow: 5px 5px #888;
+    cursor: move;
+    display: none; /* Initially hide the window */
+}
+.window-header {
+    background-color: #000080;
+    color: #fff;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: move;
+}
+.window-content {
+    padding: 10px;
+}
+.button {
+    background-color: #c0c0c0;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.button:hover {
+    background-color: #fff;
+}
+.shutdown-screen {
+    background-color: #000080;
+    color: #fff;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.shutdown-text {
+    font-size: 24px;
+}
