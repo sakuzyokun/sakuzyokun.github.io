@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 2000風インターフェース</title>
+    <link rel="stylesheet" href="windows2000.css">
+</head>
+<body>
+    <div class="startup-screen">
+        <div class="startup-logo">Microsoft Windows 2000</div>
+        <div class="startup-text">起動中...</div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+    <div class="shutdown-screen" id="shutdown-screen">
+        <div class="shutdown-text">Windowsをシャットダウンしています...</div>
+    </div>
+    <div class="taskbar">
+        <div class="start-button" onclick="toggleStartMenu()">スタート</div>
+        <div class="taskbar-items">タスクバー</div>
+        <div class="taskbar-time">9:28</div>
+    </div>
+    <div class="start-menu" id="start-menu">
+        <div class="start-menu-item" onclick="createWindow()">アプリケーションを開く</div>
+        <div class="start-menu-item">設定</div>
+        <div class="start-menu-item">検索</div>
+        <div class="start-menu-item">ヘルプ</div>
+        <div class="start-menu-item" onclick="shutdown()">終了</div>
+    </div>
+    <div class="desktop-icon" style="top: 20px; left: 20px;" onclick="openWindow('recycle-bin')">
+        <img src="https://example.com/recycle-bin-icon.png" alt="ごみ箱">
+        <div class="desktop-icon-label">ごみ箱</div>
+    </div>
+    <div class="desktop-icon" style="top: 20px; left: 100px;" onclick="openWindow('explorer')">
+        <img src="https://example.com/explorer-icon.png" alt="エクスプローラー">
+        <div class="desktop-icon-label">エクスプローラー</div>
+    </div>
+    <div class="window" id="recycle-bin">
+        <div class="window-header">
+            <span>ごみ箱</span>
+            <span onclick="closeWindow('recycle-bin')">×</span>
+        </div>
+        <div class="window-content">
+            <p>これはごみ箱です。</p>
+        </div>
+    </div>
+    <div class="window" id="explorer">
+        <div class="window-header">
+            <span>エクスプローラー</span>
+            <span onclick="closeWindow('explorer')">×</span>
+        </div>
+        <div class="window-content">
+            <p>これはエクスプローラーです。</p>
+        </div>
+    </div>
+    <div class="window" id="main-window">
+        <div class="window-header">
+            <span>ウィンドウのタイトル</span>
+            <span onclick="closeWindow('main-window')">×</span>
+        </div>
+        <div class="window-content">
+            <p>これはWindows 2000風のウィンドウです。</p>
+            <button class="button">OK</button>
+            <button class="button">キャンセル</button>
+        </div>
+    </div>
+    <script src="windows2000.js"></script>
+</body>
+</html>
