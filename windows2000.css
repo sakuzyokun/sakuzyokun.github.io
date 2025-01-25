@@ -107,6 +107,7 @@ body {
     box-shadow: 5px 5px #888;
     cursor: move;
     display: none; /* Initially hide the window */
+    z-index: 0;
 }
 .window-header {
     background-color: #000080;
@@ -145,4 +146,10 @@ body {
 }
 .shutdown-text {
     font-size: 24px;
+}
+.window.active {
+    z-index: 1000;
+}
+.window-header.active {
+    background-color: #0000ff;
 }
