@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         document.querySelector('.startup-screen').style.display = 'none';
         document.getElementById('main-window').style.display = 'block'; // Show the main window after startup
+        setActiveWindow(document.getElementById('main-window'));
     }, 5000); // 5秒後に起動画面を非表示にし、メインウィンドウを表示する
 
     const startButton = document.querySelector('.start-button');
@@ -27,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let offsetX, offsetY;
 
         element.addEventListener('mousedown', (event) => {
+            setActiveWindow(element);
             isDragging = true;
             offsetX = event.clientX - element.offsetLeft;
             offsetY = event.clientY - element.offsetTop;
@@ -62,17 +64,28 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         document.body.appendChild(newWindow);
         makeDraggable(newWindow);
+        setActiveWindow(newWindow);
     }
 
     function openWindow(windowId) {
         const windowElement = document.getElementById(windowId);
         windowElement.style.display = 'block';
         makeDraggable(windowElement);
+        setActiveWindow(windowElement);
     }
 
-    function closeWindow(windowId) {
-        const windowElement = document.getElementById(windowId);
+    function closeWindow(windowElement) {
         windowElement.style.display = 'none';
+    }
+
+    function setActiveWindow(windowElement) {
+        const windows = document.querySelectorAll('.window');
+        windows.forEach(win => {
+            win.classList.remove('active');
+            win.querySelector('.window-header').classList.remove('active');
+        });
+        windowElement.classList.add('active');
+        windowElement.querySelector('.window-header').classList.add('active');
     }
 
     // プログレスバーのアニメーション
