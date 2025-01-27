@@ -44,6 +44,9 @@
                 <button onclick="calculateResult()">=</button>
                 <button onclick="clearDisplay()">C</button>
             </div>
+            <div class="button-row">
+                <button onclick="appendToDisplay('.')">.</button>
+            </div>
         </div>
     </main>
     <script>
@@ -52,6 +55,9 @@
         let firstValue = null;
 
         function appendToDisplay(value) {
+            if (value === '.' && displayValue.includes('.')) {
+                return;
+            }
             displayValue += value;
             document.getElementById('display').value = displayValue;
         }
