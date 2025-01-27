@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fraction.js/4.1.1/fraction.min.js"></script>
 </head>
 <body>
     <header>
@@ -79,9 +80,9 @@
                 let expression = displayValue.replace(/:/g, '/');
                 // Replace '÷' with '/' for division
                 expression = expression.replace(/÷/g, '/');
-                // Evaluate the expression
-                const result = eval(expression);
-                displayValue = result.toString();
+                // Evaluate the expression using Fraction.js
+                const result = new Fraction(eval(expression));
+                displayValue = result.toFraction();
                 document.getElementById('display').value = displayValue;
             } catch (error) {
                 displayValue = 'Error';
