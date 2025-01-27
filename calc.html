@@ -40,12 +40,16 @@
             </div>
             <div class="button-row">
                 <button onclick="appendToDisplay('0')">0</button>
+                <button onclick="appendToDisplay('00')">00</button>
                 <button onclick="performOperation('/')">/</button>
                 <button onclick="calculateResult()">=</button>
                 <button onclick="clearDisplay()">C</button>
             </div>
             <div class="button-row">
                 <button onclick="appendToDisplay('.')">.</button>
+                <button onclick="appendToDisplay('(')">(</button>
+                <button onclick="appendToDisplay(')')">)</button>
+                <button onclick="appendToDisplay('/')">/</button>
             </div>
         </div>
     </main>
@@ -63,41 +67,24 @@
         }
 
         function performOperation(operation) {
-            firstValue = parseFloat(displayValue);
-            currentOperation = operation;
-            displayValue = '';
+            displayValue += operation;
             document.getElementById('display').value = displayValue;
         }
 
         function calculateResult() {
-            let secondValue = parseFloat(displayValue);
-            let result;
-            switch (currentOperation) {
-                case '+':
-                    result = firstValue + secondValue;
-                    break;
-                case '-':
-                    result = firstValue - secondValue;
-                    break;
-                case '*':
-                    result = firstValue * secondValue;
-                    break;
-                case '/':
-                    result = firstValue / secondValue;
-                    break;
-                default:
-                    return;
+            try {
+                // Evaluate the expression
+                const result = eval(displayValue);
+                displayValue = result.toString();
+                document.getElementById('display').value = displayValue;
+            } catch (error) {
+                displayValue = 'Error';
+                document.getElementById('display').value = displayValue;
             }
-            displayValue = result.toString();
-            document.getElementById('display').value = displayValue;
-            firstValue = null;
-            currentOperation = '';
         }
 
         function clearDisplay() {
             displayValue = '';
-            firstValue = null;
-            currentOperation = '';
             document.getElementById('display').value = displayValue;
         }
     </script>
