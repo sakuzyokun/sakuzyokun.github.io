@@ -44,14 +44,14 @@
             <div class="button-row">
                 <button onclick="appendToDisplay('0')">0</button>
                 <button onclick="appendToDisplay('00')">00</button>
-                <button onclick="performOperation('/')">/</button>
+                <button onclick="performOperation('÷')">÷</button>
                 <button onclick="calculateResult()">=</button>
             </div>
             <div class="button-row">
                 <button onclick="appendToDisplay('.')">.</button>
                 <button onclick="appendToDisplay('(')">(</button>
                 <button onclick="appendToDisplay(')')">)</button>
-                <button onclick="appendToDisplay('/')">/</button>
+                <button onclick="appendToDisplay(':')">:</button>
             </div>
         </div>
     </main>
@@ -75,8 +75,12 @@
 
         function calculateResult() {
             try {
+                // Replace ':' with '/' for fraction calculations
+                let expression = displayValue.replace(/:/g, '/');
+                // Replace '÷' with '/' for division
+                expression = expression.replace(/÷/g, '/');
                 // Evaluate the expression
-                const result = eval(displayValue);
+                const result = eval(expression);
                 displayValue = result.toString();
                 document.getElementById('display').value = displayValue;
             } catch (error) {
