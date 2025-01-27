@@ -82,7 +82,7 @@
                 expression = expression.replace(/÷/g, '/');
                 // Evaluate the expression using Fraction.js
                 const result = new Fraction(eval(expression));
-                displayValue = result.toFraction();
+                displayValue = result.toFraction(true); // Display result as a fraction
                 document.getElementById('display').value = displayValue;
             } catch (error) {
                 displayValue = 'Error';
