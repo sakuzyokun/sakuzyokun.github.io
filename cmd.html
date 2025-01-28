@@ -41,7 +41,7 @@
 <body>
     <div class="console" id="console">
         <div class="input-line">
-            <span>C:/></span><input type="text" id="input" onkeydown="handleCommand(event)">
+            <span></span><input type="text" id="input" onkeydown="handleCommand(event)">
         </div>
     </div>
     <div class="memory-info" id="memoryInfo"></div>
@@ -98,16 +98,16 @@
                     displayDate();
                     break;
                 case 'dir':
-                    appendMessage('ドライブC: のボリュームラベルは Sakuzyo です')
-                    appendMessage('ボリューム シリアル番号は 30SA-90KU です')
-                    appendMessage('C:/ のディレクトリ')
-                    appendMessage('<dir>    Sakuzyo')
-                    appendMessage('<dir>    Program Files')
-                    appendMessage('<dir>    Program Files (x86)')
-                    appendMessage('<dir>    Users')
-                    appendMessage('             0個のファイル          0バイト')
-                    appendMessage('             3個のディレクトリ      ')
-                    appendMessage('MBの空き領域')
+                    appendMessage('ドライブC: のボリュームラベルは Sakuzyo です');
+                    appendMessage('ボリューム シリアル番号は 30SA-90KU です');
+                    appendMessage('C:/ のディレクトリ');
+                    appendMessage('<dir>    Sakuzyo');
+                    appendMessage('<dir>    Program Files');
+                    appendMessage('<dir>    Program Files (x86)');
+                    appendMessage('<dir>    Users');
+                    appendMessage('             0個のファイル          0バイト');
+                    appendMessage('             3個のディレクトリ      ');
+                    appendMessage('MBの空き領域');
                     break;
                 default:
                     if (command.startsWith('echo ')) {
@@ -193,18 +193,21 @@
             }
         }
 
-        // 初期化メッセージ
+        // Initial message
         appendMessage('Starting SAKUZYO-DOS...');
         setTimeout(() => {
             clearConsole();
         }, 1000);
-            setTimeout(() => {
-            appendMessage('\n')
+        setTimeout(() => {
+            appendMessage('\n');
             appendMessage('ｻｸｼﾞｮ SAKUZYO-DOS ﾊﾞｰｼﾞｮﾝ 1.45');
             appendMessage('Copyright (C) 2024 Sakuzyo Corp.');
             displayMemoryInfo2();
         }, 1000);
-        // 初期メモリ情報表示
+        setTimeout(() => {
+            const inputLine = document.querySelector('.input-line span');
+            inputLine.textContent = 'C:/> ';
+        }, 1500); // Display C:/ 0.5 seconds after the initial message
     </script>
 </body>
 </html>
