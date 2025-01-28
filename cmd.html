@@ -180,6 +180,10 @@
             appendMessage(date.toLocaleString());
         }
 
+        function memorytest() {
+            appendMessage(`MEMORY ${displayMemoryInfo2()}`);
+        }
+
         function dirMemory(){
             if (performance.memory) {
                 const memoryInfo = performance.memory;
@@ -194,24 +198,27 @@
         }
 
         // Initial message
+        setTimeout(() => {
+            memorytest();
+        }, 500);
         appendMessage('Starting SAKUZYO-DOS...');
         setTimeout(() => {
             clearConsole();
-        }, 1500);
+        }, 2000);
         setTimeout(() => {
             appendMessage('\n');
             appendMessage('ｻｸｼﾞｮ SAKUZYO-DOS ﾊﾞｰｼﾞｮﾝ 1.45');
-        }, 2500);
+        }, 3000);
         setTimeout(() => {
             appendMessage('Copyright (C) 2024 Sakuzyo Corp.');
-        }, 2750);
+        }, 3250);
         setTimeout(() => {
             displayMemoryInfo2();
-        }, 3000);
+        }, 3500);
         setTimeout(() => {
             const inputLine = document.querySelector('.input-line span');
             inputLine.textContent = 'C:/> ';
-        }, 3500); // Display C:/ 0.5 seconds after the initial message
+        }, 4000); // Display C:/ 0.5 seconds after the initial message
     </script>
 </body>
 </html>
