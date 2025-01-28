@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fraction.js/4.1.1/fraction.min.js"></script>
 </head>
 <body>
     <header>
@@ -74,13 +73,11 @@
 
         function calculateResult() {
             try {
-                // Replace ':' with '/' for fraction calculations
-                let expression = displayValue.replace(/:/g, '/');
                 // Replace '÷' with '/' for division
-                expression = expression.replace(/÷/g, '/');
-                // Evaluate the expression using Fraction.js
-                const result = new Fraction(expression);
-                displayValue = result.toFraction(true); // Display result as a fraction
+                let expression = displayValue.replace(/÷/g, '/');
+                // Evaluate the expression using JavaScript's eval function
+                const result = eval(expression);
+                displayValue = result.toString();
                 document.getElementById('display').value = displayValue;
             } catch (error) {
                 displayValue = 'Error';
