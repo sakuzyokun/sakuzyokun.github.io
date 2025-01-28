@@ -197,6 +197,22 @@
             }
         }
 
+        function getOS() {
+            const userAgent = window.navigator.userAgent;
+            if (userAgent.indexOf('Windows NT 10.0') !== -1) return 'Windows 10, Windows 11';
+            if (userAgent.indexOf('Windows NT 6.3') !== -1) return 'Windows 8.1';
+            if (userAgent.indexOf('Windows NT 6.2') !== -1) return 'Windows 8';
+            if (userAgent.indexOf('Windows NT 6.1') !== -1) return 'Windows 7';
+            if (userAgent.indexOf('Windows NT 6.0') !== -1) return 'Windows Vista';
+            if (userAgent.indexOf('Windows NT 5.1') !== -1) return 'Windows XP';
+            if (userAgent.indexOf('Windows NT 5.0') !== -1) return 'Windows 2000';
+            if (userAgent.indexOf('Mac OS X') !== -1) return 'macOS';
+            if (userAgent.indexOf('Android') !== -1) return 'Android';
+            if (userAgent.indexOf('iPhone') !== -1) return 'iOS (iPhone)';
+            if (userAgent.indexOf('iPad') !== -1) return 'iOS (iPad)';
+            return 'Unknown';
+        }
+
         // Initial message
         /*
         setTimeout(() => {
@@ -207,7 +223,7 @@
             clearConsole();
         }, 1000);
         setTimeout(() => {
-            appendMessege('ﾊﾟｰｿﾅﾙｺﾝﾋﾟｭｰﾀｰ')
+            appendMessege(getOS() + 'ﾊﾟｰｿﾅﾙｺﾝﾋﾟｭｰﾀｰ')
         }, 1500);
         setTimeout(() => {
             appendMessage('\n');
