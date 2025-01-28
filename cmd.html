@@ -223,10 +223,9 @@
             clearConsole();
         }, 1000);
         setTimeout(() => {
-            appendMessege(getOS() + 'ﾊﾟｰｿﾅﾙｺﾝﾋﾟｭｰﾀｰ')
+            appendMessage(getOS() + 'ﾊﾟｰｿﾅﾙｺﾝﾋﾟｭｰﾀｰ\n');
         }, 1500);
         setTimeout(() => {
-            appendMessage('\n');
             appendMessage('ｻｸｼﾞｮ SAKUZYO-DOS ﾊﾞｰｼﾞｮﾝ 1.50');
         }, 2500);
         setTimeout(() => {
@@ -234,11 +233,15 @@
         }, 3500);
         setTimeout(() => {
             displayMemoryInfo2();
+            appendMessage('/n');
         }, 4500);
+        setTimeout(() => {
+            appendMessage('Command ﾊﾞｰｼﾞｮﾝ 1.50');
+        }, 5500);
         setTimeout(() => {
             const inputLine = document.querySelector('.input-line span');
             inputLine.textContent = 'C:/> ';
-        }, 5500); // Display C:/ 0.5 seconds after the initial message
+        }, 6500); // Display C:/ 0.5 seconds after the initial message
     </script>
 </body>
 </html>
