@@ -198,27 +198,28 @@
         }
 
         // Initial message
+        /*
         setTimeout(() => {
             memorytest();
-        }, 500);
+        }, 500);*/
         appendMessage('Starting SAKUZYO-DOS...');
         setTimeout(() => {
             clearConsole();
-        }, 2000);
+        }, 1000);
         setTimeout(() => {
             appendMessage('\n');
             appendMessage('ｻｸｼﾞｮ SAKUZYO-DOS ﾊﾞｰｼﾞｮﾝ 1.45');
-        }, 3000);
+        }, 1500);
         setTimeout(() => {
             appendMessage('Copyright (C) 2024 Sakuzyo Corp.');
-        }, 3250);
+        }, 2000);
         setTimeout(() => {
             displayMemoryInfo2();
-        }, 3500);
+        }, 2500);
         setTimeout(() => {
             const inputLine = document.querySelector('.input-line span');
             inputLine.textContent = 'C:/> ';
-        }, 4000); // Display C:/ 0.5 seconds after the initial message
+        }, 3000); // Display C:/ 0.5 seconds after the initial message
     </script>
 </body>
 </html>
