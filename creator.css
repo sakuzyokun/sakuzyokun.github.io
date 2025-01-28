@@ -38,7 +38,15 @@ h1 {
     color: #ffa500;
 }
 
-section p {
+section p, main p {
     font-size: 1.2em;
     margin: 5px 0;
+}
+
+main .home-link {
+    display: block;
+    margin-top: 20px;
+    color: #ffa500;
+    font-size: 1.5em;
+    text-decoration: none;
 }
