@@ -1,67 +1,44 @@
 body {
     font-family: 'DotGothic16', sans-serif;
-    margin: 0;
-    padding: 0;
     background: url('Minecraft world.jpeg') no-repeat center center fixed;
     background-size: cover;
-    color: #fff;
+    color: #ffffff;
+    margin: 0;
+    padding: 20px;
     text-align: center;
 }
 
 header {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 header h1 {
-    margin: 0;
     color: #ffa500;
-    font-size: 2em;
-}
-
-nav ul {
-    list-style: none;
+    font-size: 2.5em;
     margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
 }
 
-nav ul li {
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: #fff;
+header .home-link {
+    display: block;
+    margin-top: 10px;
+    color: #ffa500;
+    font-size: 1.5em;
     text-decoration: none;
-    font-size: 1.2em;
 }
 
 main {
-    padding: 80px 20px 20px;
-}
-
-section {
-    margin-bottom: 40px;
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
+    text-align: center;
 }
 
-footer {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 10px;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+h1 {
+    color: #ffa500;
 }
 
-footer p {
-    margin: 0;
-    color: #fff;
-    font-size: 0.8em;
+section p {
+    font-size: 1.2em;
+    margin: 5px 0;
 }
