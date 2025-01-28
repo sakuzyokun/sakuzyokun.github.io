@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 私はロボットではありません</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <div class="container">
+            <input type="checkbox" class="checkbox" id="robotCheck" onclick="checkRobotStatus()">
+            <label for="robotCheck" class="label">私はロボットではありません</label>
+        </div>
+    </main>
+    <script>
+        function checkRobotStatus() {
+            const checkBox = document.getElementById('robotCheck');
+            if (checkBox.checked) {
+                alert('確認済み！ロボットではありません。');
+            }
+        }
+    </script>
+</body>
+</html>
