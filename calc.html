@@ -45,7 +45,7 @@
             <div class="button-row">
                 <button onclick="appendToDisplay('0')">0</button>
                 <button onclick="appendToDisplay('00')">00</button>
-                <button onclick="performOperation('÷')">÷</button>
+                <button onclick="performOperation('/')">÷</button>
                 <button onclick="calculateResult()">=</button>
             </div>
             <div class="button-row">
@@ -58,8 +58,6 @@
     </main>
     <script>
         let displayValue = '';
-        let currentOperation = '';
-        let firstValue = null;
 
         function appendToDisplay(value) {
             if (value === '.' && displayValue.includes('.')) {
@@ -81,7 +79,7 @@
                 // Replace '÷' with '/' for division
                 expression = expression.replace(/÷/g, '/');
                 // Evaluate the expression using Fraction.js
-                const result = new Fraction(eval(expression));
+                const result = new Fraction(expression);
                 displayValue = result.toFraction(true); // Display result as a fraction
                 document.getElementById('display').value = displayValue;
             } catch (error) {
