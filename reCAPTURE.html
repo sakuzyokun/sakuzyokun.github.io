@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>削除くんのホームページ 私はロボットではありません</title>
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="reCAPTURE.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -13,7 +13,9 @@
         <a href="index.html" class="home-link">ホームに戻る</a>
     </header>
     <main>
+        <h1>私はロボットではありません</h1>
         <div class="container">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Rubik%27s_cube_stickerless.jpg/1200px-Rubik%27s_cube_stickerless.jpg" alt="ロボットアイコン" class="robot-icon">
             <input type="checkbox" class="checkbox" id="robotCheck" onclick="checkRobotStatus()">
             <label for="robotCheck" class="label">私はロボットではありません</label>
         </div>
@@ -23,6 +25,8 @@
             const checkBox = document.getElementById('robotCheck');
             if (checkBox.checked) {
                 alert('確認済み！ロボットではありません。');
+            } else {
+                alert('あらら、チェックを外しましたね。');
             }
         }
     </script>
