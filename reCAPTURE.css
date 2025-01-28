@@ -36,6 +36,10 @@ main {
     text-align: center;
 }
 
+h1 {
+    color: #ffa500;
+}
+
 .container {
     display: flex;
     align-items: center;
@@ -43,6 +47,7 @@ main {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: bounce 2s infinite;
     color: #000;
 }
 
@@ -51,5 +56,20 @@ main {
 }
 
 .label {
-    font-size: 1.2em;
+    font-size: 1.5em;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.robot-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
 }
