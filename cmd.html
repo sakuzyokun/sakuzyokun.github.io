@@ -201,13 +201,17 @@
         setTimeout(() => {
             appendMessage('\n');
             appendMessage('ｻｸｼﾞｮ SAKUZYO-DOS ﾊﾞｰｼﾞｮﾝ 1.45');
-            appendMessage('Copyright (C) 2024 Sakuzyo Corp.');
-            displayMemoryInfo2();
         }, 2500);
+        setTimeout(() => {
+            appendMessage('Copyright (C) 2024 Sakuzyo Corp.');
+        }, 2750);
+        setTimeout(() => {
+            displayMemoryInfo2();
+        }, 3000);
         setTimeout(() => {
             const inputLine = document.querySelector('.input-line span');
             inputLine.textContent = 'C:/> ';
-        }, 3000); // Display C:/ 0.5 seconds after the initial message
+        }, 3500); // Display C:/ 0.5 seconds after the initial message
     </script>
 </body>
 </html>
