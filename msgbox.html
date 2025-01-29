@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ メッセージボックス</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="msgbox.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>メッセージボックス</h1>
+        <input type="text" id="titleInput" placeholder="タイトルを入力">
+        <input type="text" id="messageInput" placeholder="メッセージを入力">
+        <button onclick="showMessageBox()">メッセージを表示</button>
+        <div id="messageBox" class="message-box" style="display:none;">
+            <div class="message-box-header" id="messageBoxHeader">
+                <span id="messageBoxTitle">メッセージ</span>
+                <button class="close-btn" onclick="closeMessageBox()">×</button>
+            </div>
+            <div class="message-box-body" id="messageBoxContent"></div>
+            <button onclick="closeMessageBox()">OK</button>
+        </div>
+    </main>
+    <script>
+        function showMessageBox() {
+            var title = document.getElementById('titleInput').value;
+            var message = document.getElementById('messageInput').value;
+            document.getElementById('messageBoxTitle').innerText = title;
+            document.getElementById('messageBoxContent').innerText = message;
+            document.getElementById('messageBox').style.display = 'block';
+            dragElement(document.getElementById("messageBox"));
+        }
+
+        function closeMessageBox() {
+            document.getElementById('messageBox').style.display = 'none';
+        }
+
+        function dragElement(element) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(element.id + "Header")) {
+                document.getElementById(element.id + "Header").onmousedown = dragMouseDown;
+            } else {
+                element.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    </script>
+</body>
+</html>
