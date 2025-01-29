@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ カメラテスト</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="camera.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>カメラテスト</h1>
+        <video id="video" autoplay></video>
+        <br>
+        <button onclick="startCamera()">カメラを開始する</button>
+    </main>
+    <script>
+        function startCamera() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    var video = document.getElementById('video');
+                    video.srcObject = stream;
+                })
+                .catch(function(error) {
+                    console.log('カメラを起動できませんでした:', error);
+                });
+        }
+    </script>
+</body>
+</html>
