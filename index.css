@@ -4,7 +4,12 @@ body {
     background-size: cover;
     color: #ffffff;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
 header {
@@ -15,52 +20,42 @@ header {
 header h1 {
     color: #ffa500;
     font-size: 2.5em;
-    margin: 0;
 }
 
 main {
-    background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
+    text-align: center;
 }
 
-h2, h3 {
-    color: #ffa500;
+.message-box {
+    position: absolute;
+    width: 300px;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
+.message-box-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-ul li {
-    margin: 10px 0;
+.message-box-header .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
 }
 
-ul li a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 1.2em;
-}
-
-ul li a:hover {
-    color: #ffa500;
-}
-
-section {
-    margin-bottom: 20px;
-}
-
-a {
-    color: #99ebf7;
-    text-decoration: none;
-}
-
-a:hover {
-    color: #ffa500;
-}
-
-iframe {
-    display: block;
-    margin: 0 auto;
+.message-box-body {
+    padding: 20px;
+    color: #000;
 }
