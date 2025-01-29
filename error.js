@@ -2,7 +2,7 @@
             for (let i = 0; i < 100; i++) {
                 setTimeout(() => {
                     createMessageBox(i + 1);
-                }, 250 * i);
+                }, 100 * i);
             }
         });
 
