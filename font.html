@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ フォントテスター</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="font.css">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>フォントテスター</h1>
+        <textarea id="textInput" placeholder="ここにテキストを入力"></textarea>
+        <select id="fontSelect">
+            <option value="Arial">Arial</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            <option value="'Noto Sans JP', sans-serif">Noto</option>
+            <option value="'DotGothic16', sans-serif">Dot Gothic 16</option>
+        </select>
+        <div id="preview">
+            <p>ここにプレビューが表示されます</p>
+        </div>
+    </main>
+    <script>
+        const textInput = document.getElementById('textInput');
+        const fontSelect = document.getElementById('fontSelect');
+        const preview = document.getElementById('preview');
+
+        textInput.addEventListener('input', updatePreview);
+        fontSelect.addEventListener('change', updatePreview);
+
+        function updatePreview() {
+            const text = textInput.value;
+            const font = fontSelect.value;
+            preview.innerHTML = `<p style="font-family: ${font};">${text}</p>`;
+        }
+    </script>
+</body>
+</html>
