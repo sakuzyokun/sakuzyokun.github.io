@@ -19,3 +19,7 @@ function moveMessageBox() {
     messageBox.style.left = `${x}px`;
     messageBox.style.top = `${y}px`;
 }
+
+function web() {
+    window.open('YouTube.html', '_blank');
+}
