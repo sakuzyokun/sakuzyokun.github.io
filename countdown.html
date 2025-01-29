@@ -18,6 +18,14 @@
     <main>
         <h1>カウントダウンタイマー</h1>
         <input type="datetime-local" id="target-time">
+        <label>
+            <input type="checkbox" id="exclude-weekdays">
+            平日含まない
+        </label>
+        <label>
+            <input type="checkbox" id="exclude-holidays">
+            祝日含まない
+        </label>
         <button onclick="startCountdown()">カウントダウン開始</button>
         <div class="timer" id="countdown"></div>
     </main>
@@ -31,10 +39,18 @@
                 return;
             }
 
+            const excludeWeekdays = document.getElementById('exclude-weekdays').checked;
+            const excludeHolidays = document.getElementById('exclude-holidays').checked;
+
             clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
                 const now = new Date();
-                const distance = targetTime - now;
+                let distance = targetTime - now;
+
+                if (excludeWeekdays || excludeHolidays) {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    distance -= calculateExclusions(now, targetTime, days, excludeWeekdays, excludeHolidays) * (1000 * 60 * 60 * 24);
+                }
 
                 if (distance < 0) {
                     clearInterval(countdownInterval);
@@ -46,10 +62,28 @@
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                const milliseconds = Math.floor((distance % 1000) / 1);
 
                 document.getElementById('countdown').innerText =
-                    `${days}日 ${hours}時間 ${minutes}分 ${seconds}秒`;
-            }, 1000);
+                    `${days}日 ${hours}時間 ${minutes}分 ${seconds}秒 ${milliseconds}ミリ秒`;
+            }, 1);
+        }
+
+        function calculateExclusions(start, end, days, excludeWeekdays, excludeHolidays) {
+            let excludedDays = 0;
+            const holidays = ["2025-01-01", "2025-01-13"]; // Add more holidays as needed
+
+            for (let i = 0; i < days; i++) {
+                const currentDate = new Date(start.getTime() + i * (1000 * 60 * 60 * 24));
+                const dayOfWeek = currentDate.getDay();
+                const formattedDate = currentDate.toISOString().split('T')[0];
+
+                if ((excludeWeekdays && (dayOfWeek === 0 || dayOfWeek === 6)) || (excludeHolidays && holidays.includes(formattedDate))) {
+                    excludedDays++;
+                }
+            }
+
+            return excludedDays;
         }
     </script>
 </body>
