@@ -1,6 +1,8 @@
 window.addEventListener('load', function() {
     for (let i = 0; i < 100; i++) {
+        setTimeout(() => {
         createMessageBox(i + 1);
+        }, 250);
     }
 });
 
