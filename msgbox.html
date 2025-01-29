@@ -18,7 +18,7 @@
     <main>
         <h1>メッセージボックス</h1>
         <input type="text" id="titleInput" placeholder="タイトルを入力">
-        <input type="text" id="messageInput" placeholder="メッセージを入力">
+        <textarea id="messageInput" placeholder="メッセージを入力" rows="4"></textarea>
         <button onclick="showMessageBox()">メッセージを表示</button>
         <div id="messageBox" class="message-box" style="display:none;">
             <div class="message-box-header" id="messageBoxHeader">
@@ -32,9 +32,9 @@
     <script>
         function showMessageBox() {
             var title = document.getElementById('titleInput').value;
-            var message = document.getElementById('messageInput').value;
+            var message = document.getElementById('messageInput').value.replace(/\n/g, '<br>');
             document.getElementById('messageBoxTitle').innerText = title;
-            document.getElementById('messageBoxContent').innerText = message;
+            document.getElementById('messageBoxContent').innerHTML = message;
             document.getElementById('messageBox').style.display = 'block';
             dragElement(document.getElementById("messageBox"));
         }
