@@ -4,12 +4,8 @@ body {
     background-size: cover;
     color: #ffffff;
     margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
+    padding: 20px;
+    text-align: center;
 }
 
 header {
@@ -20,17 +16,55 @@ header {
 header h1 {
     color: #ffa500;
     font-size: 2.5em;
+    margin: 0;
+}
+
+header .home-link {
+    display: block;
+    margin-top: 10px;
+    color: #ffa500;
+    font-size: 1.5em;
+    text-decoration: none;
 }
 
 main {
-    padding: 20px;
     background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
     border-radius: 10px;
     text-align: center;
 }
 
+h1, h2, h3 {
+    color: #ffa500;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+}
+
+ul li a {
+    color: #ffa500;
+    text-decoration: none;
+}
+
+ul li a:hover {
+    text-decoration: underline;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
 .message-box {
-    position: absolute;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 300px;
     padding: 10px;
     background-color: #f8f8f8;
@@ -58,4 +92,18 @@ main {
 .message-box-body {
     padding: 20px;
     color: #000;
+}
+
+.message-box button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.message-box button:hover {
+    background-color: #0056b3;
 }
