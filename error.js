@@ -1,5 +1,5 @@
 window.addEventListener('load', function() {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
         createMessageBox(i + 1);
     }
 });
@@ -23,7 +23,7 @@ function createMessageBox(index) {
 
     const body = document.createElement('div');
     body.className = 'message-box-body';
-    body.innerHTML = 'ランダムな場所に表示されるメッセージボックス';
+    body.innerHTML = 'あなたの電子機器が壊れそうです\n※ジョークです';
 
     header.appendChild(closeButton);
     messageBox.appendChild(header);
