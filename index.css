@@ -111,12 +111,12 @@ iframe {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: #ffa500;
     color: #fff;
     font-size: 1em;
     cursor: pointer;
 }
 
 .message-box button:hover {
-    background-color: #0056b3;
+    background-color: #ff7f00;
 }
