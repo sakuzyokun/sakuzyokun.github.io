@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <header>
@@ -28,6 +29,8 @@
             <div class="message-box-body" id="messageBoxContent"></div>
             <button onclick="closeMessageBox()">OK</button>
         </div>
+        <button onclick="captureScreenshot()">スクリーンショットを撮る</button>
+        <div id="screenshotResult"></div>
     </main>
     <script>
         function showMessageBox() {
@@ -75,6 +78,14 @@
                 document.onmouseup = null;
                 document.onmousemove = null;
             }
+        }
+
+        function captureScreenshot() {
+            html2canvas(document.getElementById('messageBox')).then(function(canvas) {
+                var screenshotResult = document.getElementById('screenshotResult');
+                screenshotResult.innerHTML = '';
+                screenshotResult.appendChild(canvas);
+            });
         }
     </script>
 </body>
