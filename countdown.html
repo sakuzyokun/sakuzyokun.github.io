@@ -26,6 +26,10 @@
             <input type="checkbox" id="exclude-holidays">
             祝日含まない
         </label>
+        <label>
+            <input type="checkbox" id="exclude-weekends">
+            休日含まない
+        </label>
         <button onclick="startCountdown()">カウントダウン開始</button>
         <div class="timer" id="countdown"></div>
     </main>
@@ -41,15 +45,16 @@
 
             const excludeWeekdays = document.getElementById('exclude-weekdays').checked;
             const excludeHolidays = document.getElementById('exclude-holidays').checked;
+            const excludeWeekends = document.getElementById('exclude-weekends').checked;
 
             clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
                 const now = new Date();
                 let distance = targetTime - now;
 
-                if (excludeWeekdays || excludeHolidays) {
+                if (excludeWeekdays || excludeHolidays || excludeWeekends) {
                     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    distance -= calculateExclusions(now, targetTime, days, excludeWeekdays, excludeHolidays) * (1000 * 60 * 60 * 24);
+                    distance -= calculateExclusions(now, targetTime, days, excludeWeekdays, excludeHolidays, excludeWeekends) * (1000 * 60 * 60 * 24);
                 }
 
                 if (distance < 0) {
@@ -69,7 +74,7 @@
             }, 1);
         }
 
-        function calculateExclusions(start, end, days, excludeWeekdays, excludeHolidays) {
+        function calculateExclusions(start, end, days, excludeWeekdays, excludeHolidays, excludeWeekends) {
             let excludedDays = 0;
             const holidays = ["2025-01-01", "2025-01-13"]; // Add more holidays as needed
 
@@ -78,7 +83,9 @@
                 const dayOfWeek = currentDate.getDay();
                 const formattedDate = currentDate.toISOString().split('T')[0];
 
-                if ((excludeWeekdays && (dayOfWeek === 0 || dayOfWeek === 6)) || (excludeHolidays && holidays.includes(formattedDate))) {
+                if ((excludeWeekdays && (dayOfWeek >= 1 && dayOfWeek <= 5)) ||
+                    (excludeHolidays && holidays.includes(formattedDate)) ||
+                    (excludeWeekends && (dayOfWeek === 0 || dayOfWeek === 6))) {
                     excludedDays++;
                 }
             }
