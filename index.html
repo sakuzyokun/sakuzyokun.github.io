@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>削除くんのホームページ</title>
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header>
@@ -31,7 +32,7 @@
                 <li><a href="emulator.html">&#x1f4bb;PCエミュレーター</a></li>
                 <li><a href="Scratch(4GB).html">&#x1f4e6;Scratch作品（4GB以上メモリ必須）</a></li>
                 <li><a href="Scratch.html">&#x1f4c4;Scratch作品（軽量化）</a></li>
-                <li><a href="creator.html">&#x1f468;&#x200d;&#x1f4bb;開発者</li>
+                <li><a href="creator.html">&#x1f468;&#x200d;&#x1f4bb;開発者</a></li>
                 <li><a href="game.html">&#x1f3ae;ゲーム</a></li>
                 <li><a href="AI.html">&#x1f4bb;AIに作ってもらったもの</a></li>
                 <li><a href="sakuzyo.html">&#x1f4bb;自分で作ったもの</a></li>
@@ -71,6 +72,16 @@
             <a href="Blog.html">ブログ</a>
             <p>いや上にもあったよ!</p>
         </section>
+        <div id="messageBox" class="message-box" style="display: none;">
+            <div class="message-box-header">
+                <span>メッセージ</span>
+                <button class="close-btn" onclick="closeMessageBox()">×</button>
+            </div>
+            <div class="message-box-body">
+                ランダムな場所に移動するメッセージボックス
+            </div>
+            <button onclick="closeMessageBox()">OK</button>
+        </div>
     </main>
 </body>
 </html>
