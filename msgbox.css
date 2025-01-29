@@ -40,7 +40,8 @@ h1 {
     color: #ffa500;
 }
 
-input[type="text"] {
+input[type="text"],
+textarea {
     padding: 10px;
     margin: 10px 0;
     width: 80%;
@@ -74,11 +75,10 @@ button:hover {
     background-color: #f8f8f8;
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: none;
 }
 
 .message-box-header {
-    background-color: #ffa500
+    background-color: #ffa500; /* Updated to the desired color */
     color: #fff;
     padding: 10px;
     cursor: move;
@@ -100,4 +100,12 @@ button:hover {
     margin-bottom: 20px;
     color: #000;
     text-align: left;
+}
+
+.message-box button {
+    padding: 10px 20px;
+}
+
+#screenshotResult {
+    margin-top: 20px;
 }
