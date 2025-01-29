@@ -2,7 +2,7 @@
             for (let i = 0; i < 100; i++) {
                 setTimeout(() => {
                     createMessageBox(i + 1);
-                }, 100 * i);
+                }, 250 * i);
             }
         });
 
@@ -25,10 +25,21 @@
 
             const body = document.createElement('div');
             body.className = 'message-box-body';
-            body.innerHTML = 'あなたの電子機器が壊れそうです\n※ジョークです';
+            body.innerHTML = 'あなたの電子機器が壊れそうです<br>※ジョークです';
+            const img = document.createElement('img');
+            img.src = 'image/error.png'; // error.png へのパスを指定
+            img.alt = 'エラー画像';
 
+            body.appendChild(img);
             header.appendChild(closeButton);
             messageBox.appendChild(header);
             messageBox.appendChild(body);
             document.body.appendChild(messageBox);
+
+            playErrorSound();
+        }
+
+        function playErrorSound() {
+            const audio = new Audio('image/error.wav'); // error.mp3 へのパスを指定
+            audio.play();
         }
