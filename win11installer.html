@@ -20,6 +20,10 @@
             width: 600px;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+        .installer.active {
+            display: block;
         }
         .installer h2 {
             color: #0078d7;
@@ -78,7 +82,8 @@
     </style>
 </head>
 <body>
-    <div class="installer">
+    <!-- 1st Screen: Language Selection -->
+    <div class="installer active" id="screen1">
         <h2>言語設定を選択</h2>
         <form>
             <div class="form-group">
@@ -103,9 +108,42 @@
                     <a href="#">サポート</a>
                     <a href="#">法的事項</a>
                 </div>
-                <button type="button" class="next">次へ (N)</button>
+                <button type="button" class="next" onclick="nextScreen()">次へ (N)</button>
             </div>
         </form>
     </div>
+
+    <!-- 2nd Screen: Disk Selection -->
+    <div class="installer" id="screen2">
+        <h2>インストール先を選択</h2>
+        <p>インストール先のディスクを選択してください。</p>
+        <div class="form-group">
+            <select>
+                <option>ディスク 0 (空き領域: 500GB)</option>
+                <option>ディスク 1 (空き領域: 250GB)</option>
+                <option>ディスク 2 (空き領域: 1TB)</option>
+            </select>
+        </div>
+        <div class="footer">
+            <button type="button" class="back" onclick="prevScreen()">戻る (B)</button>
+            <div class="links">
+                <a href="#">サポート</a>
+                <a href="#">法的事項</a>
+            </div>
+            <button type="button" class="next">次へ (N)</button>
+        </div>
+    </div>
+
+    <script>
+        function nextScreen() {
+            document.getElementById('screen1').classList.remove('active');
+            document.getElementById('screen2').classList.add('active');
+        }
+
+        function prevScreen() {
+            document.getElementById('screen2').classList.remove('active');
+            document.getElementById('screen1').classList.add('active');
+        }
+    </script>
 </body>
 </html>
