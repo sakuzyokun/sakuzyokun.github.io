@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows 11 風インストーラー</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f3f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .installer {
+            background: white;
+            padding: 20px;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .progress {
+            width: 100%;
+            background: #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .progress-bar {
+            width: 10%;
+            height: 10px;
+            background: #0078d7;
+            border-radius: 5px;
+            transition: width 0.5s;
+        }
+        .button {
+            padding: 10px 20px;
+            background: #0078d7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="installer">
+        <h2>Windows 11 インストール</h2>
+        <p id="status">インストールを開始するには「次へ」を押してください。</p>
+        <div class="progress">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <button class="button" id="nextButton">次へ</button>
+    </div>
+
+    <script>
+        let progress = 10;
+        document.getElementById('nextButton').addEventListener('click', function() {
+            if (progress < 100) {
+                progress += 30;
+                document.getElementById('progress-bar').style.width = progress + '%';
+                document.getElementById('status').innerText = `インストール進行中... ${progress}%`;
+                if (progress >= 100) {
+                    document.getElementById('status').innerText = 'インストールが完了しました！';
+                    this.disabled = true;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
