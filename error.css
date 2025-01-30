@@ -68,3 +68,10 @@ h1, h2, h3 {
     padding: 10px;
     color: #000;
 }
+
+.message-box-body img {
+    width: 50px; /* 画像の幅を小さくする */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
