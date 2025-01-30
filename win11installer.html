@@ -3,75 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows 11 風インストーラー</title>
+    <title>Windows 11 セットアップ</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f3f3;
+            background-color: #1a1a7e;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
         .installer {
             background: white;
-            padding: 20px;
-            width: 400px;
+            padding: 20px 30px;
+            width: 600px;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
-        .progress {
+        .installer h2 {
+            color: #0078d7;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        .form-group select {
             width: 100%;
-            background: #ddd;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
             border-radius: 5px;
-            margin: 20px 0;
         }
-        .progress-bar {
-            width: 10%;
-            height: 10px;
-            background: #0078d7;
-            border-radius: 5px;
-            transition: width 0.5s;
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
         }
-        .button {
+        .footer button {
             padding: 10px 20px;
-            background: #0078d7;
-            color: white;
+            font-size: 1rem;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
         }
-        .button:disabled {
+        .footer button.back {
+            background: #f3f3f3;
+            color: #000;
+        }
+        .footer button.next {
+            background: #0078d7;
+            color: white;
+        }
+        .footer button:disabled {
             background: #ccc;
             cursor: not-allowed;
+        }
+        .footer .links {
+            font-size: 0.9rem;
+            color: #555;
+        }
+        .footer .links a {
+            color: #0078d7;
+            text-decoration: none;
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
     <div class="installer">
-        <h2>Windows 11 インストール</h2>
-        <p id="status">インストールを開始するには「次へ」を押してください。</p>
-        <div class="progress">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        <button class="button" id="nextButton">次へ</button>
+        <h2>言語設定を選択</h2>
+        <form>
+            <div class="form-group">
+                <label for="language">インストールする言語</label>
+                <select id="language">
+                    <option>日本語 (日本)</option>
+                    <option>English (United States)</option>
+                    <option>中文 (中国)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="format">時刻と通貨の形式</label>
+                <select id="format">
+                    <option>日本語 (日本)</option>
+                    <option>English (United States)</option>
+                    <option>中文 (中国)</option>
+                </select>
+            </div>
+            <div class="footer">
+                <button type="button" class="back" disabled>戻る (B)</button>
+                <div class="links">
+                    <a href="#">サポート</a>
+                    <a href="#">法的事項</a>
+                </div>
+                <button type="button" class="next">次へ (N)</button>
+            </div>
+        </form>
     </div>
-
-    <script>
-        let progress = 10;
-        document.getElementById('nextButton').addEventListener('click', function() {
-            if (progress < 100) {
-                progress += 30;
-                document.getElementById('progress-bar').style.width = progress + '%';
-                document.getElementById('status').innerText = `インストール進行中... ${progress}%`;
-                if (progress >= 100) {
-                    document.getElementById('status').innerText = 'インストールが完了しました！';
-                    this.disabled = true;
-                }
-            }
-        });
-    </script>
 </body>
 </html>
