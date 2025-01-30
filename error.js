@@ -40,6 +40,6 @@
         }
 
         function playErrorSound() {
-            const audio = new Audio('image/error.wav'); // error.mp3 へのパスを指定
+            const audio = new Audio('image/error.mp3'); // error.mp3 へのパスを指定
             audio.play();
         }
