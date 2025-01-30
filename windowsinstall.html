@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows XP Installer</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "MS Gothic", sans-serif;
+            background-color: #000080;
+            color: white;
+            overflow: hidden;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .header {
+            text-align: left;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #000070;
+            border: 1px solid white;
+        }
+        .content {
+            margin-top: 20px;
+            text-align: left;
+            padding: 10px;
+            background-color: #000090;
+            border: 1px solid white;
+        }
+        .progress-bar-container {
+            margin-top: 20px;
+            background-color: #000070;
+            border: 1px solid white;
+            height: 40px;
+            width: 90%;
+            position: relative;
+        }
+        .progress-bar {
+            background-color: yellow;
+            height: 100%;
+            width: 0%;
+            transition: width 1s linear;
+        }
+        .progress-percentage {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: black;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 10px;
+            text-align: right;
+            font-size: 14px;
+            background-color: #000070;
+            padding: 5px;
+            border: 1px solid white;
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #000070;
+            color: white;
+            border: 1px solid white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="setup-start">
+        <div class="header">
+            Windows XP Home Edition セットアップ
+        </div>
+        <div class="content">
+            セットアップの開始<br><br>
+            セットアップ プログラムのこの部分では、Microsoft(R) Windows(R) XP のインストールと設定を準備します。<br><br>
+            ・Windows XP のセットアップを開始するには、Enter キーを押してください。<br>
+            ・インストール済みの Windows XP を回復コンソールを使って修復するには、R キーを押してください。<br>
+            ・Windows XP をインストールしないでセットアップを終了するには、F3 キーを押してください。
+        </div>
+        <button class="button" onclick="startInstallation()">続行</button>
+    </div>
+
+    <div class="container hidden" id="file-copy">
+        <div class="header">
+            Windows XP Professional セットアップ
+        </div>
+        <div class="content">
+            Windows インストールフォルダにファイルをコピーしています。<br>
+            しばらくお待ちください。<br>
+            これには、少々時間がかかることがあります。
+
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+                <div class="progress-percentage" id="progress-percentage">0%</div>
+            </div>
+        </div>
+        <div class="footer" id="file-name">
+            コピー中: driver.cab
+        </div>
+    </div>
+
+    <div class="container hidden" id="reboot-screen">
+        <div class="header">
+            Windows XP Professional セットアップ
+        </div>
+        <div class="content">
+            ここまでのセットアップは正常に終了しました。<br>
+            ドライブ A: にフロッピーディスクがある場合は、取り出してください。<br><br>
+            コンピュータを再起動するには、Enter キーを押してください。<br>
+            コンピュータが再起動すると、セットアップは続行されます。
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="reboot-progress-bar"></div>
+            <div class="progress-percentage" id="reboot-progress-percentage">10 秒</div>
+        </div>
+        <div class="footer">
+            コンピュータを <span id="reboot-timer">10</span> 秒後に再起動します...
+        </div>
+    </div>
+
+    <div class="container hidden" id="initial-setup">
+        <div class="header">
+            Windows XP 初期設定
+        </div>
+        <div class="content">
+            ようこそ、Windows XP の初期設定を開始します。以下の設定を行ってください。<br><br>
+            1. ユーザー名を入力してください:<br>
+            <input type="text" id="username" placeholder="ユーザー名" style="width: 60%; padding: 5px;"><br><br>
+            2. インターネット接続を設定しますか？<br>
+            <button class="button">はい</button>
+            <button class="button">いいえ</button><br><br>
+            設定が完了したら、[完了] をクリックしてセットアップを終了してください。
+        </div>
+        <button class="button" onclick="completeSetup()">完了</button>
+    </div>
+
+    <script>
+        let progress = 0; // Initial progress percentage
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercentage = document.getElementById('progress-percentage');
+        const fileName = document.getElementById('file-name');
+        const setupStart = document.getElementById('setup-start');
+        const fileCopy = document.getElementById('file-copy');
+        const rebootScreen = document.getElementById('reboot-screen');
+        const rebootTimer = document.getElementById('reboot-timer');
+        const rebootProgressBar = document.getElementById('reboot-progress-bar');
+        const rebootProgressPercentage = document.getElementById('reboot-progress-percentage');
+        const initialSetup = document.getElementById('initial-setup');
+
+        function generateRandomFileName() {
+            const prefixes = ["system", "driver", "config", "kernel", "program"];
+            const extensions = [".dll", ".exe", ".sys", ".cab", ".ini"];
+            const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+            const randomNumber = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            const randomExtension = extensions[Math.floor(Math.random() * extensions.length)];
+            return `${randomPrefix}${randomNumber}${randomExtension}`;
+        }
+
+        function startInstallation() {
+            setupStart.classList.add('hidden');
+            fileCopy.classList.remove('hidden');
+            updateProgress();
+        }
+
+        function updateProgress() {
+            if (progress < 100) {
+                progress += Math.random() * 5; // Increment progress randomly
+                progressBar.style.width = Math.min(progress, 100) + '%';
+                progressPercentage.textContent = Math.min(progress, 100).toFixed(0) + '%';
+
+                // Update file name
+                fileName.textContent = "コピー中: " + generateRandomFileName();
+
+                setTimeout(updateProgress, 1000); // Update every second
+            } else {
+                setTimeout(showRebootScreen, 1000);
+            }
+        }
+
+        function showRebootScreen() {
+            fileCopy.classList.add('hidden');
+            rebootScreen.classList.remove('hidden');
+            startRebootCountdown();
+        }
+
+        function startRebootCountdown() {
+            let timer = 10;
+            const interval = setInterval(() => {
+                timer--;
+                rebootTimer.textContent = timer;
+                rebootProgressBar.style.width = ((10 - timer) / 10) * 100 + '%';
+                rebootProgressPercentage.textContent = timer + " 秒";
+
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    showInitialSetup();
+                }
+            }, 1000);
+        }
+
+        function showInitialSetup() {
+            rebootScreen.classList.add('hidden');
+            initialSetup.classList.remove('hidden');
+        }
+
+        function completeSetup() {
+            alert("セットアップが完了しました！ Windows XP を起動しています...");
+            window.location.href = "windowsXP"; // Simulates launching Windows XP
+        }
+
+        // Listen for Enter key to start installation or reboot
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                if (!setupStart.classList.contains('hidden')) {
+                    startInstallation();
+                } else if (!rebootScreen.classList.contains('hidden')) {
+                    showInitialSetup();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
