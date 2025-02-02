@@ -73,3 +73,7 @@ select {
     position: absolute;
     cursor: move;
 }
+
+.left-align {
+    text-align: left;
+}
