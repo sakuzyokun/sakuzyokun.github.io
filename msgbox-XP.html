@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ XP.cssメッセージボックス</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="msgbox-XP.css">
+    <link rel="stylesheet" href="https://unpkg.com/xp.css">
+    <script src="msgbox-XP.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>XP.cssメッセージボックス</h1>
+        <textarea id="customMessage" rows="4" cols="30" placeholder="ここにメッセージを入力してください"></textarea>
+        <br>
+        <input type="text" id="customTitle" placeholder="タイトルを入力してください">
+        <br>
+        <textarea id="customButtons" rows="2" cols="30" placeholder="ボタンのラベルをカンマで区切って入力"></textarea>
+        <br>
+        <button id="applyButton">適用</button>
+        <br>
+        <label for="buttonSet">ボタンセット: </label>
+        <select id="buttonSet">
+            <option value="minimize-maximize-close">最小化、最大化、閉じる</option>
+            <option value="minimize-restore-close">最小化、元のサイズに戻す、閉じる</option>
+            <option value="close">閉じる</option>
+        </select>
+    </main>
+    <div class="window" style="width: 300px;" id="messageBox">
+        <div class="title-bar" id="titleBar">
+            <div class="title-bar-text" id="titleText">メッセージ</div>
+            <div class="title-bar-controls" id="titleBarControls">
+                <button aria-label="Minimize"></button>
+                <button aria-label="Maximize" id="maximizeButton"></button>
+                <button aria-label="Close"></button>
+                <button aria-label="Restore" id="restoreButton" style="display: none;"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p id="message">これはカスタマイズ可能なメッセージボックスです。</p>
+        </div>
+        <div class="window-footer" id="buttonContainer">
+            <button>OK</button>
+            <button>キャンセル</button>
+        </div>
+    </div>
+</body>
+</html>
