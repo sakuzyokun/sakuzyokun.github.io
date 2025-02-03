@@ -1,5 +1,5 @@
 body {
-    background-image: url('https://wallpaperaccess.com/full/1329237.jpg');
+    background-image: url('https://consatech.wordpress.com/wp-content/uploads/2013/11/img0.jpg');
     background-size: cover;
 }
 
@@ -83,11 +83,6 @@ body {
     position: absolute;
     bottom: 50px; /* スタートボタンの上に表示するために調整 */
     left: 10px; /* スタートボタンと同じ位置に表示 */
-}
-
-.window .title-bar.inactive {
-    background-color: #a9a9a9;
-    color: #666;
 }
 
 .window-body textarea {
