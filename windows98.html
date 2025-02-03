@@ -4,8 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Windows 98風ページ</title>
-  <link rel="stylesheet" href="windows98.css">
-  <link rel="stylesheet" href="https://unpkg.com/98.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="window" id="my-window">
@@ -23,6 +22,17 @@
     </div>
   </div>
 
+  <div class="notepad hidden" id="notepad-window">
+    <div class="title-bar" onmousedown="dragStart(event)">
+      <div class="title-bar-text">メモ帳</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize" onclick="minimizeWindow('notepad-window', 'notepad-item')">-</button>
+        <button aria-label="Close" onclick="closeWindow('notepad-window')">×</button>
+      </div>
+    </div>
+    <textarea></textarea>
+  </div>
+
   <div class="taskbar">
     <button class="start-button" onclick="toggleStartMenu()">スタート</button>
     <div class="start-menu" id="start-menu">
@@ -34,21 +44,10 @@
         <li>終了</li>
       </ul>
     </div>
-    <div class="taskbar-item hidden" id="taskbar-item" onclick="restoreWindow()">My Computer</div>
-    <div class="taskbar-item hidden" id="notepad-item" onclick="restoreNotepad()">メモ帳</div>
+    <div class="taskbar-item hidden" id="taskbar-item" onclick="restoreWindow('my-window', 'taskbar-item')">My Computer</div>
+    <div class="taskbar-item hidden" id="notepad-item" onclick="restoreWindow('notepad-window', 'notepad-item')">メモ帳</div>
   </div>
 
-  <div class="notepad hidden" id="notepad-window">
-    <div class="title-bar" onmousedown="dragStart(event)">
-      <div class="title-bar-text">メモ帳</div>
-      <div class="title-bar-controls">
-        <button aria-label="Minimize" onclick="minimizeNotepad()">-</button>
-        <button aria-label="Close" onclick="closeNotepad()">×</button>
-      </div>
-    </div>
-    <textarea></textarea>
-  </div>
-
-  <script src="windows98.js"></script>
+  <script src="scripts.js"></script>
 </body>
 </html>
