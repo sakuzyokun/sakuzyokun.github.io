@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows 98</title>
     <link rel="stylesheet" href="https://unpkg.com/98.css">
-    <link rel="stylesheet" href="windows98.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="win98">
-    <div class="window" id="myWindow">
-        <div class="title-bar" onmousedown="dragStart(event, 'myWindow')">
+    <div class="window" id="myWindow" onmousedown="setActiveWindow('myWindow')">
+        <div class="title-bar">
             <div class="title-bar-text">マイコンピュータ</div>
             <div class="title-bar-controls">
                 <button aria-label="Minimize" onclick="minimizeWindow('myWindow', 'マイコンピュータ')"></button>
@@ -22,8 +22,8 @@
         </div>
     </div>
 
-    <div class="window" id="notepadWindow" style="display:none;">
-        <div class="title-bar" onmousedown="dragStart(event, 'notepadWindow')">
+    <div class="window" id="notepadWindow" style="display:none;" onmousedown="setActiveWindow('notepadWindow')">
+        <div class="title-bar">
             <div class="title-bar-text">メモ帳</div>
             <div class="title-bar-controls">
                 <button aria-label="Minimize" onclick="minimizeWindow('notepadWindow', 'メモ帳')"></button>
@@ -36,8 +36,8 @@
         </div>
     </div>
 
-    <div class="window" id="runWindow" style="display:none;">
-        <div class="title-bar" onmousedown="dragStart(event, 'runWindow')">
+    <div class="window" id="runWindow" style="display:none;" onmousedown="setActiveWindow('runWindow')" class="centered">
+        <div class="title-bar">
             <div class="title-bar-text">名前を指定して実行</div>
             <div class="title-bar-controls">
                 <button aria-label="Minimize" onclick="minimizeWindow('runWindow', '名前を指定して実行')"></button>
@@ -51,8 +51,8 @@
         </div>
     </div>
 
-    <div class="window" id="winverWindow" style="display:none;">
-        <div class="title-bar" onmousedown="dragStart(event, 'winverWindow')">
+    <div class="window" id="winverWindow" style="display:none;" onmousedown="setActiveWindow('winverWindow')">
+        <div class="title-bar">
             <div class="title-bar-text">Windows のバージョン情報</div>
             <div class="title-bar-controls">
                 <button aria-label="Close" onclick="closeWindow('winverWindow')"></button>
@@ -83,6 +83,6 @@
         </ul>
     </div>
 
-    <script src="windows98.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
