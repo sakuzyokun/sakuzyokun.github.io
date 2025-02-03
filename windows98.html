@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows 98</title>
     <link rel="stylesheet" href="https://unpkg.com/98.css">
-    <link rel="stylesheet" href="windows98.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="win98">
     <div class="window" id="myWindow">
@@ -64,13 +64,25 @@
     </div>
 
     <div class="taskbar">
-        <div class="start" onclick="openRun()">
+        <div class="start" onclick="toggleStartMenu()">
             <div class="start-icon"></div>
-            実行...
+            スタート
         </div>
         <div class="taskbar-windows" id="taskbarWindows"></div>
     </div>
 
-    <script src="windows98.js"></script>
+    <div class="start-menu" id="startMenu">
+        <ul>
+            <li onclick="openNotepad()">メモ帳</li>
+            <li onclick="openRun()">名前を指定して実行</li>
+            <li>プログラム</li>
+            <li>ドキュメント</li>
+            <li>設定</li>
+            <li>検索</li>
+            <li>ヘルプとサポート</li>
+        </ul>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
