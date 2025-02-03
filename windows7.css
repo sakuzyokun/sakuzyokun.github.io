@@ -11,6 +11,7 @@ body {
     background-color: #24ACEC;
     display: flex;
     align-items: center;
+    z-index: 1001;
 }
 
 .start {
@@ -39,6 +40,7 @@ body {
     background-color: white;
     border: 1px solid #000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1002;
 }
 
 .start-menu ul {
@@ -63,7 +65,7 @@ body {
 }
 
 .taskbar-windows .window-title {
-    background-color: #24ACEC; /* 非アクティブおよび最小化されたウィンドウの色 */
+    background-color: #24ACEC;
     border: none;
     margin: 0 5px;
     padding: 5px;
@@ -72,8 +74,8 @@ body {
 }
 
 .taskbar-windows .window-title.active {
-    background-color: #52D6FC; /* アクティブウィンドウの色 */
-    color: #fff;
+    background-color: #52D6FC;
+    color: white;
 }
 
 .window {
@@ -82,12 +84,11 @@ body {
     position: absolute;
     border: 1px solid #000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
-.centered {
-    position: absolute;
-    bottom: 50px; /* スタートボタンの上に表示するために調整 */
-    left: 10px; /* スタートボタンと同じ位置に表示 */
+.window.active {
+    z-index: 1000;
 }
 
 .window-body textarea {
