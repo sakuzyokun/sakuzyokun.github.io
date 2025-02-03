@@ -130,3 +130,9 @@ function openNotepad() {
   notepadItem.classList.add('hidden');
   setActive('notepad-window'); // メモ帳ウィンドウをアクティブに設定
 }
+
+document.querySelectorAll('.window').forEach(window => {
+  window.addEventListener('click', () => {
+    setActive(window.id);
+  });
+});
