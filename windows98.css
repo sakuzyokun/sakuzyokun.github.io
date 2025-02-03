@@ -1,0 +1,85 @@
+body {
+    background-color: #008080;
+}
+
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #C0C0C0;
+    display: flex;
+    align-items: center;
+}
+
+.start {
+    background-color: #008000;
+    color: white;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.start-icon {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    margin-right: 5px;
+}
+
+.start-menu {
+    display: none;
+    position: fixed;
+    bottom: 40px;
+    left: 10px;
+    width: 200px;
+    background-color: white;
+    border: 1px solid #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.start-menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 10px;
+}
+
+.start-menu ul li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.start-menu ul li:hover {
+    background-color: #ddd;
+}
+
+.taskbar-windows {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.taskbar-windows .window-title {
+    background-color: #c0c0c0;
+    border: none;
+    margin: 0 5px;
+    padding: 5px;
+    cursor: pointer;
+    color: #000;
+}
+
+.window {
+    resize: both;
+    overflow: auto;
+    position: absolute;
+    border: 1px solid #000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.window-body textarea {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
