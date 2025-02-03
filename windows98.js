@@ -1,5 +1,6 @@
 let isMaximized = false;
 let previousDimensions = {};
+let zIndexCounter = 10; // z-indexのカウンター
 
 function toggleStartMenu() {
   const startMenu = document.getElementById('start-menu');
@@ -108,6 +109,10 @@ function setActive(windowId) {
   const titleBar = windowElement.querySelector('.title-bar');
   titleBar.classList.add('active');
   titleBar.classList.remove('inactive');
+
+  // ウィンドウを最前面に表示
+  zIndexCounter++;
+  windowElement.style.zIndex = zIndexCounter;
 }
 
 function setInactive(windowId) {
