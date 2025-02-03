@@ -78,6 +78,14 @@ function openRun() {
     startMenu.style.display = 'none';
 }
 
+function runCommand() {
+    const commandInput = document.getElementById('commandInput').value;
+    if (commandInput.toLowerCase() === 'winver') {
+        const winverWindow = document.getElementById('winverWindow');
+        winverWindow.style.display = 'block';
+    }
+}
+
 function dragStart(event, windowId) {
     const window = document.getElementById(windowId);
     let shiftX = event.clientX - window.getBoundingClientRect().left;
