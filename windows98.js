@@ -15,6 +15,7 @@ function minimizeWindow(windowId, taskbarItemId) {
     windowElement.classList.remove('minimized');
     taskbarItem.classList.remove('hidden');
   }, 500); // アニメーションの時間に合わせて遅延
+  setInactive(windowId); // ウィンドウを非アクティブに設定
 }
 
 function restoreWindow(windowId, taskbarItemId) {
@@ -22,6 +23,7 @@ function restoreWindow(windowId, taskbarItemId) {
   const taskbarItem = document.getElementById(taskbarItemId);
   windowElement.classList.remove('hidden');
   taskbarItem.classList.add('hidden');
+  setActive(windowId); // ウィンドウをアクティブに設定
 }
 
 function maximizeWindow() {
@@ -59,13 +61,14 @@ function maximizeWindow() {
 function closeWindow(windowId) {
   const windowElement = document.getElementById(windowId);
   windowElement.style.display = 'none';
+  setInactive(windowId); // ウィンドウを非アクティブに設定
 }
 
 let offsetX, offsetY, draggedElement;
 
 function dragStart(event, windowId) {
   if (isMaximized) {
-    const windowElement = document.getElementById('my-window');
+    const windowElement = document.getElementById(windowId);
     windowElement.style.width = previousDimensions.width;
     windowElement.style.height = previousDimensions.height;
     windowElement.style.top = previousDimensions.top;
@@ -80,6 +83,8 @@ function dragStart(event, windowId) {
   offsetY = event.clientY - draggedElement.getBoundingClientRect().top;
   document.addEventListener('mousemove', dragMove);
   document.addEventListener('mouseup', dragEnd);
+
+  setActive(windowId); // ウィンドウをアクティブに設定
 }
 
 function dragMove(event) {
@@ -92,10 +97,26 @@ function dragEnd() {
   document.removeEventListener('mouseup', dragEnd);
 }
 
+function setActive(windowId) {
+  const allWindows = document.querySelectorAll('.window');
+  allWindows.forEach(win => win.classList.remove('active'));
+  allWindows.forEach(win => win.classList.add('inactive'));
+  const windowElement = document.getElementById(windowId);
+  windowElement.classList.add('active');
+  windowElement.classList.remove('inactive');
+}
+
+function setInactive(windowId) {
+  const windowElement = document.getElementById(windowId);
+  windowElement.classList.add('inactive');
+  windowElement.classList.remove('active');
+}
+
 // メモ帳関連の関数
 function openNotepad() {
   const notepadWindow = document.getElementById('notepad-window');
   notepadWindow.classList.remove('hidden');
   const notepadItem = document.getElementById('notepad-item');
   notepadItem.classList.add('hidden');
+  setActive('notepad-window'); // メモ帳ウィンドウをアクティブに設定
 }
