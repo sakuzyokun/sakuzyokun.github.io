@@ -8,13 +8,13 @@ body {
     bottom: 0;
     width: 100%;
     height: 40px;
-    background-color: #1890DF;
+    background-color: #C0C0C0;
     display: flex;
     align-items: center;
 }
 
 .start {
-    background-color: #0000FF;
+    background-color: #008000;
     color: white;
     padding: 5px 10px;
     margin: 5px;
@@ -63,12 +63,17 @@ body {
 }
 
 .taskbar-windows .window-title {
-    background-color: #1890DF;
+    background-color: #C0C0C0; /* 非アクティブおよび最小化されたウィンドウの色 */
     border: none;
     margin: 0 5px;
     padding: 5px;
     cursor: pointer;
-    color: #FFF;
+    color: #000;
+}
+
+.taskbar-windows .window-title.active {
+    background-color: #0055A5; /* アクティブウィンドウの色 */
+    color: #fff;
 }
 
 .window {
