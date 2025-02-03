@@ -5,85 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows XP</title>
     <link rel="stylesheet" href="https://unpkg.com/xp.css">
-    <style>
-        body {
-            background-image: url('https://asset.watch.impress.co.jp/img/wf/docs/1551/165/image2.png');
-            background-size: cover;
-        }
-        .taskbar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            height: 40px;
-            background-color: #3232FF; /* 明るい青 */
-            display: flex;
-            align-items: center;
-        }
-        .start {
-            background-color: #008000;
-            color: white;
-            padding: 5px 10px;
-            margin: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-        }
-        .start-icon {
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            margin-right: 5px;
-        }
-        .start-menu {
-            display: none;
-            position: fixed;
-            bottom: 40px;
-            left: 10px;
-            width: 200px;
-            background-color: white;
-            border: 1px solid #000;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        .start-menu ul {
-            list-style: none;
-            margin: 0;
-            padding: 10px;
-        }
-        .start-menu ul li {
-            padding: 5px;
-            cursor: pointer;
-        }
-        .start-menu ul li:hover {
-            background-color: #ddd;
-        }
-        .taskbar-windows {
-            display: flex;
-            align-items: center;
-            margin-left: 20px;
-        }
-        .taskbar-windows .window-title {
-            background-color: #3232FF;
-            border: none;
-            margin: 0 5px;
-            padding: 5px;
-            cursor: pointer;
-            color: #000;
-        }
-        .window {
-            resize: both;
-            overflow: auto;
-            position: absolute;
-        }
-        .window-body textarea {
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-        }
-    </style>
+    <link rel="stylesheet" href="windowsXP.css">
 </head>
 <body class="xp">
-    <div class="window" id="myWindow">
-        <div class="title-bar" onmousedown="dragStart(event, 'myWindow')">
+    <div class="window" id="myWindow" onmousedown="setActiveWindow('myWindow')">
+        <div class="title-bar">
             <div class="title-bar-text">マイコンピュータ</div>
             <div class="title-bar-controls">
                 <button aria-label="Minimize" onclick="minimizeWindow('myWindow', 'マイコンピュータ')"></button>
@@ -96,8 +22,8 @@
         </div>
     </div>
 
-    <div class="window" id="notepadWindow" style="display:none;">
-        <div class="title-bar" onmousedown="dragStart(event, 'notepadWindow')">
+    <div class="window" id="notepadWindow" style="display:none;" onmousedown="setActiveWindow('notepadWindow')">
+        <div class="title-bar">
             <div class="title-bar-text">メモ帳</div>
             <div class="title-bar-controls">
                 <button aria-label="Minimize" onclick="minimizeWindow('notepadWindow', 'メモ帳')"></button>
@@ -107,6 +33,33 @@
         </div>
         <div class="window-body">
             <textarea></textarea>
+        </div>
+    </div>
+
+    <div class="window" id="runWindow" style="display:none;" onmousedown="setActiveWindow('runWindow')" class="centered">
+        <div class="title-bar">
+            <div class="title-bar-text">名前を指定して実行</div>
+            <div class="title-bar-controls">
+                <button aria-label="Minimize" onclick="minimizeWindow('runWindow', '名前を指定して実行')"></button>
+                <button aria-label="Maximize" onclick="maximizeWindow('runWindow')"></button>
+                <button aria-label="Close" onclick="closeWindow('runWindow')"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <input type="text" id="commandInput" placeholder="プログラム名を入力してください" style="width: 100%;">
+            <button onclick="runCommand()">実行</button>
+        </div>
+    </div>
+
+    <div class="window" id="winverWindow" style="display:none;" onmousedown="setActiveWindow('winverWindow')">
+        <div class="title-bar">
+            <div class="title-bar-text">Windows のバージョン情報</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="closeWindow('winverWindow')"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p>Microsoft Windows XP<br>Service Pack 3<br>&copy; 1981-2001 Microsoft Corp.</p>
         </div>
     </div>
 
@@ -121,107 +74,15 @@
     <div class="start-menu" id="startMenu">
         <ul>
             <li onclick="openNotepad()">メモ帳</li>
+            <li onclick="openRun()">名前を指定して実行</li>
             <li>プログラム</li>
             <li>ドキュメント</li>
             <li>設定</li>
             <li>検索</li>
             <li>ヘルプとサポート</li>
-            <li>実行...</li>
         </ul>
     </div>
 
-    <script>
-        let isMaximized = false;
-        let originalWidth, originalHeight, originalTop, originalLeft;
-
-        function toggleStartMenu() {
-            const startMenu = document.getElementById('startMenu');
-            startMenu.style.display = startMenu.style.display === 'none' ? 'block' : 'none';
-        }
-
-        function minimizeWindow(windowId, title) {
-            const window = document.getElementById(windowId);
-            const taskbarWindows = document.getElementById('taskbarWindows');
-            window.style.display = 'none';
-            const minimizedTitle = document.createElement('div');
-            minimizedTitle.className = 'window-title';
-            minimizedTitle.innerText = title;
-            minimizedTitle.onclick = function() {
-                window.style.display = 'block';
-                taskbarWindows.removeChild(minimizedTitle);
-            };
-            taskbarWindows.appendChild(minimizedTitle);
-        }
-
-        function maximizeWindow(windowId) {
-            const window = document.getElementById(windowId);
-            const textarea = window.querySelector('textarea');
-            if (isMaximized) {
-                window.style.width = originalWidth;
-                window.style.height = originalHeight;
-                window.style.top = originalTop;
-                window.style.left = originalLeft;
-                window.style.position = 'absolute';
-                if (textarea) {
-                    textarea.style.width = '100%';
-                    textarea.style.height = 'calc(100% - 30px)';
-                }
-                isMaximized = false;
-            } else {
-                originalWidth = window.style.width;
-                originalHeight = window.style.height;
-                originalTop = window.style.top;
-                originalLeft = window.style.left;
-                window.style.width = '100%';
-                window.style.height = '100%';
-                window.style.top = '0';
-                window.style.left = '0';
-                window.style.position = 'fixed';
-                if (textarea) {
-                    textarea.style.width = '100%';
-                    textarea.style.height = 'calc(100% - 30px)';
-                }
-                isMaximized = true;
-            }
-        }
-
-        function closeWindow(windowId) {
-            const window = document.getElementById(windowId);
-            window.style.display = 'none';
-        }
-
-        function openNotepad() {
-            const notepadWindow = document.getElementById('notepadWindow');
-            notepadWindow.style.display = 'block';
-            const startMenu = document.getElementById('startMenu');
-            startMenu.style.display = 'none';
-        }
-
-        function dragStart(event, windowId) {
-            const window = document.getElementById(windowId);
-            let shiftX = event.clientX - window.getBoundingClientRect().left;
-            let shiftY = event.clientY - window.getBoundingClientRect().top;
-
-            function moveAt(pageX, pageY) {
-                window.style.left = pageX - shiftX + 'px';
-                window.style.top = pageY - shiftY + 'px';
-            }
-
-            function onMouseMove(event) {
-                moveAt(event.pageX, event.pageY);
-            }
-
-            document.addEventListener('mousemove', onMouseMove);
-
-            window.onmouseup = function() {
-                document.removeEventListener('mousemove', onMouseMove);
-                window.onmouseup = null;
-            };
-        }
-
-        document.ondragstart = function() {
-            return false;
-        };
-    </script>
+    <script src="windowsXP.js"></script>
 </body>
 </html>
