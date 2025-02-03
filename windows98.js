@@ -63,9 +63,9 @@ function closeWindow(windowId) {
 
 let offsetX, offsetY, draggedElement;
 
-function dragStart(event) {
+function dragStart(event, windowId) {
   if (isMaximized) {
-    const windowElement = document.getElementById('my-window');
+    const windowElement = document.getElementById(windowId);
     windowElement.style.width = previousDimensions.width;
     windowElement.style.height = previousDimensions.height;
     windowElement.style.top = previousDimensions.top;
@@ -75,7 +75,7 @@ function dragStart(event) {
     maximizeButton.innerHTML = '□'; // ボタンを元のサイズに戻す
   }
 
-  draggedElement = event.target.closest('.window');
+  draggedElement = document.getElementById(windowId);
   offsetX = event.clientX - draggedElement.getBoundingClientRect().left;
   offsetY = event.clientY - draggedElement.getBoundingClientRect().top;
   document.addEventListener('mousemove', dragMove);
