@@ -11,7 +11,7 @@ function minimizeWindow(windowId, title) {
     const taskbarWindows = document.getElementById('taskbarWindows');
     window.style.display = 'none';
     const minimizedTitle = document.createElement('div');
-    minimizedTitle.className = 'window-title minimized';
+    minimizedTitle.className = 'window-title';
     minimizedTitle.innerText = title;
     minimizedTitle.onclick = function() {
         window.style.display = 'block';
@@ -119,7 +119,6 @@ document.ondragstart = function() {
 
 function setActiveWindow(windowId) {
     const windows = document.getElementsByClassName('window');
-    const taskbarWindows = document.getElementsByClassName('window-title');
     for (const win of windows) {
         if (win.id === windowId) {
             win.className = 'window active';
@@ -129,11 +128,12 @@ function setActiveWindow(windowId) {
             win.style.zIndex = '1';
         }
     }
+    const taskbarWindows = document.getElementsByClassName('window-title');
     for (const title of taskbarWindows) {
         if (title.innerText === document.getElementById(windowId).querySelector('.title-bar-text').innerText) {
-            title.className = 'window-title active';
+            title.classList.add('active');
         } else {
-            title.className = 'window-title';
+            title.classList.remove('active');
         }
     }
 }
