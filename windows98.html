@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Windows 98風ページ</title>
-  <link rel="stylesheet" href="windows98.css">
-  <link rel="stylesheet" href="https://unpkg.com/98.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="window" id="my-window">
-    <div class="title-bar" onmousedown="dragStart(event, 'my-window')">
+    <div class="title-bar active" onmousedown="dragStart(event, 'my-window')">
       <div class="title-bar-text">My Computer</div>
       <div class="title-bar-controls">
         <button aria-label="Minimize" onclick="minimizeWindow('my-window', 'taskbar-item')">-</button>
@@ -24,7 +23,7 @@
   </div>
 
   <div class="notepad hidden" id="notepad-window">
-    <div class="title-bar" onmousedown="dragStart(event, 'notepad-window')">
+    <div class="title-bar inactive" onmousedown="dragStart(event, 'notepad-window')">
       <div class="title-bar-text">メモ帳</div>
       <div class="title-bar-controls">
         <button aria-label="Minimize" onclick="minimizeWindow('notepad-window', 'notepad-item')">-</button>
@@ -49,6 +48,6 @@
     <div class="taskbar-item hidden" id="notepad-item" onclick="restoreWindow('notepad-window', 'notepad-item')">メモ帳</div>
   </div>
 
-  <script src="windows98.js"></script>
+  <script src="scripts.js"></script>
 </body>
 </html>
