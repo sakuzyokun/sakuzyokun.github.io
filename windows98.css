@@ -77,12 +77,19 @@ body {
   transition: all 0.5s ease; /* アニメーション追加 */
 }
 
-.window.active {
-  border: 2px solid blue; /* アクティブウィンドウの枠線色 */
+.title-bar {
+  background-color: #c0c0c0; /* デフォルトのタイトルバーの色 */
+  color: black;
 }
 
-.window.inactive {
-  border: 2px solid gray; /* 非アクティブウィンドウの枠線色 */
+.title-bar.active {
+  background-color: blue; /* アクティブ時のタイトルバーの色 */
+  color: white; /* アクティブ時の文字色 */
+}
+
+.title-bar.inactive {
+  background-color: gray; /* 非アクティブ時のタイトルバーの色 */
+  color: black; /* 非アクティブ時の文字色 */
 }
 
 .minimized {
@@ -98,6 +105,9 @@ body {
 .title-bar-controls button {
   width: 20px;
   height: 20px;
+  display: flex;
+  align-items: center; /* 垂直方向の中央揃え */
+  justify-content: center; /* 水平方向の中央揃え */
 }
 
 .notepad {
@@ -121,12 +131,3 @@ body {
   resize: none;
   font-family: monospace;
 }
-
-.title-bar-controls button {
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center; /* 垂直方向の中央揃え */
-  justify-content: center; /* 水平方向の中央揃え */
-}
-
