@@ -16,6 +16,7 @@ function minimizeWindow(windowId, title) {
     minimizedTitle.onclick = function() {
         window.style.display = 'block';
         taskbarWindows.removeChild(minimizedTitle);
+        setActiveWindow(windowId);
     };
     taskbarWindows.appendChild(minimizedTitle);
 }
@@ -74,6 +75,8 @@ function openNotepad() {
 function openRun() {
     const runWindow = document.getElementById('runWindow');
     runWindow.style.display = 'block';
+    runWindow.style.bottom = '50px'; // スタートボタンの上に表示
+    runWindow.style.left = '10px'; // スタートボタンと同じ位置に表示
     const startMenu = document.getElementById('startMenu');
     startMenu.style.display = 'none';
 }
@@ -113,3 +116,15 @@ function dragStart(event, windowId) {
 document.ondragstart = function() {
     return false;
 };
+
+function setActiveWindow(windowId) {
+    const windows = document.getElementsByClassName('window');
+    for (const win of windows) {
+        const titleBar = win.querySelector('.title-bar');
+        if (win.id === windowId) {
+            titleBar.classList.remove('inactive');
+        } else {
+            titleBar.classList.add('inactive');
+        }
+    }
+}
