@@ -6,9 +6,9 @@ function toggleStartMenu() {
   startMenu.style.display = startMenu.style.display === 'none' ? 'block' : 'none';
 }
 
-function minimizeWindow() {
-  const windowElement = document.getElementById('my-window');
-  const taskbarItem = document.getElementById('taskbar-item');
+function minimizeWindow(windowId, taskbarItemId) {
+  const windowElement = document.getElementById(windowId);
+  const taskbarItem = document.getElementById(taskbarItemId);
   windowElement.classList.add('minimized');
   setTimeout(() => {
     windowElement.classList.add('hidden');
@@ -17,9 +17,9 @@ function minimizeWindow() {
   }, 500); // アニメーションの時間に合わせて遅延
 }
 
-function restoreWindow() {
-  const windowElement = document.getElementById('my-window');
-  const taskbarItem = document.getElementById('taskbar-item');
+function restoreWindow(windowId, taskbarItemId) {
+  const windowElement = document.getElementById(windowId);
+  const taskbarItem = document.getElementById(taskbarItemId);
   windowElement.classList.remove('hidden');
   taskbarItem.classList.add('hidden');
 }
@@ -56,8 +56,8 @@ function maximizeWindow() {
   }, 500); // アニメーションの時間に合わせて遅延
 }
 
-function closeWindow() {
-  const windowElement = document.getElementById('my-window');
+function closeWindow(windowId) {
+  const windowElement = document.getElementById(windowId);
   windowElement.style.display = 'none';
 }
 
@@ -98,27 +98,4 @@ function openNotepad() {
   notepadWindow.classList.remove('hidden');
   const notepadItem = document.getElementById('notepad-item');
   notepadItem.classList.add('hidden');
-}
-
-function minimizeNotepad() {
-  const notepadWindow = document.getElementById('notepad-window');
-  const notepadItem = document.getElementById('notepad-item');
-  notepadWindow.classList.add('minimized');
-  setTimeout(() => {
-    notepadWindow.classList.add('hidden');
-    notepadWindow.classList.remove('minimized');
-    notepadItem.classList.remove('hidden');
-  }, 500); // アニメーションの時間に合わせて遅延
-}
-
-function restoreNotepad() {
-  const notepadWindow = document.getElementById('notepad-window');
-  const notepadItem = document.getElementById('notepad-item');
-  notepadWindow.classList.remove('hidden');
-  notepadItem.classList.add('hidden');
-}
-
-function closeNotepad() {
-  const notepadWindow = document.getElementById('notepad-window');
-  notepadWindow.style.display = 'none';
 }
