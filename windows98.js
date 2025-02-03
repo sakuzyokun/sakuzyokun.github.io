@@ -123,8 +123,10 @@ function setActiveWindow(windowId) {
         const titleBar = win.querySelector('.title-bar');
         if (win.id === windowId) {
             titleBar.classList.remove('inactive');
+            win.style.zIndex = '1000'; // 最前面に表示
         } else {
             titleBar.classList.add('inactive');
+            win.style.zIndex = '1';
         }
     }
 }
