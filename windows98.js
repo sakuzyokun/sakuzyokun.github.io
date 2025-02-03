@@ -80,6 +80,8 @@ function openRun() {
 
 function runCommand() {
     const commandInput = document.getElementById('commandInput').value;
+    const runWindow = document.getElementById('runWindow');
+    runWindow.style.display = 'none';
     if (commandInput.toLowerCase() === 'winver') {
         const winverWindow = document.getElementById('winverWindow');
         winverWindow.style.display = 'block';
