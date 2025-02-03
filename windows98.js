@@ -65,7 +65,7 @@ let offsetX, offsetY, draggedElement;
 
 function dragStart(event, windowId) {
   if (isMaximized) {
-    const windowElement = document.getElementById(windowId);
+    const windowElement = document.getElementById('my-window');
     windowElement.style.width = previousDimensions.width;
     windowElement.style.height = previousDimensions.height;
     windowElement.style.top = previousDimensions.top;
