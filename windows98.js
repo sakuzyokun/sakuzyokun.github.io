@@ -99,17 +99,22 @@ function dragEnd() {
 
 function setActive(windowId) {
   const allWindows = document.querySelectorAll('.window');
-  allWindows.forEach(win => win.classList.remove('active'));
-  allWindows.forEach(win => win.classList.add('inactive'));
+  allWindows.forEach(win => {
+    const titleBar = win.querySelector('.title-bar');
+    titleBar.classList.remove('active');
+    titleBar.classList.add('inactive');
+  });
   const windowElement = document.getElementById(windowId);
-  windowElement.classList.add('active');
-  windowElement.classList.remove('inactive');
+  const titleBar = windowElement.querySelector('.title-bar');
+  titleBar.classList.add('active');
+  titleBar.classList.remove('inactive');
 }
 
 function setInactive(windowId) {
   const windowElement = document.getElementById(windowId);
-  windowElement.classList.add('inactive');
-  windowElement.classList.remove('active');
+  const titleBar = windowElement.querySelector('.title-bar');
+  titleBar.classList.add('inactive');
+  titleBar.classList.remove('active');
 }
 
 // メモ帳関連の関数
