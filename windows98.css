@@ -78,6 +78,17 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+.centered {
+    position: absolute;
+    bottom: 50px; /* スタートボタンの上に表示するために調整 */
+    left: 10px; /* スタートボタンと同じ位置に表示 */
+}
+
+.window .title-bar.inactive {
+    background-color: #a9a9a9;
+    color: #666;
+}
+
 .window-body textarea {
     width: 100%;
     height: 100%;
