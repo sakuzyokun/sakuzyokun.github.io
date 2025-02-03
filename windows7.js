@@ -120,12 +120,11 @@ document.ondragstart = function() {
 function setActiveWindow(windowId) {
     const windows = document.getElementsByClassName('window');
     for (const win of windows) {
-        const titleBar = win.querySelector('.title-bar');
         if (win.id === windowId) {
-            titleBar.classList.remove('inactive');
+            win.className = 'window active';
             win.style.zIndex = '1000'; // 最前面に表示
         } else {
-            titleBar.classList.add('inactive');
+            win.className = 'window';
             win.style.zIndex = '1';
         }
     }
