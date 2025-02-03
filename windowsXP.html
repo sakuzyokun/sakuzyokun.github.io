@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="windowsXP.css">
 </head>
 <body class="xp">
-    <div class="window" id="myWindow" onmousedown="setActiveWindow('myWindow')">
+    <div class="window active" id="myWindow" onmousedown="setActiveWindow('myWindow')">
         <div class="title-bar">
             <div class="title-bar-text">マイコンピュータ</div>
             <div class="title-bar-controls">
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="window-body">
-            <p>これはxp.cssを使用して作成されたWindows XPスタイルのウィンドウです。</p>
+            <p>これはXP.cssを使用して作成されたWindows XPスタイルのウィンドウです。</p>
         </div>
     </div>
 
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="window" id="runWindow" style="display:none;" onmousedown="setActiveWindow('runWindow')" class="centered">
+    <div class="window" id="runWindow" style="display:none;" onmousedown="setActiveWindow('runWindow')">
         <div class="title-bar">
             <div class="title-bar-text">名前を指定して実行</div>
             <div class="title-bar-controls">
@@ -59,12 +59,12 @@
             </div>
         </div>
         <div class="window-body">
-            <p>Microsoft Windows XP<br>Service Pack 3<br>&copy; 1981-2001 Microsoft Corp.</p>
+            <p>Microsoft Windows XP<br>Version 5.1<br>&copy; 1981-2001 Microsoft Corp.</p>
         </div>
     </div>
 
-    <div class="taskbar">
-        <div class="start" onclick="toggleStartMenu()">
+    <div class="taskbar" id="taskbar">
+        <div class="start" id="startButton" onclick="toggleStartMenu()">
             <div class="start-icon"></div>
             スタート
         </div>
@@ -83,6 +83,6 @@
         </ul>
     </div>
 
-    <script src="windowsXP.js"></script>
+    <script src=windowsXP.js"></script>
 </body>
 </html>
