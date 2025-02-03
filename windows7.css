@@ -63,7 +63,7 @@ body {
 }
 
 .taskbar-windows .window-title {
-    background-color: #C0C0C0; /* 非アクティブおよび最小化されたウィンドウの色 */
+    background-color: #24ACEC; /* 非アクティブおよび最小化されたウィンドウの色 */
     border: none;
     margin: 0 5px;
     padding: 5px;
@@ -72,7 +72,7 @@ body {
 }
 
 .taskbar-windows .window-title.active {
-    background-color: #0055A5; /* アクティブウィンドウの色 */
+    background-color: #52D6FC; /* アクティブウィンドウの色 */
     color: #fff;
 }
 
