@@ -121,3 +121,12 @@ body {
   resize: none;
   font-family: monospace;
 }
+
+.title-bar-controls button {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center; /* 垂直方向の中央揃え */
+  justify-content: center; /* 水平方向の中央揃え */
+}
+
