@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブルースクリーン</title>
+    <style>
+        body {
+            background-color: #0078D7;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
+        }
+        .error-container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .sad-face {
+            font-size: 80px;
+        }
+        h1 {
+            font-size: 24px;
+        }
+        p {
+            font-size: 18px;
+        }
+        .qr-code {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="sad-face">:(</div>
+        <h1>お使いのPCは問題が発生したため、再起動する必要があります。</h1>
+        <p>エラー情報を収集しています。自動的に再起動します。</p>
+        <p>詳細については、以下のURLをご覧ください:</p>
+        <p>www.windows.com/stopcode</p><!--
+        <div class="qr-code">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Qr-404.png" alt="QR Code" width="150">
+        </div>-->
+        <p>停止コード: CRITICAL_PROCESS_DIED</p>
+    </div>
+</body>
+</html>
