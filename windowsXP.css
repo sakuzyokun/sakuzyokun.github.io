@@ -65,7 +65,7 @@ body {
 }
 
 .taskbar-windows .window-title {
-    background-color: #c0c0c0;
+    background-color: #0000AA;
     border: none;
     margin: 0 5px;
     padding: 5px;
@@ -74,7 +74,7 @@ body {
 }
 
 .taskbar-windows .window-title.active {
-    background-color: #0078d7;
+    background-color: #003CFF;
     color: white;
 }
 
