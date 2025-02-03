@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Windows 98</title>
     <link rel="stylesheet" href="https://unpkg.com/98.css">
-    <link rel="stylesheet" href="windows98.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="win98">
     <div class="window" id="myWindow">
@@ -46,14 +46,27 @@
             </div>
         </div>
         <div class="window-body">
-            <input type="text" placeholder="プログラム名を入力してください" style="width: 100%;">
+            <input type="text" id="commandInput" placeholder="プログラム名を入力してください" style="width: 100%;">
+            <button onclick="runCommand()">実行</button>
+        </div>
+    </div>
+
+    <div class="window" id="winverWindow" style="display:none;">
+        <div class="title-bar" onmousedown="dragStart(event, 'winverWindow')">
+            <div class="title-bar-text">Windows のバージョン情報</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="closeWindow('winverWindow')"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p>Microsoft Windows 98<br>Version 4.10.1998<br>&copy; 1981-1998 Microsoft Corp.</p>
         </div>
     </div>
 
     <div class="taskbar">
         <div class="start" onclick="toggleStartMenu()">
             <div class="start-icon"></div>
-            スタート
+            実行...
         </div>
         <div class="taskbar-windows" id="taskbarWindows"></div>
     </div>
@@ -71,6 +84,6 @@
         </ul>
     </div>
 
-    <script src="windows98.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
