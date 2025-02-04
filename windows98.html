@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="windows98.css">
 </head>
 <body class="win98">
-    <div class="window" id="myWindow" onmousedown="setActiveWindow('myWindow')">
+    <div class="window active" id="myWindow" onmousedown="setActiveWindow('myWindow')">
         <div class="title-bar">
             <div class="title-bar-text">マイコンピュータ</div>
             <div class="title-bar-controls">
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div class="window" id="runWindow" style="display:none;" onmousedown="setActiveWindow('runWindow')" class="centered">
+    <div class="window" id="runWindow" style="display:none;" onmousedown="setActiveWindow('runWindow')">
         <div class="title-bar">
             <div class="title-bar-text">名前を指定して実行</div>
             <div class="title-bar-controls">
@@ -63,8 +63,8 @@
         </div>
     </div>
 
-    <div class="taskbar">
-        <div class="start" onclick="toggleStartMenu()">
+    <div class="taskbar" id="taskbar">
+        <div class="start" id="startButton" onclick="toggleStartMenu()">
             <div class="start-icon"></div>
             スタート
         </div>
