@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERROR 408</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0078D7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .dialog {
+            width: 320px;
+            background: white;
+            border: 1px solid #888;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+        .dialog-header {
+            background: #0078D7;
+            color: white;
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        .dialog-header button {
+            background: none;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .dialog-content {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        .dialog-content img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .dialog-footer {
+            text-align: right;
+            padding: 10px;
+        }
+        .dialog-footer button {
+            padding: 5px 15px;
+            border: 1px solid #888;
+            background: #e0e0e0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="dialog">
+        <div class="dialog-header">
+            <span>ERROR 408</span>
+            <button onclick="closeDialog()">×</button>
+        </div>
+        <div class="dialog-content">
+            <img src="image/error.png" alt="error">
+            <span>Request Timeout. The server took too long to respond.</span>
+        </div>
+        <div class="dialog-footer">
+            <button onclick="closeDialog()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        function closeDialog() {
+            document.querySelector('.dialog').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
