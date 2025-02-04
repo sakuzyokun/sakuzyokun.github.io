@@ -3,12 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>削除くんのホームページ Google検索</title>
+    <title>削除くんのホームページ Web検索</title>
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="google.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -16,13 +13,30 @@
         <a href="index.html" class="home-link">ホームに戻る</a>
     </header>
     <main>
-        <h1>Google検索フォーム</h1>
-        <form action="https://www.google.com/search" method="get">
-            <label for="query">検索:</label>
-            <input type="text" id="query" name="q" required>
-            <button type="submit">Googleで検索</button>
+        <h1>Web検索</h1>
+        <form action="https://www.google.com/search" method="get" target="_blank">
+            <label for="google-search">Googleで検索:</label>
+            <input type="text" id="google-search" name="q">
+            <button type="submit">検索</button>
         </form>
-        <p>GoogleはGoogle LLCの商標です。</p>
+        <br>
+        <form action="https://www.youtube.com/results" method="get" target="_blank">
+            <label for="youtube-search">YouTubeで検索:</label>
+            <input type="text" id="youtube-search" name="search_query">
+            <button type="submit">検索</button>
+        </form>
+        <br>
+        <form action="https://search.yahoo.co.jp/search" method="get" target="_blank">
+            <label for="yahoo-search">Yahooで検索:</label>
+            <input type="text" id="yahoo-search" name="p">
+            <button type="submit">検索</button>
+        </form>
+        <br>
+        <form action="https://www.nicovideo.jp/search" method="get" target="_blank">
+            <label for="niconico-search">ニコニコで検索:</label>
+            <input type="text" id="niconico-search" name="q">
+            <button type="submit">検索</button>
+        </form>
     </main>
 </body>
 </html>
