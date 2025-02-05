@@ -324,15 +324,15 @@ function getDate() {
 
     // se il giorno/mese è meno di 10, allora si aggiunge uno 0 prima
     if (giorno < 10 && mese < 10) {
-        calendarioContainer.innerHTML = "0" + giorno + "/" + "0" + mese + "/" + anno;
+        calendarioContainer.innerHTML = anno + "/" + "0" + mese + "/" + "0" + giorno;
     } else
     if (giorno < 10) {
-        calendarioContainer.innerHTML = "0" + giorno + "/" + mese + "/" + anno;
+        calendarioContainer.innerHTML = anno + "/" + "0" + mese + "/" + giorno;
     } else
     if (mese < 10) {
-        calendarioContainer.innerHTML = giorno + "/" + "0" + mese + "/" + anno;
+        calendarioContainer.innerHTML = anno + "/" + mese + "/" + "0" + giorno;
     } else {
-        calendarioContainer.innerHTML = giorno + "/" + mese + "/" + anno;
+        calendarioContainer.innerHTML = anno + "/" + mese + "/" + giorno;
     }
 
     document.getElementById('sistema-data').title = orarioContainer.innerHTML + "  " + calendarioContainer.innerHTML;
