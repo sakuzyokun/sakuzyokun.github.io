@@ -14,6 +14,7 @@
             justify-content: space-between;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
         .top-bar {
             width: 100%;
@@ -21,16 +22,44 @@
             background: #444;
             display: flex;
             align-items: center;
-            justify-content: center;
+            padding: 0 10px;
             color: white;
             font-size: 14px;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .apple-logo {
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+        .menu {
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: 10px;
+            background: #333;
+            color: white;
+            border-radius: 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 10px;
+        }
+        .menu div {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .menu div:hover {
+            background: #555;
         }
         .window {
-            width: 400px;
+            width: 100%;
+            height: calc(100vh - 90px);
             background: #333;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             overflow: hidden;
+            margin-top: 30px;
         }
         .title-bar {
             display: flex;
@@ -57,7 +86,7 @@
             text-align: center;
         }
         .dock {
-            width: 80%;
+            width: 100%;
             height: 60px;
             background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
@@ -66,7 +95,9 @@
             justify-content: center;
             align-items: center;
             padding: 10px;
-            margin-bottom: 10px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
         }
         .dock-icon {
             width: 40px;
@@ -78,7 +109,14 @@
     </style>
 </head>
 <body>
-    <div class="top-bar">macOS Sequoia</div>
+    <div class="top-bar">
+        <div class="apple-logo" onclick="toggleMenu()"></div>
+        <div class="menu" id="menu">
+            <div onclick="alert('このMacについて')">このMacについて</div>
+            <div onclick="alert('特別にシャットダウン')">特別にシャットダウン</div>
+        </div>
+        macOS Sequoia
+    </div>
     <div class="window">
         <div class="title-bar">
             <div class="buttons">
@@ -98,5 +136,18 @@
         <div class="dock-icon"></div>
         <div class="dock-icon"></div>
     </div>
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+        document.addEventListener('click', function(event) {
+            var menu = document.getElementById('menu');
+            var appleLogo = document.querySelector('.apple-logo');
+            if (!menu.contains(event.target) && !appleLogo.contains(event.target)) {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
