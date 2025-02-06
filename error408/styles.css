@@ -59,3 +59,9 @@ body {
     color: white;
     margin-bottom: 10px;
 }
+
+.window-body img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
