@@ -95,6 +95,11 @@ body {
     height: 100%;
     box-sizing: border-box;
 }
+
+.title-bar {
+    cursor: move;
+}
+
 /*
 .title-bar.inactive {
     background: #C0C0C0;
