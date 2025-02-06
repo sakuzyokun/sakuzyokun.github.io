@@ -60,6 +60,11 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             margin-top: 30px;
+            transition: all 0.3s ease;
+        }
+        .window.minimized {
+            height: 50px;
+            width: 200px;
         }
         .title-bar {
             display: flex;
@@ -106,23 +111,53 @@
             border-radius: 8px;
             margin: 0 8px;
         }
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .dialog .dialog-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .dialog button {
+            background: #ffbd2e;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .dialog button:hover {
+            background: #ff9e1a;
+        }
     </style>
 </head>
 <body>
     <div class="top-bar">
         <div class="apple-logo" onclick="toggleMenu()"></div>
         <div class="menu" id="menu">
-            <div onclick="alert('このMacについて')">このMacについて</div>
-            <div onclick="alert('特別にシャットダウン')">特別にシャットダウン</div>
+            <div onclick="showDialog('about')">このMacについて</div>
+            <div onclick="shutdownMac()">電源を切る</div>
         </div>
         macOS Sequoia
     </div>
-    <div class="window">
+    <div class="window" id="window">
         <div class="title-bar">
             <div class="buttons">
-                <div class="button red"></div>
-                <div class="button yellow"></div>
-                <div class="button green"></div>
+                <div class="button red" onclick="closeWindow()"></div>
+                <div class="button yellow" onclick="minimizeWindow()"></div>
+                <div class="button green" onclick="maximizeWindow()"></div>
             </div>
         </div>
         <div class="content">
@@ -136,6 +171,14 @@
         <div class="dock-icon"></div>
         <div class="dock-icon"></div>
     </div>
+
+    <!-- ダイアログ -->
+    <div class="dialog" id="dialog">
+        <div class="dialog-title" id="dialog-title">このMacについて</div>
+        <p id="dialog-content">macOS Sequoia のシステム情報です。</p>
+        <button onclick="closeDialog()">閉じる</button>
+    </div>
+
     <script>
         function toggleMenu() {
             var menu = document.getElementById('menu');
@@ -148,6 +191,44 @@
                 menu.style.display = 'none';
             }
         });
+
+        function showDialog(type) {
+            var dialog = document.getElementById('dialog');
+            var dialogTitle = document.getElementById('dialog-title');
+            var dialogContent = document.getElementById('dialog-content');
+            
+            if (type === 'about') {
+                dialogTitle.textContent = 'このMacについて';
+                dialogContent.textContent = 'macOS Sequoia のシステム情報です。';
+            }
+            dialog.style.display = 'block';
+        }
+
+        function closeDialog() {
+            var dialog = document.getElementById('dialog');
+            dialog.style.display = 'none';
+        }
+
+        function shutdownMac() {
+            alert('電源が切れました。');
+        }
+
+        function closeWindow() {
+            var windowElement = document.getElementById('window');
+            windowElement.style.display = 'none'; // ウィンドウを閉じる
+        }
+
+        function minimizeWindow() {
+            var windowElement = document.getElementById('window');
+            windowElement.classList.add('minimized'); // 最小化する
+        }
+
+        function maximizeWindow() {
+            var windowElement = document.getElementById('window');
+            windowElement.style.height = 'calc(100vh - 90px)'; // 最大化する
+            windowElement.style.width = '100%';
+            windowElement.classList.remove('minimized'); // 最小化クラスを削除
+        }
     </script>
 </body>
 </html>
