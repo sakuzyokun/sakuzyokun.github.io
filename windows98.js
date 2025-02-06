@@ -93,8 +93,8 @@ function runCommand() {
 
 function dragStart(event, windowId) {
     const window = document.getElementById(windowId);
-    let shiftX = event.clientX - window.getBoundingClientRect().left;
-    let shiftY = event.clientY - window.getBoundingClientRect().top;
+    const shiftX = event.clientX - window.getBoundingClientRect().left;
+    const shiftY = event.clientY - window.getBoundingClientRect().top;
 
     function moveAt(pageX, pageY) {
         window.style.left = pageX - shiftX + 'px';
