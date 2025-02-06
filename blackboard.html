@@ -6,9 +6,6 @@
     <title>削除くんのホームページ 黒板のまとめサイト</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="blackboard.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -41,15 +38,65 @@
                 var listItem = document.createElement("li");
                 listItem.textContent = newItem;
                 listItem.style.color = color;
+
+                // 編集ボタンを追加
+                var editButton = document.createElement("button");
+                editButton.textContent = "編集";
+                editButton.className = "edit-button";
+                editButton.onclick = function() {
+                    editItem(listItem);
+                };
+
+                // 削除ボタンを追加
                 var deleteButton = document.createElement("button");
                 deleteButton.textContent = "削除";
                 deleteButton.className = "delete-button";
                 deleteButton.onclick = function() {
                     listItem.remove();
                 };
+
+                // 上下移動ボタンを追加
+                var upButton = document.createElement("button");
+                upButton.textContent = "↑";
+                upButton.className = "move-button";
+                upButton.onclick = function() {
+                    moveUp(listItem);
+                };
+
+                var downButton = document.createElement("button");
+                downButton.textContent = "↓";
+                downButton.className = "move-button";
+                downButton.onclick = function() {
+                    moveDown(listItem);
+                };
+
+                listItem.appendChild(upButton);
+                listItem.appendChild(downButton);
+                listItem.appendChild(editButton);
                 listItem.appendChild(deleteButton);
                 document.getElementById("chalkboard-list").appendChild(listItem);
                 document.getElementById("new-item").value = "";
+            }
+        }
+
+        function editItem(item) {
+            var newText = prompt("新しい内容を入力してください:", item.textContent);
+            if (newText !== null && newText.trim() !== "") {
+                item.childNodes[0].nodeValue = newText;
+            }
+        }
+
+        function moveUp(item) {
+            var prevItem = item.previousElementSibling;
+            if (prevItem) {
+                item.parentNode.insertBefore(item, prevItem);
+            }
+        }
+
+        function moveDown(item) {
+            var nextItem = item.nextElementSibling;
+            if (nextItem) {
+                item.parentNode.insertBefore(nextItem, item);
             }
         }
     </script>
