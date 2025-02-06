@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>漢字Talk 7 風OS</title>
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
         body {
             background-color: #C3C3C3;
             font-family: "Chicago", sans-serif;
-            margin: 0;
-            overflow: hidden;
         }
         .desktop {
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -105,6 +110,27 @@
             background-color: white;
             margin: 5px;
         }
+        .about-window {
+            width: 300px;
+            border: 2px solid black;
+            background-color: white;
+            padding: 5px;
+            box-shadow: 3px 3px black;
+            position: absolute;
+            top: 150px;
+            left: 150px;
+            z-index: 20;
+            display: none;
+        }
+        .about-window .title-bar {
+            background-color: #808080;
+            color: white;
+            padding: 2px 5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
     </style>
     <script>
         function updateClock() {
@@ -114,6 +140,15 @@
             const timeString = `${hours}:${minutes}`;
             document.querySelector('.time').textContent = timeString;
         }
+
+        function showAboutWindow() {
+            document.querySelector('.about-window').style.display = 'block';
+        }
+
+        function closeAboutWindow() {
+            document.querySelector('.about-window').style.display = 'none';
+        }
+
         window.onload = function() {
             updateClock();
             setInterval(updateClock, 1000);
@@ -124,7 +159,7 @@
     <div class="desktop">
         <div class="menu-bar">
             <div>
-                <span class="menu-item"> 漢字Talk</span>
+                <span class="menu-item" onclick="showAboutWindow()"> このMacintoshについて</span>
                 <span class="menu-item">ファイル</span>
                 <span class="menu-item">編集</span>
                 <span class="menu-item">表示</span>
@@ -158,6 +193,15 @@
             <div class="icon"></div>
             <div class="icon"></div>
             <div class="icon"></div>
+        </div>
+        <div class="about-window">
+            <div class="title-bar">
+                <span>このMacintoshについて</span>
+                <span style="cursor: pointer;" onclick="closeAboutWindow()">×</span>
+            </div>
+            <div class="content">
+                <p>漢字Talk 7<br>バージョン 7.5.3<br>メモリ：16MB</p>
+            </div>
         </div>
     </div>
 </body>
