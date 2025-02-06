@@ -1,0 +1,61 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.desktop {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('img0.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.taskbar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 80, 255, 0.8); /* 半透明 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.start-button img {
+    height: 80%; /* サイズを80%に変更 */
+}
+
+.taskbar-items {
+    display: flex;
+    align-items: center;
+}
+
+.taskbar-item {
+    color: white;
+    margin-left: 10px;
+}
+
+.system-tray {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.tray-item {
+    margin-left: 10px;
+}
+
+.desktop-icons {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.icon {
+    color: white;
+    margin-bottom: 10px;
+}
