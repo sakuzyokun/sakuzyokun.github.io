@@ -60,8 +60,18 @@ body {
     margin-bottom: 10px;
 }
 
-.window-body .has-space img {
+.window-body.has-space {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.window-body.has-space img {
     width: 40px;
     height: 40px;
     margin-right: 10px;
+}
+
+.window-body.has-space p {
+    margin: 0;
 }
