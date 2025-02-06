@@ -86,3 +86,21 @@ button:hover {
 .delete-button:hover {
     background-color: #cc0000;
 }
+
+.edit-button {
+    background-color: #66b3ff;
+    margin-left: 10px;
+}
+
+.edit-button:hover {
+    background-color: #007acc;
+}
+
+.move-button {
+    background-color: #cccccc;
+    margin-left: 10px;
+}
+
+.move-button:hover {
+    background-color: #999999;
+}
