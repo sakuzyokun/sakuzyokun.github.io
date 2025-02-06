@@ -106,6 +106,19 @@
             margin: 5px;
         }
     </style>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}`;
+            document.querySelector('.time').textContent = timeString;
+        }
+        window.onload = function() {
+            updateClock();
+            setInterval(updateClock, 1000);
+        };
+    </script>
 </head>
 <body>
     <div class="desktop">
@@ -118,7 +131,7 @@
                 <span class="menu-item">特別</span>
             </div>
             <div class="right">
-                <span class="time">5:26 PM</span>
+                <span class="time">--:--</span>
                 <div class="icon"></div>
             </div>
         </div>
