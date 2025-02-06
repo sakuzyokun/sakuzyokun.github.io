@@ -16,8 +16,7 @@
             height: 100vh;
             position: relative;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
         }
         .menu-bar {
             position: absolute;
@@ -29,17 +28,32 @@
             padding: 5px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
         }
-        .menu-item {
+        .menu-bar .menu-item {
             margin: 0 10px;
         }
+        .menu-bar .right {
+            display: flex;
+            align-items: center;
+        }
+        .menu-bar .icon {
+            width: 16px;
+            height: 16px;
+            background-color: white;
+            margin-left: 5px;
+        }
         .window {
-            width: 300px;
+            width: 400px;
             border: 2px solid black;
             background-color: white;
             padding: 5px;
             box-shadow: 3px 3px black;
             position: absolute;
+            top: 100px;
+            left: 100px;
+            z-index: 10;
         }
         .title-bar {
             background-color: #808080;
@@ -51,11 +65,11 @@
             align-items: center;
             cursor: move;
         }
-        .buttons {
+        .title-bar .buttons {
             display: flex;
             gap: 5px;
         }
-        .button {
+        .title-bar .button {
             width: 12px;
             height: 12px;
             background-color: black;
@@ -64,27 +78,73 @@
         .content {
             padding: 10px;
         }
+        .folder {
+            width: 80px;
+            text-align: center;
+            font-size: 12px;
+            color: black;
+            margin: 10px;
+        }
+        .folder img {
+            width: 48px;
+            height: 48px;
+        }
+        .dock {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #808080;
+            display: flex;
+            justify-content: start;
+            padding: 5px;
+        }
+        .dock .icon {
+            width: 32px;
+            height: 32px;
+            background-color: white;
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="desktop">
         <div class="menu-bar">
-            <div class="menu-item"> 漢字Talk</div>
-            <div class="menu-item">ファイル</div>
-            <div class="menu-item">編集</div>
-            <div class="menu-item">表示</div>
+            <div>
+                <span class="menu-item"> 漢字Talk</span>
+                <span class="menu-item">ファイル</span>
+                <span class="menu-item">編集</span>
+                <span class="menu-item">表示</span>
+                <span class="menu-item">特別</span>
+            </div>
+            <div class="right">
+                <span class="time">5:26 PM</span>
+                <div class="icon"></div>
+            </div>
         </div>
-        <div class="window" style="top: 100px; left: 100px;">
+        <div class="window">
             <div class="title-bar">
-                <span>漢字Talk 7</span>
+                <span>Infinite HD</span>
                 <div class="buttons">
                     <div class="button"></div>
                     <div class="button"></div>
                 </div>
             </div>
             <div class="content">
-                <p>これは漢字Talk 7のウィンドウ風デザインです。</p>
+                <div class="folder">
+                    <img src="https://via.placeholder.com/48" alt="フォルダ">
+                    <p>フォルダ 1</p>
+                </div>
+                <div class="folder">
+                    <img src="https://via.placeholder.com/48" alt="フォルダ">
+                    <p>フォルダ 2</p>
+                </div>
             </div>
+        </div>
+        <div class="dock">
+            <div class="icon"></div>
+            <div class="icon"></div>
+            <div class="icon"></div>
         </div>
     </div>
 </body>
