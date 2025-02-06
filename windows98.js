@@ -121,10 +121,12 @@ function setActiveWindow(windowId) {
     const windows = document.getElementsByClassName('window');
     for (const win of windows) {
         if (win.id === windowId) {
-            win.className = 'window active';
+            win.classList.add('active');
+            win.querySelector('.title-bar').classList.remove('inactive');
             win.style.zIndex = '1000'; // 最前面に表示
         } else {
-            win.className = 'window';
+            win.classList.remove('active');
+            win.querySelector('.title-bar').classList.add('inactive');
             win.style.zIndex = '1';
         }
     }
