@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 黒板のまとめサイト</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <div class="chalkboard">
+            <h1>黒板のまとめ</h1>
+            <ul id="chalkboard-list">
+                <li>例: ここに最初の項目を追加</li>
+            </ul>
+            <div class="color-box">
+                <input type="text" id="new-item" placeholder="新しい項目を入力してください">
+                <select id="color-selector">
+                    <option value="black">黒</option>
+                    <option value="red">赤</option>
+                    <option value="blue">青</option>
+                    <option value="yellow">黄</option>
+                </select>
+                <button onclick="addItem()">追加</button>
+            </div>
+        </div>
+    </main>
+    <script>
+        function addItem() {
+            var newItem = document.getElementById("new-item").value;
+            var color = document.getElementById("color-selector").value;
+            if (newItem.trim() !== "") {
+                var listItem = document.createElement("li");
+                listItem.textContent = newItem;
+                listItem.style.color = color;
+                var deleteButton = document.createElement("button");
+                deleteButton.textContent = "削除";
+                deleteButton.className = "delete-button";
+                deleteButton.onclick = function() {
+                    listItem.remove();
+                };
+                listItem.appendChild(deleteButton);
+                document.getElementById("chalkboard-list").appendChild(listItem);
+                document.getElementById("new-item").value = "";
+            }
+        }
+    </script>
+</body>
+</html>
