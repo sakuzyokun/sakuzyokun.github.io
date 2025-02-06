@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漢字Talk 7 風OS</title>
+    <style>
+        body {
+            background-color: #C3C3C3;
+            font-family: "Chicago", sans-serif;
+            margin: 0;
+            overflow: hidden;
+        }
+        .desktop {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .menu-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #808080;
+            color: white;
+            padding: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .menu-item {
+            margin: 0 10px;
+        }
+        .window {
+            width: 300px;
+            border: 2px solid black;
+            background-color: white;
+            padding: 5px;
+            box-shadow: 3px 3px black;
+            position: absolute;
+        }
+        .title-bar {
+            background-color: #808080;
+            color: white;
+            padding: 2px 5px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+        }
+        .buttons {
+            display: flex;
+            gap: 5px;
+        }
+        .button {
+            width: 12px;
+            height: 12px;
+            background-color: black;
+            border-radius: 50%;
+        }
+        .content {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="desktop">
+        <div class="menu-bar">
+            <div class="menu-item"> 漢字Talk</div>
+            <div class="menu-item">ファイル</div>
+            <div class="menu-item">編集</div>
+            <div class="menu-item">表示</div>
+        </div>
+        <div class="window" style="top: 100px; left: 100px;">
+            <div class="title-bar">
+                <span>漢字Talk 7</span>
+                <div class="buttons">
+                    <div class="button"></div>
+                    <div class="button"></div>
+                </div>
+            </div>
+            <div class="content">
+                <p>これは漢字Talk 7のウィンドウ風デザインです。</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
