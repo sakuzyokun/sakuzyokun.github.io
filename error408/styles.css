@@ -72,6 +72,16 @@ body {
     margin-right: 10px;
 }
 
+.window-body.has-space .content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.window-body.has-space button {
+    align-self: flex-end; /* 右揃え */
+}
+
 .window-body.has-space p {
     white-space: nowrap; /* 改行を防ぐ */
     margin: 0;
