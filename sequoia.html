@@ -65,6 +65,10 @@
         .window.minimized {
             height: 50px;
             width: 200px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
         }
         .title-bar {
             display: flex;
@@ -165,8 +169,8 @@
             <p>macOSの新しいデザインをHTMLとCSSで再現しました。</p>
         </div>
     </div>
-    <div class="dock">
-        <div class="dock-icon"></div>
+    <div class="dock" id="dock">
+        <div class="dock-icon" onclick="restoreWindow()"></div>
         <div class="dock-icon"></div>
         <div class="dock-icon"></div>
         <div class="dock-icon"></div>
@@ -220,7 +224,13 @@
 
         function minimizeWindow() {
             var windowElement = document.getElementById('window');
-            windowElement.classList.add('minimized'); // 最小化する
+            windowElement.classList.add('minimized'); // 最小化してDockに収納
+        }
+
+        function restoreWindow() {
+            var windowElement = document.getElementById('window');
+            windowElement.classList.remove('minimized'); // Dockから復元
+            windowElement.style.display = 'block'; // ウィンドウを再表示
         }
 
         function maximizeWindow() {
