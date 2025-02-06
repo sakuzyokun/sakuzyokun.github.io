@@ -62,7 +62,7 @@ body {
 
 .window-body.has-space {
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* 上端に揃える */
     padding: 20px;
 }
 
@@ -71,7 +71,9 @@ body {
     height: 40px;
     margin-right: 10px;
 }
-/*
+
 .window-body.has-space p {
+    white-space: nowrap; /* 改行を防ぐ */
     margin: 0;
-}*/
+    display: inline; /* インライン表示 */
+}
