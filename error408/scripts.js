@@ -3,7 +3,7 @@ function repeatCloneWindow() {
     let count = 0;
 
     function createClone() {
-        if (count < 8) {
+        if (count < 10) {
             // クローンを作成
             const clone = originalWindow.cloneNode(true);
             document.body.appendChild(clone);
@@ -15,19 +15,22 @@ function repeatCloneWindow() {
             clone.style.transform = 'translate(-50%, -50%)';
 
             count++;
-            setTimeout(createClone, 250); // 0.25秒の待ち時間
+            setTimeout(createClone, 150); // 0.15秒の待ち時間
         }
     }
 
     // 最初のウィンドウを削除
     originalWindow.remove();
 
-    createClone();
+    // 1秒後に音声を再生し、クローンを作成
+    setTimeout(() => {
+        const audio = document.getElementById('errorSound');
+        audio.play();
+        createClone();
+    }, 1000); // 1秒の遅延
 }
 
-// ページがロードされたときに音声を再生
+// ページがロードされたときに音声を再生し、クローンを作成
 document.addEventListener('DOMContentLoaded', () => {
-    const audio = document.getElementById('errorSound');
-    audio.play();
     repeatCloneWindow();
 });
