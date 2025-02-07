@@ -15,7 +15,7 @@ function repeatCloneWindow() {
             clone.style.transform = 'translate(-50%, -50%)';
 
             count++;
-            setTimeout(createClone, 100); // 0.25秒の待ち時間
+            setTimeout(createClone, 150); // 0.15秒の待ち時間
         }
     }
 
