@@ -25,9 +25,11 @@ function repeatCloneWindow() {
     // 1秒後に音声を再生し、クローンを作成
     setTimeout(() => {
         const audio = document.getElementById('errorSound');
-        audio.play();
+        audio.play().catch(error => {
+            console.log("音声の自動再生がブロックされました:", error);
+        });
         createClone();
-    }, 1000); // 1秒の遅延
+    }, 1500); // 1.5秒の遅延
 }
 
 // ページがロードされたときに音声を再生し、クローンを作成
