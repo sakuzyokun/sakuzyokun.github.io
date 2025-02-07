@@ -1,4 +1,12 @@
-window.addEventListener('load', showMessageBox);
+window.addEventListener('load', function() {
+    if (!isMobile()) {
+        showMessageBox();
+    }
+});
+
+function isMobile() {
+    return /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+}
 
 function showMessageBox() {
     const messageBox = document.getElementById('messageBox');
