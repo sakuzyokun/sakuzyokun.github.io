@@ -43,7 +43,7 @@ function web() {
 function createToggleButton() {
     const toggleButtonContainer = document.getElementById('toggleButton');
     const button = document.createElement('button');
-    button.textContent = 'Toggle Message Box';
+    button.textContent = 'メッセージボックスをON/OFFにする';
     button.addEventListener('click', toggleMessageBox);
     toggleButtonContainer.appendChild(button);
 }
