@@ -60,15 +60,6 @@ body {
     margin-bottom: 10px;
 }
 
-.window.active {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 475px; /* 必要に応じて調整 */
-    /* 他のスタイルがあれば追加 */
-}
-
 .window-body.has-space {
     display: flex;
     align-items: flex-start; /* 上端に揃える */
@@ -95,4 +86,31 @@ body {
     white-space: nowrap; /* 改行を防ぐ */
     margin: 0;
     display: inline; /* インライン表示 */
+}
+
+@keyframes moveWindow {
+    0%, 12.5% {
+        transform: translate(-50%, -50%);
+    }
+    25%, 37.5% {
+        transform: translate(calc(-50% + 25px), calc(-50% + 25px));
+    }
+    50%, 62.5% {
+        transform: translate(calc(-50% + 50px), calc(-50% + 50px));
+    }
+    75%, 87.5% {
+        transform: translate(calc(-50% + 75px), calc(-50% + 75px));
+    }
+    100% {
+        transform: translate(calc(-50% + 100px), calc(-50% + 100px));
+    }
+}
+
+.window.active {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 475px; 
+    animation: moveWindow 2s ease-in-out;
 }
