@@ -19,6 +19,9 @@ function repeatCloneWindow() {
         }
     }
 
+    // 最初のウィンドウを削除
+    originalWindow.remove();
+
     createClone();
 }
 
