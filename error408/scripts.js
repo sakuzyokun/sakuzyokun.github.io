@@ -29,7 +29,7 @@ function repeatCloneWindow() {
             console.log("音声の自動再生がブロックされました:", error);
         });
         createClone();
-    }, 1500); // 1.5秒の遅延
+    }, 3000); // 3秒の遅延
 }
 
 // ページがロードされたときに音声を再生し、クローンを作成
