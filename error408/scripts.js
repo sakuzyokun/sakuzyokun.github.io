@@ -1,19 +1,25 @@
-function repeatMoveWindow() {
-    const windowElement = document.querySelector('.window.active');
+function repeatCloneWindow() {
+    const originalWindow = document.querySelector('.window.active');
     let count = 0;
-    
-    function move() {
-        windowElement.style.animation = 'none'; // アニメーションをリセット
-        windowElement.offsetHeight; // 強制リフローでアニメーションをリセット
-        windowElement.style.animation = 'moveWindow 2s ease-in-out';
-        
-        count++;
+
+    function createClone() {
         if (count < 8) {
-            setTimeout(move, 2250); // 0.25秒の待ち時間＋2秒のアニメーション時間
+            // クローンを作成
+            const clone = originalWindow.cloneNode(true);
+            document.body.appendChild(clone);
+
+            // クローンの位置を調整
+            clone.style.position = 'absolute';
+            clone.style.top = `calc(50% + ${count * 25}px)`;
+            clone.style.left = `calc(50% + ${count * 25}px)`;
+            clone.style.transform = 'translate(-50%, -50%)';
+
+            count++;
+            setTimeout(createClone, 250); // 0.25秒の待ち時間
         }
     }
-    
-    move();
+
+    createClone();
 }
 
-document.addEventListener('DOMContentLoaded', repeatMoveWindow);
+document.addEventListener('DOMContentLoaded', repeatCloneWindow);
