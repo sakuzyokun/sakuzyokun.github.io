@@ -39,14 +39,11 @@ function web() {
 }
 
 function createToggleButton() {
+    const toggleButtonContainer = document.getElementById('toggleButton');
     const button = document.createElement('button');
     button.textContent = 'Toggle Message Box';
-    button.style.position = 'fixed';
-    button.style.bottom = '10px';
-    button.style.left = '50%';
-    button.style.transform = 'translateX(-50%)';
     button.addEventListener('click', toggleMessageBox);
-    document.body.appendChild(button);
+    toggleButtonContainer.appendChild(button);
 }
 
 function toggleMessageBox() {
