@@ -87,7 +87,7 @@ body {
     margin: 0;
     display: inline; /* インライン表示 */
 }
-
+/*
 @keyframes moveWindow {
     0%, 12.5% {
         transform: translate(-50%, -50%);
@@ -105,7 +105,7 @@ body {
         transform: translate(calc(-50% + 100px), calc(-50% + 100px));
     }
 }
-
+*/
 .window.active {
     position: absolute;
     top: 50%;
