@@ -1,3 +1,5 @@
+let moveMessageBoxInterval;
+
 window.addEventListener('load', function() {
     if (!isMobile() && !isMac()) {
         showMessageBox();
@@ -19,7 +21,7 @@ function showMessageBox() {
     messageBox.style.display = 'block';
     moveMessageBox();
 
-    setInterval(moveMessageBox, 1000);
+    moveMessageBoxInterval = setInterval(moveMessageBox, 1000);
 }
 
 function closeMessageBox() {
@@ -50,7 +52,9 @@ function toggleMessageBox() {
     const messageBox = document.getElementById('messageBox');
     if (messageBox.style.display === 'block') {
         messageBox.style.display = 'none';
+        clearInterval(moveMessageBoxInterval); // 停止
     } else {
         messageBox.style.display = 'block';
+        moveMessageBoxInterval = setInterval(moveMessageBox, 1000); // 再開
     }
 }
