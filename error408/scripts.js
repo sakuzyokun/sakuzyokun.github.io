@@ -3,7 +3,7 @@ function repeatCloneWindow() {
     let count = 0;
 
     function createClone() {
-        if (count < 8) {
+        if (count < 12) {
             // クローンを作成
             const clone = originalWindow.cloneNode(true);
             document.body.appendChild(clone);
