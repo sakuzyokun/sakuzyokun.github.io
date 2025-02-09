@@ -7,29 +7,38 @@ body {
     padding: 20px;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 20px;
+body.light-mode {
+    background-color: #ffffff;
+    color: #000000;
 }
 
-header h1 {
-    color: #ffa500;
-    font-size: 2.5em;
-    margin: 0;
+body.dark-mode {
+    background-color: #000000;
+    color: #ffffff;
 }
 
-header .home-link {
-    display: block;
-    margin-top: 10px;
-    color: #ffa500;
-    font-size: 1.5em;
-    text-decoration: none;
+body.photo-mode {
+    background: url('photo-background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff;
 }
 
-main {
+header, main {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
+}
+
+header.light-mode, main.light-mode {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+header.dark-mode, main.dark-mode {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+header.photo-mode, main.photo-mode {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 h1, h2, h3 {
