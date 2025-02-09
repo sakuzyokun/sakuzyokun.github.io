@@ -18,15 +18,9 @@ body.dark-mode {
 }
 
 body.photo-mode {
-    background: url('Minecraft world.jpeg') no-repeat center center fixed;
+    background: url('photo-background.jpg') no-repeat center center fixed;
     background-size: cover;
     color: #ffffff;
-}
-
-main {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
 }
 
 header {
@@ -46,15 +40,21 @@ header.light-mode, header.dark-mode, header.photo-mode {
     background-color: transparent;
 }
 
-header.light-mode, main.light-mode {
+main {
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Adjust main background for each mode */
+main.light-mode {
     background-color: rgba(255, 255, 255, 0.9);
 }
 
-header.dark-mode, main.dark-mode {
+main.dark-mode {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-header.photo-mode, main.photo-mode {
+main.photo-mode {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
