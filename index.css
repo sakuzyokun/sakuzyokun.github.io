@@ -23,10 +23,27 @@ body.photo-mode {
     color: #ffffff;
 }
 
-header, main {
-    /*background-color: rgba(0, 0, 0, 0.7);*/
+main {
+    background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: transparent; /* Remove background color */
+}
+
+header h1 {
+    color: #ffa500;
+    font-size: 2.5em;
+    margin: 0;
+}
+
+/* Remove any additional mode-specific background colors for the header */
+header.light-mode, header.dark-mode, header.photo-mode {
+    background-color: transparent;
 }
 
 header.light-mode, main.light-mode {
