@@ -1,11 +1,10 @@
-let moveMessageBoxInterval;
-
 window.addEventListener('load', function() {
     if (!isMobile() && !isMac()) {
         showMessageBox();
     } else if (isMac()) {
         createToggleButton();
     }
+    setMode('photo'); // デフォルトで写真モードを設定
 });
 
 function isMobile() {
