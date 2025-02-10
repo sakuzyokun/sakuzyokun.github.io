@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>削除くんのホームページ チャット</title>
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="chat.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
@@ -16,29 +13,46 @@
         <a href="index.html" class="home-link">ホームに戻る</a>
     </header>
     <main>
-        <h1>チャット</h1>
-        <div id="chatbox"></div>
-        <input type="text" id="input" placeholder="メッセージを入力">
-        <button onclick="sendMessage()">送信</button>
+        <div class="chat-container">
+            <h1>チャット</h1>
+            <div class="chat-messages" id="chat-messages">
+                <!-- メッセージがここに表示されます -->
+            </div>
+            <form class="chat-input" id="chat-form">
+                <input type="text" id="chat-input" placeholder="メッセージを入力">
+                <button type="submit">送信</button>
+            </form>
+        </div>
     </main>
     <script>
-        async function sendMessage() {
-            const message = document.getElementById('input').value;
-            document.getElementById('input').value = '';
-
-            const chatbox = document.getElementById('chatbox');
-            const newMessage = document.createElement('div');
-            newMessage.textContent = 'あなた: ' + message;
-            chatbox.appendChild(newMessage);
-
-            await fetch('http://localhost:5000/save_message', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message }),
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // 保存されたメッセージを表示
+            const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+            const chatMessagesContainer = document.getElementById('chat-messages');
+            messages.forEach(message => {
+                const messageContainer = document.createElement('div');
+                messageContainer.textContent = message;
+                chatMessagesContainer.appendChild(messageContainer);
             });
-        }
+        });
+
+        document.getElementById('chat-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const input = document.getElementById('chat-input');
+            const message = input.value;
+            if (message.trim() !== '') {
+                const messageContainer = document.createElement('div');
+                messageContainer.textContent = message;
+                document.getElementById('chat-messages').appendChild(messageContainer);
+
+                // メッセージをローカルストレージに保存
+                let messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+                messages.push(message);
+                localStorage.setItem('chatMessages', JSON.stringify(messages));
+
+                input.value = '';
+            }
+        });
     </script>
 </body>
 </html>
