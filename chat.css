@@ -31,36 +31,49 @@ main {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
+    text-align: center;
 }
 
-h1 {
-    color: #ffa500;
+.chat-container {
+    width: 80%;
+    max-width: 600px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-#chatbox {
-    width: 300px;
-    height: 400px;
-    border: 1px solid #ccc;
-    overflow-y: scroll;
-    background-color: #fff;
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #fafafa;
     color: #000;
 }
 
-#input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+.chat-input {
+    display: flex;
 }
 
-button {
+.chat-input input {
+    flex: 1;
     padding: 10px;
-    margin-top: 10px;
-    background-color: #007bff;
-    color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+}
+
+.chat-input button {
+    padding: 10px;
     border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 0 5px 5px 0;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0056b3;
+.chat-input button:hover {
+    background: #0056b3;
 }
