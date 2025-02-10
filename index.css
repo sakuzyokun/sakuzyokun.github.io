@@ -112,6 +112,10 @@ body.light-mode button {
     cursor: pointer;
 }
 
+body.light-mode button:hover {
+    background-color: #e6e6e6;
+}
+
 body.dark-mode button {
     padding: 10px;
     border: none;
@@ -120,6 +124,10 @@ body.dark-mode button {
     color: #fff;
     font-size: 1em;
     cursor: pointer;
+}
+
+body.dark-mode button:hover {
+    background-color: #323232;
 }
 
 body.photo-mode button {
@@ -132,6 +140,9 @@ body.photo-mode button {
     cursor: pointer;
 }
 
+body.photo-mode button:hover{
+    background-color: #ff7f00;
+}
 section {
     margin-bottom: 20px;
 }
