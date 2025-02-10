@@ -9,11 +9,13 @@ body {
 
 body.light-mode {
     background-color: #ffffff;
-    color: #000000;
+    background-image: none;
+    color: #000000; /* Text color for light mode */
 }
 
 body.dark-mode {
     background-color: #000000;
+    background-image: none;
     color: #ffffff;
 }
 
@@ -48,6 +50,7 @@ main {
 /* Adjust main background for each mode */
 main.light-mode {
     background-color: rgba(255, 255, 255, 0.9);
+    color: #000000; /* Text color for light mode */
 }
 
 main.dark-mode {
