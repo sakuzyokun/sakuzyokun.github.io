@@ -84,6 +84,24 @@ ul li a:hover {
     color: #ffa500;
 }
 
+ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+ul li a:hover {
+    color: #ffa500;
+}
+
+body.light-mode ul li a {
+    color: #000000; /* ライトモード時の文字色を黒に */
+}
+
+body.light-mode ul li a:hover {
+    color: #ffa500; /* ライトモード時のホバー時の色をオレンジに */
+}
+
 section {
     margin-bottom: 20px;
 }
