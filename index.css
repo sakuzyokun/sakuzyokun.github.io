@@ -102,6 +102,36 @@ body.light-mode ul li a:hover {
     color: #ffa500; /* ライトモード時のホバー時の色をオレンジに */
 }
 
+body.light-mode button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #fafafa;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+body.dark-mode button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #1e1e1e;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+body.photo-mode button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffa500;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
 section {
     margin-bottom: 20px;
 }
