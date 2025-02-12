@@ -18,6 +18,12 @@
     <main>
         <h1>現在の時間</h1>
         <div id="clock"></div>
+        <h1>32ビットの2進数</h1>
+        <div id="binary32"></div>
+        <h1>64ビットの2進数</h1>
+        <div id="binary64"></div>
+        <h1>2038年問題の日までのカウントダウン</h1>
+        <div id="countdown"></div>
     </main>
     <script>
         function updateClock() {
@@ -34,6 +40,26 @@
 
             const timeString = hours + ":" + minutes + ":" + seconds + "." + milliseconds;
             document.getElementById('clock').innerText = timeString;
+
+            // Binary 32-bit
+            const binary32 = (now.getTime() >>> 0).toString(2).padStart(32, '0');
+            document.getElementById('binary32').innerText = binary32;
+
+            // Binary 64-bit
+            const binary64 = BigInt(now.getTime()).toString(2).padStart(64, '0');
+            document.getElementById('binary64').innerText = binary64;
+
+            // Countdown to 2038-01-19 03:14:07 UTC
+            const endDate = new Date('2038-01-19T03:14:07Z').getTime();
+            const timeLeft = endDate - now.getTime();
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            const countdownString = days + "日 " + hoursLeft + "時間 " + minutesLeft + "分 " + secondsLeft + "秒";
+            document.getElementById('countdown').innerText = countdownString;
         }
 
         setInterval(updateClock, 1);
