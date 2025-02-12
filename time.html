@@ -18,6 +18,8 @@
     <main>
         <h1>現在の時間</h1>
         <div id="clock"></div>
+        <h1>経過秒数</h1>
+        <div id="epoch-seconds"></div>
         <h1>32ビットの2進数</h1>
         <div id="binary32"></div>
         <h1>64ビットの2進数</h1>
@@ -41,12 +43,15 @@
             const timeString = hours + ":" + minutes + ":" + seconds + "." + milliseconds;
             document.getElementById('clock').innerText = timeString;
 
+            const epochTime = Math.floor(now.getTime() / 1000);
+            document.getElementById('epoch-seconds').innerText = epochTime;
+
             // Binary 32-bit
-            const binary32 = (Math.floor(now.getTime() / 1000) >>> 0).toString(2).padStart(32, '0');
+            const binary32 = (epochTime >>> 0).toString(2).padStart(32, '0');
             document.getElementById('binary32').innerText = binary32;
 
             // Binary 64-bit
-            const binary64 = BigInt(Math.floor(now.getTime() / 1000)).toString(2).padStart(64, '0');
+            const binary64 = BigInt(epochTime).toString(2).padStart(64, '0');
             document.getElementById('binary64').innerText = binary64;
 
             // Countdown to 2038-01-19 03:14:07 UTC
