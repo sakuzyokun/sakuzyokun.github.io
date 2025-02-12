@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CopilotOS</title>
+    <link rel="stylesheet" href="copilotos.css">
+</head>
+<body>
+    <div class="desktop">
+        <div class="taskbar">
+            <button class="start-button" onclick="toggleStartMenu()">スタート</button>
+            <div>CopilotOS - タスクバー</div>
+            <div class="clock" id="clock"></div>
+        </div>
+        <div class="start-menu" id="start-menu">
+            <button onclick="openCopilotApp()">Copilotアプリ</button>
+            <button onclick="openFileExplorer()">ファイルエクスプローラー</button>
+        </div>
+        <div class="content">
+            <h2>ようこそ、CopilotOSへ！</h2>
+            <p>ここでは、CopilotOSの基本的な機能についてご紹介します。</p>
+            <img src="icon.png" alt="アイコン1" class="icon icon-1" onclick="toggleWindow('window-calendar')">
+            <img src="icon.png" alt="アイコン2" class="icon icon-2" onclick="toggleWindow('copilot-app')">
+            <img src="icon.png" alt="アイコン3" class="icon icon-3" onclick="toggleWindow('file-explorer')">
+            <div class="window" id="window-calendar">
+                <div class="window-header">
+                    <span>カレンダー</span>
+                    <button onclick="closeWindow('window-calendar')">×</button>
+                </div>
+                <div class="window-content">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+            <div class="window" id="copilot-app">
+                <div class="window-header">
+                    <span>Copilotアプリ</span>
+                    <button onclick="closeWindow('copilot-app')">×</button>
+                </div>
+                <div class="window-content">
+                    <p>Copilotアプリへようこそ！</p>
+                </div>
+            </div>
+            <div class="window" id="file-explorer">
+                <div class="window-header">
+                    <span>ファイルエクスプローラー</span>
+                    <button onclick="closeWindow('file-explorer')">×</button>
+                </div>
+                <div class="window-content">
+                    <div id="explorer">
+                        <ul>
+                            <li>ファイル1.txt</li>
+                            <li>ファイル2.txt</li>
+                            <li>フォルダ1</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="notification" id="notification">新しい通知があります！</div>
+        </div>
+    </div>
+    <script src="copilotos.js"></script>
+</body>
+</html>
