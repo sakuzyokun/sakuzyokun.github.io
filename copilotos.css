@@ -1,0 +1,123 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.desktop {
+    width: 90%;
+    height: 90%;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.taskbar {
+    background-color: #6200ea;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.taskbar .clock {
+    font-size: 16px;
+}
+
+.taskbar .start-button {
+    background-color: #3700b3;
+    border: none;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.start-menu {
+    position: absolute;
+    bottom: 50px;
+    left: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 200px;
+    display: none;
+    flex-direction: column;
+    border: 2px solid #6200ea;
+}
+
+.start-menu button {
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+    border: none;
+    background: none;
+    width: 100%;
+}
+
+.start-menu button:hover {
+    background-color: #e0e0e0;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    position: relative;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.icon-1 { top: 20px; left: 20px; }
+.icon-2 { top: 100px; left: 20px; }
+.icon-3 { top: 180px; left: 20px; }
+
+.window {
+    width: 300px;
+    height: 200px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    border: 2px solid #6200ea;
+}
+
+.window-header {
+    background-color: #6200ea;
+    color: white;
+    padding: 5px;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.window-content {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+#calendar, #explorer {
+    font-size: 14px;
+}
+
+.notification {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #6200ea;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+}
