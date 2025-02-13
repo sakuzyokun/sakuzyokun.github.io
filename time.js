@@ -5,6 +5,14 @@ function updateLocalClock() {
     let seconds = now.getSeconds();
     let milliseconds = now.getMilliseconds();
 
+    // 2038年問題が発生するタイムスタンプ
+    const endDate = new Date('2038-01-19T03:14:07Z').getTime();
+    
+    // 現在のタイムスタンプが2038年問題のタイムスタンプを超えたら1970年にリセット
+    if (now.getTime() >= endDate) {
+        now.setTime(0); // 1970年1月1日0時0分0秒(UTC)
+    }
+
     hours = (hours < 10) ? "0" + hours : hours;
     minutes = (minutes < 10) ? "0" + minutes : minutes;
     seconds = (seconds < 10) ? "0" + seconds : seconds;
@@ -29,7 +37,6 @@ function updateLocalClock() {
     document.getElementById('hexadecimal').innerText = hexadecimal;
 
     // Countdown to 2038-01-19 03:14:07 UTC
-    const endDate = new Date('2038-01-19T03:14:07Z').getTime();
     const timeLeft = endDate - now.getTime();
 
     const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
