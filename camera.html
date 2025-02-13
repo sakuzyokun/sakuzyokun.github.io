@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>削除くんのホームページ カメラテスト</title>
+    <title>削除くんのホームページ カレンダー</title>
     <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="camera.css">
+    <link rel="stylesheet" href="calendar.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
@@ -16,22 +16,30 @@
         <a href="index.html" class="home-link">ホームに戻る</a>
     </header>
     <main>
-        <h1>カメラテスト</h1>
-        <video id="video" autoplay></video>
-        <br>
-        <button onclick="startCamera()">カメラを開始する</button>
+        <h1>カレンダー</h1>
+        <button onclick="prevMonth()">前の月</button>
+        <button onclick="nextMonth()">次の月</button>
+        <button onclick="showYear()">年表示</button>
+        <button onclick="showWeek()">週表示</button>
+        <input type="date" id="datePicker" onchange="goToDate()">
+        <h2 id="monthYear"></h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>日</th>
+                    <th>月</th>
+                    <th>火</th>
+                    <th>水</th>
+                    <th>木</th>
+                    <th>金</th>
+                    <th>土</th>
+                </tr>
+            </thead>
+            <tbody id="calendarBody"></tbody>
+        </table>
+        <input type="text" id="eventInput" placeholder="予定を入力してください">
+        <button onclick="addEvent()">予定を追加</button>
     </main>
-    <script>
-        function startCamera() {
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then(function(stream) {
-                    var video = document.getElementById('video');
-                    video.srcObject = stream;
-                })
-                .catch(function(error) {
-                    console.log('カメラを起動できませんでした:', error);
-                });
-        }
-    </script>
+    <script src="calendar.js"></script>
 </body>
 </html>
