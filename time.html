@@ -97,7 +97,7 @@
         }
 
         function fetchServerTime() {
-            fetch('http://ntp.nict.jp')
+            fetch('https://time.is/UTC')
                 .then(response => response.json())
                 .then(data => {
                     const serverTime = new Date(data.utc_datetime);
