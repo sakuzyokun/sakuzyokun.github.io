@@ -19,6 +19,9 @@
         <h1>カレンダー</h1>
         <button onclick="prevMonth()">前の月</button>
         <button onclick="nextMonth()">次の月</button>
+        <button onclick="showYear()">年表示</button>
+        <button onclick="showWeek()">週表示</button>
+        <input type="date" id="datePicker" onchange="goToDate()">
         <h2 id="monthYear"></h2>
         <table>
             <thead>
