@@ -18,14 +18,17 @@
     <main>
         <h1>現在の時間 (PCから取得)</h1>
         <div id="pc-clock"></div>
+        <br><br>
         <h1>現在の時間 (サーバーから取得)</h1>
         <div id="server-clock"></div>
-        <h1>UNIX時間(1970/01/01 0:00(UTC))の経過秒数</h1>
+        <h1>経過秒数</h1>
         <div id="epoch-seconds"></div>
         <h1>32ビットの2進数</h1>
         <div id="binary32"></div>
         <h1>64ビットの2進数</h1>
         <div id="binary64"></div>
+        <h1>16進数</h1>
+        <div id="hexadecimal"></div>
         <h1>2038年問題の日までのカウントダウン</h1>
         <div id="countdown"></div>
         <h1>現在の時間 (2038年問題に対応していない)</h1>
@@ -57,6 +60,10 @@
             // Binary 64-bit
             const binary64 = BigInt(epochTime).toString(2).padStart(64, '0');
             document.getElementById('binary64').innerText = binary64;
+
+            // Hexadecimal
+            const hexadecimal = epochTime.toString(16).toUpperCase().padStart(8, '0');
+            document.getElementById('hexadecimal').innerText = hexadecimal;
 
             // Countdown to 2038-01-19 03:14:07 UTC
             const endDate = new Date('2038-01-19T03:14:07Z').getTime();
