@@ -32,6 +32,25 @@
         .input-field {
             margin: 10px 0;
         }
+        .search-bar {
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .search-bar input[type="text"] {
+            width: 300px;
+            padding: 5px;
+        }
+        .search-bar button {
+            padding: 5px;
+            background-color: #febd69;
+            border: none;
+            cursor: pointer;
+        }
+        .address {
+            display: inline;
+            margin-left: 10px;
+        }
     </style>
     <script>
         function saveAccountInfo() {
@@ -103,6 +122,7 @@
         <nav>
             <ul>
                 <li><a href="Amasan.html">ホーム</a></li>
+                <li class="address" id="address">現在の位置情報を取得中...</li>
                 <li><a href="cart.html">カート</a></li>
                 <li><a href="account.html">アカウント</a></li>
             </ul>
