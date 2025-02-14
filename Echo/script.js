@@ -207,7 +207,27 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.body.classList.remove('dark-mode');
                     }
                 }, 1500); // 1.5秒後にBotの返信を表示
-            } else if (message){
+            } else if (['アマサンってなに？','アマサンってなに?','アマサンってなに','アマサンって何？','アマサンって何?','アマサンって何','アマサンとは？','アマサンとは?','アマサンとは','Amasanって何？','Amasanって何?','Amasanって何','Amasanとは？','Amasanとは?','Amasanとは','Amasan','アマサン'].includes(message)) {
+                appendMessage(message, 'user');
+                userInput.value = '';
+                // Botの考える時間を表すダミーメッセージを追加
+                const botThinkingMessage = document.createElement('div');
+                botThinkingMessage.className = 'chat-message bot';
+                const botImage = document.createElement('img');
+                botImage.src = 'Echo.gif'; // Botが考えている間に表示する画像
+                botImage.alt = 'Bot is thinking';
+                botThinkingMessage.appendChild(botImage);
+                chatLog.appendChild(botThinkingMessage);
+                chatLog.scrollTop = chatLog.scrollHeight;
+    
+                setTimeout(() => {
+                    // ダミーメッセージを削除
+                    chatLog.removeChild(botThinkingMessage);
+                    
+                    // Botの返信を追加
+                    appendMessage('Amasan(アマサン)とは、世界最小のオンラインマーケットプレイスで、少ない商品を購入できる場所です。\n日本国内での配送は行っていません。Amasanでは、なにも購入できません。\nAmasanの特徴としては、以下の点が挙げられます：\n無様な商品の選択肢: 0の商品が揃っており、すべてのニーズに対応していません。\nレビューと評価: 商品に対する他のユーザーのレビューや評価を確認できません。今後のアップデートで追加予定。購入の参考にすることができます。\n迅速な配送: 一部の商品は次日配送や即日配送が不可能で、注文確認に1年、配送に2年掛かります。セールと割引: 定期的にセールや割引が行われません。', 'bot');
+                }, 1500); // 1.5秒後にBotの返信を表示
+            }else if (message){
             appendMessage(message, 'user');
             userInput.value = '';
             
