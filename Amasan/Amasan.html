@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amasan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #232F3E;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .container {
+            margin: 20px;
+        }
+        .product {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .search-bar {
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .search-bar input[type="text"] {
+            width: 300px;
+            padding: 5px;
+        }
+        .search-bar button {
+            padding: 5px;
+            background-color: #febd69;
+            border: none;
+            cursor: pointer;
+        }
+        .address {
+            display: inline;
+            margin-left: 10px;
+        }
+    </style>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                document.getElementById("address").innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            getAddress(latitude, longitude);
+        }
+
+        function getAddress(latitude, longitude) {
+            // OpenCage Geocoder APIを使用して位置情報から住所を取得
+            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key= dfacb0219a9d4404864d60f75d11d671 `)
+                .then(response => response.json())
+                .then(data => {
+                    var address = data.results[0].formatted;
+                    document.getElementById("address").innerHTML = address;
+                })
+                .catch(error => {
+                    document.getElementById("address").innerHTML = "住所を取得できませんでした。";
+                });
+        }
+
+        window.onload = getLocation;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Amasan</h1>
+        <nav>
+            <ul>
+                <li><a href="#">ホーム</a></li>
+                <li><a href="#">商品一覧</a></li>
+                <li><a href="#">カート</a></li>
+                <li><a href="#">アカウント</a></li>
+                <li class="address" id="address">現在の位置情報を取得中...</li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="商品を検索">
+            <button>検索</button>
+        </div>
+    </header>
+    <div class="container">
+        <div class="product">
+            <h2>商品名</h2>
+            <p>商品説明がここに入ります。</p>
+            <p>価格: ¥xxxx</p>
+            <button>カートに追加</button>
+        </div>
+        <!-- 他の商品もここに追加 -->
+    </div>
+</body>
+</html>
