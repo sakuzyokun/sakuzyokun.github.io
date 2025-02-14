@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         document.body.classList.remove('dark-mode');
                     }
                 }, 1500); // 1.5秒後にBotの返信を表示
-            } else if (['アマサンってなに？','アマサンってなに?','アマサンってなに','アマサンって何？','アマサンって何?','アマサンって何','アマサンとは？','アマサンとは?','アマサンとは','Amasanって何？','Amasanって何?','Amasanって何','Amasanとは？','Amasanとは?','Amasanとは','Amasan','アマサン'].includes(message)) {
+            } else if (['アマサンってなに？','アマサンってなに?','アマサンってなに','アマサンって何？','アマサンって何?','アマサンって何','アマサンとは？','アマサンとは?','アマサンとは','amasanって何？','amasanって何?','amasanって何','amasanとは？','amasanとは?','amasanとは','amasan','アマサン'].includes(message)) {
                 appendMessage(message, 'user');
                 userInput.value = '';
                 // Botの考える時間を表すダミーメッセージを追加
