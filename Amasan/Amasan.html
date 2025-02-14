@@ -79,7 +79,7 @@
         }
 
         function getAddress(latitude, longitude) {
-            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=YOUR_API_KEY`)
+            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=dfacb0219a9d4404864d60f75d11d671`)
                 .then(response => response.json())
                 .then(data => {
                     var components = data.results[0].components;
