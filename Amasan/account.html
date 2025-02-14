@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amasan - アカウント</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #232F3E;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .container {
+            margin: 20px;
+        }
+        .input-field {
+            margin: 10px 0;
+        }
+    </style>
+    <script>
+        function saveAccountInfo() {
+            var username = document.getElementById("username").value;
+            var email = document.getElementById("email").value;
+
+            // クッキーに保存
+            document.cookie = "username=" + username + "; path=/";
+            document.cookie = "email=" + email + "; path=/";
+
+            // 保存メッセージを表示
+            var message = document.getElementById("save-message");
+            message.style.display = "block";
+            setTimeout(function() {
+                message.style.display = "none";
+            }, 3000);
+        }
+
+        function loadAccountInfo() {
+            var cookies = document.cookie.split("; ");
+            var accountInfo = {};
+            cookies.forEach(function(cookie) {
+                var parts = cookie.split("=");
+                accountInfo[parts[0]] = parts[1];
+            });
+
+            // フィールドにクッキーから読み込んだ情報を設定
+            if (accountInfo.username) {
+                document.getElementById("username").value = accountInfo.username;
+            }
+            if (accountInfo.email) {
+                document.getElementById("email").value = accountInfo.email;
+            }
+        }
+
+        window.onload = loadAccountInfo;
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Amasan</h1>
+        <nav>
+            <ul>
+                <li><a href="Amasan.html">ホーム</a></li>
+                <li><a href="cart.html">カート</a></li>
+                <li><a href="account.html">アカウント</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h2>アカウント情報</h2>
+        <div class="input-field">
+            <label for="username">ユーザー名:</label>
+            <input type="text" id="username">
+        </div>
+        <div class="input-field">
+            <label for="email">メールアドレス:</label>
+            <input type="email" id="email">
+        </div>
+        <button onclick="saveAccountInfo()">保存</button>
+        <div id="save-message" style="display: none; color: green;">アカウント情報が保存されました！</div>
+    </div>
+</body>
+</html>
