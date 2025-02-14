@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amasan - カート</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        header {
+            background-color: #232F3E;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .container {
+            margin: 20px;
+        }
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+        .cart-item h2 {
+            margin: 0;
+        }
+        .cart-item p {
+            margin: 5px 0;
+        }
+        .total {
+            font-size: 1.5em;
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Amasan</h1>
+        <nav>
+            <ul>
+                <li><a href="Amasan.html">ホーム</a></li>
+                <li><a href="cart.html">カート</a></li>
+                <li><a href="account.html">アカウント</a></li>
+                <li class="address" id="address">現在の位置情報を取得中...</li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h2>カート</h2>
+        <div class="cart-item">
+            <h2>商品名</h2>
+            <p>価格: ¥xxxx</p>
+            <p>数量: 1</p>
+            <button>削除</button>
+        </div>
+        <!-- 他の商品もここに追加 -->
+        
+        <div class="total">
+            合計: ¥xxxx
+        </div>
+    </div>
+</body>
+</html>
