@@ -75,7 +75,7 @@
                 .then(response => response.json())
                 .then(data => {
                     var components = data.results[0].components;
-                    var address = `${components.postcode} ${components.state} ${components.city}\n場所を更新する`;
+                    var address = `${components.postcode} ${components.state} ${components.city}`;
                     document.getElementById("address").innerHTML = address;
                 })
                 .catch(error => {
@@ -96,12 +96,12 @@
                 <li><a href="#">カート</a></li>
                 <li><a href="#">アカウント</a></li>-->
                 <li class="address" id="address">現在の位置情報を取得中...</li>
+                <div class="search-bar">
+                    <input type="text" placeholder="商品を検索">
+                    <button>検索</button>
+                </div>
             </ul>
         </nav>
-        <div class="search-bar">
-            <input type="text" placeholder="商品を検索">
-            <button>検索</button>
-        </div>
     </header>
     <div class="container">
         <div class="product">
