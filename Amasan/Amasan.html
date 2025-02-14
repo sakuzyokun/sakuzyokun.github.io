@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amasan</title>
-    <link rel="icon" href="favicon.jpeg">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -71,8 +70,7 @@
         }
 
         function getAddress(latitude, longitude) {
-            // OpenCage Geocoder APIを使用して位置情報から住所を取得
-            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key= dfacb0219a9d4404864d60f75d11d671 `)
+            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=dfacb0219a9d4404864d60f75d11d671`)
                 .then(response => response.json())
                 .then(data => {
                     var address = data.results[0].formatted;
