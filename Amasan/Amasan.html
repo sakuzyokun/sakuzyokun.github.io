@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amasan</title>
-    <link rel="icon" href="favicon.jpeg">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,6 +53,15 @@
             display: inline;
             margin-left: 10px;
         }
+        .message {
+            display: none;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+        }
     </style>
     <script>
         function getLocation() {
@@ -71,7 +79,7 @@
         }
 
         function getAddress(latitude, longitude) {
-            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=dfacb0219a9d4404864d60f75d11d671`)
+            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=YOUR_API_KEY`)
                 .then(response => response.json())
                 .then(data => {
                     var components = data.results[0].components;
@@ -84,31 +92,40 @@
         }
 
         window.onload = getLocation;
+
+        function addToCart() {
+            var message = document.getElementById("message");
+            message.style.display = "block";
+            setTimeout(function() {
+                message.style.display = "none";
+            }, 3000); // 3秒後にメッセージを非表示にする
+        }
     </script>
 </head>
 <body>
     <header>
         <h1>Amasan</h1>
         <nav>
-            <ul><!--
-                <li><a href="#">ホーム</a></li>
-                <li><a href="#">商品一覧</a></li>-->
+            <ul>
+                <li><a href="">ホーム</a></li>
+                <li><a href="#">商品一覧</a></li>
+                <li><a href="#">カート</a></li>
+                <li><a href="#">アカウント</a></li>
                 <li class="address" id="address">現在の位置情報を取得中...</li>
-                <li><a href="account.html">アカウント</a></li>
-                <li><a href="cart.html">カート</a></li>
             </ul>
-            <div class="search-bar">
-                <input type="text" placeholder="商品を検索">
-                <button>検索</button>
-            </div>
         </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="商品を検索">
+            <button>検索</button>
+        </div>
+        <div id="message" class="message">カートに追加しました！</div>
     </header>
     <div class="container">
         <div class="product">
             <h2>商品名</h2>
             <p>商品説明がここに入ります。</p>
             <p>価格: ¥xxxx</p>
-            <button>カートに追加</button>
+            <button onclick="addToCart()">カートに追加</button>
         </div>
         <!-- 他の商品もここに追加 -->
     </div>
