@@ -1,4 +1,4 @@
-/*window.addEventListener('load', function() {
+window.addEventListener('load', function() {
     if (!isMobile() && !isMac()) {
         showMessageBox();
     } else if (isMac()) {
@@ -59,9 +59,12 @@ function toggleMessageBox() {
 }
 
 let moveMessageBoxInterval;
-*/
+
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
+
+    // メッセージボックスの動きを一時停止
+    clearInterval(moveMessageBoxInterval);
 
     // リンクを右クリックした場合
     if (event.target.tagName === 'A') {
@@ -113,6 +116,9 @@ function hideMenus() {
     setTimeout(() => {
         linkMenu.style.display = 'none';
         pageMenu.style.display = 'none';
+
+        // メッセージボックスの動きを再開
+        moveMessageBoxInterval = setInterval(moveMessageBox, 1000);
     }, 300); // トランジションの時間と一致させる
 }
 
@@ -140,7 +146,6 @@ function copyPageLink() {
 
 function hideMessageBox() {
     document.getElementById('messageBox').style.display = 'none';
-    clearInterval(moveMessageBoxInterval); // メッセージボックスの動きを停止
     hideMenus();
 }
 
