@@ -45,9 +45,22 @@
                 </a>
             </article>
         </section>
+        <section id="time">
+            <h2>現在のタイ時間</h2>
+            <p id="thailand-time"></p>
+        </section>
     </main>
     <footer>
         <p>&copy; 2025ウェブマニア図書館</p>
     </footer>
+    <script>
+        function updateThailandTime() {
+            const thailandTimeElement = document.getElementById('thailand-time');
+            const thailandTime = new Date().toLocaleString('en-US', { timeZone: 'Asia/Bangkok' });
+            thailandTimeElement.innerHTML = `タイ時間: ${thailandTime}`;
+        }
+        setInterval(updateThailandTime, 1000);
+        updateThailandTime();
+    </script>
 </body>
 </html>
