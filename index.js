@@ -69,7 +69,7 @@ document.addEventListener('contextmenu', function(event) {
     }
 });
 
-document.addEventListener('click', function(event) {
+document.addEventListener('mousedown', function(event) {
     const linkMenu = document.getElementById('linkMenu');
     const pageMenu = document.getElementById('pageMenu');
 
