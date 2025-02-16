@@ -139,3 +139,9 @@ function setActiveWindow(windowId) {
         }
     }
 }
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'r' && event.ctrlKey) {
+        openRun();
+    }
+});
