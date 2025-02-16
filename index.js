@@ -60,7 +60,7 @@ function toggleMessageBox() {
 
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
-    
+
     // リンクを右クリックした場合
     if (event.target.tagName === 'A') {
         showLinkMenu(event);
@@ -69,8 +69,13 @@ document.addEventListener('contextmenu', function(event) {
     }
 });
 
-document.addEventListener('click', function() {
-    hideMenus();
+document.addEventListener('click', function(event) {
+    const linkMenu = document.getElementById('linkMenu');
+    const pageMenu = document.getElementById('pageMenu');
+
+    if (!linkMenu.contains(event.target) && !pageMenu.contains(event.target)) {
+        hideMenus();
+    }
 });
 
 function showLinkMenu(event) {
