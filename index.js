@@ -1,4 +1,4 @@
-window.addEventListener('load', function() {
+/*window.addEventListener('load', function() {
     if (!isMobile() && !isMac()) {
         showMessageBox();
     } else if (isMac()) {
@@ -59,7 +59,7 @@ function toggleMessageBox() {
 }
 
 let moveMessageBoxInterval;
-
+*/
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
 
