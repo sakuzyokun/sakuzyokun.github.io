@@ -25,6 +25,7 @@ function showMessageBox() {
 
 function closeMessageBox() {
     document.getElementById('messageBox').style.display = 'none';
+    clearInterval(moveMessageBoxInterval); // メッセージボックスの動きを停止
 }
 
 function moveMessageBox() {
@@ -147,6 +148,7 @@ function copyPageLink() {
 
 function hideMessageBox() {
     document.getElementById('messageBox').style.display = 'none';
+    clearInterval(moveMessageBoxInterval); // メッセージボックスの動きを停止
     hideMenus();
 }
 
