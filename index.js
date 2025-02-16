@@ -78,6 +78,7 @@ document.addEventListener('mousedown', function(event) {
     const linkMenu = document.getElementById('linkMenu');
     const pageMenu = document.getElementById('pageMenu');
 
+    // メニュー内のクリックを無視
     if (!linkMenu.contains(event.target) && !pageMenu.contains(event.target)) {
         hideMenus();
     }
@@ -89,7 +90,7 @@ function showLinkMenu(event) {
     linkMenu.style.display = 'block';
     setTimeout(() => {
         linkMenu.style.opacity = '1';
-    }, 10);
+    }, 10);  // 小さな遅延を挿入
     linkMenu.style.left = `${event.pageX}px`;
     linkMenu.style.top = `${event.pageY}px`;
     linkMenu.dataset.url = event.target.href; // リンクURLをデータ属性として保存
@@ -101,7 +102,7 @@ function showPageMenu(event) {
     pageMenu.style.display = 'block';
     setTimeout(() => {
         pageMenu.style.opacity = '1';
-    }, 10);
+    }, 10);  // 小さな遅延を挿入
     pageMenu.style.left = `${event.pageX}px`;
     pageMenu.style.top = `${event.pageY}px`;
 }
