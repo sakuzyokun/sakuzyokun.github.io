@@ -58,6 +58,8 @@ function toggleMessageBox() {
     }
 }
 
+let moveMessageBoxInterval;
+
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
 
@@ -138,6 +140,7 @@ function copyPageLink() {
 
 function hideMessageBox() {
     document.getElementById('messageBox').style.display = 'none';
+    clearInterval(moveMessageBoxInterval); // メッセージボックスの動きを停止
     hideMenus();
 }
 
