@@ -58,30 +58,6 @@ function toggleMessageBox() {
     }
 }
 
-function setMode(mode) {
-    const body = document.body;
-    const main = document.querySelector('main');
-    const header = document.querySelector('header');
-
-    body.className = ''; // Reset all mode classes
-    main.className = ''; // Reset all mode classes
-    header.className = ''; // Reset all mode classes
-
-    if (mode === 'light') {
-        body.classList.add('light-mode');
-        main.classList.add('light-mode');
-        header.classList.add('light-mode');
-    } else if (mode === 'dark') {
-        body.classList.add('dark-mode');
-        main.classList.add('dark-mode');
-        header.classList.add('dark-mode');
-    } else if (mode === 'photo') {
-        body.classList.add('photo-mode');
-        main.classList.add('photo-mode');
-        header.classList.add('photo-mode');
-    }
-}
-
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
     
@@ -139,4 +115,33 @@ function copyPageLink() {
         alert('ページのリンクがコピーされました');
     });
     hideMenus();
+}
+
+function hideMessageBox() {
+    document.getElementById('messageBox').style.display = 'none';
+    hideMenus();
+}
+
+function setMode(mode) {
+    const body = document.body;
+    const main = document.querySelector('main');
+    const header = document.querySelector('header');
+
+    body.className = ''; // Reset all mode classes
+    main.className = ''; // Reset all mode classes
+    header.className = ''; // Reset all mode classes
+
+    if (mode === 'light') {
+        body.classList.add('light-mode');
+        main.classList.add('light-mode');
+        header.classList.add('light-mode');
+    } else if (mode === 'dark') {
+        body.classList.add('dark-mode');
+        main.classList.add('dark-mode');
+        header.classList.add('dark-mode');
+    } else if (mode === 'photo') {
+        body.classList.add('photo-mode');
+        main.classList.add('photo-mode');
+        header.classList.add('photo-mode');
+    }
 }
