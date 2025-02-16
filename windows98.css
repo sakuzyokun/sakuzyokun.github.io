@@ -79,7 +79,7 @@ body {
 
 .window {
     resize: both;
-    overflow: auto;
+    overflow: hidden; /* 自動的にスクロールバーが表示されないように */
     position: absolute;
     border: 1px solid #000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
