@@ -231,3 +231,30 @@ iframe {
 .custom-menu li:hover {
     background-color: #f0f0f0;
 }
+
+body.light-mode .custom-menu {
+    background-color: #fafafa;
+}
+
+body.light-mode .custom-menu li:hover {
+    background-color: #e6e6e6;
+}
+
+body.dark-mode .custom-menu {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+body.dark-mode .custom-menu li:hover {
+    background-color: #323232;
+}
+
+body.photo-mode .custom-menu {
+    background-color: #ffa500;
+    color: #fff;
+}
+
+body.photo-mode .custom-menu li:hover {
+    background-color: #ff7f00;
+}
+
