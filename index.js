@@ -77,6 +77,9 @@ function showLinkMenu(event) {
     const linkMenu = document.getElementById('linkMenu');
     hideMenus();
     linkMenu.style.display = 'block';
+    setTimeout(() => {
+        linkMenu.style.opacity = '1';
+    }, 10);
     linkMenu.style.left = `${event.pageX}px`;
     linkMenu.style.top = `${event.pageY}px`;
     linkMenu.dataset.url = event.target.href; // リンクURLをデータ属性として保存
@@ -86,13 +89,24 @@ function showPageMenu(event) {
     const pageMenu = document.getElementById('pageMenu');
     hideMenus();
     pageMenu.style.display = 'block';
+    setTimeout(() => {
+        pageMenu.style.opacity = '1';
+    }, 10);
     pageMenu.style.left = `${event.pageX}px`;
     pageMenu.style.top = `${event.pageY}px`;
 }
 
 function hideMenus() {
-    document.getElementById('linkMenu').style.display = 'none';
-    document.getElementById('pageMenu').style.display = 'none';
+    const linkMenu = document.getElementById('linkMenu');
+    const pageMenu = document.getElementById('pageMenu');
+
+    linkMenu.style.opacity = '0';
+    pageMenu.style.opacity = '0';
+
+    setTimeout(() => {
+        linkMenu.style.display = 'none';
+        pageMenu.style.display = 'none';
+    }, 300); // トランジションの時間と一致させる
 }
 
 function openLink(event, target) {
@@ -150,4 +164,3 @@ function setMode(mode) {
         customMenus.forEach(menu => menu.classList.add('photo-mode'));
     }
 }
-
