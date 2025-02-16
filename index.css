@@ -160,7 +160,7 @@ iframe {
     display: block;
     margin: 0 auto;
 }
-/*
+
 .message-box {
     position: fixed;
     top: 50%;
@@ -208,7 +208,7 @@ iframe {
 .message-box button:hover {
     background-color: #ff7f00;
 }
-*/
+
 .custom-menu {
     position: absolute;
     background-color: #fff;
