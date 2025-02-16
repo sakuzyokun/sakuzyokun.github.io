@@ -21,6 +21,18 @@
     </div>
     </header>
     <main>
+        <div id="linkMenu" class="custom-menu" style="display: none;">
+            <ul>
+                <li onclick="openLink(event, '_blank')">新しいタブで開く</li>
+                <li onclick="openLink(event, '_self')">開く</li>
+                <li onclick="copyLink(event)">リンクをコピー</li>
+            </ul>
+        </div>
+        <div id="pageMenu" class="custom-menu" style="display: none;">
+            <ul>
+                <li onclick="copyPageLink()">ページのリンクをコピー</li>
+            </ul>
+        </div>
         <section>
             <h2>ホーム</h2>
             <h3>目次</h3>
