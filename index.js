@@ -81,3 +81,62 @@ function setMode(mode) {
         header.classList.add('photo-mode');
     }
 }
+
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+    
+    // リンクを右クリックした場合
+    if (event.target.tagName === 'A') {
+        showLinkMenu(event);
+    } else {
+        showPageMenu(event);
+    }
+});
+
+document.addEventListener('click', function() {
+    hideMenus();
+});
+
+function showLinkMenu(event) {
+    const linkMenu = document.getElementById('linkMenu');
+    hideMenus();
+    linkMenu.style.display = 'block';
+    linkMenu.style.left = `${event.pageX}px`;
+    linkMenu.style.top = `${event.pageY}px`;
+    linkMenu.dataset.url = event.target.href; // リンクURLをデータ属性として保存
+}
+
+function showPageMenu(event) {
+    const pageMenu = document.getElementById('pageMenu');
+    hideMenus();
+    pageMenu.style.display = 'block';
+    pageMenu.style.left = `${event.pageX}px`;
+    pageMenu.style.top = `${event.pageY}px`;
+}
+
+function hideMenus() {
+    document.getElementById('linkMenu').style.display = 'none';
+    document.getElementById('pageMenu').style.display = 'none';
+}
+
+function openLink(event, target) {
+    const url = document.getElementById('linkMenu').dataset.url;
+    window.open(url, target);
+    hideMenus();
+}
+
+function copyLink(event) {
+    const url = document.getElementById('linkMenu').dataset.url;
+    navigator.clipboard.writeText(url).then(() => {
+        alert('リンクがコピーされました');
+    });
+    hideMenus();
+}
+
+function copyPageLink() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+        alert('ページのリンクがコピーされました');
+    });
+    hideMenus();
+}
