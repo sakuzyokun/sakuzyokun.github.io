@@ -126,22 +126,28 @@ function setMode(mode) {
     const body = document.body;
     const main = document.querySelector('main');
     const header = document.querySelector('header');
+    const customMenus = document.querySelectorAll('.custom-menu');
 
     body.className = ''; // Reset all mode classes
     main.className = ''; // Reset all mode classes
     header.className = ''; // Reset all mode classes
+    customMenus.forEach(menu => menu.className = 'custom-menu'); // Reset custom menu classes
 
     if (mode === 'light') {
         body.classList.add('light-mode');
         main.classList.add('light-mode');
         header.classList.add('light-mode');
+        customMenus.forEach(menu => menu.classList.add('light-mode'));
     } else if (mode === 'dark') {
         body.classList.add('dark-mode');
         main.classList.add('dark-mode');
         header.classList.add('dark-mode');
+        customMenus.forEach(menu => menu.classList.add('dark-mode'));
     } else if (mode === 'photo') {
         body.classList.add('photo-mode');
         main.classList.add('photo-mode');
         header.classList.add('photo-mode');
+        customMenus.forEach(menu => menu.classList.add('photo-mode'));
     }
 }
+
