@@ -47,3 +47,11 @@ article p {
     font-size: 1.2em;
     margin-bottom: 20px;
 }
+
+a {
+    color: #99ebf7;
+}
+
+a:hover {
+    color: #ffa500;
+}
