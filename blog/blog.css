@@ -53,3 +53,11 @@ p {
 time {
     color: #cccccc;
 }
+
+a {
+    color: #ffffff;
+}
+
+a:hover {
+    color: #ffa500;
+}
