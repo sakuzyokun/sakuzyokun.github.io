@@ -1,75 +1,109 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8">
+    <meta charset="Shift_JIS">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>蜑企勁縺上ｓ縺ｮ繝帙?繝?繝壹?繧ｸ</title>
+    <title>削除くんのホームページ</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <script src="index.js" defer></script>
 </head>
 <body>
     <header>
-        <h1>蜑企勁縺上ｓ縺ｮ繝帙?繝?繝壹?繧ｸ</h1>
+    <h1>削除くんのホームページ</h1>
+    <div id="modeToggleButtons">
+        <button onclick="setMode('light')">ライトモード</button>
+        <button onclick="setMode('dark')">ダークモード</button>
+        <button onclick="setMode('photo')">写真モード</button>
+    </div>
     </header>
     <main>
-        <section>
-            <h2>繝帙?繝?</h2>
-            <h3>逶ｮ谺｡</h3>
+        <div id="linkMenu" class="custom-menu" style="display: none;">
             <ul>
-                <li><a href="notice.html">&#x1f514;縺顔衍繧峨○</a></li>
-                <li><a href="Blog.html">&#x1f4c4;繝悶Ο繧ｰ</a></li>
-                <li><a href="search.html">&#x1f50d;繧ｵ繧､繝亥?讀懃ｴ｢</a></li>
-                <li><a href="https://scratch.mit.edu/projects/1082689744/" target="_blank">&#x1f4ac;Scratch縺ｧ繧ｳ繝｡繝ｳ繝</a></li>
-                <li><a href="chat.html">&#x1f4ac;繝√Ε繝?ヨ</a><br></li>
-                <li><a href="topic.html">&#x1f44d;繝医ヴ繝?け謚慕･ｨ繝??繝ｫ</a></li>
-                <li><a href="自己紹介.html">&#x1f4e2;閾ｪ蟾ｱ邏ｹ莉</a></li>
-                <li><a href="url.html">&#x1f517;URL荳?隕ｧ</a></li>
-                <li><a href="cmd.html">&#x1f4bb;繧ｳ繝槭Φ繝峨?繝ｭ繝ｳ繝励ヨ</a></li>
-                <li><a href="emulator.html">&#x1f4bb;PC繧ｨ繝溘Η繝ｬ繝ｼ繧ｿ繝ｼ</a></li>
-                <li><a href="Scratch(4GB).html">&#x1f4e6;Scratch菴懷刀??GB莉･荳翫Γ繝｢繝ｪ蠢??茨ｼ</a></li>
-                <li><a href="Scratch.html">&#x1f4c4;Scratch菴懷刀?郁ｻｽ驥丞喧?</a></li>
-                <li><a href="game.html">&#x1f3ae;繧ｲ繝ｼ繝?</a></li>
-                <li><a href="AI.html">&#x1f4bb;AI縺ｫ菴懊▲縺ｦ繧ゅｉ縺｣縺溘ｂ縺ｮ</a></li>
-                <li><a href="sakuzyo.html">&#x1f4bb;AI縺ｫ菴懊▲縺ｦ繧ゅｉ縺｣縺溘ｂ縺ｮ</a></li>
-                <li><a href="YouTube.html">&#x1f3ac;YouTube縺ｮ蜍慕判荳?隕ｧ</a></li>
-                <li><a href="Video Vault.html">&#x1f3ac;蜍慕判縺ｮ螳晏ｺｫ(Video Vault)</a></li>
+                <li onclick="openLink(event, '_blank')">新しいタブで開く</li>
+                <li onclick="openLink(event, '_self')">開く</li>
+                <li onclick="copyLink(event)">リンクをコピー</li>
+            </ul>
+        </div>
+        <div id="pageMenu" class="custom-menu" style="display: none;">
+            <ul>
+                <li onclick="copyPageLink()">ページのリンクをコピー</li>
+                <li onclick="hideMessageBox()">メッセージボックスを消す</li>
+            </ul>
+        </div>
+        <section>
+            <h2>ホーム</h2>
+            <h3>目次</h3>
+            <ul>
+                <li><a href="notice.html">&#x1f514;お知らせ</a></li>
+                <li><a href="Blog.html">&#x1f4c4;ブログ</a></li>
+                <li><a href="search.html">&#x1f50d;サイト内検索</a></li>
+                <li><a href="https://scratch.mit.edu/projects/1082689744/" target="_blank">&#x1f4ac;Scratchでコメント</a></li>
+                <li><a href="chat.html">&#x1f4ac;チャット</a><br></li>
+                <li><a href="topic.html">&#x1f44d;トピック投票ツール</a></li>
+                <li><a href="自己紹介.html">&#x1f4e2;自己紹介</a></li>
+                <li><a href="url.html">&#x1f517;URL一覧</a></li>
+                <li><a href="cmd.html">&#x1f4bb;コマンドプロンプト</a></li>
+                <li><a href="emulator.html">&#x1f4bb;PCエミュレーター</a></li>
+                <li><a href="Scratch(4GB).html">&#x1f4e6;Scratch作品（4GB以上メモリ必須）</a></li>
+                <li><a href="Scratch.html">&#x1f4c4;Scratch作品（軽量化）</a></li>
+                <li><a href="creator.html">&#x1f468;&#x200d;&#x1f4bb;開発者</a></li>
+                <li><a href="game.html">&#x1f3ae;ゲーム</a></li>
+                <li><a href="AI.html">&#x1f4bb;AIに作ってもらったもの</a></li>
+                <li><a href="sakuzyo.html">&#x1f4bb;自分で作ったもの</a></li>
+                <li><a href="YouTube.html">&#x1f3ac;YouTubeの動画一覧</a></li>
+                <li><a href="Video Vault.html">&#x1f3ac;動画の宝庫(Video Vault)</a></li>
                 <li><a href="Echo/Echo.html">&#x1f916;Echo</a></li>
-                <li><a href="webmania/home.html">&#x1f468;&#x200d;&#x1f9b0;繧ｦ繧ｧ繝悶?繝九い蝗ｳ譖ｸ鬢ｨ</a></li>
-                <li><a href="info.html">&#x2139;縺薙?繧ｵ繧､繝医↓縺､縺?※</a></li>
+                <li><a href="webmania/home.html">&#x1f468;&#x200d;&#x1f9b0;ウェブマニア図書館</a></li>
+                <!--
+                <li><a href="Amasan/Amasan.html">&#x1f6cd;Amasan</a></li>-->
+                <li><a href="info.html">&#x2139;このサイトについて</a></li>
             </ul>
         </section>
         <section>
-            <h3>Scratch繧偵ｄ縺｣縺ｦ縺?∪縺 繧医°縺｣縺溘ｉ繝輔か繝ｭ繝ｼ縺翫?縺後＞縺励∪縺?</h3>
-            <p>URL縺ｯ<a href="https://scratch.mit.edu/users/exa2023_05/" target="_blank">縺薙■繧</a></p>
+            <h3>Scratchをやっています よかったらフォローおねがいします!</h3>
+            <p>URLは<a href="https://scratch.mit.edu/users/exa2023_05/" target="_blank">こちら</a></p>
             <iframe src="https://scratch.mit.edu/projects/1081082864/embed" allowtransparency="true" width="485" height="402" frameborder="0" scrolling="no" allowfullscreen></iframe>
         </section>
         <section>
-            <h3>Discord繧ゅｄ縺｣縺ｦ縺?∪縺</h3>
-            <p>隕九◆縺九ｉ縺ｫ縺ｯDiscord繧偵ｄ縺｣縺ｦ縺?ｋ莠ｺ縺ｯ縺薙?繧ｵ繝ｼ繝舌?縺ｫ<b><u>邨ｶ蟇ｾ蜈･縺｣縺ｦ縺上□縺輔＞</u></b></p>
-            <a href="https://discord.gg/p2zXu4mdG2" target="_blank">蜑企勁縺上ｓ繝√Ε繝ｳ繝阪Ν蜈ｬ蠑上し繝ｼ繝舌?</a><br>
+            <h3>Discordもやっています</h3>
+            <p>見たからにはDiscordをやっている人はこのサーバーに<b><u>絶対入ってください</u></b></p>
+            <a href="https://discord.gg/p2zXu4mdG2" target="_blank">削除くんチャンネル公式サーバー</a><br>
             <iframe src="https://discordapp.com/widget?id=1286249711199850529&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
         </section>
         <section>
-            <h3>Twitter(譌ｧX)繧ゅｄ縺｣縺ｦ縺?ｋ縺ｮ縺ｧ繝輔か繝ｭ繝ｼ縺翫?縺後＞縺励∪縺?</h3>
+            <h3>Twitter(旧X)もやっているのでフォローおねがいします!</h3>
             <a href="https://twitter.com/sakuzyokun?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @sakuzyokun</a>
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
         </section>
         <section>
-            <h3>YouTube繧?▲縺ｦ縺?ｋ縺ｮ縺ｧ縺ｭ縲√メ繝｣繝ｳ繝阪Ν逋ｻ骭ｲ縺励◆?(((蝨ｧ</h3>
+            <h3>YouTubeやっているのでね、チャンネル登録した?(((圧</h3>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/QNYKAbPThlU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </section>
         <section>
             <h3>error408.exe</h3>
-            <a href="https://scratch.mit.edu/projects/1046301158/" target="_blank">縺薙ｌ縺ｯ驥阪＞縺ｮ縺ｧ繝｡繝｢繝ｪ4GB莉･荳雁ｿ??医〒縺 繧ｿ繝悶Ξ繝?ヨ縺ｪ縺ｩ縺ｧ縺ｯ繧｢繧ｯ繧ｻ繧ｹ縺ｧ縺阪∪縺帙ｓ?域ｩ溽ｨｮ縺ｫ繧医ｋ?</a>
+            <a href="https://scratch.mit.edu/projects/1046301158/" target="_blank">これは重いのでメモリ4GB以上必須です タブレットなどではアクセスできません（機種による）</a>
         </section>
         <section>
-            <h2>繝悶Ο繧ｰ縺ｯ縺薙■繧</h2>
-            <a href="Blog.html">繝悶Ο繧ｰ</a>
-            <p>縺?ｄ荳翫↓繧ゅ≠縺｣縺溘ｈ!</p>
+            <h2>ブログはこちら</h2>
+            <a href="Blog.html">ブログ</a>
+            <p>いや上にもあったよ!</p>
         </section>
+        <!--
+        <div id="messageBox" class="message-box" style="display: none;">
+            <div class="message-box-header">
+                <span>Webページからのメッセージ</span>
+                <button class="close-btn" onclick="closeMessageBox()">×</button>
+            </div>
+            <div class="message-box-body">
+                YouTubeのチャンネル登録・高評価おねがいします！
+            </div>
+            <button onclick="web(), closeMessageBox()">OK</button>
+        </div>-->
+        <div id="toggleButton" style="position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);"></div>
     </main>
 </body>
 </html>
