@@ -63,6 +63,21 @@
             border: 1px solid #c3e6cb;
             border-radius: 5px;
         }
+        .cart-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+        .cart-item h2 {
+            margin: 0;
+        }
+        .cart-item p {
+            margin: 5px 0;
+        }
+        .total {
+            font-size: 1.5em;
+            text-align: right;
+            margin-top: 20px;
+        }
     </style>
     <script>
         function getLocation() {
@@ -92,15 +107,44 @@
                 });
         }
 
-        window.onload = getLocation;
+        function addToCart(productName, productPrice) {
+            var cartContainer = document.getElementById("cart-container");
+            var newItem = document.createElement("div");
+            newItem.className = "cart-item";
+            newItem.innerHTML = `
+                <h2>${productName}</h2>
+                <p class="price">価格: ¥${productPrice}</p>
+                <p>数量: <input type="number" class="quantity" value="1" min="1" onchange="updateTotal()"></p>
+                <button onclick="removeItem(this)">削除</button>
+            `;
+            cartContainer.appendChild(newItem);
+            updateTotal();
 
-        function addToCart() {
             var message = document.getElementById("message");
             message.style.display = "block";
             setTimeout(function() {
                 message.style.display = "none";
-            }, 2000); // 3秒後にメッセージを非表示にする
+            }, 2000);
         }
+
+        function updateTotal() {
+            var items = document.getElementsByClassName('cart-item');
+            var total = 0;
+            for (var i = 0; i < items.length; i++) {
+                var price = parseInt(items[i].getElementsByClassName('price')[0].textContent.replace('価格: ¥', ''));
+                var quantity = parseInt(items[i].getElementsByClassName('quantity')[0].value);
+                total += price * quantity;
+            }
+            document.getElementById("total").textContent = '合計: ¥' + total;
+        }
+
+        function removeItem(button) {
+            var item = button.parentNode;
+            item.parentNode.removeChild(item);
+            updateTotal();
+        }
+
+        window.onload = getLocation;
     </script>
 </head>
 <body>
@@ -126,9 +170,11 @@
             <h2>商品名</h2>
             <p>商品説明がここに入ります。</p>
             <p>価格: ¥99999</p>
-            <button onclick="addToCart()">カートに追加</button>
+            <button onclick="addToCart('商品名', 99999)">カートに追加</button>
         </div>
         <!-- 他の商品もここに追加 -->
+        <div id="cart-container"></div>
+        <div class="total" id="total">合計: ¥0</div>
     </div>
 </body>
 </html>
