@@ -64,37 +64,75 @@
             display: inline;
             margin-left: 10px;
         }
+        button {
+            padding: 5px;
+            background-color: #007bff; /* Change button color */
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3; /* Change button color on hover */
+        }
     </style>
 </head>
 <script>
     function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                document.getElementById("address").innerHTML = "Geolocation is not supported by this browser.";
-            }
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            document.getElementById("address").innerHTML = "Geolocation is not supported by this browser.";
         }
+    }
 
-        function showPosition(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-            getAddress(latitude, longitude);
+    function showPosition(position) {
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        getAddress(latitude, longitude);
+    }
+
+    function getAddress(latitude, longitude) {
+        fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=dfacb0219a9d4404864d60f75d11d671`)
+            .then(response => response.json())
+            .then(data => {
+                var components = data.results[0].components;
+                var address = `${components.postcode} ${components.state} ${components.city}`;
+                document.getElementById("address").innerHTML = address;
+            })
+            .catch(error => {
+                document.getElementById("address").innerHTML = "住所を取得できませんでした。";
+            });
+    }
+
+    function updateTotal() {
+        var items = document.getElementsByClassName('cart-item');
+        var total = 0;
+        for (var i = 0; i < items.length; i++) {
+            var price = parseInt(items[i].getElementsByClassName('price')[0].textContent.replace('¥', ''));
+            var quantity = parseInt(items[i].getElementsByClassName('quantity')[0].value);
+            total += price * quantity;
         }
+        document.getElementsByClassName('total')[0].textContent = '合計: ¥' + total;
+    }
 
-        function getAddress(latitude, longitude) {
-            fetch(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=dfacb0219a9d4404864d60f75d11d671`)
-                .then(response => response.json())
-                .then(data => {
-                    var components = data.results[0].components;
-                    var address = `${components.postcode} ${components.state} ${components.city}`;
-                    document.getElementById("address").innerHTML = address;
-                })
-                .catch(error => {
-                    document.getElementById("address").innerHTML = "住所を取得できませんでした。";
-                });
-        }
-
-        window.onload = getLocation;
+    function removeItem(button) {
+        var item = button.parentNode;
+        item.parentNode.removeChild(item);
+        updateTotal();
+    }
+    
+    window.onload = function() {
+        getLocation();
+        document.querySelectorAll('.quantity').forEach(input => {
+            input.addEventListener('change', updateTotal);
+        });
+        document.querySelectorAll('.remove').forEach(button => {
+            button.addEventListener('click', function() {
+                removeItem(this);
+            });
+        });
+        updateTotal();
+    };
 </script>
 <body>
     <header>
@@ -116,9 +154,9 @@
         <h2>カート</h2>
         <div class="cart-item">
             <h2>商品名</h2>
-            <p>価格: ¥xxxx</p>
-            <p>数量: 1</p>
-            <button>削除</button>
+            <p class="price">価格: ¥xxxx</p>
+            <p>数量: <input type="number" class="quantity" value="1" min="1"></p>
+            <button class="remove">削除</button>
         </div>
         <!-- 他の商品もここに追加 -->
         
