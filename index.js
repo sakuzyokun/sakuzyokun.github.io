@@ -86,16 +86,32 @@ document.addEventListener('mousedown', function(event) {
 });
 
 document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchmove', handleTouchMove, false);
 document.addEventListener('touchend', handleTouchEnd, false);
 
 let touchStartTime;
-const touchDuration = 250; // 長押しとみなす時間（ミリ秒）
+let touchX;
+let touchY;
+const touchDuration = 500; // 長押しとみなす時間（ミリ秒）
 
 function handleTouchStart(event) {
     touchStartTime = Date.now();
+    touchX = event.touches[0].clientX;
+    touchY = event.touches[0].clientY;
+}
+
+function handleTouchMove(event) {
+    const deltaX = Math.abs(event.touches[0].clientX - touchX);
+    const deltaY = Math.abs(event.touches[0].clientY - touchY);
+    if (deltaX > 10 || deltaY > 10) {
+        touchStartTime = null; // 長押しをキャンセル
+    }
 }
 
 function handleTouchEnd(event) {
+    if (!touchStartTime) {
+        return;
+    }
     const elapsedTime = Date.now() - touchStartTime;
     if (elapsedTime >= touchDuration) {
         // 長押しとみなす
