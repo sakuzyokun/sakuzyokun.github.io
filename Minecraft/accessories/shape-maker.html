@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>MineKhan Shape Maker</title>
+    <link href="shape-maker.css" rel="stylesheet" type="text/css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.6/processing.min.js"
+      integrity="sha512-qs0N4ld6hTj4OctCxV59EzJ6dVXQZIuP0BARqBOlY9bxquJzwwcLuBeEyvC8WqkuKK7zfb0rgZ2PW3IvAXocJw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <canvas id="pjs-cnv"></canvas>
+    <div id="side">
+      <h2>MineKhan Shape Maker</h2>
+      <h3>Settings</h3>
+      <input
+        type="checkbox"
+        onchange="settings.lines=this.checked; draw()"
+        checked
+        id="showLinesCheckbox"
+      />
+      <label for="showLinesCheckbox">Show lines</label>
+
+      <h3>File</h3>
+      <button onclick="getShape()">Generate shape vertices</button><br />
+      <button onclick="impFaces(result.value); draw()">
+        Import shape vertices</button
+      ><br />
+      <textarea id="result"></textarea>
+
+      <h3>Faces</h3>
+      <button onclick="clearFaces()">Clear faces</button><br />
+      <select id="newFaceDir">
+        <option value="bottom">Bottom</option>
+        <option value="top">Top</option>
+        <option value="north">North</option>
+        <option value="south">South</option>
+        <option value="east">East</option>
+        <option value="west">West</option>
+      </select>
+      <button onclick="newFace()">New face</button><br />
+      <div id="faces">
+        Bottom
+        <ul id="bottomFaces"></ul>
+        Top
+        <ul id="topFaces"></ul>
+        South
+        <ul id="southFaces"></ul>
+        North
+        <ul id="northFaces"></ul>
+        East
+        <ul id="eastFaces"></ul>
+        West
+        <ul id="westFaces"></ul>
+      </div>
+      <div id="editFace">
+        <h3>Edit face</h3>
+        <button onclick="deleteFace()">Delete face</button><br />
+        <label for="faceX">X: </label
+        ><input id="faceX" type="number" onchange="editTheFace(0,this.value)" />
+        <label for="faceY">Y: </label
+        ><input id="faceY" type="number" onchange="editTheFace(1,this.value)" />
+        <label for="faceZ">Z: </label
+        ><input id="faceZ" type="number" onchange="editTheFace(2,this.value)" />
+        <label for="faceW">Width: </label
+        ><input id="faceW" type="number" onchange="editTheFace(3,this.value)" />
+        <label for="faceH">Height: </label
+        ><input id="faceH" type="number" onchange="editTheFace(4,this.value)" />
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

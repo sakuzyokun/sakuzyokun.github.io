@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Base64 to Base36</title>
+    <!--Script from https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.4.8/processing.min.js-->
+    <script src="src/js/processing.min.js"></script>
+  </head>
+  <body>
+    <button id="demo" onclick="getString()">Base64 to Base36</button>
+    <input type="file" onchange="encodeImageFileAsURL(this)" />
+    <div>
+      <canvas id="canvas"></canvas>
+    </div>
+    <script src="src/js/tm.js"></script>
+    <script>
+      function encodeImageFileAsURL(element) {
+        var file = element.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function () {
+          alert("RESULT", reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    </script>
+    <!--</body>-->
+  </body>
+</html>

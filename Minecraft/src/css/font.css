@@ -1,0 +1,11 @@
+/* CSS Document */
+/*@font-face {
+	font-family: Minecraft;
+	src: url("../css/minecraft.ttf");
+}*/
+@font-face {
+  font-family: "Minecraft";
+  src: url("../css/minecraftfont.eot");
+  src: url("../css/minecraftfont.woff") format("woff"),
+    url("../css/minecraft.ttf") format("truetype");
+}
