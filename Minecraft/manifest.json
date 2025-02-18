@@ -1,0 +1,41 @@
+{
+  "name": "Minecraft: Javascript Edition",
+  "short_name": "Minecraft",
+  "start_url": "index.html",
+  "description": "Minecraft written in Javascript",
+  "display": "fullscreen",
+  "background_color": "#000",
+  "theme_color": "#fff",
+  "scope": "index.html",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "type": "image/x-icon",
+      "sizes": "48x48"
+    },
+    {
+      "src": "favicon96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "favicon192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "favicon512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Open multiplayer",
+      "short_name": "Multiplayer",
+      "description": "Open multiplayer automatically without opening app first",
+      "url": "/?changeScene=multiplayer menu"
+    }
+  ]
+}

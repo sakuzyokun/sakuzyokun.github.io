@@ -1,0 +1,16 @@
+{
+  "name": "minecraft",
+  "version": "0.7.5",
+  "description": "A Minecraft clone written in Javascript.",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve",
+    "build": "echo This is a static template, there is no bundler or bundling involved!"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codesandbox-app/static-template.git"
+  },
+  "keywords": [],
+  "author": "Anaynomous"
+}

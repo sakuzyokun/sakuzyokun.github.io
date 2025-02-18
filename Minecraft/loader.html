@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Minecraft | Javascript Edition</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Minecraft Javascript Edition is just Minecraft written in Javascript. Playable on PC only. No mobile controls... yet"
+    />
+    <meta name="keywords" content="minecraft, minecraft javascript, js" />
+    <meta name="author" content="Willard21 and Someone Anonymous" />
+    <meta name="application-name" content="Minecraft | Javascript Edition" />
+    <link href="src/css/loader.css" rel="stylesheet" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="src/img/minecraft-apple-icon.png" />
+    <link rel="mask-icon" href="src/img/minecraft.ico" color="black" />
+    <link rel="icon" href="src/img/minecraft.ico" type="image/x-icon" />
+    <script language="javascript" src="src/js/title.js"></script>
+    <!--Moving title stuff-->
+  </head>
+  <body>
+    <script src="src/js/jquery-2.1.4.js"></script>
+    <script>
+      $(window).on("load", function () {
+        $(".loader-wrapper").fadeOut("slow");
+      });
+    </script>
+    <div class="loader-wrapper">
+      <span class="loader"><span class="loader-inner"></span>Loading...</span>
+    </div>
+    <div class="content">
+      <object
+        data="index.html"
+        type="text/html"
+        style="width: 100%; height: 100vh;"
+      >
+      </object>
+    </div>
+    <!--</body>-->
+  </body>
+</html>

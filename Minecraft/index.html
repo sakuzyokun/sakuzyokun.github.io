@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<!-- @Minecraft version Alpha 1.0.4
+-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Minecraft</title>
+    <base href="https://16f81.codesandbox.io" />
+    <meta name="keywords" content="Minecraft" />
+    <meta
+      name="description"
+      content="Minecraft with survival and nether and many more features"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" id="themeColor" />
+    <link
+      id="vtfont"
+      href="https://fonts.googleapis.com/css2?family=mojangles&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @font-face {
+        font-family: "mojangles";
+        src: url("mojangles.ttf");
+      }
+    </style>
+    <link rel="shortcut icon" type="image/ico" href="images/favicon.ico" />
+    <link rel="manifest" href="manifest.json" />
+  </head>
+  <style>
+    body {
+      overflow: hidden;
+      cursor: url('data:@file/x-123;base64,AAACAAEAICAAAAAABACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAgBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIiIv7////+/v7+/klJSfQCAgJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJycn/v////5XV1f0DAwMQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlJSX+X19f9BsbG0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE1NTdoeHh5AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/////////////////////////////////////z////8f////D////wf///8D////Af///wD///8AAD//AAA//wAAf/8AAP//AAH//wAD//8AB///AA///wAf//8AP///AH///wD///8B////A////wf///8P////H////z////8='), auto;
+    }
+    button,
+    #onscreenControls,
+    canvas,
+    #loader {
+      /*get rid of user select*/
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .world-select {
+      width: 99vw;
+      min-width: 300px;
+      height: calc(100vh - 220px);
+      position: absolute;
+      bottom: 120px;
+      overflow-y: auto;
+      background-color: RGBA(0, 0, 0, 0.6);
+      justify-content: center;
+      margin: 0 auto;
+    }
+    .world {
+      width: 50%;
+      height: auto;
+      border: 1px solid black;
+      font-size: 13px;
+      font-family: "mojangles", "Courier New", Courier, monospace;
+      color: rgb(180, 180, 180);
+      margin: 0 auto;
+      margin-top: 15px;
+      padding: 5px;
+      cursor: pointer;
+      position: relative;
+    }
+    .world .thumbnail {
+      float: left;
+      margin-right: 8px;
+      width: 70px;
+      height: 70px;
+    }
+    .world .thumbnailHover {
+      position: absolute;
+      left: 5px;
+      top: 5px;
+      background: #fff8;
+      opacity: 0;
+      width: 70px;
+      height: 70px;
+      background-image: url("https://16f81.codesandbox.io/images/world_selection.png");
+      background-position: 0 0;
+      background-size: 800%;
+      image-rendering: pixelated;
+    }
+    .world:hover .thumbnailHover {
+      opacity: 1;
+    }
+    .world .thumbnailHover:hover {
+      background-position: 0 -70px;
+    }
+    .world .ping {
+      float: right;
+    }
+    .world .ping .img {
+      width: 20px;
+      height: 14px;
+      image-rendering: pixelated;
+      background-image: url("https://16f81.codesandbox.io/images/ping.png");
+      background-position: 0 0;
+      background-size: 40px 600%;
+    }
+    .world-select .message {
+      font-size: 15px;
+      font-family: "mojangles", "Courier New", Courier, monospace;
+      color: rgb(180, 180, 180);
+      margin-top: 15px;
+      text-align: center;
+    }
+    strong {
+      color: white;
+    }
+    a {
+      color: #37f;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .selected {
+      outline: 3px solid white;
+    }
+    input[type="text"] {
+      background-color: black;
+      caret-color: white;
+      border: 2px solid gray;
+      color: white;
+      font-size: 24px;
+      padding-left: 12px;
+    }
+    input[type="text"]:focus {
+      border: 2px solid lightgray;
+    }
+    #boxcentertop {
+      z-index: 1;
+      width: 80vw;
+      max-width: 400px;
+      height: 50px;
+      position: relative;
+      top: 30px;
+      display: block;
+      margin: 0 auto;
+    }
+    #uploadWorld {
+      z-index: 1;
+      color: white;
+      position: relative;
+      display: block;
+      left: calc(50% + 220px);
+    }
+    #editworld {
+      z-index: 1;
+      width: 80vw;
+      max-width: 400px;
+      position: relative;
+      top: 90px;
+      margin: 0 auto;
+    }
+    #editworld input {
+      width: 100%;
+      height: 50px;
+      display: block;
+      margin: 10px 0;
+    }
+    .hidden {
+      display: none !important;
+    }
+    #onhover {
+      background-color: rgba(0, 0, 0, 0.9);
+      color: rgb(200, 200, 200);
+      font-family: mojangles, "Courier New", Courier, monospace;
+      font-size: 13px;
+      word-wrap: normal;
+      width: auto;
+      max-width: 400px;
+      position: absolute;
+      z-index: 1;
+      padding: 10px;
+      cursor: default;
+    }
+    #quota {
+      display: block;
+      position: absolute;
+      width: 99vw;
+      margin: 0 auto;
+      bottom: 110px;
+      z-index: 1;
+      background-color: RGBA(0, 0, 0, 0.6);
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+    #messagesHolder {
+      position: absolute;
+      z-index: 2;
+      top: 0px;
+      left: 0px;
+      background: #000a;
+      color: white;
+      font: 14px "mojangles";
+      max-height: 100%;
+    }
+    #messageInput {
+      border: none;
+      background: transparent;
+      width: 100%;
+      min-width: 100px;
+      color: white;
+      font: 14px "mojangles";
+    }
+    /*#messages{
+display: flex;
+align-items: flex-end;
+}*/
+    #help {
+      position: absolute;
+      z-index: 2;
+      top: 50px;
+      left: 0px;
+      width: 100vw;
+      height: calc(100vh - 50px);
+      background: #0000;
+      color: white;
+      font: 15px mojangles;
+      display: flex;
+      flex-direction: row;
+    }
+    #help > .nav {
+      width: 20%;
+      background: #0008;
+    }
+    #help > .nav > a {
+      display: block;
+      padding: 8px;
+      width: 100%;
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+    }
+    #help > .content {
+      width: 80%;
+      padding: 10px;
+      overflow: scroll;
+      background: #0004;
+    }
+    #help > .content > div {
+      margin-bottom: 100px;
+    }
+    #help > .content pre {
+      font: 15px mojangles;
+    }
+    #help h1 {
+      font-size: 25px;
+    }
+    #help h2 {
+      font-size: 18px;
+    }
+    #help img {
+      max-width: 100%;
+    }
+    #onscreenControls {
+      position: fixed;
+      font-family: monospace;
+      bottom: 10px;
+      width: 100%;
+    }
+    #onscreenControls button {
+      margin: 0;
+      min-width: calc(100% / 13);
+      min-height: 40px;
+      border-radius: 0px;
+      background: #888;
+      border-color: #aaa #666 #666 #aaa;
+      border-width: 2px;
+      border-style: solid;
+      color: white;
+      outline: none;
+    }
+    #onscreenControls button:active {
+      background: #9a9a9a;
+      border-color: #888 #aaa #aaa #888;
+    }
+    #onscreenControls #buttonsRight {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+    #onscreenControls #buttonsTop {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: calc(100% - 20px);
+      display: flex;
+      align-items: center;
+    }
+    #loader {
+      background: #111;
+      color: white;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      font-size: 15px;
+      font-family: Arial;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 2;
+      transition: 1s linear;
+      font-family: "mojangles", "Courier New", Courier, monospace;
+    }
+    #loader .name {
+      width: 433px;
+      /*
+font-size:60px;
+font-family:mojangles;
+*/
+    }
+    #loader .name > img {
+      width: 100%;
+    }
+    #loadingImg {
+      width: 42px;
+      image-rendering: pixelated;
+    }
+    #loadBar {
+      border: 2px solid #eee;
+      width: 40%;
+      padding: 2px;
+    }
+    #loadBar div {
+      height: 10px;
+      width: 0px;
+      background: #eee;
+    }
+    .darklinks a {
+      color: blue;
+    }
+    .collapsible {
+      color: black;
+    }
+    .collapsible .title {
+      background-color: #777;
+      color: white;
+      cursor: pointer;
+      padding: 18px;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+    }
+    .collapsible .title:hover {
+      background-color: #555;
+    }
+    .collapsible .title:after {
+      content: "\02795"; /* Unicode character for "plus" sign (+) */
+      font-size: 13px;
+      color: white;
+      float: right;
+      margin-left: 5px;
+    }
+    .collapsible .title.active:after {
+      content: "\2796"; /* Unicode character for "minus" sign (-) */
+    }
+    .collapsible .content {
+      padding: 0 18px;
+      background-color: #f1f1f1;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+    }
+    .recipe {
+      background: #7f7f7f;
+      border: 1px solid black;
+      padding: 10px;
+      margin: 20px;
+      display: inline-block;
+    }
+    .recipe .grid {
+      display: inline-block;
+      outline: 2px solid black;
+    }
+    .recipe .grid > img,
+    .recipe .grid > div {
+      outline: 1px solid black;
+      display: inline-block;
+    }
+    .recipe .result {
+      outline: 1px solid black;
+      display: inline-block;
+      position: relative;
+    }
+    .recipe .result .number {
+      position: absolute;
+      color: white;
+      bottom: 0;
+      right: 0;
+      font-size: 14px;
+    }
+  </style>
+  <body>
+    <canvas
+      id="overlay"
+      tabindex="0"
+      width="600"
+      height="600"
+      style="position: absolute; top: 0px; left: 0px;"
+    ></canvas>
+    <input
+      type="text"
+      id="savebox"
+      class="hidden"
+      spellcheck="false"
+      style="position: absolute; top: 10px; left: 10px; z-index: 1;"
+    />
+    <input type="text" id="boxcentertop" class="hidden" spellcheck="false" />
+    <input
+      type="file"
+      id="uploadWorld"
+      class="hidden"
+      accept=".mcs"
+      title="Upload a world"
+    />
+    <div id="quota" class="hidden"></div>
+    <div id="editworld" class="hidden">
+      <input
+        type="text"
+        id="url"
+        spellcheck="false"
+        placeholder="Enter thumbnail url"
+      />
+    </div>
+    <div id="onhover" class="hidden"></div>
+    <p
+      id="savedirections"
+      class="hidden"
+      style="
+        position: absolute;
+        top: 40px;
+        left: 10px;
+        z-index: 1;
+        background-color: rgba(255, 255, 255, 0.3);
+      "
+    >
+      To save your world, copy/paste the saveString<br />
+      from this box into the code on line 189.<br />
+      var loadString = "Your Code Here";<br />
+      Then save the program as a Spin-off.
+    </p>
+    <div class="world-select hidden" id="worlds"></div>
+    <div class="world-select hidden" id="servers"></div>
+    <div class="world-select hidden" id="marketplace"></div>
+    <p
+      id="message"
+      class="hidden darklinks"
+      style="
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+        text-align: right;
+        background-color: rgba(255, 255, 255, 0.3);
+      "
+    ></p>
+    <div id="messagesHolder" class="hidden">
+      <input id="messageInput" class="hidden" />
+      <div id="messages"></div>
+    </div>
+    <div id="help" class="hidden">
+      <div class="nav">
+        <a onclick="scrollToEl('help_about')">About</a>
+        <a onclick="scrollToEl('help_loadsave')">Load save menu</a>
+        <a onclick="scrollToEl('help_controls')">Controls</a>
+        <a onclick="scrollToEl('help_health')">Health</a>
+        <a onclick="scrollToEl('help_inventory')">Inventory</a>
+        <a onclick="scrollToEl('help_crafting')">Crafting</a>
+      </div>
+      <div class="content">
+        <div id="help_about">
+          <h1>About Minecraft</h1>
+          Nothing
+        </div>
+        <div id="help_loadsave">
+          <h1>Load save menu</h1>
+          The load save menu is where you load and create worlds.<br />
+          <img
+            src="https://16f81.codesandbox.io/images/help/loadsave.png"
+            style="border: 1px solid white;"
+          /><br />
+          To select a world, you click it.<br />
+          The create new world button takes you to the Create world menu.<br />
+          The play selected world button loads the selected world.<br />
+          <span style="color: yellow; font-family: fantasy; display: none;"
+            >"Congratulations, you graduate!" - Iruka Sensei<br
+          /></span>
+          The edit button takes you to the Edit world menu.<br />
+          The delete button deletes the selected world.<br />
+          The export button puts the save code of the selected world in the
+          input box.<br />
+          The cancel button takes you back to the main menu.
+        </div>
+        <div id="help_controls">
+          <h1>Controls</h1>
+          <b>These controls are used only when playing in a world</b><br />
+          <pre>
+ * Right-click (or ctrl + left-click): place block
+* Left-click: Remove block
+* Middle-click: Pick block
+* Q: Sprint
+* Shift: Sneak
+* W: Walk forward
+* S: Walk backward
+* A: Walk left
+* D: Walk right
+* E: Open inventory
+* B: Toggle super Breaker
+* Z: Zoom
+* L: Toggle Spectator mode
+* Enter: Toggle slab/stair mode
+* Arrow Keys: look around
+* P or Esc: pause/unpause
+* 1-9 navigate hotbar
+* Spacebar: jump
+* Double jump: toggle flight
+* Shift (flying): fly down
+* Space (flying): fly up
+* T: Reload textures
+* ; (semicolon): Release the pointer without pausing (for screenshots)
+* Backspace or delete: drops the item you're holding right now
+* / to open chat
+* H for Hyper builder
+* O to toggle third person mode</pre
+          >
+        </div>
+        <div id="help_health">
+          <h1>Health</h1>
+          Health is a feature only in survival.<br />
+          A heart looks like this:
+          <div img="heart"></div>
+          <br />
+          A half heart looks like this:
+          <div img="halfHeart"></div>
+          <br />
+          When you create a new world, you start with 20
+          <div img="heart" amount="10"></div>
+          health.<br />
+          When you have 0
+          <div img="deadHeart" amount="10"></div>
+          health, you die.
+          <h2>Losing health</h2>
+          There are many ways to lose health inluding fall damage, being
+          attacked by other players, and touching cactus and lava.
+          <h2>Effects</h2>
+          There are effects that change how the hearts look.<br />
+          When you are withered, it looks like this:
+          <img
+            src="https://16f81.codesandbox.io/images/witherHealthBar.gif"
+          /><br />
+          When you are freezing, it looks like this:
+          <img src="https://16f81.codesandbox.io/images/freezeHealthBar.gif" />
+        </div>
+        <div id="help_inventory">
+          <h1>Inventory</h1>
+          When playing a world, press e to open the inventory.<br /><br />
+          <h2>Creative inventory</h2>
+          <img
+            src="https://16f81.codesandbox.io/images/help/inventory.png"
+            style="border: 1px solid white;"
+          /><br />
+          <h2>Survival inventory</h2>
+          <img
+            src="https://16f81.codesandbox.io/images/help/survival_inventory.png"
+            style="border: 1px solid white;"
+          /><br />
+          More info will come soon.
+        </div>
+        <div id="help_crafting">
+          <h1>Crafting</h1>
+          You can access the crafting grid from the inventory or by right
+          clicking a crafting table.<br />
+          The inventory crafting grid is 2&times;2.<br />
+          The crafting table's crafting grid is 3&times;3.<br />
+          Some things require a crafting table to be crafted.<br /><br />
+          <h2>Recipes</h2>
+          Click the collapsible to see crafting recipes
+          <div class="collapsible" title="Recipes" id="recipes">
+            oh wait, it's kinda hard to show the recipes 'cause i don't have
+            images
+          </div>
+          Crafting recipe types:<br />
+          Fixed: You have to put the items in the grid the exact way.<br />
+          Shaped: The ingredients have a certain shape and the shape can be
+          moved around.<br />
+          Shapeless: The ingredients can be arranged on the grid in any way
+        </div>
+      </div>
+    </div>
+    <div id="onscreenControls" class="hidden">
+      <button style="visibility: hidden;">&nbsp;</button
+      ><button id="controlW">W</button>
+      <br />
+      <button id="controlA">A</button
+      ><button style="visibility: hidden;">&nbsp;</button
+      ><button id="controlD">D</button>
+      <br />
+      <button style="visibility: hidden;">&nbsp;</button
+      ><button id="controlS">S</button>
+      <div id="buttonsRight">
+        <button id="controlSpace">space</button>
+        <br />
+        <button id="controlShift">shift</button>
+      </div>
+      <!--<div id="buttonsTop">
+<button id="controlPause">Pause</button>
+</div>-->
+    </div>
+    <div id="loader">
+      <div class="name">
+        <img src="https://16f81.codesandbox.io/images/minecraft.png" />
+      </div>
+      <br />
+      <img
+        src="https://16f81.codesandbox.io/images/loading.gif"
+        id="loadingImg"
+      /><br /><br />
+      <div id="loadBar">
+        <div></div>
+      </div>
+      <div id="loadProgress"></div>
+    </div>
+    <script>
+      // Code edits will erase the world.
+      // Place save code here to load your world. Make extra sure you got it copied so you don't paste in the wrong thing and delete your world on accident lol
+      var loadString = "";
+    </script>
+    <!--url for parkour map: https://www.khanacademy.org/cs/i/4676725830008832-->
+    <script type="x-shader/vertex" id="blockVertexShader">
+      attribute vec3  aVertex;
+      attribute vec2  aTexture;
+      attribute float aShadow;
+      attribute float aSkylight;
+      attribute float aBlocklight;
+      varying vec2  vTexture;
+      varying float vShadow;
+      varying float vFog;
+      varying float waterFog;
+      uniform mat4 uView;
+      uniform float uDist;
+      uniform vec3 uPos;
+      uniform float uTime;
+      uniform vec3 skyColor;
+      void main() {
+      float x = aTexture.x;
+      float y = aTexture.y / 4.0;
+      vTexture = vec2(x,y);
+      // If you are going to change this final lightlevel calculation
+      // you have to change line 4487 as well since it calculates lightlevel of entity based on this
+      vShadow = aShadow * min(max(aSkylight * uTime, aBlocklight) * 0.9 + 0.1, 1.0);
+      gl_Position = uView * vec4(aVertex, 1.0);
+      float range = max(uDist / 5.0, 8.0);
+      vFog = clamp((length(uPos.xz - aVertex.xz) - uDist + range) / range, 0.0, 1.0);
+      waterFog = min(gl_Position.z / 150.0, 1.0);
+      }
+    </script>
+    <script type="x-shader/fragment" id="blockFragmentShader">
+      #ifdef GL_FRAGMENT_PRECISION_HIGH
+      precision highp float;
+      #else
+      precision mediump float;
+      #endif
+      uniform sampler2D uSampler;
+      uniform float uTime;
+      uniform bool uTrans;
+      uniform vec3 skyColor;
+      uniform int inWater;
+      varying float vShadow;
+      varying vec2 vTexture;
+      varying float vFog;
+      varying float waterFog;
+      vec4 blueShift(vec4 color) {
+      color.rg *= 1.0 - waterFog;
+      color.r = color.r * (50.0/255.0) * max(waterFog/2., 1.);
+      color.g = color.g * (210.0/255.0) * max(waterFog/2., 1.);
+      color.b += (0.9 - color.b) * waterFog;
+      return vec4(color.r * 0.9, color.g * 0.9, min(color.b + 0.3, 1.0), color.a);
+      }
+      vec4 redShift(vec4 color) {
+      return vec4(mix(color.rgb, vec3(255.,0.,0.), waterFog*12.), color.a);
+      }
+      void main(){
+      vec4 color = texture2D(uSampler, vTexture);
+      if (color.a != 1.0) color.a = mix(color.a, 0.0, vFog);
+      color = vec4(mix(color.rgb * vShadow, skyColor * uTime, vFog), color.a);
+      if (inWater == 1) color = blueShift(color);
+      if (inWater == 2) color = redShift(color);
+      gl_FragColor = color;
+      if (gl_FragColor.a == 0.0) discard;
+      else if (!uTrans && gl_FragColor.a != 1.0) discard;
+      else if (uTrans && gl_FragColor.a == 1.0) discard;
+      }
+    </script>
+    <script type="x-shader/vertex" id="skyboxVertexShader">
+      attribute vec3 aVertex;
+      uniform float time;
+      uniform mat4 uView;
+      varying vec3 position;
+      mat4 no_translate (mat4 mat) {
+      mat4 nmat = mat;
+      nmat[3].xyz = vec3(0.);
+      return nmat;
+      }
+      void main(void) {
+      position = aVertex;
+      gl_Position = no_translate(uView) * vec4(aVertex * -100., 0.0);
+      }
+    </script>
+    <script type="x-shader/fragment" id="skyboxFragmentShader">
+      #ifdef GL_FRAGMENT_PRECISION_HIGH
+      precision highp float;
+      #else
+      precision mediump float;
+      #endif
+      uniform float time;
+      varying vec3 position;
+      vec2 rotate2D (vec2 p, float angle){
+      return vec2(p.x*cos(angle)-p.y*sin(angle), p.y*cos(angle)+p.x*sin(angle));
+      }
+      float rand2D(in vec2 co){
+      return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+      }
+      float rand3D(in vec3 co){
+      return fract(sin(dot(co.xyz ,vec3(12.9898,78.233,144.7272))) * 43758.5453);
+      }
+      float simple_interpolate(in float a, in float b, in float x)
+      {
+      return a + smoothstep(0.0,1.0,x) * (b-a);
+      }
+      float interpolatedNoise3D(in float x, in float y, in float z)
+      {
+      float integer_x = x - fract(x);
+      float fractional_x = x - integer_x;
+      float integer_y = y - fract(y);
+      float fractional_y = y - integer_y;
+      float integer_z = z - fract(z);
+      float fractional_z = z - integer_z;
+      float v1 = rand3D(vec3(integer_x, integer_y, integer_z));
+      float v2 = rand3D(vec3(integer_x+1.0, integer_y, integer_z));
+      float v3 = rand3D(vec3(integer_x, integer_y+1.0, integer_z));
+      float v4 = rand3D(vec3(integer_x+1.0, integer_y +1.0, integer_z));
+      float v5 = rand3D(vec3(integer_x, integer_y, integer_z+1.0));
+      float v6 = rand3D(vec3(integer_x+1.0, integer_y, integer_z+1.0));
+      float v7 = rand3D(vec3(integer_x, integer_y+1.0, integer_z+1.0));
+      float v8 = rand3D(vec3(integer_x+1.0, integer_y +1.0, integer_z+1.0));
+      float i1 = simple_interpolate(v1,v5, fractional_z);
+      float i2 = simple_interpolate(v2,v6, fractional_z);
+      float i3 = simple_interpolate(v3,v7, fractional_z);
+      float i4 = simple_interpolate(v4,v8, fractional_z);
+      float ii1 = simple_interpolate(i1,i2,fractional_x);
+      float ii2 = simple_interpolate(i3,i4,fractional_x);
+      return simple_interpolate(ii1 , ii2 , fractional_y);
+      }
+      float Noise3D(in vec3 coord, in float wavelength)
+      {
+      return interpolatedNoise3D(coord.x/wavelength, coord.y/wavelength, coord.z/wavelength);
+      }
+      float noise (vec3 p, float frequency) {
+      float sum = 0.0;
+      for(float i = 0.0; i<5.0; i++) {
+      sum += Noise3D(p * frequency * pow(2.0, i), 1.0) / pow(2.0, i);
+      } return sum * 0.5; }
+      vec3 SUN_POSITION (float ftime) { return normalize(vec3(sin(ftime), cos(ftime), sin(ftime))); }
+      const vec3 skyColor = vec3(0., 0.6, 0.9);
+      const vec3 sunColor = vec3(1.0, 1.0, 0.6);
+      void main (void) {
+      vec3 sun = SUN_POSITION(time);
+      float sunset = 1.-abs(dot(sun, vec3(0., 1., 0.)));
+      vec3 horizonColor = mix(vec3(0., 0.8, 0.8), vec3(0.8, 0.4, 0.), sunset);
+      vec3 dir = normalize(position);
+      float horizonal = 1.-abs(dot(dir, vec3(0., 1., 0.)));
+      vec3 col = mix(skyColor, horizonColor, horizonal);
+      col = mix(col, sunColor, smoothstep(0.96, 0.98, dot(dir, sun)));
+      float night = smoothstep(-1.0, 0.0, -sun.y);
+      gl_FragColor = vec4(col * night, 1.0);
+      }
+    </script>
+    <script type="x-shader/vertex" id="entityVertexShader">
+      attribute vec3  aVertex;
+      attribute vec2  aTexture;
+      varying vec2  vTexture;
+      uniform mat4 uView;
+      uniform bool isTextureAtlas;
+      void main() {
+      float x = aTexture.x;
+      float y = aTexture.y;
+      if(isTextureAtlas){
+      y = aTexture.y / 4.0;
+      }
+      vTexture = vec2(x,y);
+      gl_Position = uView * vec4(aVertex, 1.0);
+      }
+    </script>
+    <script type="x-shader/fragment" id="entityFragmentShader">
+      #ifdef GL_FRAGMENT_PRECISION_HIGH
+      precision highp float;
+      #else
+      precision mediump float;
+      #endif
+      uniform sampler2D uSampler;
+      uniform float uLightLevel;
+      uniform float harmEffect;
+      uniform vec3 tint;
+      varying vec2 vTexture;
+      void main(){
+      vec4 color = texture2D(uSampler, vTexture);
+      color.rgb *= tint;
+      color.rgb = mix(color.rgb, vec3(255.,0.,0.), min(harmEffect/255., 1.));
+      gl_FragColor = vec4(color.rgb * uLightLevel, color.a);
+      if (gl_FragColor.a == 0.0) discard;
+      }
+    </script>
+    <script type="x-shader/vertex" id="particleVertexShader">
+      attribute vec3  aVertex;
+      attribute vec2  aTexture;
+      varying vec2  vTexture;
+      uniform mat4 uView;
+      uniform bool isTextureAtlas;
+      void main() {
+      float x = aTexture.x;
+      float y = aTexture.y;
+      if(isTextureAtlas){
+      y = aTexture.y / 4.0;
+      }
+      vTexture = vec2(x,y);
+      gl_Position = uView * vec4(aVertex, 1.0);
+      }
+    </script>
+    <script type="x-shader/fragment" id="particleFragmentShader">
+      #ifdef GL_FRAGMENT_PRECISION_HIGH
+      precision highp float;
+      #else
+      precision mediump float;
+      #endif
+      uniform sampler2D uSampler;
+      uniform float uLightLevel;
+      varying vec2 vTexture;
+      void main(){
+      vec4 color = texture2D(uSampler, vTexture);
+      gl_FragColor = vec4(color.rgb * uLightLevel, color.a);
+      if (gl_FragColor.a == 0.0) discard;
+      }
+    </script>
+    <script type="x-shader/vertex" id="2dVertexShader">
+      attribute vec2 aVertex;
+      attribute vec2 aTexture;
+      attribute float aShadow;
+      varying vec2 vTexture;
+      varying float vShadow;
+      void main() {
+      vTexture = aTexture;
+      vShadow = aShadow;
+      gl_Position = vec4(aVertex, 0.5, 1.0);
+      }
+    </script>
+    <script type="x-shader/fragment" id="2dFragmentShader">
+      #ifdef GL_FRAGMENT_PRECISION_HIGH
+      precision highp float;
+      #else
+      precision mediump float;
+      #endif
+      uniform sampler2D uSampler;
+      varying vec2 vTexture;
+      varying float vShadow;
+      void main() {
+      vec4 color = texture2D(uSampler, vTexture);
+      gl_FragColor = vec4(color.rgb * vShadow, color.a);
+      if (gl_FragColor.a == 0.0) discard;
+      }
+    </script>
+    <script
+      type="application/javascript"
+      src="https://16f81.codesandbox.io/app.js"
+    ></script>
+    <!--</body>-->
+  </body>
+</html>

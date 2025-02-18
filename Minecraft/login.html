@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <meta charset="UTF-8" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        scroll-behavior: smooth;
+        height: 100%;
+      }
+      /* Style the body */
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+      }
+
+      #contentBG {
+        background: #eee;
+        padding: 5% 10%;
+        height: calc(100% - 47px);
+      }
+      #content {
+        background: white;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+      }
+
+      #left {
+        background: #1abc9c;
+        width: 30%;
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px;
+      }
+      #right {
+        padding: 10px 20px;
+        width: 70%;
+      }
+      #right button {
+        background: blue;
+        color: white;
+        border-radius: 100px 10px;
+        width: 100%;
+        padding: 8px 0px;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        transition: 0.4s linear;
+      }
+      #right button:hover {
+        background: lightblue;
+        color: black;
+      }
+      #right input {
+        border: 1px solid gray;
+        border-radius: 40px;
+        padding: 10px 15px;
+        background: white;
+        transition: 0.6s ease;
+      }
+      #right input:focus {
+        background: #eef;
+        outline: none;
+        box-shadow: 0 0 3pt 2pt #aaf;
+      }
+      #left h1 {
+        font-size: 50px;
+        margin: 0px;
+        color: white;
+      }
+      label {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="contentBG">
+      <div id="content">
+        <div id="left">
+          <h1>Login<br />Register</h1>
+        </div>
+        <div id="right">
+          <h2>Login to Minecraft</h2>
+          <label for="username">Username</label><br />
+          <input id="username" type="username" />
+          <br /><br />
+          <label for="password">Password</label><br />
+          <input id="password" type="password" />
+          <pre id="error" style="color: red;"></pre>
+          <br />
+
+          <button onclick="login()">Login</button><br /><br />
+          <button onclick="register()">Create account</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      //This page can be used with window.open()
+      //just listen for postMessages
+      var parent = window.opener || window;
+      function postLogged(username) {
+        parent.postMessage("logged:" + username, "*");
+      }
+      function postCanceled() {
+        parent.postMessage("canceled", "*");
+      }
+      window.onbeforeunload = postCanceled;
+
+      var error = document.getElementById("error");
+      function login() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        if (username === "") {
+          error.innerHTML = "Please enter username.";
+          return;
+        }
+        fetch("https://server.thingmaker.repl.co/login", {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify({ username: username, password: password })
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.success) {
+              postLogged(username);
+              location.href = res.redirect;
+            } else {
+              error.innerHTML = res.message;
+            }
+          })
+          .catch(alert);
+      }
+      function register() {
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+        if (username === "") {
+          error.innerHTML = "Please enter username.";
+          return;
+        }
+        if (username.includes("/")) {
+          error.innerHTML = 'Username cannot contain "/"';
+          return;
+        }
+        fetch("https://server.thingmaker.repl.co/register", {
+          method: "POST",
+          credentials: "include",
+          body: JSON.stringify({ username: username, password: password })
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.success) {
+              postLogged(username);
+              location.href = res.redirect;
+            } else {
+              error.innerHTML = res.message;
+            }
+          })
+          .catch(alert);
+      }
+    </script>
+  </body>
+</html>
