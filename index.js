@@ -85,6 +85,34 @@ document.addEventListener('mousedown', function(event) {
     }
 });
 
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchend', handleTouchEnd, false);
+
+let touchStartTime;
+const touchDuration = 500; // 長押しとみなす時間（ミリ秒）
+
+function handleTouchStart(event) {
+    touchStartTime = Date.now();
+}
+
+function handleTouchEnd(event) {
+    const elapsedTime = Date.now() - touchStartTime;
+    if (elapsedTime >= touchDuration) {
+        // 長押しとみなす
+        event.preventDefault();
+
+        // メッセージボックスの動きを一時停止
+        clearInterval(moveMessageBoxInterval);
+
+        // リンクを長押しした場合
+        if (event.target.tagName === 'A') {
+            showLinkMenu(event);
+        } else {
+            showPageMenu(event);
+        }
+    }
+}
+
 function showLinkMenu(event) {
     const linkMenu = document.getElementById('linkMenu');
     hideMenus();
