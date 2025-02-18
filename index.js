@@ -89,7 +89,7 @@ document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchend', handleTouchEnd, false);
 
 let touchStartTime;
-const touchDuration = 500; // 長押しとみなす時間（ミリ秒）
+const touchDuration = 250; // 長押しとみなす時間（ミリ秒）
 
 function handleTouchStart(event) {
     touchStartTime = Date.now();
