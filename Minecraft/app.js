@@ -16900,13 +16900,13 @@ Slider.all = []
 const nothing = () => false
 const always = () => true
 // Main menu buttons
-Button.add(width / 2, height / 2 - 40, 400, 40, "Singleplayer", "main menu", r => changeScene("loadsave menu"))
-Button.add(width / 2, height / 2 + 15, 400, 40, "Multiplayer", "main menu", r => {
+Button.add(width / 2, height / 2 - 40, 400, 40, "シングルプレイ", "main menu", r => changeScene("loadsave menu"))
+Button.add(width / 2, height / 2 + 15, 400, 40, "マルチプレイ", "main menu", r => {
 changeScene("multiplayer menu")
 }, null, "If you want multiplayer, just wait.")
-Button.add(width / 2, height / 2 + 70, 400, 40, "Marketplace", "main menu", r => changeScene("marketplace"))
-Button.add(width / 2 - 105, height / 2 + 160, 190, 40, "Options", "main menu", r => changeScene("options"))
-Button.add(width / 2 + 105, height / 2 + 160, 190, 40, "Quit", "main menu", r => {
+Button.add(width / 2, height / 2 + 70, 400, 40, "マーケットプレイス", "main menu", r => changeScene("marketplace"))
+Button.add(width / 2 - 105, height / 2 + 160, 190, 40, "設定", "main menu", r => changeScene("options"))
+Button.add(width / 2 + 105, height / 2 + 160, 190, 40, "終了", "main menu", r => {
 if(window.opener !== null || window.history.length === 1){
 close()
 }else{
@@ -16915,26 +16915,26 @@ location.href = "https://www.nathaniel2006.repl.co"
 })
 Button.add(width / 2 - 235, height / 2 + 160, 40, 40, "?", "main menu", r => changeScene("help"))
 // Creation menu buttons
-Button.add(width / 2, 135, 300, 40, ["World Type: Normal", "World Type: Superflat", "World Type: Island"], "creation menu", r => {superflat = r === "World Type: Superflat"; if(r==="World Type: Island")superflat="island"})
-Button.add(width / 2, 185, 300, 40, ["Trees: On", "Trees: Off"], "creation menu", r => trees = r === "Trees: On", function() {
+Button.add(width / 2, 135, 300, 40, ["ワールドタイプ : デフォルト", "ワールドタイプ : スーパーフラット", "ワールドタイプ : 島"], "creation menu", r => {superflat = r === "World Type: Superflat"; if(r==="World Type: Island")superflat="island"})
+Button.add(width / 2, 185, 300, 40, ["木 : オン", "木 : オフ"], "creation menu", r => trees = r === "Trees: On", function() {
 if (superflat === true) {
 this.index = 1
 trees = false
 }
 return superflat === true
 })
-Button.add(width / 2, 235, 300, 40, ["Caves: On", "Caves: Off"], "creation menu", r => caves = r === "Caves: On", function() {
+Button.add(width / 2, 235, 300, 40, ["洞窟 : オン", "洞窟 : オフ"], "creation menu", r => caves = r === "Caves: On", function() {
 if (superflat === true) {
 this.index = 1
 caves = false
 }
 return superflat === true
 })
-Button.add(width / 2, 285, 300, 40, ["Game Mode: Creative", "Game Mode: Survival"], "creation menu", r => survival = r === "Game Mode: Survival")
-Button.add(width / 2, 335, 300, 40, "Difficulty: Peaceful", "creation menu", nothing, always, "Coming soon\n\nPlease stop asking for mobs. Adding them will take a very long time. I know a lot of people want them, so just be patient.")
-Button.add(width / 2, height - 90, 300, 40, "Create New World", "creation menu", r => {
+Button.add(width / 2, 285, 300, 40, ["ゲームモード : クリエイティブ", "ゲームモード : サバイバル"], "creation menu", r => survival = r === "Game Mode: Survival")
+Button.add(width / 2, 335, 300, 40, "難易度 : ピースフル", "creation menu", nothing, always, "Coming soon\n\nPlease stop asking for mobs. Adding them will take a very long time. I know a lot of people want them, so just be patient.")
+Button.add(width / 2, height - 90, 300, 40, "ワールド新規作成", "creation menu", r => {
 if(boxCenterTop.value.startsWith("JSON")){
-alert("That name is not allowed")
+alert("その名前は許可されていません")
 return
 }
 dimensions = {
@@ -16967,7 +16967,7 @@ cheats = !survival
 if(survival) setHotbar([0,0,0,0,0,0,0,0,0])
 changeScene("loading")
 })
-Button.add(width / 2, height - 40, 300, 40, "Cancel", "creation menu", r => changeScene(previousScreen))
+Button.add(width / 2, height - 40, 300, 40, "キャンセル", "creation menu", r => changeScene(previousScreen))
 // Loadsave menu buttons
 const selected = () => !selectedWorld || !worlds[selectedWorld]
 let w4 = min(width / 4 - 10, 220)
@@ -16975,20 +16975,20 @@ let x4 = w4 / 2 + 5
 let w2 = min(width / 2 - 10, 450)
 let x2 = w2 / 2 + 5
 let mid = width / 2
-Button.add(mid - 3 * x4, height - 30, w4, 40, "Edit", "loadsave menu", r => changeScene("editworld"), () => (selected() || !worlds[selectedWorld].edited))
-Button.add(mid - x4, height - 30, w4, 40, "Delete", "loadsave menu", r => {
-if (worlds[selectedWorld] && confirm(`Are you sure you want to delete ${worlds[selectedWorld].name}?`)) {
+Button.add(mid - 3 * x4, height - 30, w4, 40, "編集", "loadsave menu", r => changeScene("editworld"), () => (selected() || !worlds[selectedWorld].edited))
+Button.add(mid - x4, height - 30, w4, 40, "削除", "loadsave menu", r => {
+if (worlds[selectedWorld] && confirm(`本当に ${worlds[selectedWorld].name}を削除しますか?`)) {
 deleteFromDB(selectedWorld)
 window.worlds.removeChild(document.getElementById(selectedWorld))
 delete worlds[selectedWorld]
 selectedWorld = 0
 }
-}, () => (selected() || !worlds[selectedWorld].edited), "Delete the world forever.")
-Button.add(mid + x4, height - 30, w4, 40, "Export", "loadsave menu", r => {
+}, () => (selected() || !worlds[selectedWorld].edited), "ワールドを削除します")
+Button.add(mid + x4, height - 30, w4, 40, "エクスポート", "loadsave menu", r => {
 boxCenterTop.value = worlds[selectedWorld].code
-}, selected, "Export the save code into the text box above for copy/paste.")
-Button.add(mid + 3 * x4, height - 30, w4, 40, "Cancel", "loadsave menu", r => changeScene("main menu"))
-Button.add(mid - x2, height - 75, w2, 40, "Play Selected World", "loadsave menu", r => {
+}, selected, "セーブコードを上記のテキストボックスにコピー/ペーストします。")
+Button.add(mid + 3 * x4, height - 30, w4, 40, "キャンセル", "loadsave menu", r => changeScene("main menu"))
+Button.add(mid - x2, height - 75, w2, 40, "選択したワールドで遊ぶ", "loadsave menu", r => {
 var ver
 if(worlds[selectedWorld]){
 ver = worlds[selectedWorld].version.replace("Alpha ","")
@@ -17001,10 +17001,10 @@ return
 }
 playSelectedWorld()
 }, () => !(!selectedWorld && boxCenterTop.value) && !worlds[selectedWorld])
-Button.add(mid + x2, height - 75, w2, 40, "Create New World", "loadsave menu", r => changeScene("creation menu"))
+Button.add(mid + x2, height - 75, w2, 40, "ワールド新規作成", "loadsave menu", r => changeScene("creation menu"))
 //broken world buttons
-Button.add(mid, height / 2 + 50, w2, 40, "Cancel", "broken world", r => {changeScene("loadsave menu")})
-Button.add(mid, height / 2 + 105, w2, 40, "Load anyways", "broken world", r => {
+Button.add(mid, height / 2 + 50, w2, 40, "キャンセル", "broken world", r => {changeScene("loadsave menu")})
+Button.add(mid, height / 2 + 105, w2, 40, "ロード", "broken world", r => {
 try{
 playSelectedWorld()
 }catch(e){
@@ -17012,7 +17012,7 @@ alert(e)
 }
 }, always)
 // Edit world menu
-Button.add(mid, height / 2, w2, 40, "Save", "editworld", r => {
+Button.add(mid, height / 2, w2, 40, "セーブ", "editworld", r => {
 let w = worlds[selectedWorld]
 w.name = boxCenterTop.value.replace(/;/g, "\u037e")
 let split = w.code.split(";")
@@ -17024,7 +17024,7 @@ initWorldsMenu()
 changeScene("loadsave menu")
 }).catch(e => console.error(e))
 })
-Button.add(mid, height / 2 + 50, w2, 40, "Back", "editworld", r => changeScene(previousScreen))
+Button.add(mid, height / 2 + 50, w2, 40, "戻る", "editworld", r => changeScene(previousScreen))
 // Multiplayer buttons
 Button.add(mid + 3 * x4, height - 30, w4, 40, "Cancel", "multiplayer menu", r => changeScene("main menu"))
 Button.add(mid - x2, height - 75, w2, 40, "Play Selected World", "multiplayer menu", async() => {
@@ -17042,39 +17042,39 @@ Button.add(mid-14, 14, 20,20, "/", "play", Messages.showInput)
 Button.add(mid+14, 14, 20,20, "❚❚", "play", r => changeScene("pause"))
 }
 // Pause buttons
-Button.add(width / 2, 175, 300, 40, "Resume", "pause", play)
-Button.add(width / 2, 225, 300, 40, "Options", "pause", r => changeScene("options"))
-Button.add(width / 2, 275, 300, 40, "Save", "pause", () => save(), nothing, () => `Save the world to your computer/browser. Doesn't work in incognito.\n\nLast saved ${timeString(Date.now() - world.edited)}.`)
-Button.add(width / 2, 325, 300, 40, "Get Save Code", "pause", r => {
+Button.add(width / 2, 175, 300, 40, "再会", "pause", play)
+Button.add(width / 2, 225, 300, 40, "設定", "pause", r => changeScene("options"))
+Button.add(width / 2, 275, 300, 40, "セーブ", "pause", () => save(), nothing, () => `Save the world to your computer/browser. Doesn't work in incognito.\n\nLast saved ${timeString(Date.now() - world.edited)}.`)
+Button.add(width / 2, 325, 300, 40, "セーブコードを取得", "pause", r => {
 savebox.classList.remove("hidden")
 saveDirections.classList.remove("hidden")
 savebox.value = world.getSaveString()
 })
-Button.add(width / 2, 375, 300, 40, "Exit Without Saving", "pause", r => {
+Button.add(width / 2, 375, 300, 40, "保存せずに終了/終了", "pause", r => {
 savebox.value = world.getSaveString()
 initWorldsMenu()
 if(multiplayer) multiplayer.close()
 changeScene("main menu")
 })
-Button.add(width / 2, 425, 300, 40, "Enable Multiplayer", "pause", async r => {
+Button.add(width / 2, 425, 300, 40, "マルチプレイを許可する", "pause", async r => {
 var logged
 await loggedIn().then(r => logged = r)
 if(logged){
 initMultiplayer()
 }
 }, () => multiplayer)
-Button.add(width / 2, 475, 300, 40, "Get Invite Link", "pause", r => {
+Button.add(width / 2, 475, 300, 40, "招待リンクを取得", "pause", r => {
 savebox.classList.remove("hidden")
 savebox.value = "https://minekhan.nathaniel2006.repl.co/?target="+world.id
 }, () => !multiplayer, () => "Invite someone to this world if it is multiplayer.")
-Button.add(width / 2, 525, 300, 40, "Download This World", "pause", r => {
+Button.add(width / 2, 525, 300, 40, "ワールドをダウンロード", "pause", r => {
 var a = document.createElement("a")
 a.href = "data:text/plain,"+getSaveJSON()
 a.download = world.name+".mcs"
 a.click()
 }, nothing)
 // You Died buttons
-Button.add(width / 2, 225, 300, 40, "Respawn", "dead", r => {
+Button.add(width / 2, 225, 300, 40, "リスポーン", "dead", r => {
 respawn()
 updateHUD = true
 play()
@@ -17085,25 +17085,25 @@ if(r === "Reach distance: "+normReach){
 reach = normReach
 }else reach = bigReach
 })
-Button.add(width / 2, 500, width / 3, 40, ["Sound: On", "Sound: Off"], "options", r => soundOn = r === "Sound: On")
-Button.add(width / 2, 570/*640*/, width / 3, 40, "Back", "options", r => changeScene(previousScreen))
+Button.add(width / 2, 500, width / 3, 40, ["音 : オン", "音 : オフ"], "options", r => soundOn = r === "Sound: On")
+Button.add(width / 2, 570/*640*/, width / 3, 40, "戻る", "options", r => changeScene(previousScreen))
 //Help buttons
-Button.add(60, 30, 80, 30, "Back", "help", r => changeScene(previousScreen))
+Button.add(60, 30, 80, 30, "Back", "ヘルプ", r => changeScene(previousScreen))
 // Marketplace buttons
-Button.add(60, 40, 80, 30, "Back", "marketplace", r => changeScene(previousScreen))
-Button.add(mid - x2, height - 75, w2, 40, "Download", "marketplace", saveFromMarketplace, () => !marketplace[selectedWorld])
+Button.add(60, 40, 80, 30, "Back", "マーケットプレイス", r => changeScene(previousScreen))
+Button.add(mid - x2, height - 75, w2, 40, "ダウンロード", "marketplace", saveFromMarketplace, () => !marketplace[selectedWorld])
 // Comingsoon menu buttons
-Button.add(width / 2, 395, width / 3, 40, "Back", "comingsoon menu", r => changeScene(previousScreen))
+Button.add(width / 2, 395, width / 3, 40, "戻る", "comingsoon menu", r => changeScene(previousScreen))
 // Settings Sliders
-Slider.add(width/2, 245, width / 3, 40, "options", "Render Distance", 1, 32, "renderDistance", val => settings.renderDistance = round(val))
-Slider.add(width/2, 305, width / 3, 40, "options", "FOV", 30, 110, "fov", val => {
+Slider.add(width/2, 245, width / 3, 40, "option", "描画距離", 1, 32, "renderDistance", val => settings.renderDistance = round(val))
+Slider.add(width/2, 305, width / 3, 40, "option", "視野角", 30, 110, "fov", val => {
 p.FOV(val)
 if (world) {
 p.setDirection()
 world.render()
 }
 })
-Slider.add(width/2, 365, width / 3, 40, "options", "Mouse Sensitivity", 30, 400, "mouseSense", val => settings.mouseSense = val)
+Slider.add(width/2, 365, width / 3, 40, "options", "マウス感度", 30, 400, "mouseSense", val => settings.mouseSense = val)
 }
 let texturePixels
 let textureSize = 256
