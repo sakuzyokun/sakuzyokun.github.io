@@ -120,9 +120,40 @@
         item.parentNode.removeChild(item);
         updateTotal();
     }
-    
+
+    function getCartItems() {
+        var cartItems = JSON.parse(getCookie('cartItems')) || [];
+        var cartContainer = document.getElementById("cart-container");
+
+        cartItems.forEach(function(item) {
+            var newItem = document.createElement("div");
+            newItem.className = "cart-item";
+            newItem.innerHTML = `
+                <h2>${item.name}</h2>
+                <p class="price">価格: ¥${item.price}</p>
+                <p>数量: <input type="number" class="quantity" value="${item.quantity}" min="1" onchange="updateTotal()"></p>
+                <button class="remove" onclick="removeItem(this)">削除</button>
+            `;
+            cartContainer.appendChild(newItem);
+        });
+
+        updateTotal();
+    }
+
+    function getCookie(name) {
+        let cookieArr = document.cookie.split(";");
+        for (let i = 0; i < cookieArr.length; i++) {
+            let cookiePair = cookieArr[i].split("=");
+            if (name == cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+
     window.onload = function() {
         getLocation();
+        getCartItems();
         document.querySelectorAll('.quantity').forEach(input => {
             input.addEventListener('change', updateTotal);
         });
@@ -152,16 +183,9 @@
     </header>
     <div class="container">
         <h2>カート</h2>
-        <div class="cart-item">
-            <h2>商品名</h2>
-            <p class="price">価格: ¥99999</p>
-            <p>数量: <input type="number" class="quantity" value="1" min="1"></p>
-            <button class="remove">削除</button>
-        </div>
-        <!-- 他の商品もここに追加 -->
-        
+        <div id="cart-container"></div>
         <div class="total">
-            合計: ¥xxxx
+            合計: ¥0
         </div>
     </div>
 </body>
