@@ -17095,8 +17095,8 @@ Button.add(mid - x2, height - 75, w2, 40, "ダウンロード", "marketplace", s
 // Comingsoon menu buttons
 Button.add(width / 2, 395, width / 3, 40, "戻る", "comingsoon menu", r => changeScene(previousScreen))
 // Settings Sliders
-Slider.add(width/2, 245, width / 3, 40, "option", "描画距離", 1, 32, "renderDistance", val => settings.renderDistance = round(val))
-Slider.add(width/2, 305, width / 3, 40, "option", "視野角", 30, 110, "fov", val => {
+Slider.add(width/2, 245, width / 3, 40, "options", "描画距離", 1, 32, "renderDistance", val => settings.renderDistance = round(val))
+Slider.add(width/2, 305, width / 3, 40, "options", "視野角", 30, 110, "fov", val => {
 p.FOV(val)
 if (world) {
 p.setDirection()
