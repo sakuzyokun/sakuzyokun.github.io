@@ -1445,12 +1445,12 @@ function MineCraft() {
       enter: [window.worlds, window.boxCenterTop, window.quota],
       exit: [window.worlds, window.boxCenterTop, window.quota],
       onenter: () => {
-        window.boxCenterTop.placeholder = "Enter Save Code (Optional)";
+        window.boxCenterTop.placeholder = "セーブコードを入力（オプション）";
         if (navigator && navigator.storage && navigator.storage.estimate) {
           navigator.storage
             .estimate()
             .then((data) => {
-              window.quota.innerText = `${data.usage.toLocaleString()} / ${data.quota.toLocaleString()} bytes (${(
+              window.quota.innerText = `${data.usage.toLocaleString()} / ${data.quota.toLocaleString()} バイト (${(
                 (100 * data.usage) /
                 data.quota
               ).toLocaleString(undefined, {
@@ -6844,7 +6844,7 @@ function MineCraft() {
         div.innerHTML += str + br;
       }
       div.innerHTML += version + br;
-      div.innerHTML += `${size.toLocaleString()} bytes used`;
+      div.innerHTML += `${size.toLocaleString()} バイト使用`;
 
       window.worlds.appendChild(div);
     }
@@ -7131,7 +7131,7 @@ function MineCraft() {
       ctx.textAlign = "center";
       textSize(20);
       fill(255);
-      text("Select World", width / 2, 20);
+      text("ワールドを選択", width / 2, 20);
     };
     drawScreens.editworld = dirt;
   })();

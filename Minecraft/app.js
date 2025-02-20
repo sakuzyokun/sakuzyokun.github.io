@@ -6305,7 +6305,7 @@ exit: [window.savebox, window.saveDirections, window.message]
 enter: [window.worlds, window.boxCenterTop, window.uploadWorld, window.quota],
 exit: [window.worlds, window.boxCenterTop, window.uploadWorld, window.quota],
 onenter: () => {
-window.boxCenterTop.placeholder = "Enter Save String (Optional)"
+window.boxCenterTop.placeholder = "セーブコードを入力（オプション）"
 if (navigator && navigator.storage && navigator.storage.estimate) {
 navigator.storage.estimate().then(data => {
 window.quota.innerText = `${data.usage.toLocaleString()} / ${data.quota.toLocaleString()} bytes (${(100 * data.usage / data.quota).toLocaleString(undefined, { maximumSignificantDigits: 2 })}%) of your quota used`
@@ -6728,7 +6728,7 @@ Messages.add("No such mode: "+split[1])
 }
 },
 {
-name:"gameMode",
+name:"gamemode",
 args: ["mode"],
 info: "mode can be: creative, survival, spectator",
 func: split => {
@@ -16903,7 +16903,7 @@ const always = () => true
 Button.add(width / 2, height / 2 - 40, 400, 40, "シングルプレイ", "main menu", r => changeScene("loadsave menu"))
 Button.add(width / 2, height / 2 + 15, 400, 40, "マルチプレイ", "main menu", r => {
 changeScene("multiplayer menu")
-}, null, "If you want multiplayer, just wait.")
+}, null, "マルチプレイヤーはしばらくお待ちください。")
 Button.add(width / 2, height / 2 + 70, 400, 40, "マーケットプレイス", "main menu", r => changeScene("marketplace"))
 Button.add(width / 2 - 105, height / 2 + 160, 190, 40, "設定", "main menu", r => changeScene("options"))
 Button.add(width / 2 + 105, height / 2 + 160, 190, 40, "終了", "main menu", r => {
@@ -21414,7 +21414,7 @@ dirt()
 ctx.textAlign = 'center'
 textSize(18)
 fill(255)
-text("Select World", width / 2, 20)
+text("ワールドを選択", width / 2, 20)
 }
 drawScreens["broken world"] = () => {
 dirt()
