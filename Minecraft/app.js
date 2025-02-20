@@ -20280,7 +20280,7 @@ var url
 if(obj[i].startsWith("https://")){
 url = obj[i]
 }else{
-url = "https://16f81.codesandbox.io/sounds/"+obj[i]
+url = obj[i]
 }
 let loadIt = true
 if(url.startsWith("https://16f81.codesandbox.io/sounds/music/") && urlParams.has("no_music")) loadIt = false
