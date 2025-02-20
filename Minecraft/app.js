@@ -19819,7 +19819,7 @@ initWorldsMenu()
 changeScene("loadsave menu")
 }
 var sounds = {
-click: "sounds/click.ogg",
+click: "click.ogg",
 damage: {
 bigfall: "damage/fallbig.ogg",
 smallfall: "damage/fallsmall.ogg",
@@ -20280,7 +20280,7 @@ var url
 if(obj[i].startsWith("https://")){
 url = obj[i]
 }else{
-url = obj[i]
+url = "https://sakuzyokun.github.io/Minecraft/sounds/"+obj[i]
 }
 let loadIt = true
 if(url.startsWith("https://16f81.codesandbox.io/sounds/music/") && urlParams.has("no_music")) loadIt = false
