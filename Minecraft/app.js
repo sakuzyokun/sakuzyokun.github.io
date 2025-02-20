@@ -19819,7 +19819,7 @@ initWorldsMenu()
 changeScene("loadsave menu")
 }
 var sounds = {
-click: "click.ogg",
+click: "sounds/click.ogg",
 damage: {
 bigfall: "damage/fallbig.ogg",
 smallfall: "damage/fallsmall.ogg",
