@@ -1250,7 +1250,7 @@ function MineCraft() {
     }
   }
   function textSize(size) {
-    ctx.font = size + "px Minecraft"; // Was VT323
+    ctx.font = size + "px DotGothic16"; // Was VT323
   }
   let strokeWeight = function (num) {
     ctx.lineWidth = num;
@@ -6947,7 +6947,7 @@ function MineCraft() {
     function title() {
       let title = "MINECRAFT";
       let subtext = "JAVASCRIPT EDITION";
-      let font = "Minecraft";
+      let font = "DotGothic16";
       strokeWeight(1);
       ctx.textAlign = "center";
 
@@ -6984,7 +6984,7 @@ function MineCraft() {
       ctx.putImageData(mainbg, 0, 0);
       title();
       fill(220);
-      ctx.font = "20px Minecraft";
+      ctx.font = "20px DotGothic16";
       ctx.textAlign = "left";
       text("Minecraft " + version, width - (width - 2), height - 2);
     };

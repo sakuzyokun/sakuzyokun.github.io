@@ -17042,7 +17042,7 @@ Button.add(mid-14, 14, 20,20, "/", "play", Messages.showInput)
 Button.add(mid+14, 14, 20,20, "❚❚", "play", r => changeScene("pause"))
 }
 // Pause buttons
-Button.add(width / 2, 175, 300, 40, "再会", "pause", play)
+Button.add(width / 2, 175, 300, 40, "再開", "pause", play)
 Button.add(width / 2, 225, 300, 40, "設定", "pause", r => changeScene("options"))
 Button.add(width / 2, 275, 300, 40, "セーブ", "pause", () => save(), nothing, () => `Save the world to your computer/browser. Doesn't work in incognito.\n\nLast saved ${timeString(Date.now() - world.edited)}.`)
 Button.add(width / 2, 325, 300, 40, "セーブコードを取得", "pause", r => {
