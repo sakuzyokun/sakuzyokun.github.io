@@ -17,7 +17,7 @@ body {
   height: auto;
   border: 1px solid black;
   font-size: 18px;
-  font-family: "Minecraft", Courier, monospace;
+  font-family: "DotGothic16", Courier, monospace;
   color: rgb(180, 180, 180);
   margin: 0 auto;
   margin-top: 15px;
@@ -43,7 +43,7 @@ input[type="text"]:focus {
   border: 2px solid lightgray;
 }
 #boxcentertop {
-  font-family: "Minecraft", Courier, monospace;
+  font-family: "DotGothic16", Courier, monospace;
   z-index: 1;
   width: 80vw;
   max-width: 600px;
@@ -59,7 +59,7 @@ input[type="text"]:focus {
 #onhover {
   background-color: rgba(0, 0, 0, 0.9);
   color: rgb(200, 200, 200);
-  font-family: "Minecraft", Courier, monospace;
+  font-family: "DotGothic16", Courier, monospace;
   word-wrap: normal;
   width: auto;
   max-width: 400px;
@@ -69,7 +69,7 @@ input[type="text"]:focus {
   cursor: default;
 }
 #quota {
-  font-family: "Minecraft", Courier, monospace;
+  font-family: "DotGothic16", Courier, monospace;
   display: block;
   position: absolute;
   width: 99vw;
