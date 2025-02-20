@@ -6,5 +6,5 @@ windows11 emulator created by Laaouatni Anas
 Copyright (c) 2021 Laaouatni Anas
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-下のMinecraftの作者に感謝します
+下のMinecraftの作者に感謝します  
 **引用:https://codesandbox.io/p/sandbox/minecraft-16f81**
