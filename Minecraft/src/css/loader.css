@@ -32,7 +32,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: helvetica, arial, sans-serif;
+  font-family: DotGothic16, arial, sans-serif;
   text-transform: uppercase;
   font-weight: 900;
   color: #55ff55;
