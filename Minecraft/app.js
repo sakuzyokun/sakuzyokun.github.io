@@ -17658,7 +17658,7 @@ ctx.globalAlpha = 1
 }
 ctx.fillStyle = "white"
 ctx.font = "10px mojangles"
-let str = "Average Frame Time: " + analytics.displayedFrameTime + "ミリ秒\n"
+let str = "平均フレーム時間: " + analytics.displayedFrameTime + "ミリ秒\n"
 + "最低フレーム時間: " + analytics.displayedwFrameTime + "ミリ秒\n"
 + "レンダリング時間: " + analytics.displayedRenderTime + "ミリ秒\n"
 + "ティック時間: " + analytics.displayedTickTime + "ミリ秒\n"
