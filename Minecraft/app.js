@@ -17658,12 +17658,12 @@ ctx.globalAlpha = 1
 }
 ctx.fillStyle = "white"
 ctx.font = "10px mojangles"
-let str = "Average Frame Time: " + analytics.displayedFrameTime + "ms\n"
-+ "Worst Frame Time: " + analytics.displayedwFrameTime + "ms\n"
-+ "Render Time: " + analytics.displayedRenderTime + "ms\n"
-+ "Tick Time: " + analytics.displayedTickTime + "ms\n"
-+ "Rendered Chunks: " + renderedChunks.toLocaleString() + " / " + world.loaded.length + "\n"
-+ "Generated Chunks: " + generatedChunks.toLocaleString() + "\n"
+let str = "Average Frame Time: " + analytics.displayedFrameTime + "ミリ秒\n"
++ "最低フレーム時間: " + analytics.displayedwFrameTime + "ミリ秒\n"
++ "レンダリング時間: " + analytics.displayedRenderTime + "ミリ秒\n"
++ "ティック時間: " + analytics.displayedTickTime + "ミリ秒\n"
++ "レンダリングされたチャンク: " + renderedChunks.toLocaleString() + " / " + world.loaded.length + "\n"
++ "生成されたチャンク: " + generatedChunks.toLocaleString() + "\n"
 + "FPS: " + analytics.fps//*temp*/ + "   atk-cdn_"+attackCooldown+",start_"+attackCooldownStart+",time_"+attackCooldownTime
 if (p.autoBreak) {
 text("Super breaker enabled", 5, height - 89, 12)
