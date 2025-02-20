@@ -1,0 +1,96 @@
+const calendar = document.getElementById('calendar');
+const currentDateElem = document.getElementById('current-date');
+const yearSelect = document.getElementById('year');
+let currentDate = new Date();
+
+const monthImages = [
+    'url(1.png)',
+    'url(2.png)',
+    'url(3)',
+    'url(4)',
+    'url(5)',
+    'url(6)',
+    'url(7)',
+    'url(8)',
+    'url(9)',
+    'url(10)',
+    'url(11)',
+    'url(12)'
+];
+
+// 年の選択肢を生成
+for (let i = 2000; i <= 2030; i++) {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = i;
+    yearSelect.appendChild(option);
+}
+
+function updateBackground() {
+    document.body.style.backgroundImage = monthImages[currentDate.getMonth()];
+}
+
+function updateCurrentDate() {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1;
+    currentDateElem.textContent = `${year}年${month}月`;
+}
+
+function generateCalendar() {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    // 背景画像を更新
+    updateBackground();
+    // 現在の年月を更新
+    updateCurrentDate();
+
+    // カレンダーをクリア
+    calendar.innerHTML = '';
+
+    // ヘッダーを追加
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    daysOfWeek.forEach(day => {
+        const div = document.createElement('div');
+        div.textContent = day;
+        div.classList.add('day', 'header');
+        calendar.appendChild(div);
+    });
+
+    // 最初の日の曜日を取得
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // 空白を追加
+    for (let i = 0; i < firstDay; i++) {
+        const div = document.createElement('div');
+        div.classList.add('day');
+        calendar.appendChild(div);
+    }
+
+    // 日付を追加
+    for (let i = 1; i <= daysInMonth; i++) {
+        const div = document.createElement('div');
+        div.textContent = i;
+        div.classList.add('day');
+        div.addEventListener('click', () => showDetails(year, month + 1, i));
+        calendar.appendChild(div);
+    }
+}
+
+function prevMonth() {
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    generateCalendar();
+}
+
+function nextMonth() {
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    generateCalendar();
+}
+
+function showDetails(year, month, day) {
+    alert(`選択した日付: ${year}年${month}月${day}日`);
+}
+
+// ページ読み込み時にカレンダーを生成
+generateCalendar();

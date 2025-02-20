@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カレンダー</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="controls">
+        <div class="current-date" id="current-date"></div>
+        <label for="year">年: </label>
+        <select id="year"></select>
+        <button onclick="prevMonth()">前の月</button>
+        <button onclick="nextMonth()">次の月</button>
+    </div>
+    <div class="calendar" id="calendar"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
