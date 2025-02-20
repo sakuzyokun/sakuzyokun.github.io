@@ -4,8 +4,8 @@
 	src: url("../css/minecraft.ttf");
 }*/
 @font-face {
-  font-family: "Minecraft";
+  font-family: "DotGothic16";/*
   src: url("../css/minecraftfont.eot");
-  src: url("../css/minecraftfont.woff") format("woff"),
-    url("../css/minecraft.ttf") format("truetype");
+  src: url("../css/minecraftfont.woff") format("woff"),*/
+    url("../css/DotGothic16.ttf") format("truetype");
 }
