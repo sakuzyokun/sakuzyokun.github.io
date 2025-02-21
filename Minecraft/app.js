@@ -6349,7 +6349,7 @@ send({
 username: username
 })
 }
-Messages.add("<span style='color:lime;'>/キーを押すとチャット欄を開きます"+(cheats ? "/? と入力するとヘルプを開きます" : "")+"</span>")
+Messages.add("<span style='color:lime;'>/キーを押すとチャット欄を開きます。"+(cheats ? "/? と入力するとヘルプを開きます。" : "")+"</span>")
 }
 },
 netherLoading: {
