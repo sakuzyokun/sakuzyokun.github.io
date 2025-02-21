@@ -96,12 +96,13 @@ fetchServerTime();
 
 // 折りたたみ機能を追加
 document.addEventListener('DOMContentLoaded', () => {
-    const collapsibleElements = ['clock', 'epoch-seconds', 'binary32', 'binary64', 'hexadecimal', 'countdown'];
+    const collapsibleElements = ['epoch-seconds', 'binary32', 'binary64', 'hexadecimal', 'countdown'];
 
     collapsibleElements.forEach(id => {
         const element = document.getElementById(id);
         const button = document.createElement('button');
         button.innerText = `Toggle ${id}`;
+        button.classList.add('toggle-button');
         button.addEventListener('click', () => {
             if (element.style.display === 'none') {
                 element.style.display = 'block';
