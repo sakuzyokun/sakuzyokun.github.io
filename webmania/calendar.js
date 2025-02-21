@@ -18,6 +18,11 @@ const monthImages = [
     'url(12月の背景画像URL)'
 ];
 
+const events = {
+    '12-24': 'クリスマスイブ',
+    '12-25': 'クリスマス'
+};
+
 // 年の選択肢を生成
 for (let i = 2000; i <= 2030; i++) {
     const option = document.createElement('option');
@@ -73,11 +78,12 @@ function generateCalendar() {
         const div = document.createElement('div');
         div.textContent = i;
         div.classList.add('day');
-        if (month === 11 && (i === 24 || i === 25)) {
+        const eventKey = `${month + 1}-${i}`;
+        if (events[eventKey]) {
             div.classList.add('holiday');
-            div.textContent += (i === 24) ? ' \nクリスマスイブ' : ' \nクリスマス';
+            div.textContent += ` ${events[eventKey]}`;
         }
-        div.addEventListener('click', () => showDetails(year, month + 1, i));
+        div.addEventListener('click', () => showDetails(year, month + 1, i, events[eventKey]));
         calendar.appendChild(div);
     }
 }
@@ -92,8 +98,12 @@ function nextMonth() {
     generateCalendar();
 }
 
-function showDetails(year, month, day) {
-    alert(`選択した日付: ${year}年${month}月${day}日`);
+function showDetails(year, month, day, event) {
+    let message = `選択した日付: ${year}年${month}月${day}日`;
+    if (event) {
+        message += ` (${event})`;
+    }
+    alert(message);
 }
 
 // ページ読み込み時にカレンダーを生成
