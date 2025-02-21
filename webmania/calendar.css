@@ -42,3 +42,6 @@ body {
 .holiday {
     background-color: #ffebcd;
 }
+.today {
+    color: red;
+}
