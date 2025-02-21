@@ -30,11 +30,9 @@ const events = {
     '3-5': 'じば 誕生日',
     '3-14': 'ゼノデュース 誕生日',
     '4-13': 'cassis 誕生日',
-    '5-1': 'ろいろい 誕生日',
-    '5-1': '令和改元',
+    '5-1': 'ろいろい 誕生日','令和改元',
     '5-6': 'ゆきらわ 誕生日',
-    '5-20': 'しかゆ 誕生日',
-    '5-20': '成田空港開港記念日',
+    '5-20': 'しかゆ 誕生日','成田空港開港記念日',
     '6-3': 'tama 誕生日',
     '6-6': '削除くん 誕生日',
     '6-8': 'starfall spring 誕生日',
@@ -45,8 +43,7 @@ const events = {
     '8-18': '熊野友二 誕生日',
     '9-1': 'お団子君 誕生日',
     '9-17': 'ちび式じい 誕生日',
-    '10-8': 'けいちゃん 誕生日',
-    '10-8': '(未公開)ウェブマニア 誕生日',
+    '10-8': 'けいちゃん 誕生日','(未公開)ウェブマニア 誕生日',
     '10-20': 'サーバー建設記念日',
     '11-19': '夢野ふの 誕生日',
     '12-14': 'ふみゆき 誕生日',
@@ -61,6 +58,9 @@ for (let i = 2000; i <= 2030; i++) {
     option.textContent = i;
     yearSelect.appendChild(option);
 }
+
+// 今日の日付
+const today = new Date();
 
 function updateBackground() {
     document.body.style.backgroundImage = monthImages[currentDate.getMonth()];
@@ -109,6 +109,12 @@ function generateCalendar() {
         const div = document.createElement('div');
         div.textContent = i;
         div.classList.add('day');
+        
+        // 今日の日付を赤くする
+        if (year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
+            div.classList.add('today');
+        }
+
         const eventKey = `${month + 1}-${i}`;
         if (events[eventKey]) {
             div.classList.add('holiday');
@@ -132,7 +138,7 @@ function nextMonth() {
 function showDetails(year, month, day, event) {
     let message = `選択した日付: ${year}年${month}月${day}日`;
     if (event) {
-        message += ` \nイベント:${event}`;
+        message += ` \nイベント: ${event}`;
     }
     alert(message);
 }
