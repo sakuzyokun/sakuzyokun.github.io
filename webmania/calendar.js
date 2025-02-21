@@ -4,18 +4,18 @@ const yearSelect = document.getElementById('year');
 let currentDate = new Date();
 
 const monthImages = [
-    'url(1.png)',
-    'url(2.png)',
-    'url(3)',
-    'url(4)',
-    'url(5)',
-    'url(6)',
-    'url(7)',
-    'url(8)',
-    'url(9)',
-    'url(10)',
-    'url(11)',
-    'url(12)'
+    'url(1月の背景画像URL)',
+    'url(2月の背景画像URL)',
+    'url(3月の背景画像URL)',
+    'url(4月の背景画像URL)',
+    'url(5月の背景画像URL)',
+    'url(6月の背景画像URL)',
+    'url(7月の背景画像URL)',
+    'url(8月の背景画像URL)',
+    'url(9月の背景画像URL)',
+    'url(10月の背景画像URL)',
+    'url(11月の背景画像URL)',
+    'url(12月の背景画像URL)'
 ];
 
 // 年の選択肢を生成
@@ -73,6 +73,10 @@ function generateCalendar() {
         const div = document.createElement('div');
         div.textContent = i;
         div.classList.add('day');
+        if (month === 11 && (i === 24 || i === 25)) {
+            div.classList.add('holiday');
+            div.textContent += (i === 24) ? ' クリスマスイブ' : ' クリスマス';
+        }
         div.addEventListener('click', () => showDetails(year, month + 1, i));
         calendar.appendChild(div);
     }
