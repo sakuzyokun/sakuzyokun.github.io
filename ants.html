@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ラングトンの蟻</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            display: block;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <label for="speed">速さ: </label>
+    <input type="range" id="speed" min="1" max="100" value="50">
+    <span id="stepCount">ステップ: 0</span>
+    <br>
+    <canvas id="canvas" width="800" height="800"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const cellSize = 10;
+        const gridWidth = canvas.width / cellSize;
+        const gridHeight = canvas.height / cellSize;
+
+        let grid = Array(gridHeight).fill().map(() => Array(gridWidth).fill(0));
+        let antX = Math.floor(gridWidth / 2);
+        let antY = Math.floor(gridHeight / 2);
+        let antDirection = 0;
+        let stepCount = 0;
+        let animationSpeed = 50;
+
+        const stepCountElement = document.getElementById('stepCount');
+        const speedElement = document.getElementById('speed');
+        speedElement.addEventListener('input', (event) => {
+            animationSpeed = 101 - event.target.value;
+        });
+
+        function drawGrid() {
+            for (let y = 0; y < gridHeight; y++) {
+                for (let x = 0; x < gridWidth; x++) {
+                    ctx.fillStyle = grid[y][x] ? 'black' : 'white';
+                    ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                }
+            }
+            ctx.fillStyle = 'red';
+            ctx.fillRect(antX * cellSize, antY * cellSize, cellSize, cellSize);
+        }
+
+        function updateAnt() {
+            const currentCell = grid[antY][antX];
+            antDirection = (antDirection + (currentCell ? 1 : -1) + 4) % 4;
+            grid[antY][antX] = 1 - currentCell;
+
+            switch (antDirection) {
+                case 0: antY = (antY - 1 + gridHeight) % gridHeight; break;
+                case 1: antX = (antX + 1) % gridWidth; break;
+                case 2: antY = (antY + 1) % gridHeight; break;
+                case 3: antX = (antX - 1 + gridWidth) % gridWidth; break;
+            }
+
+            stepCount++;
+            stepCountElement.textContent = `ステップ: ${stepCount}`;
+        }
+
+        function loop() {
+            updateAnt();
+            drawGrid();
+            setTimeout(loop, animationSpeed);
+        }
+
+        drawGrid();
+        loop();
+    </script>
+</body>
+</html>
