@@ -13,23 +13,58 @@
         <a href="index.html" class="home-link">ホームに戻る</a>
     </header>
     <main>
-        <h1>現在の時間 (PCから取得)</h1>
-        <div id="pc-clock"></div>
-        <h1>現在の時間 (サーバーから取得)</h1>
-        <div id="server-clock"></div>
-        <h1>UNIX時間(1970/01/01 0:00(UTC))の経過秒数</h1>
-        <div id="epoch-seconds"></div>
-        <h1>32ビットの2進数</h1>
-        <div id="binary32"></div>
-        <h1>64ビットの2進数</h1>
-        <div id="binary64"></div>
-        <h1>16進数</h1>
-        <div id="hexadecimal"></div>
-        <h1>2038年問題の日までのカウントダウン</h1>
-        <div id="countdown"></div>
-        <h1>現在の時間 (2038年問題に対応していない)</h1>
+        <div class="collapsible">
+            <button class="collapsible-btn">現在の時間 (PCから取得)</button>
+            <div class="collapsible-content">
+                <div id="pc-clock"></div>
+            </div>
+        </div>
+        <div class="collapsible">
+            <button class="collapsible-btn">現在の時間 (サーバーから取得)</button>
+            <div class="collapsible-content">
+                <div id="server-clock"></div>
+            </div>
+        </div>
+        <div class="collapsible">
+            <button class="collapsible-btn">UNIX時間(1970/01/01 0:00(UTC))の経過秒数</button>
+            <div class="collapsible-content">
+                <div id="epoch-seconds"></div>
+            </div>
+        </div>
+        <div class="collapsible">
+            <button class="collapsible-btn">32ビットの2進数</button>
+            <div class="collapsible-content">
+                <div id="binary32"></div>
+            </div>
+        </div>
+        <div class="collapsible">
+            <button class="collapsible-btn">64ビットの2進数</button>
+            <div class="collapsible-content">
+                <div id="binary64"></div>
+            </div>
+        </div>
+        <div class="collapsible">
+            <button class="collapsible-btn">16進数</button>
+            <div class="collapsible-content">
+                <div id="hexadecimal"></div>
+            </div>
+        </div>
+        <div class="collapsible">
+            <button class="collapsible-btn">2038年問題の日までのカウントダウン</button>
+            <div class="collapsible-content">
+                <div id="countdown"></div>
+            </div>
+        </div>
         <div id="clock"></div>
     </main>
     <script src="time.js"></script>
+    <script>
+        document.querySelectorAll('.collapsible-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
 </body>
 </html>
