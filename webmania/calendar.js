@@ -75,7 +75,7 @@ function generateCalendar() {
         div.classList.add('day');
         if (month === 11 && (i === 24 || i === 25)) {
             div.classList.add('holiday');
-            div.textContent += (i === 24) ? ' クリスマスイブ' : ' クリスマス';
+            div.textContent += (i === 24) ? ' \nクリスマスイブ' : ' \nクリスマス';
         }
         div.addEventListener('click', () => showDetails(year, month + 1, i));
         calendar.appendChild(div);
