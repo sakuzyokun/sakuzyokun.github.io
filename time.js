@@ -7,7 +7,7 @@ function updateLocalClock() {
 
     // 2038年問題が発生するタイムスタンプ
     const endDate = new Date('2038-01-19T03:14:07Z').getTime();
-    
+
     // 現在のタイムスタンプが2038年問題のタイムスタンプを超えたら1970年にリセット
     if (now.getTime() >= endDate) {
         now.setTime(0); // 1970年1月1日0時0分0秒(UTC)
@@ -93,3 +93,22 @@ updatePCClock();
 
 setInterval(fetchServerTime, 1000);
 fetchServerTime();
+
+// 折りたたみ機能を追加
+document.addEventListener('DOMContentLoaded', () => {
+    const collapsibleElements = ['clock', 'epoch-seconds', 'binary32', 'binary64', 'hexadecimal', 'countdown'];
+
+    collapsibleElements.forEach(id => {
+        const element = document.getElementById(id);
+        const button = document.createElement('button');
+        button.innerText = `Toggle ${id}`;
+        button.addEventListener('click', () => {
+            if (element.style.display === 'none') {
+                element.style.display = 'block';
+            } else {
+                element.style.display = 'none';
+            }
+        });
+        element.parentNode.insertBefore(button, element);
+    });
+});
