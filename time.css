@@ -37,8 +37,32 @@ h1 {
     color: #ffa500;
 }
 
-h2 {
-    color: #ff7f00;
+.collapsible {
+    margin-bottom: 15px;
+}
+
+.collapsible-btn {
+    background-color: #ffa500;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1.5em;
+    transition: background-color 0.4s ease;
+}
+
+.collapsible-btn:hover {
+    background-color: #ff7f00;
+}
+
+.collapsible-content {
+    display: none;
+    overflow: hidden;
+    padding: 10px 0;
+    text-align: center;
 }
 
 #pc-clock {
