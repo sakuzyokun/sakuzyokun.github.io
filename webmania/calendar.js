@@ -101,7 +101,7 @@ function nextMonth() {
 function showDetails(year, month, day, event) {
     let message = `選択した日付: ${year}年${month}月${day}日`;
     if (event) {
-        message += ` (${event})`;
+        message += ` \nイベント:${event}`;
     }
     alert(message);
 }
