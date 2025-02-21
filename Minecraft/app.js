@@ -6308,7 +6308,7 @@ onenter: () => {
 window.boxCenterTop.placeholder = "セーブコードを入力（オプション）"
 if (navigator && navigator.storage && navigator.storage.estimate) {
 navigator.storage.estimate().then(data => {
-window.quota.innerText = `${data.usage.toLocaleString()} / ${data.quota.toLocaleString()} bytes (${(100 * data.usage / data.quota).toLocaleString(undefined, { maximumSignificantDigits: 2 })}%) of your quota used`
+window.quota.innerText = `${data.usage.toLocaleString()} / ${data.quota.toLocaleString()} バイト 割り当て量:${(100 * data.usage / data.quota).toLocaleString(undefined, { maximumSignificantDigits: 2 })}%を使用`
 }).catch(console.error)
 }
 window.boxCenterTop.onmousedown = e => {
@@ -6349,7 +6349,7 @@ send({
 username: username
 })
 }
-Messages.add("<span style='color:lime;'>Press / to open chat. "+(cheats ? "Type /? for help with commands." : "")+"</span>")
+Messages.add("<span style='color:lime;'>/キーを押すとチャット欄を開きます"+(cheats ? "/? と入力するとヘルプを開きます" : "")+"</span>")
 }
 },
 netherLoading: {
