@@ -235,21 +235,21 @@ iframe {
 }
 
 body.light-mode .custom-menu {
-    background-color: #fafafa;
+    background-color: rgba(250,250,250,0.8);
     color: #000;
 }
 
 body.light-mode .custom-menu li:hover {
-    background-color: #e6e6e6;
+    background-color: rgba(230,230,230,0.8);
 }
 
 body.dark-mode .custom-menu {
-    background-color: #1e1e1e;
+    background-color: rgba(30,30,30,0.8);
     color: #fff;
 }
 
 body.dark-mode .custom-menu li:hover {
-    background-color: #323232;
+    background-color: rgba(50,50,50,0.8);
 }
 
 body.photo-mode .custom-menu {
@@ -258,5 +258,5 @@ body.photo-mode .custom-menu {
 }
 
 body.photo-mode .custom-menu li:hover {
-    background-color: #ff7f00;
+    background-color: rgba(255,127,0,0.8);
 }
