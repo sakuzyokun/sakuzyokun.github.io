@@ -240,7 +240,7 @@ body.light-mode .custom-menu {
 }
 
 body.light-mode .custom-menu li:hover {
-    background-color: rgba(230,230,230,0.7);
+    background-color: rgba(230,230,230,0.6);
 }
 
 body.dark-mode .custom-menu {
@@ -249,7 +249,7 @@ body.dark-mode .custom-menu {
 }
 
 body.dark-mode .custom-menu li:hover {
-    background-color: rgba(50,50,50,0.7);
+    background-color: rgba(50,50,50,0.6);
 }
 
 body.photo-mode .custom-menu {
@@ -258,5 +258,5 @@ body.photo-mode .custom-menu {
 }
 
 body.photo-mode .custom-menu li:hover {
-    background-color: rgba(255,127,0,0.7);
+    background-color: rgba(255,127,0,0.6);
 }
