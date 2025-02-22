@@ -249,6 +249,16 @@ document.addEventListener("contextmenu", function (event) {
     menu.style.opacity = "1";
 });
 */
+function changeModes() {
+    setMode('light');
+    setTimeout(() => {
+        setMode('dark');
+        setTimeout(() => {
+                setMode('photo');
+        }, 1000);
+    }, 1000);
+}
+
 // モードを設定する関数
 function setMode(mode) {
     const body = document.body;
