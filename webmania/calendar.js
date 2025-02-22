@@ -1,6 +1,7 @@
 const calendar = document.getElementById('calendar');
 const currentDateElem = document.getElementById('current-date');
 const yearSelect = document.getElementById('year');
+const monthlyWallpaperElem = document.getElementById('monthly-wallpaper');
 let currentDate = new Date();
 
 const monthImages = [
@@ -24,7 +25,7 @@ const events = {
     '2-8': '直孤 誕生日',
     '2-19': 'みっくる 誕生日',
     '2-20': 'あおどら 誕生日',
-    '2-24': 'ぺゅ～ 誕生日',
+    '2-24': 'ぺゅー 誕生日',
     '3-2': 'Tsubumame 誕生日',
     '3-5': 'じば 誕生日',
     '3-14': 'ゼノデュース 誕生日',
@@ -71,6 +72,12 @@ function updateCurrentDate() {
     currentDateElem.textContent = `${year}年${month}月`;
 }
 
+function updateMonthlyWallpaper() {
+    const monthIndex = currentDate.getMonth();
+    const monthImageURL = monthImages[monthIndex];
+    monthlyWallpaperElem.textContent = `今月の壁紙はこれです: ${monthImageURL}`;
+}
+
 function generateCalendar() {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -79,6 +86,8 @@ function generateCalendar() {
     updateBackground();
     // 現在の年月を更新
     updateCurrentDate();
+    // 今月の壁紙を更新
+    updateMonthlyWallpaper();
 
     // カレンダーをクリア
     calendar.innerHTML = '';
@@ -108,7 +117,7 @@ function generateCalendar() {
         const div = document.createElement('div');
         div.textContent = i;
         div.classList.add('day');
-        
+
         // 今日の日付を赤くする
         if (year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
             div.classList.add('today');
