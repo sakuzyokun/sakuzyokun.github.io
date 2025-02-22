@@ -219,6 +219,36 @@ function hideMessageBox() {
     hideMenus();
 }
 
+//画面の下の方で右クリックしても見えるように
+document.addEventListener("contextmenu", function (event) {
+    event.preventDefault();
+
+    let menu = document.getElementById("pageMenu"); // 例: ページメニューをターゲット
+    menu.style.display = "block";
+
+    let menuWidth = menu.offsetWidth;
+    let menuHeight = menu.offsetHeight;
+    let windowWidth = window.innerWidth;
+    let windowHeight = window.innerHeight;
+
+    let x = event.clientX;
+    let y = event.clientY;
+
+    // 画面の右端に近い場合、メニューの表示位置を調整
+    if (x + menuWidth > windowWidth) {
+        x -= menuWidth;
+    }
+    
+    // 画面の下端に近い場合、メニューの表示位置を調整
+    if (y + menuHeight > windowHeight) {
+        y -= menuHeight;
+    }
+
+    menu.style.left = x + "px";
+    menu.style.top = y + "px";
+    menu.style.opacity = "1";
+});
+
 // モードを設定する関数
 function setMode(mode) {
     const body = document.body;
