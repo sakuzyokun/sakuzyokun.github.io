@@ -218,7 +218,7 @@ function hideMessageBox() {
     clearInterval(moveMessageBoxInterval); // メッセージボックスの動きを停止
     hideMenus();
 }
-
+/*
 //画面の下の方で右クリックしても見えるように
 document.addEventListener("contextmenu", function (event) {
     event.preventDefault();
@@ -248,7 +248,7 @@ document.addEventListener("contextmenu", function (event) {
     menu.style.top = y + "px";
     menu.style.opacity = "1";
 });
-
+*/
 // モードを設定する関数
 function setMode(mode) {
     const body = document.body;
