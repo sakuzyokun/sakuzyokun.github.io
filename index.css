@@ -207,7 +207,7 @@ body.photo-mode .message-box {
 
 .message-box-body {
     padding: 20px;
-    color: #000;
+    /*color: #000;*/
 }
 
 .message-box button {
