@@ -5,18 +5,18 @@ const monthlyWallpaperElem = document.getElementById('monthly-wallpaper');
 let currentDate = new Date();
 
 const monthImages = [
-    'url(1月の背景画像URL)',
-    'url(2月の背景画像URL)',
-    'url(3月の背景画像URL)',
-    'url(4月の背景画像URL)',
-    'url(5月の背景画像URL)',
-    'url(6月の背景画像URL)',
-    'url(7月の背景画像URL)',
-    'url(8月の背景画像URL)',
-    'url(9月の背景画像URL)',
-    'url(10月の背景画像URL)',
-    'url(11月の背景画像URL)',
-    'url(12月の背景画像URL)'
+    '画像URL1',
+    '画像URL2',
+    '画像URL3',
+    '画像URL4',
+    '画像URL5',
+    '画像URL6',
+    '画像URL7',
+    '画像URL8',
+    '画像URL9',
+    '画像URL10',
+    '画像URL11',
+    '画像URL12'
 ];
 
 const events = {
@@ -75,7 +75,12 @@ function updateCurrentDate() {
 function updateMonthlyWallpaper() {
     const monthIndex = currentDate.getMonth();
     const monthImageURL = monthImages[monthIndex];
-    monthlyWallpaperElem.textContent = `今月の壁紙はこれです: ${monthImageURL}`;
+    monthlyWallpaperElem.innerHTML = `今月の壁紙はこれです: <button onclick="showWallpaper('${monthImageURL}')">表示</button>`;
+}
+
+function showWallpaper(url) {
+    const wallpaperWindow = window.open("", "今月の壁紙", "width=800,height=600");
+    wallpaperWindow.document.write(`<img src="${url}" style="width:100%;height:100%;">`);
 }
 
 function generateCalendar() {
