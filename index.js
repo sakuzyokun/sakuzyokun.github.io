@@ -1,3 +1,7 @@
+// 移動間隔を設定する変数をグローバルに宣言
+let moveMessageBoxInterval;
+
+// ページ読み込み時の処理を定義
 window.addEventListener('load', function() {
     if (!isMobile() && !isMac()) {
         showMessageBox();
@@ -7,14 +11,17 @@ window.addEventListener('load', function() {
     setMode('photo'); // デフォルトで写真モードを設定
 });
 
+// デバイスがモバイルかどうかを判定する関数
 function isMobile() {
     return /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
 }
 
+// デバイスがMacかどうかを判定する関数
 function isMac() {
     return /Macintosh|MacIntel|MacPPC|Mac68K/.test(navigator.userAgent);
 }
 
+// メッセージボックスを表示する関数
 function showMessageBox() {
     const messageBox = document.getElementById('messageBox');
     messageBox.style.display = 'block';
@@ -23,11 +30,13 @@ function showMessageBox() {
     moveMessageBoxInterval = setInterval(moveMessageBox, 1000);
 }
 
+// メッセージボックスを閉じる関数
 function closeMessageBox() {
     document.getElementById('messageBox').style.display = 'none';
     clearInterval(moveMessageBoxInterval); // メッセージボックスの動きを停止
 }
 
+// メッセージボックスを移動させる関数
 function moveMessageBox() {
     const messageBox = document.getElementById('messageBox');
     const x = Math.floor(Math.random() * (window.innerWidth - messageBox.clientWidth));
@@ -36,10 +45,12 @@ function moveMessageBox() {
     messageBox.style.top = `${y}px`;
 }
 
+// リンクを新しいタブで開く関数
 function web() {
     window.open('YouTube.html', '_blank');
 }
 
+// トグルボタンを作成する関数
 function createToggleButton() {
     const toggleButtonContainer = document.getElementById('toggleButton');
     const button = document.createElement('button');
@@ -48,6 +59,7 @@ function createToggleButton() {
     toggleButtonContainer.appendChild(button);
 }
 
+// メッセージボックスの表示/非表示を切り替える関数
 function toggleMessageBox() {
     const messageBox = document.getElementById('messageBox');
     if (messageBox.style.display === 'block') {
@@ -59,8 +71,7 @@ function toggleMessageBox() {
     }
 }
 
-let moveMessageBoxInterval;
-
+// 右クリックメニューの表示
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
 
@@ -75,6 +86,7 @@ document.addEventListener('contextmenu', function(event) {
     }
 });
 
+// クリック時の処理を定義
 document.addEventListener('mousedown', function(event) {
     const linkMenu = document.getElementById('linkMenu');
     const pageMenu = document.getElementById('pageMenu');
@@ -85,6 +97,7 @@ document.addEventListener('mousedown', function(event) {
     }
 });
 
+// タッチイベントの処理を定義
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
 document.addEventListener('touchend', handleTouchEnd, false);
@@ -94,12 +107,14 @@ let touchX;
 let touchY;
 const touchDuration = 500; // 長押しとみなす時間（ミリ秒）
 
+// タッチ開始時の処理
 function handleTouchStart(event) {
     touchStartTime = Date.now();
     touchX = event.touches[0].clientX;
     touchY = event.touches[0].clientY;
 }
 
+// タッチ移動時の処理
 function handleTouchMove(event) {
     const deltaX = Math.abs(event.touches[0].clientX - touchX);
     const deltaY = Math.abs(event.touches[0].clientY - touchY);
@@ -108,6 +123,7 @@ function handleTouchMove(event) {
     }
 }
 
+// タッチ終了時の処理
 function handleTouchEnd(event) {
     if (!touchStartTime) {
         return;
@@ -129,6 +145,7 @@ function handleTouchEnd(event) {
     }
 }
 
+// リンクメニューを表示する関数
 function showLinkMenu(event) {
     const linkMenu = document.getElementById('linkMenu');
     hideMenus();
@@ -141,6 +158,7 @@ function showLinkMenu(event) {
     linkMenu.dataset.url = event.target.href; // リンクURLをデータ属性として保存
 }
 
+// ページメニューを表示する関数
 function showPageMenu(event) {
     const pageMenu = document.getElementById('pageMenu');
     hideMenus();
@@ -152,6 +170,7 @@ function showPageMenu(event) {
     pageMenu.style.top = `${event.pageY}px`;
 }
 
+// メニューを隠す関数
 function hideMenus() {
     const linkMenu = document.getElementById('linkMenu');
     const pageMenu = document.getElementById('pageMenu');
@@ -168,12 +187,14 @@ function hideMenus() {
     }, 300); // トランジションの時間と一致させる
 }
 
+// リンクを新しいタブで開く関数
 function openLink(event, target) {
     const url = document.getElementById('linkMenu').dataset.url;
     window.open(url, target);
     hideMenus();
 }
 
+// リンクをコピーする関数
 function copyLink(event) {
     const url = document.getElementById('linkMenu').dataset.url;
     navigator.clipboard.writeText(url).then(() => {
@@ -182,6 +203,7 @@ function copyLink(event) {
     hideMenus();
 }
 
+// ページリンクをコピーする関数
 function copyPageLink() {
     const url = window.location.href;
     navigator.clipboard.writeText(url).then(() => {
@@ -190,12 +212,14 @@ function copyPageLink() {
     hideMenus();
 }
 
+// メッセージボックスを隠す関数
 function hideMessageBox() {
     document.getElementById('messageBox').style.display = 'none';
     clearInterval(moveMessageBoxInterval); // メッセージボックスの動きを停止
     hideMenus();
 }
 
+// モードを設定する関数
 function setMode(mode) {
     const body = document.body;
     const main = document.querySelector('main');
