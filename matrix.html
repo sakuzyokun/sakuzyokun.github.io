@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix Effect with Customization</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+        }
+        canvas {
+            display: block;
+        }
+        #help {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            display: none;
+        }
+        .controls {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    <div id="help">ヘルプを表示するならcキーを押す</div>
+    <div class="controls hidden" id="controls">
+        <label for="characters">文字を入力:</label>
+        <input type="text" id="characters" value="アカサタナハマヤラワカナABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"><br>
+        <label for="color">文字の色:</label>
+        <input type="color" id="color" value="#00FF00">
+    </div>
+    <script>
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let alphabet = document.getElementById('characters').value;
+        let currentColor = document.getElementById('color').value;
+
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+
+        const rainDrops = [];
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+
+        const draw = () => {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = currentColor;
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+
+                rainDrops[i]++;
+            }
+        };
+
+        setInterval(draw, 30);
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'c') {
+                const controls = document.getElementById('controls');
+                controls.classList.toggle('hidden');
+            } else {
+                document.getElementById('help').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('help').style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        document.getElementById('characters').addEventListener('input', (event) => {
+            alphabet = event.target.value;
+        });
+
+        document.getElementById('color').addEventListener('input', (event) => {
+            currentColor = event.target.value;
+        });
+    </script>
+</body>
+</html>
