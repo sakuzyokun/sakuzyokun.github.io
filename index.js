@@ -76,7 +76,7 @@ document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
 
     // メッセージボックスの動きを一時停止
-    clearInterval(moveMessageBoxInterval);
+    //clearInterval(moveMessageBoxInterval);
 
     // リンクを右クリックした場合
     if (event.target.tagName === 'A') {
@@ -105,7 +105,7 @@ document.addEventListener('touchend', handleTouchEnd, false);
 let touchStartTime;
 let touchX;
 let touchY;
-const touchDuration = 500; // 長押しとみなす時間（ミリ秒）
+const touchDuration = 250; // 長押しとみなす時間（ミリ秒）
 
 // タッチ開始時の処理
 function handleTouchStart(event) {
@@ -134,7 +134,7 @@ function handleTouchEnd(event) {
         event.preventDefault();
 
         // メッセージボックスの動きを一時停止
-        clearInterval(moveMessageBoxInterval);
+        //clearInterval(moveMessageBoxInterval);
 
         // リンクを長押しした場合
         if (event.target.tagName === 'A') {
@@ -183,8 +183,8 @@ function hideMenus() {
         pageMenu.style.display = 'none';
 
         // メッセージボックスの動きを再開
-        moveMessageBoxInterval = setInterval(moveMessageBox, 1000);
-    }, 300); // トランジションの時間と一致させる
+        //moveMessageBoxInterval = setInterval(moveMessageBox, 1000);
+    }, 1000); // トランジションの時間と一致させる 300ms
 }
 
 // リンクを新しいタブで開く関数
