@@ -3,49 +3,17 @@ body {
     background-position: center;
     font-family: Arial, sans-serif;
     transition: background-image 0.5s ease-in-out;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
 }
-
-.container {
-    display: flex;
-    align-items: center;
-    max-width: 1200px;
-    width: 100%;
-}
-
-.image-container {
-    flex: 1;
-    max-width: 50%;
-}
-
-.image-container img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-}
-
-.calendar-container {
-    flex: 1;
-    max-width: 50%;
-    padding: 20px;
-}
-
 .calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 10px;
-    max-width: 100%;
-    margin: auto;
+    max-width: 800px;
+    margin: 50px auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
 }
-
 .day {
     padding: 20px;
     background-color: #fff;
@@ -53,33 +21,27 @@ body {
     text-align: center;
     cursor: pointer;
 }
-
 .header {
     font-weight: bold;
     background-color: #f0f0f0;
 }
-
 .controls {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
     align-items: center;
 }
-
 .controls button,
 .controls select {
     margin: 0 10px;
 }
-
 .current-date {
     font-size: 1.2em;
     margin-right: 20px;
 }
-
 .holiday {
     background-color: #ffebcd;
 }
-
 .today {
     color: red;
 }
