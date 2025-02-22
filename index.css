@@ -168,9 +168,24 @@ iframe {
     transform: translate(-50%, -50%);
     width: 300px;
     padding: 10px;
-    background-color: #f8f8f8;
+    /*background-color: #f8f8f8;*/
     border: 1px solid #ccc;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .message-box {
+    background-color: #f8f8f8;
+    color: #000;
+}
+
+body.dark-mode .message-box {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+body.photo-mode .message-box {
+    background-color: #f8f8f8;
+    color: #000;
 }
 
 .message-box-header {
