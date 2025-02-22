@@ -177,14 +177,14 @@ function hideMenus() {
 
     linkMenu.style.opacity = '0';
     pageMenu.style.opacity = '0';
-
+/*
     setTimeout(() => {
         linkMenu.style.display = 'none';
         pageMenu.style.display = 'none';
 
         // メッセージボックスの動きを再開
         //moveMessageBoxInterval = setInterval(moveMessageBox, 1000);
-    }, 1000); // トランジションの時間と一致させる 300ms
+    }, 1000); // トランジションの時間と一致させる 300ms*/
 }
 
 // リンクを新しいタブで開く関数
