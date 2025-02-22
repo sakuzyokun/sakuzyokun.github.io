@@ -23,6 +23,7 @@
     <main>
         <div id="linkMenu" class="custom-menu" style="display: none;">
             <ul>
+                <li onclick="location.reload();">再読み込み</li>
                 <li onclick="openLink(event, '_blank')">新しいタブで開く</li>
                 <li onclick="openLink(event, '_self')">開く</li>
                 <li onclick="copyLink(event)">リンクをコピー</li>
@@ -30,8 +31,10 @@
         </div>
         <div id="pageMenu" class="custom-menu" style="display: none;">
             <ul>
+                <li onclick="location.reload();">再読み込み</li>
                 <li onclick="copyPageLink()">ページのリンクをコピー</li>
                 <li onclick="toggleMessageBox()">メッセージボックスをON/OFFする</li>
+                <li>==モード変更==</li>
                 <li onclick="setMode('light')">ライトモードに変更</li>
                 <li onclick="setMode('dark')">ダークモードに変更</li>
                 <li onclick="setMode('photo')">写真モードに変更</li>
