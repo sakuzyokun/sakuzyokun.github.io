@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red stone Internet</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #800000;
+            color: #fff;
+            text-align: center;
+        }
+        .header {
+            background-color: #800000;
+            padding: 10px;
+        }
+        .header img {
+            width: 50px;
+            vertical-align: middle;
+        }
+        .header h1 {
+            display: inline;
+            font-size: 2em;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+        .search-container {
+            margin-top: 20px;
+        }
+        .search-container input[type="text"] {
+            width: 60%;
+            padding: 10px;
+            font-size: 1.2em;
+        }
+        .search-container input[type="submit"] {
+            padding: 10px;
+            font-size: 1.2em;
+            background-color: #890000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .content {
+            display: none; /* 初期状態は非表示 */
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #890000;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function performSearch(event) {
+            event.preventDefault();
+            var query = document.getElementById("searchInput").value;
+            var url = "https://www.google.com/search?q=" + encodeURIComponent(query);
+            window.open(url, '_blank');
+        }
+
+        function toggleContent() {
+            var content = document.getElementById("content");
+            if (content.style.display === "none") {
+                content.style.display = "block";
+            } else {
+                content.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img src="Redstone.png" alt="Red stone icon">
+        <h1>Red stone Internet</h1>
+    </div>
+    <div class="search-container">
+        <form onsubmit="performSearch(event)">
+            <input type="text" id="searchInput" placeholder="検索キーワードを入力">
+            <input type="submit" value="検索">
+        </form>
+        Rescover
+        <button onclick="toggleContent()">ON/OFF</button>
+    </div>
+    <div class="content" id="content">
+        <p>1. <b>年収の壁の見直し</b>：自民・公明両党は、所得税がかかり始める「年収103万円の壁」の見直しを検討中で、年収制限の上限を850万円に引き上げる方向で調整しています。</p>
+        <p>2. <b>兵庫県議会の調査特別委員会</b>：兵庫維新の会の所属県議が、政治団体「NHKから国民を守る党」党首の立花孝志氏への情報提供に関与していた問題で、当事者の増山誠、岸口実、白井孝明の3県議が記者会見を開きました。</p>
+        <p>3. <b>大雪の予報</b>：日本海側を中心に大雪が予想されており、24日午後6時までに北陸で60センチ、近畿と中国で40センチの降雪が見込まれています。</p>
+    </div>
+</body>
+</html>
