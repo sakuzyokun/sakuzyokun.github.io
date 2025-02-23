@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 感謝メッセージジェネレーター</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <div class="container">
+            <h1>感謝メッセージジェネレーター</h1>
+            <input type="text" id="recipient" placeholder="--さんへ">
+            <button onclick="generateMessage()">メッセージを生成</button>
+            <p id="message"></p>
+        </div>
+    </main>
+    <script>
+        const messages = [
+            'いつも支えてくれてありがとう。',
+            'あなたのおかげで助かりました。',
+            '感謝の気持ちでいっぱいです。',
+            '本当にありがとうございます。',
+            'あなたの親切に心から感謝します。'
+        ];
+
+        function generateMessage() {
+            const recipient = document.getElementById('recipient').value;
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            const message = recipient ? recipient + ' ' + messages[randomIndex] : messages[randomIndex];
+            document.getElementById('message').textContent = message;
+        }
+    </script>
+</body>
+</html>
