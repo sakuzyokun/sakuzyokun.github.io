@@ -34,14 +34,29 @@ main {
     text-align: center;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
 .scoreboard {
     background-color: #fff;
     border: 2px solid #000;
     padding: 20px;
     border-radius: 10px;
-    text-align: center;
-    width: 300px;
     color: #000;
+}
+
+.log {
+    background-color: #fff;
+    border: 2px solid #000;
+    padding: 20px;
+    border-radius: 10px;
+    color: #000;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 .team {
@@ -51,12 +66,6 @@ main {
 .score {
     font-size: 3em;
     margin: 10px 0;
-}
-
-.log {
-    margin-top: 20px;
-    max-height: 200px;
-    overflow-y: auto;
 }
 
 button {
