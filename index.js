@@ -285,7 +285,7 @@ function setMode(mode) {
     // メッセージをフェードイン
     setTimeout(() => {
         applyingMessage.style.opacity = '1';
-    }, 10); // 小さな遅延を挿入
+    }, 5); // 小さな遅延を挿入
 
     // フェードアウト
     body.style.transition = 'opacity 0.5s ease';
