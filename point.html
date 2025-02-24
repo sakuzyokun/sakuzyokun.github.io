@@ -16,22 +16,24 @@
         <a href="index.html" class="home-link">ホームに戻る</a>
     </header>
     <main>
-        <div class="scoreboard">
-            <input type="text" id="teamA-name" placeholder="チームA" value="チームA" class="team" oninput="logNameChange('teamA')">
-            <div class="score" id="teamA-score">0</div>
-            <input type="number" id="teamA-points" value="1">
-            <button onclick="updateScore('teamA', parseInt(document.getElementById('teamA-points').value))">+点</button>
-            <button onclick="updateScore('teamA', -parseInt(document.getElementById('teamA-points').value))">-点</button>
-            <hr>
-            <input type="text" id="teamB-name" placeholder="チームB" value="チームB" class="team" oninput="logNameChange('teamB')">
-            <div class="score" id="teamB-score">0</div>
-            <input type="number" id="teamB-points" value="1">
-            <button onclick="updateScore('teamB', parseInt(document.getElementById('teamB-points').value))">+点</button>
-            <button onclick="updateScore('teamB', -parseInt(document.getElementById('teamB-points').value))">-点</button>
-            <hr>
-            <button onclick="showLog()">ログを表示</button>
+        <div class="container">
+            <div class="scoreboard">
+                <input type="text" id="teamA-name" placeholder="チームA" value="チームA" class="team" oninput="logNameChange('teamA')">
+                <div class="score" id="teamA-score">0</div>
+                <input type="number" id="teamA-points" value="1">
+                <button onclick="updateScore('teamA', parseInt(document.getElementById('teamA-points').value))">+点</button>
+                <button onclick="updateScore('teamA', -parseInt(document.getElementById('teamA-points').value))">-点</button>
+                <hr>
+                <input type="text" id="teamB-name" placeholder="チームB" value="チームB" class="team" oninput="logNameChange('teamB')">
+                <div class="score" id="teamB-score">0</div>
+                <input type="number" id="teamB-points" value="1">
+                <button onclick="updateScore('teamB', parseInt(document.getElementById('teamB-points').value))">+点</button>
+                <button onclick="updateScore('teamB', -parseInt(document.getElementById('teamB-points').value))">-点</button>
+                <hr>
+            </div>
             <div class="log" id="log"></div>
         </div>
+        <button onclick="showLog()">ログを表示</button>
     </main>
     <script>
         const log = [];
