@@ -266,6 +266,21 @@ function setMode(mode) {
     const header = document.querySelector('header');
     const customMenus = document.querySelectorAll('.custom-menu');
 
+    // 適用中メッセージを表示
+    const applyingMessage = document.createElement('div');
+    applyingMessage.id = 'applyingMessage';
+    applyingMessage.textContent = '適用中...';
+    applyingMessage.style.position = 'fixed';
+    applyingMessage.style.top = '50%';
+    applyingMessage.style.left = '50%';
+    applyingMessage.style.transform = 'translate(-50%, -50%)';
+    applyingMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    applyingMessage.style.color = '#ffffff';
+    applyingMessage.style.padding = '20px';
+    applyingMessage.style.borderRadius = '5px';
+    applyingMessage.style.zIndex = '1000';
+    document.body.appendChild(applyingMessage);
+
     // フェードアウト
     body.style.transition = 'opacity 0.5s ease';
     main.style.transition = 'opacity 0.5s ease';
@@ -305,6 +320,10 @@ function setMode(mode) {
         main.style.opacity = '1';
         header.style.opacity = '1';
         customMenus.forEach(menu => menu.style.opacity = '1');
+
+        // 適用中メッセージを削除
+        setTimeout(() => {
+            document.body.removeChild(applyingMessage);
+        }, 500); // 0.5秒後に削除
     }, 500); // 0.5秒の遅延を挿入
 }
-
