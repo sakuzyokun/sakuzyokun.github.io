@@ -266,25 +266,45 @@ function setMode(mode) {
     const header = document.querySelector('header');
     const customMenus = document.querySelectorAll('.custom-menu');
 
-    body.className = ''; // Reset all mode classes
-    main.className = ''; // Reset all mode classes
-    header.className = ''; // Reset all mode classes
-    customMenus.forEach(menu => menu.className = 'custom-menu'); // Reset custom menu classes
+    // フェードアウト
+    body.style.transition = 'opacity 0.5s ease';
+    main.style.transition = 'opacity 0.5s ease';
+    header.style.transition = 'opacity 0.5s ease';
+    customMenus.forEach(menu => menu.style.transition = 'opacity 0.5s ease');
+    
+    body.style.opacity = '0';
+    main.style.opacity = '0';
+    header.style.opacity = '0';
+    customMenus.forEach(menu => menu.style.opacity = '0');
 
-    if (mode === 'light') {
-        body.classList.add('light-mode');
-        main.classList.add('light-mode');
-        header.classList.add('light-mode');
-        customMenus.forEach(menu => menu.classList.add('light-mode'));
-    } else if (mode === 'dark') {
-        body.classList.add('dark-mode');
-        main.classList.add('dark-mode');
-        header.classList.add('dark-mode');
-        customMenus.forEach(menu => menu.classList.add('dark-mode'));
-    } else if (mode === 'photo') {
-        body.classList.add('photo-mode');
-        main.classList.add('photo-mode');
-        header.classList.add('photo-mode');
-        customMenus.forEach(menu => menu.classList.add('photo-mode'));
-    }
+    setTimeout(() => {
+        body.className = ''; // Reset all mode classes
+        main.className = ''; // Reset all mode classes
+        header.className = ''; // Reset all mode classes
+        customMenus.forEach(menu => menu.className = 'custom-menu'); // Reset custom menu classes
+
+        if (mode === 'light') {
+            body.classList.add('light-mode');
+            main.classList.add('light-mode');
+            header.classList.add('light-mode');
+            customMenus.forEach(menu => menu.classList.add('light-mode'));
+        } else if (mode === 'dark') {
+            body.classList.add('dark-mode');
+            main.classList.add('dark-mode');
+            header.classList.add('dark-mode');
+            customMenus.forEach(menu => menu.classList.add('dark-mode'));
+        } else if (mode === 'photo') {
+            body.classList.add('photo-mode');
+            main.classList.add('photo-mode');
+            header.classList.add('photo-mode');
+            customMenus.forEach(menu => menu.classList.add('photo-mode'));
+        }
+
+        // フェードイン
+        body.style.opacity = '1';
+        main.style.opacity = '1';
+        header.style.opacity = '1';
+        customMenus.forEach(menu => menu.style.opacity = '1');
+    }, 500); // 0.5秒の遅延を挿入
 }
+
