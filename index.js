@@ -279,6 +279,7 @@ function setMode(mode) {
     applyingMessage.style.padding = '20px';
     applyingMessage.style.borderRadius = '5px';
     applyingMessage.style.zIndex = '1000';
+    applyingMessage.style.transition = 'opacity 0.5s ease'; // フェード効果を追加
     document.body.appendChild(applyingMessage);
 
     // フェードアウト
@@ -321,9 +322,12 @@ function setMode(mode) {
         header.style.opacity = '1';
         customMenus.forEach(menu => menu.style.opacity = '1');
 
-        // 適用中メッセージを削除
+        // 適用中メッセージをフェードアウト
+        applyingMessage.style.opacity = '0';
+
         setTimeout(() => {
             document.body.removeChild(applyingMessage);
         }, 500); // 0.5秒後に削除
     }, 500); // 0.5秒の遅延を挿入
 }
+
