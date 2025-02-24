@@ -279,8 +279,14 @@ function setMode(mode) {
     applyingMessage.style.padding = '20px';
     applyingMessage.style.borderRadius = '5px';
     applyingMessage.style.zIndex = '1000';
+    applyingMessage.style.opacity = '0'; // 初期状態は透明
     applyingMessage.style.transition = 'opacity 0.5s ease'; // フェード効果を追加
     document.body.appendChild(applyingMessage);
+
+    // メッセージをフェードイン
+    setTimeout(() => {
+        applyingMessage.style.opacity = '1';
+    }, 10); // 小さな遅延を挿入
 
     // フェードアウト
     body.style.transition = 'opacity 0.5s ease';
@@ -322,12 +328,12 @@ function setMode(mode) {
         header.style.opacity = '1';
         customMenus.forEach(menu => menu.style.opacity = '1');
 
-        // 適用中メッセージをフェードアウト
-        applyingMessage.style.opacity = '0';
-
+        // 適用中メッセージを少し遅れてフェードアウト
         setTimeout(() => {
-            document.body.removeChild(applyingMessage);
-        }, 500); // 0.5秒後に削除
+            applyingMessage.style.opacity = '0';
+            setTimeout(() => {
+                document.body.removeChild(applyingMessage);
+            }, 500); // 0.5秒後に削除
+        }, 500); // 0.5秒後にフェードアウト開始
     }, 500); // 0.5秒の遅延を挿入
 }
-
