@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ 得点板</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="point.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <div class="scoreboard">
+            <input type="text" id="teamA-name" placeholder="チームA" value="チームA" class="team" oninput="logNameChange('teamA')">
+            <div class="score" id="teamA-score">0</div>
+            <input type="number" id="teamA-points" value="1">
+            <button onclick="updateScore('teamA', parseInt(document.getElementById('teamA-points').value))">+点</button>
+            <button onclick="updateScore('teamA', -parseInt(document.getElementById('teamA-points').value))">-点</button>
+            <hr>
+            <input type="text" id="teamB-name" placeholder="チームB" value="チームB" class="team" oninput="logNameChange('teamB')">
+            <div class="score" id="teamB-score">0</div>
+            <input type="number" id="teamB-points" value="1">
+            <button onclick="updateScore('teamB', parseInt(document.getElementById('teamB-points').value))">+点</button>
+            <button onclick="updateScore('teamB', -parseInt(document.getElementById('teamB-points').value))">-点</button>
+            <hr>
+            <button onclick="showLog()">ログを表示</button>
+            <div class="log" id="log"></div>
+        </div>
+    </main>
+    <script>
+        const log = [];
+
+        function updateScore(team, delta) {
+            const scoreElement = document.getElementById(`${team}-score`);
+            const nameElement = document.getElementById(`${team}-name`);
+            let score = parseInt(scoreElement.textContent);
+            score += delta;
+            scoreElement.textContent = score;
+            log.push(`${new Date().toLocaleTimeString()}: ${nameElement.value}の得点が${delta}点変更され、現在の得点は${score}点です。`);
+            updateLog();
+        }
+
+        function logNameChange(team) {
+            const nameElement = document.getElementById(`${team}-name`);
+            log.push(`${new Date().toLocaleTimeString()}: ${team}が${nameElement.value}に名前が変更されました。`);
+            updateLog();
+        }
+
+        function showLog() {
+            const logElement = document.getElementById('log');
+            logElement.style.display = 'block';
+        }
+
+        function updateLog() {
+            const logElement = document.getElementById('log');
+            logElement.innerHTML = '<h3>ログ</h3><ul>' + log.map(entry => `<li>${entry}</li>`).join('') + '</ul>';
+        }
+    </script>
+</body>
+</html>
