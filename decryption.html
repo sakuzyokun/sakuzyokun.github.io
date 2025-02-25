@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>データ復号化</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP:wght@400;700&display=swap');
+
         body {
             background-color: black;
             color: lime;
-            font-family: "Courier New", Courier, monospace;
+            font-family: "DotGothic16", "Noto Sans JP", "Courier New", Courier, monospace;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -25,7 +27,7 @@
             white-space: pre;
             margin-top: 20px;
         }
-        .textarea-field, .random-chars-field, .char-set-select, .text-color-picker, .bg-color-picker, .duration-field, .start-button, .settings-button {
+        .textarea-field, .random-chars-field, .char-set-select, .font-select, .text-color-picker, .bg-color-picker, .duration-field, .start-button, .settings-button {
             margin-top: 10px;
         }
         .settings {
@@ -53,8 +55,14 @@
             <input type="color" class="bg-color-picker" value="#000000" onchange="changeBgColor()">
             <label>復号化までの秒数:</label>
             <input type="number" class="duration-field" value="5" min="1">
+            <label>書体:</label>
+            <select class="font-select" onchange="changeFont()">
+                <option value="'DotGothic16', 'Courier New', Courier, monospace">DotGothic16</option>
+                <option value="'Noto Sans JP', sans-serif">Noto Sans JP</option>
+                <option value="'Courier New', Courier, monospace">Courier New</option>
+            </select>
         </div>
-	<br><br><br>
+    <br><br><br>
         <div class="decrypt">####################</div>
     </div>
     <script>
@@ -65,6 +73,7 @@
         const textColorPicker = document.querySelector('.text-color-picker');
         const bgColorPicker = document.querySelector('.bg-color-picker');
         const durationField = document.querySelector('.duration-field');
+        const fontSelect = document.querySelector('.font-select');
         const settings = document.querySelector('.settings');
         let currentIndex = 0;
         let interval;
@@ -126,6 +135,10 @@
 
         function changeBgColor() {
             document.body.style.backgroundColor = bgColorPicker.value;
+        }
+
+        function changeFont() {
+            decryptElement.style.fontFamily = fontSelect.value;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
