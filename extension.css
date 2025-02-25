@@ -60,7 +60,7 @@ input[type="text"], input[type="file"] {
 
 button {
     padding: 10px 15px;
-    background-color: #007bff;
+    background-color: #ffa500;
     color: white;
     border: none;
     border-radius: 4px;
@@ -68,5 +68,5 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #ff7f00;
 }
