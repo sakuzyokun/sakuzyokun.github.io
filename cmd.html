@@ -98,15 +98,17 @@
                     displayDate();
                     break;
                 case 'dir':
-                    appendMessage('ドライブC: のボリュームラベルは Sakuzyo です');
-                    appendMessage('ボリューム シリアル番号は 30SA-90KU です');
+                    appendMessage('ドライブC:&nbsp;のボリュームラベルは&nbsp;Sakuzyo&nbsp;です');
+                    appendMessage('ボリューム&nbsp;シリアル番号は&nbsp;30SA-90KU&nbsp;です');
+                    appendMessage('\n');
                     appendMessage('C:/ のディレクトリ');
-                    appendMessage('2024/12/24 00:00    <dir>        Sakuzyo');
-                    appendMessage('2024/12/24 00:00    <dir>        Program Files');
-                    appendMessage('2024/12/24 00:00    <dir>        Program Files (x86)');
-                    appendMessage('2024/12/24 00:00    <dir>        Users');
-                    appendMessage('              0個のファイル       0バイト');
-                    appendMessage('              3個のディレクトリ   30064771072バイトの空き領域');
+                    appendMessage('\n');
+                    appendMessage('2024/12/24&nbsp;00:00&nbsp;&nbsp;&nbsp;&nbsp;<dir>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Files');
+                    appendMessage('2024/12/24&nbsp;00:00&nbsp;&nbsp;&nbsp;&nbsp;<dir>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Files (x86)');
+                    appendMessage('2025/02/25&nbsp;17:30&nbsp;&nbsp;&nbsp;&nbsp;<dir>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sakuzyo');
+                    appendMessage('2024/12/24&nbsp;00:00&nbsp;&nbsp;&nbsp;&nbsp;<dir>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Users');
+                    appendMessage('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0個のファイル&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0バイト');
+                    appendMessage('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3個のディレクトリ&nbsp;&nbsp;&nbsp;30064771072バイトの空き領域');
                     break;
                 default:
                     if (command.startsWith('echo ')) {
