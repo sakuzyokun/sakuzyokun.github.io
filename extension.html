@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ ファイル拡張子変換</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="extension.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>ファイル拡張子変換ツール</h1>
+        <div class="form-group">
+            <label for="fileUpload">ファイルを選択:</label>
+            <input type="file" id="fileUpload">
+        </div>
+        <div class="form-group">
+            <label for="newExtension">新しい拡張子:</label>
+            <input type="text" id="newExtension" placeholder="例: .pdf">
+        </div>
+        <button onclick="convertExtension()">変換</button>
+        <p id="result"></p>
+    </main>
+    <script>
+        function convertExtension() {
+            const fileUpload = document.getElementById('fileUpload').files[0];
+            const newExtension = document.getElementById('newExtension').value;
+            if (fileUpload) {
+                const fileName = fileUpload.name;
+                const baseName = fileName.substring(0, fileName.lastIndexOf('.'));
+                const newFileName = baseName + newExtension;
+                document.getElementById('result').textContent = '新しいファイル名: ' + newFileName;
+            } else {
+                document.getElementById('result').textContent = 'ファイルが選択されていません。';
+            }
+        }
+    </script>
+</body>
+</html>
