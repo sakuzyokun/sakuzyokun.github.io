@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ MIDI Player</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="mid.css">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h2>MIDIファイルを再生</h2>
+        <input type="file" id="midiFile" accept=".mid">
+        <button id="playButton">再生</button>
+        <button id="stopButton">停止</button>
+    </main>
+    <script>
+        let midiPlayer;
+        document.getElementById('playButton').addEventListener('click', () => {
+            const fileInput = document.getElementById('midiFile');
+            if (fileInput.files.length === 0) {
+                alert('MIDIファイルを選択してください');
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const midiData = e.target.result;
+                if (midiPlayer) midiPlayer.stop();
+                MIDIjs.play(midiData);
+                midiPlayer = MIDIjs;
+            };
+            reader.readAsDataURL(file);
+        });
+        document.getElementById('stopButton').addEventListener('click', () => {
+            if (midiPlayer) {
+                midiPlayer.stop();
+            }
+        });
+    </script>
+    <script src="https://www.midijs.net/lib/midi.js"></script>
+</body>
+</html>
