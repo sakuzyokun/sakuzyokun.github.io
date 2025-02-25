@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>データ復号化シーン</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-family: "Courier New", Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+        }
+        .decrypt {
+            display: inline-block;
+            white-space: pre;
+            margin-top: 20px;
+        }
+        .textarea-field, .random-chars-field, .char-set-select, .text-color-picker, .bg-color-picker, .duration-field, .start-button, .settings-button {
+            margin-top: 10px;
+        }
+        .settings {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>復号化中...</h1>
+        <button class="start-button" onclick="startDecryption()">スタート</button>
+        <button class="settings-button" onclick="toggleSettings()">設定</button>
+        <div class="settings">
+            <textarea class="textarea-field" placeholder="文字列を入力してください" rows="4" cols="40"></textarea>
+            <select class="char-set-select" onchange="changeCharSet()">
+                <option value="alphanumeric">英数字(A~Z,a~z,0~9)</option>
+                <option value="hiragana">ひらがな（命に嫌われている風）</option>
+                <option value="custom">その他</option>
+            </select>
+            <input type="text" class="random-chars-field" placeholder="ランダム文字列を入力してください" value="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" style="display: none;">
+            <label>文字色:</label>
+            <input type="color" class="text-color-picker" value="#00FF00" onchange="changeTextColor()">
+            <label>背景色:</label>
+            <input type="color" class="bg-color-picker" value="#000000" onchange="changeBgColor()">
+            <label>復号化までの秒数:</label>
+            <input type="number" class="duration-field" value="5" min="1">
+        </div>
+	<br><br>
+        <div class="decrypt">####################</div>
+    </div>
+    <script>
+        const decryptElement = document.querySelector('.decrypt');
+        const textareaField = document.querySelector('.textarea-field');
+        const charSetSelect = document.querySelector('.char-set-select');
+        const randomCharsField = document.querySelector('.random-chars-field');
+        const textColorPicker = document.querySelector('.text-color-picker');
+        const bgColorPicker = document.querySelector('.bg-color-picker');
+        const durationField = document.querySelector('.duration-field');
+        const settings = document.querySelector('.settings');
+        let currentIndex = 0;
+        let interval;
+
+        const alphanumericChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const hiraganaChars = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン。、ー「」『』〝〟・々！？＠＃＄％＾＆＊（）＿＋－＝＜＞？／｛｝［］＼｜；：’”`';
+        let randomChars = alphanumericChars;
+
+        function getRandomChar(chars) {
+            return chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        function decryptText() {
+            const finalText = textareaField.value || '####################';
+            const duration = parseInt(durationField.value) || 5;
+            let displayText = '';
+            for (let i = 0; i < finalText.length; i++) {
+                if (i < currentIndex) {
+                    displayText += finalText[i];
+                } else {
+                    displayText += getRandomChar(randomChars);
+                }
+            }
+            decryptElement.textContent = displayText;
+            if (currentIndex < finalText.length) {
+                currentIndex++;
+                interval = setTimeout(decryptText, (duration * 1000) / finalText.length);
+            } else {
+                clearTimeout(interval);
+            }
+        }
+
+        function startDecryption() {
+            clearTimeout(interval);
+            currentIndex = 0;
+            decryptText();
+        }
+
+        function toggleSettings() {
+            settings.style.display = settings.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function changeCharSet() {
+            if (charSetSelect.value === 'hiragana') {
+                randomChars = hiraganaChars;
+                randomCharsField.style.display = 'none';
+            } else if (charSetSelect.value === 'custom') {
+                randomChars = randomCharsField.value || alphanumericChars;
+                randomCharsField.style.display = 'block';
+            } else {
+                randomChars = alphanumericChars;
+                randomCharsField.style.display = 'none';
+            }
+        }
+
+        function changeTextColor() {
+            decryptElement.style.color = textColorPicker.value;
+        }
+
+        function changeBgColor() {
+            document.body.style.backgroundColor = bgColorPicker.value;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            settings.style.display = 'none'; // 初期状態で非表示に設定
+        });
+    </script>
+</body>
+</html>
