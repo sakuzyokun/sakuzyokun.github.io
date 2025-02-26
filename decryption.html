@@ -91,30 +91,30 @@ function decryptText() {
     const duration = parseInt(durationField.value) || 5;
     const lines = finalText.split('\n');
     let displayText = '';
+    let totalChars = finalText.replace(/\n/g, '').length; // 全文字数（改行を除く）
+    let charCount = 0;
 
-    let currentIndex = 0;
-    lines.forEach((line) => {
+    lines.forEach((line, lineIndex) => {
         let lineText = '';
         for (let i = 0; i < line.length; i++) {
-            if (i < currentIndex) {
+            if (charCount < currentIndex) {
                 lineText += line[i];
             } else {
                 lineText += getRandomChar(randomChars);
             }
-            currentIndex++;
+            charCount++;
         }
         displayText += lineText + '\n';
     });
 
     decryptElement.textContent = displayText;
-    if (currentIndex < finalText.length) {
+    if (currentIndex < totalChars) {
         currentIndex++;
-        interval = setTimeout(decryptText, (duration * 1000) / finalText.length);
+        interval = setTimeout(decryptText, (duration * 1000) / totalChars);
     } else {
         clearTimeout(interval);
     }
 }
-
 
         function startDecryption() {
             clearTimeout(interval);
