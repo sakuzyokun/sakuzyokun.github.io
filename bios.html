@@ -1,85 +1,69 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BIOS Setup Utility</title>
     <style>
-        @font-face {
-            font-family: 'IBMVGA8';
-            src: url('fonts/ibm_vga8.woff2') format('woff2');
-        }
         body {
-            background-color: #000;
-            color: #0f0;
-            font-family: 'IBMVGA8', monospace;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+            background-color: #000080;
+            color: white;
+            font-family: monospace;
+            margin: 0;
             padding: 20px;
         }
-        h1, h2, p {
-            margin: 0;
-            padding: 10px 0;
+        .container {
+            width: 800px;
+            background-color: #A9A9A9;
+            padding: 10px;
+            margin: auto;
+            border: 3px solid white;
         }
-        .section {
-            margin-bottom: 20px;
+        .header {
+            background-color: #000080;
+            padding: 5px;
+            text-align: center;
         }
-        .navigation {
-            border-top: 1px solid #0f0;
-            padding-top: 10px;
+        .menu {
+            background-color: #A9A9A9;
+            padding: 5px;
+            display: flex;
+            justify-content: space-around;
+        }
+        .content {
+            background-color: #D3D3D3;
+            padding: 10px;
+            color: black;
+        }
+        .footer {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #000080;
+        }
+        .highlight {
+            color: yellow;
         }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('cpu-info').innerText = 'Loading CPU info...';
-            document.getElementById('memory-info').innerText = 'Loading memory info...';
-
-            // Example of how you might fetch system info with JavaScript
-            // (Note: Browser security restrictions prevent direct access to hardware info)
-            
-            // Placeholder: Use server-side code to get actual CPU and memory info
-            fetch('/api/system-info')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('cpu-info').innerText = data.cpu;
-                    document.getElementById('memory-info').innerText = data.memory;
-                })
-                .catch(error => {
-                    console.error('Error fetching system info:', error);
-                });
-        });
-    </script>
 </head>
 <body>
     <div class="container">
-        <h1>BIOS Setup Utility</h1>
-        <div class="section">
-            <h2>BIOS Information</h2>
+        <div class="header">Aptio Setup Utility - Copyright (C) 2019 American Megatrends, Inc.</div>
+        <div class="menu">Main | Advanced | Boot | Security | Save & Exit</div>
+        <div class="content">
+            <p><b>BIOS Information</b></p>
             <p>BIOS Vendor: American Megatrends</p>
-            <p>Version: 301</p>
-            <p>GOP Version: 9.0.1086</p>
-            <p>EC Version: F0WL1405.009</p>
-        </div>
-        <div class="section">
-            <h2>Processor Information</h2>
-            <p id="cpu-info">Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz</p>
-        </div>
-        <div class="section">
-            <h2>Memory Information</h2>
-            <p id="memory-info">Total Memory: 4096 MB</p>
-        </div>
-        <div class="section">
-            <h2>System Information</h2>
-            <p>Serial Number: S3A9K4U0Z0Y6O06</p>
-            <p>System Date: [Thu 09/17/2020]</p>
-            <p>System Time: [15:11:55]</p>
+            <p>Version: 9.0.1086</p>
+            <p>Processor: Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz</p>
+            <p><b>Memory Information</b></p>
+            <p>Total Memory: 16384 MB</p>
+            <p><b>System Information</b></p>
+            <p>Serial Number: K3NTCX00191913E</p>
+            <p><b>System Date</b>: <span class="highlight">[Thu 09/17/2020]</span></p>
+            <p><b>System Time</b>: <span class="highlight">[15:11:55]</span></p>
             <p>Access Level: Administrator</p>
         </div>
-        <div class="navigation">
-            <p>↑↓: Select Screen  ↑↓: Select Item  Enter: Select</p>
-            <p>+/-: Change Opt.  F1: General Help  F9: Optimized Defaults</p>
-            <p>F10: Save & Exit  ESC: Exit</p>
+        <div class="footer">
+            <p>F9: <span class="highlight">Optimized Defaults</span> | F10: Save & Exit | ESC: Exit</p>
         </div>
     </div>
 </body>
