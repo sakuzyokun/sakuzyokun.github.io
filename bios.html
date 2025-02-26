@@ -44,6 +44,13 @@
             justify-content: space-around;
             grid-column: span 2;
         }
+        .tab {
+            color: blue;
+            cursor: pointer;
+        }
+        .tab.selected {
+            color: white;
+        }
         .content, .details {
             background-color: #D3D3D3;
             padding: 10px;
@@ -70,15 +77,51 @@
             align-items: center;
             color: white;
             font-size: 20px;
+            flex-direction: column;
         }
         .overlay.show {
             display: flex;
         }
+        .option {
+            color: blue;
+        }
+        .option.selected {
+            color: white;
+        }
+        .option.disabled {
+            color: black;
+        }
     </style>
     <script>
+        let selectedTab = 0;
+        let selectedOption = 0;
+        function updateTabs() {
+            document.querySelectorAll('.tab').forEach((tab, index) => {
+                tab.classList.toggle('selected', index === selectedTab);
+            });
+        }
+        function updateOptions() {
+            document.querySelectorAll('.option').forEach((opt, index) => {
+                opt.classList.toggle('selected', index === selectedOption);
+            });
+        }
         document.addEventListener("keydown", function(event) {
             if (event.key === "Escape") {
                 document.getElementById("overlay").classList.add("show");
+                selectedOption = 0;
+                updateOptions();
+            } else if (event.key === "ArrowLeft") {
+                selectedTab = Math.max(0, selectedTab - 1);
+                updateTabs();
+            } else if (event.key === "ArrowRight") {
+                selectedTab = Math.min(4, selectedTab + 1);
+                updateTabs();
+            } else if (event.key === "ArrowUp") {
+                selectedOption = Math.max(0, selectedOption - 1);
+                updateOptions();
+            } else if (event.key === "ArrowDown") {
+                selectedOption = Math.min(1, selectedOption + 1);
+                updateOptions();
             }
         });
     </script>
@@ -86,7 +129,13 @@
 <body>
     <div class="container">
         <div class="header">Aptio Setup Utility - Copyright (C) 2019 American Megatrends, Inc.</div>
-        <div class="menu">Main | Advanced | Boot | Security | Save & Exit</div>
+        <div class="menu">
+            <span class="tab selected">Main</span>
+            <span class="tab">Advanced</span>
+            <span class="tab">Boot</span>
+            <span class="tab">Security</span>
+            <span class="tab">Save & Exit</span>
+        </div>
         <div class="content">
             <p><b>BIOS Information</b></p>
             <p>BIOS Vendor: American Megatrends</p>
@@ -113,7 +162,7 @@
     <div id="overlay" class="overlay">
         <div>
             <p>Do you want to save changes before exiting?</p>
-            <p>[Y] Yes    [N] No</p>
+            <p><span class="option selected">Yes</span>    <span class="option">No</span></p>
         </div>
     </div>
 </body>
