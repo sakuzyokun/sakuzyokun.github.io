@@ -83,35 +83,37 @@
         let randomChars = alphanumericChars;
 
         function getRandomChar(chars) {
-            return chars.charAt(Math.floor(Math.random() * chars.length));
-        }
+    return chars.charAt(Math.floor(Math.random() * chars.length));
+}
 
-        function decryptText() {
-            const finalText = textareaField.value || '####################';
-            const duration = parseInt(durationField.value) || 5;
-            const lines = finalText.split('\n');
-            let displayText = '';
+function decryptText() {
+    const finalText = textareaField.value || '####################';
+    const duration = parseInt(durationField.value) || 5;
+    const lines = finalText.split('\n');
+    let displayText = '';
 
-            lines.forEach((line, lineIndex) => {
-                let lineText = '';
-                for (let i = 0; i < line.length; i++) {
-                    if (i < currentIndex - lineIndex * line.length) {
-                        lineText += line[i];
-                    } else {
-                        lineText += getRandomChar(randomChars);
-                    }
-                }
-                displayText += lineText + '\n';
-            });
-
-            decryptElement.textContent = displayText;
-            if (currentIndex < finalText.length) {
-                currentIndex++;
-                interval = setTimeout(decryptText, (duration * 1000) / finalText.length);
+    let currentIndex = 0;
+    lines.forEach((line) => {
+        let lineText = '';
+        for (let i = 0; i < line.length; i++) {
+            if (i < currentIndex) {
+                lineText += line[i];
             } else {
-                clearTimeout(interval);
+                lineText += getRandomChar(randomChars);
             }
+            currentIndex++;
         }
+        displayText += lineText + '\n';
+    });
+
+    decryptElement.textContent = displayText;
+    if (currentIndex < finalText.length) {
+        currentIndex++;
+        interval = setTimeout(decryptText, (duration * 1000) / finalText.length);
+    } else {
+        clearTimeout(interval);
+    }
+}
 
 
         function startDecryption() {
