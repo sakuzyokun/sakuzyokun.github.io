@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Operating System not found</title>
     <link rel="icon" href="favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
     <style>
+        @font-face {
+            font-family: 'Web437_IBM_BIOS';
+            src: url('fonts/Web437_IBM_BIOS.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
         body {
             background-color: black;
             color: white;
-            font-family: 'DotGothic16', sans-serif;
+            font-family: 'Web437_IBM_BIOS', sans-serif;
         }
         #txt {
             background-color: white;
@@ -32,7 +35,7 @@
             document.getElementById("txt").style.display = "none";
             await new Promise(resolve => setTimeout(resolve, 500));
             document.getElementById("txt").style.display = "block";
-            //i++; // Loop increment to ensure it terminates after 10 iterations
+            //i++; // ループが10回で終了するようにインクリメント
         }
       }
       loop();
