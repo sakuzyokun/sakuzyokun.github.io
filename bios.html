@@ -14,18 +14,22 @@
             color: white;
             font-family: 'IBM VGA8', monospace;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .container {
-            width: 800px;
+            width: 100vw;
+            height: 100vh;
             background-color: #A9A9A9;
-            padding: 10px;
-            margin: auto;
-            border: 3px solid white;
             display: grid;
             grid-template-columns: 2fr 1fr;
             grid-template-rows: auto auto 1fr auto;
-            gap: 10px;
+            gap: 5px;
+            padding: 10px;
+            box-sizing: border-box;
         }
         .header {
             background-color: #000080;
@@ -40,26 +44,44 @@
             justify-content: space-around;
             grid-column: span 2;
         }
-        .content {
-            background-color: #D3D3D3;
-            padding: 10px;
-            color: black;
-        }
-        .details {
+        .content, .details {
             background-color: #D3D3D3;
             padding: 10px;
             color: black;
         }
         .footer {
-            margin-top: 10px;
-            padding: 10px;
             background-color: #000080;
+            padding: 10px;
             grid-column: span 2;
+            text-align: center;
         }
         .highlight {
             color: yellow;
         }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+        }
+        .overlay.show {
+            display: flex;
+        }
     </style>
+    <script>
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                document.getElementById("overlay").classList.add("show");
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -81,10 +103,17 @@
         <div class="details">
             <p><b>Selected Item Details</b></p>
             <p>Displays details of the currently selected option.</p>
+            <p><b>Navigation</b></p>
+            <p>Arrow Keys: Move Selection | Left/Right: Switch Tabs | ESC: Exit</p>
         </div>
         <div class="footer">
-            <p><b>Keyboard Shortcuts</b></p>
             <p>F9: <span class="highlight">Optimized Defaults</span> | F10: Save & Exit | ESC: Exit</p>
+        </div>
+    </div>
+    <div id="overlay" class="overlay">
+        <div>
+            <p>Do you want to save changes before exiting?</p>
+            <p>[Y] Yes    [N] No</p>
         </div>
     </div>
 </body>
