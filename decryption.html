@@ -89,14 +89,21 @@
         function decryptText() {
             const finalText = textareaField.value || '####################';
             const duration = parseInt(durationField.value) || 5;
+            const lines = finalText.split('\n');
             let displayText = '';
-            for (let i = 0; i < finalText.length; i++) {
-                if (i < currentIndex) {
-                    displayText += finalText[i];
-                } else {
-                    displayText += getRandomChar(randomChars);
+
+            lines.forEach((line, lineIndex) => {
+                let lineText = '';
+                for (let i = 0; i < line.length; i++) {
+                    if (i < currentIndex - lineIndex * line.length) {
+                        lineText += line[i];
+                    } else {
+                        lineText += getRandomChar(randomChars);
+                    }
                 }
-            }
+                displayText += lineText + '\n';
+            });
+
             decryptElement.textContent = displayText;
             if (currentIndex < finalText.length) {
                 currentIndex++;
@@ -105,6 +112,7 @@
                 clearTimeout(interval);
             }
         }
+
 
         function startDecryption() {
             clearTimeout(interval);
