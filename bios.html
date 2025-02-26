@@ -63,7 +63,13 @@
             text-align: center;
         }
         .highlight {
-            color: yellow;
+            color: white;
+        }
+        .editable {
+            color: blue;
+        }
+        .disabled {
+            color: black;
         }
         .overlay {
             display: none;
@@ -94,51 +100,25 @@
     </style>
     <script>
         let selectedTab = 0;
-        let selectedOption = 0;
-        const tabContents = [
-            `<p><b>BIOS Information</b></p>
-            <p>BIOS Vendor: American Megatrends</p>
-            <p>Version: 9.0.1086</p>
-            <p>Processor: Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz</p>
-            <p><b>Memory Information</b></p>
-            <p>Total Memory: 16384 MB</p>
-            <p><b>System Information</b></p>
-            <p>Serial Number: S3A9K4U0Z0Y6O06</p>
-            <p><b>System Date</b>: <span class="highlight">[Thu 09/17/2020]</span></p>
-            <p><b>System Time</b>: <span class="highlight">[15:11:55]</span></p>
-            <p>Access Level: Administrator</p>`,
-            `<p><b>Advanced Settings</b></p>
-            <p>CPU Configuration</p>
-            <p>Power Management</p>
-            <p>Peripheral Configuration</p>`,
-            `<p><b>Boot Options</b></p>
-            <p>Boot Priority Order</p>
-            <p>Secure Boot</p>
-            <p>Boot Mode</p>`,
-            `<p><b>Security Settings</b></p>
-            <p>Set Supervisor Password</p>
-            <p>Set User Password</p>
-            <p>TPM Configuration</p>`,
-            `<p><b>Save & Exit</b></p>
-            <p>Save Changes and Exit</p>
-            <p>Discard Changes and Exit</p>`
-        ];
+        let selectedItem = 0;
+        let editableItems = ["date", "time"];
+
         function updateTabs() {
             document.querySelectorAll('.tab').forEach((tab, index) => {
                 tab.classList.toggle('selected', index === selectedTab);
             });
-            document.querySelector('.content').innerHTML = tabContents[selectedTab];
         }
-        function updateOptions() {
-            document.querySelectorAll('.option').forEach((opt, index) => {
-                opt.classList.toggle('selected', index === selectedOption);
+
+        function updateSelection() {
+            document.querySelectorAll('.selectable').forEach((item, index) => {
+                item.classList.toggle('highlight', index === selectedItem);
+                item.classList.toggle('editable', editableItems.includes(item.id));
             });
         }
+
         document.addEventListener("keydown", function(event) {
             if (event.key === "Escape") {
                 document.getElementById("overlay").classList.add("show");
-                selectedOption = 0;
-                updateOptions();
             } else if (event.key === "ArrowLeft") {
                 selectedTab = Math.max(0, selectedTab - 1);
                 updateTabs();
@@ -146,11 +126,17 @@
                 selectedTab = Math.min(4, selectedTab + 1);
                 updateTabs();
             } else if (event.key === "ArrowUp") {
-                selectedOption = Math.max(0, selectedOption - 1);
-                updateOptions();
+                selectedItem = Math.max(0, selectedItem - 1);
+                updateSelection();
             } else if (event.key === "ArrowDown") {
-                selectedOption = Math.min(1, selectedOption + 1);
-                updateOptions();
+                selectedItem = Math.min(document.querySelectorAll('.selectable').length - 1, selectedItem + 1);
+                updateSelection();
+            } else if (event.key === "Enter") {
+                let item = document.querySelectorAll('.selectable')[selectedItem];
+                if (editableItems.includes(item.id)) {
+                    let newValue = prompt("Enter new value:", item.innerText);
+                    if (newValue) item.innerText = newValue;
+                }
             }
         });
     </script>
@@ -165,10 +151,21 @@
             <span class="tab">Security</span>
             <span class="tab">Save & Exit</span>
         </div>
-        <div class="content"></div>
+        <div class="content">
+            <p><b>BIOS Information</b></p>
+            <p>BIOS Vendor: American Megatrends</p>
+            <p>Version: 9.0.1086</p>
+            <p>Processor: Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz</p>
+            <p><b>Memory Information</b></p>
+            <p>Total Memory: 16384 MB</p>
+            <p><b>System Date</b>: <span id="date" class="selectable editable">Thu 09/17/2020</span></p>
+            <p><b>System Time</b>: <span id="time" class="selectable editable">15:11:55</span></p>
+        </div>
         <div class="details">
             <p><b>Selected Item Details</b></p>
             <p>Displays details of the currently selected option.</p>
+            <p><b>Navigation</b></p>
+            <p>Arrow Keys: Move Selection | Left/Right: Switch Tabs | Enter: Edit | ESC: Exit</p>
         </div>
         <div class="footer">
             <p>F9: <span class="highlight">Optimized Defaults</span> | F10: Save & Exit | ESC: Exit</p>
