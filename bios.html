@@ -95,10 +95,39 @@
     <script>
         let selectedTab = 0;
         let selectedOption = 0;
+        const tabContents = [
+            `<p><b>BIOS Information</b></p>
+            <p>BIOS Vendor: American Megatrends</p>
+            <p>Version: 9.0.1086</p>
+            <p>Processor: Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz</p>
+            <p><b>Memory Information</b></p>
+            <p>Total Memory: 16384 MB</p>
+            <p><b>System Information</b></p>
+            <p>Serial Number: K3NTCX00191913E</p>
+            <p><b>System Date</b>: <span class="highlight">[Thu 09/17/2020]</span></p>
+            <p><b>System Time</b>: <span class="highlight">[15:11:55]</span></p>
+            <p>Access Level: Administrator</p>`,
+            `<p><b>Advanced Settings</b></p>
+            <p>CPU Configuration</p>
+            <p>Power Management</p>
+            <p>Peripheral Configuration</p>`,
+            `<p><b>Boot Options</b></p>
+            <p>Boot Priority Order</p>
+            <p>Secure Boot</p>
+            <p>Boot Mode</p>`,
+            `<p><b>Security Settings</b></p>
+            <p>Set Supervisor Password</p>
+            <p>Set User Password</p>
+            <p>TPM Configuration</p>`,
+            `<p><b>Save & Exit</b></p>
+            <p>Save Changes and Exit</p>
+            <p>Discard Changes and Exit</p>`
+        ];
         function updateTabs() {
             document.querySelectorAll('.tab').forEach((tab, index) => {
                 tab.classList.toggle('selected', index === selectedTab);
             });
+            document.querySelector('.content').innerHTML = tabContents[selectedTab];
         }
         function updateOptions() {
             document.querySelectorAll('.option').forEach((opt, index) => {
@@ -136,24 +165,10 @@
             <span class="tab">Security</span>
             <span class="tab">Save & Exit</span>
         </div>
-        <div class="content">
-            <p><b>BIOS Information</b></p>
-            <p>BIOS Vendor: American Megatrends</p>
-            <p>Version: 9.0.1086</p>
-            <p>Processor: Intel(R) Core(TM) i7-8565U CPU @ 1.80GHz</p>
-            <p><b>Memory Information</b></p>
-            <p>Total Memory: 16384 MB</p>
-            <p><b>System Information</b></p>
-            <p>Serial Number: S3A9K4U0Z0Y6O06</p>
-            <p><b>System Date</b>: <span class="highlight">[Thu 09/17/2020]</span></p>
-            <p><b>System Time</b>: <span class="highlight">[15:11:55]</span></p>
-            <p>Access Level: Administrator</p>
-        </div>
+        <div class="content"></div>
         <div class="details">
             <p><b>Selected Item Details</b></p>
             <p>Displays details of the currently selected option.</p>
-            <p><b>Navigation</b></p>
-            <p>Arrow Keys: Move Selection | Left/Right: Switch Tabs | ESC: Exit</p>
         </div>
         <div class="footer">
             <p>F9: <span class="highlight">Optimized Defaults</span> | F10: Save & Exit | ESC: Exit</p>
