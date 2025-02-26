@@ -6,9 +6,6 @@
     <title>削除くんのホームページ ファイル拡張子変換</title>
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="extension.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -27,6 +24,7 @@
         </div>
         <button onclick="convertExtension()">変換</button>
         <p id="result"></p>
+        <a id="downloadLink" href="#" style="display: none;">ダウンロード</a>
     </main>
     <script>
         function convertExtension() {
@@ -36,6 +34,22 @@
                 const fileName = fileUpload.name;
                 const baseName = fileName.substring(0, fileName.lastIndexOf('.'));
                 const newFileName = baseName + newExtension;
+
+                // ファイル内容を読み込む
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const arrayBuffer = e.target.result;
+                    const blob = new Blob([arrayBuffer], { type: fileUpload.type });
+
+                    // ダウンロードリンクを作成
+                    const downloadLink = document.getElementById('downloadLink');
+                    downloadLink.href = URL.createObjectURL(blob);
+                    downloadLink.download = newFileName;
+                    downloadLink.style.display = 'block';
+                    downloadLink.textContent = 'ダウンロード: ' + newFileName;
+                };
+                reader.readAsArrayBuffer(fileUpload);
+
                 document.getElementById('result').textContent = '新しいファイル名: ' + newFileName;
             } else {
                 document.getElementById('result').textContent = 'ファイルが選択されていません。';
