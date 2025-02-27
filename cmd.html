@@ -122,9 +122,11 @@
 
         function appendMessage(message) {
             const messageElement = document.createElement('div');
+            messageElement.style.whiteSpace = 'pre';
             messageElement.textContent = message;
             consoleElement.insertBefore(messageElement, consoleElement.lastElementChild);
         }
+
 
         function clearConsole() {
             const inputLine = document.querySelector('.input-line');
