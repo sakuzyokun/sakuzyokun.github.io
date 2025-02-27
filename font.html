@@ -28,11 +28,13 @@
         <div id="preview">
             <p>ここにプレビューが表示されます</p>
         </div>
+        <input type="file" id="fileInput">
     </main>
     <script>
         const textInput = document.getElementById('textInput');
         const fontSelect = document.getElementById('fontSelect');
         const preview = document.getElementById('preview');
+        const fileInput = document.getElementById('fileInput');
 
         textInput.addEventListener('input', updatePreview);
         fontSelect.addEventListener('change', updatePreview);
@@ -41,6 +43,20 @@
             const text = textInput.value;
             const font = fontSelect.value;
             preview.innerHTML = `<p style="font-family: ${font};">${text}</p>`;
+        }
+
+        fileInput.addEventListener('change', handleFileUpload);
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    textInput.value = e.target.result;
+                    updatePreview();
+                };
+                reader.readAsText(file);
+            }
         }
     </script>
 </body>
