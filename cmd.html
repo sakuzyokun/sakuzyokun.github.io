@@ -163,9 +163,10 @@
                 const usedJSHeapSize = (memoryInfo.usedJSHeapSize / 1048576).toFixed(2);
                 const totalJSHeapSize = (memoryInfo.totalJSHeapSize / 1048576).toFixed(2);
                 const jsHeapSizeLimit = (memoryInfo.jsHeapSizeLimit / 1048576).toFixed(2);
-                appendMessage(`使用中のJSヒープサイズ:${usedJSHeapSize} MB`);
-                appendMessage(`全JSヒープサイズ: ${totalJSHeapSize} MB`);
-                appendMessage(`JSヒープサイズ制限: ${jsHeapSizeLimit} MB`);
+                appendMessage('メモリの種類&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;合計
+                appendMessage(`使用中のJSヒープサイズ&nbsp;&nbsp;${usedJSHeapSize} MB`);
+                appendMessage(`全JSヒープサイズ&nbsp;&nbsp;&nbsp;${totalJSHeapSize} MB`);
+                appendMessage(`JSヒープサイズ制限&nbsp;&nbsp;${jsHeapSizeLimit} MB`);
             } else {
                 appendMessage('メモリ情報を取得できません。');
             }
@@ -243,7 +244,7 @@
             appendMessage('');
         }, 4500);
         setTimeout(() => {
-            appendMessage('Command ﾊﾞｰｼﾞｮﾝ 1.50');
+            appendMessage('\nCommand ﾊﾞｰｼﾞｮﾝ 1.50\n');
         }, 5500);
         setTimeout(() => {
             const inputLine = document.querySelector('.input-line span');
