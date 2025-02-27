@@ -94,7 +94,7 @@
                 case 'mem':
                     displayMemoryInfo();
                     break;
-                case 'date':
+                case 'time':
                     displayDate();
                     break;
                 case 'dir':
@@ -171,7 +171,7 @@
 
         function displayDate() {
             const date = new Date();
-            appendMessage(`Current time is: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
+            appendMessage(`現在の時刻:${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
         }
 
         function dirDate() {
