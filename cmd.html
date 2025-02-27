@@ -165,9 +165,9 @@
                 const jsHeapSizeLimit = (memoryInfo.jsHeapSizeLimit / 1048576).toFixed(2);
                 appendMessage('メモリの種類&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;合計');
                 appendMessage('------------------------&nbsp;&nbsp;-------------');
-                appendMessage(`使用中のJSヒープサイズ&nbsp;&nbsp;&nbsp;&nbsp;${usedJSHeapSize} MB`);
-                appendMessage(`全JSヒープサイズ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${totalJSHeapSize} MB`);
-                appendMessage(`JSヒープサイズ制限&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${jsHeapSizeLimit} MB`);
+                appendMessage(`使用中のJSヒープサイズ&nbsp;&nbsp;&nbsp;&nbsp;${usedJSHeapSize}M`);
+                appendMessage(`全JSヒープサイズ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${totalJSHeapSize}M`);
+                appendMessage(`JSヒープサイズ制限&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${jsHeapSizeLimit}M`);
             } else {
                 appendMessage('メモリ情報を取得できません。');
             }
