@@ -25,19 +25,20 @@
             <option value="'Noto Sans JP', sans-serif">Noto</option>
             <option value="'DotGothic16', sans-serif">Dot Gothic 16</option>
         </select>
+        <input type="file" id="fontFileInput" accept=".ttf, .otf, .woff, .woff2">
         <div id="preview">
             <p>ここにプレビューが表示されます</p>
         </div>
-        <input type="file" id="fileInput">
     </main>
     <script>
         const textInput = document.getElementById('textInput');
         const fontSelect = document.getElementById('fontSelect');
+        const fontFileInput = document.getElementById('fontFileInput');
         const preview = document.getElementById('preview');
-        const fileInput = document.getElementById('fileInput');
 
         textInput.addEventListener('input', updatePreview);
         fontSelect.addEventListener('change', updatePreview);
+        fontFileInput.addEventListener('change', handleFontUpload);
 
         function updatePreview() {
             const text = textInput.value;
@@ -45,17 +46,27 @@
             preview.innerHTML = `<p style="font-family: ${font};">${text}</p>`;
         }
 
-        fileInput.addEventListener('change', handleFileUpload);
-
-        function handleFileUpload(event) {
+        function handleFontUpload(event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    textInput.value = e.target.result;
-                    updatePreview();
+                    const fontData = e.target.result;
+                    const fontName = file.name.split('.')[0];
+                    const newFont = new FontFace(fontName, `url(${fontData})`);
+                    newFont.load().then(function(loadedFont) {
+                        document.fonts.add(loadedFont);
+                        const option = document.createElement('option');
+                        option.value = fontName;
+                        option.text = fontName;
+                        fontSelect.add(option);
+                        fontSelect.value = fontName;
+                        updatePreview();
+                    }).catch(function(error) {
+                        console.error('Font could not be loaded:', error);
+                    });
                 };
-                reader.readAsText(file);
+                reader.readAsDataURL(file);
             }
         }
     </script>
