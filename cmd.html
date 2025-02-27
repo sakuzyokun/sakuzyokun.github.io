@@ -82,7 +82,7 @@
                     appendMessage('SAKUZYO-DOS バージョン:1.52');
                     break;
                 case 'info':
-                    appendMessage('ホームページ バージョン:5.7.2');
+                    appendMessage('ホームページ バージョン:5.7.5');
                     break;
                 case 'error':
                     location.href = '404.html';
@@ -171,7 +171,7 @@
 
         function displayDate() {
             const date = new Date();
-            appendMessage(`Current date and time: ${date.toLocaleString()}`);
+            appendMessage(`Current time is: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
         }
 
         function dirDate() {
