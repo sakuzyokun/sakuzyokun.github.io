@@ -96,6 +96,9 @@
                     displayMemoryInfo();
                     break;
                 case 'time':
+                    displayTime();
+                    break;
+                case 'date':
                     displayDate();
                     break;
                 case 'dir':
@@ -174,11 +177,16 @@
             }
         }
 
-        function displayDate() {
+        function displayTime() {
             const now = new Date();
             appendMessage(`現在の時刻:${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}.${now.getMilliseconds()}`);
         }
 
+        function displayDate() {
+            const tm = new Date();
+            appendMessage(`現在の時刻:${tm.getHours()}:${tm.getMinutes()}:${tm.getSeconds()}.${tm.getMilliseconds()}`);
+        }
+        
         function dirDate() {
             const date = new Date();
             appendMessage(date.toLocaleString());
