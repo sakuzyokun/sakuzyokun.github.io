@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista風時計</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1c3f74, #4a7ebb);
+        }
+        .clock {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, #f5f5f5 60%, #ddd);
+            border-radius: 50%;
+            border: 5px solid #333;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        .hand {
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            background: black;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0% 50%;
+            transform: rotate(0deg);
+            transition: transform 0.05s linear;
+        }
+        .hand.hour {
+            width: 30%;
+            height: 4px;
+            background: black;
+        }
+        .hand.minute {
+            width: 40%;
+            height: 3px;
+            background: black;
+        }
+        .hand.second {
+            width: 45%;
+            height: 2px;
+            background: red;
+        }
+        .center {
+            width: 10px;
+            height: 10px;
+            background: black;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        .number {
+            position: absolute;
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            width: 20px;
+            height: 20px;
+            transform: translate(-50%, -50%);
+        }
+        .tick {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: black;
+            top: 48%;
+            left: 48%;
+            transform-origin: 50% 100%;
+        }
+        .tick.small {
+            height: 5px;
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock" id="clock">
+        <div class="center"></div>
+        <div class="hand hour" id="hour-hand"></div>
+        <div class="hand minute" id="minute-hand"></div>
+        <div class="hand second" id="second-hand"></div>
+    </div>
+    <script>
+        const clock = document.getElementById("clock");
+        for (let i = 1; i <= 12; i++) {
+            const angle = (i * 30) * (Math.PI / 180);
+            const num = document.createElement("div");
+            num.classList.add("number");
+            num.innerText = i;
+            num.style.left = `${48 + 40 * Math.sin(angle)}%`;
+            num.style.top = `${48 - 40 * Math.cos(angle)}%`;
+            clock.appendChild(num);
+        }
+        for (let i = 0; i < 60; i++) {
+            const angle = (i * 6) * (Math.PI / 180);
+            const tick = document.createElement("div");
+            tick.classList.add("tick");
+            if (i % 5 !== 0) tick.classList.add("small");
+            tick.style.left = `${48 + 45 * Math.sin(angle)}%`;
+            tick.style.top = `${48 - 45 * Math.cos(angle)}%`;
+            tick.style.transform = `rotate(${i * 6}deg) translate(-50%, -50%)`;
+            clock.appendChild(tick);
+        }
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours() % 12;
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            const hourDeg = (hours + minutes / 60) * 30 - 90;
+            const minuteDeg = (minutes + seconds / 60) * 6 - 90;
+            const secondDeg = seconds * 6 - 90;
+            
+            document.getElementById("hour-hand").style.transform = `rotate(${hourDeg}deg)`;
+            document.getElementById("minute-hand").style.transform = `rotate(${minuteDeg}deg)`;
+            document.getElementById("second-hand").style.transform = `rotate(${secondDeg}deg)`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
