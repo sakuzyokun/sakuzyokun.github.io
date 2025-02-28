@@ -20,6 +20,10 @@
         <div id="todo-container">
             <input type="text" id="todo-input" placeholder="新しいタスクを追加">
             <button onclick="addTask()">追加</button>
+            <button onclick="saveTasks()">保存</button>
+            <button onclick="downloadTasks()">ダウンロード</button>
+            <input type="file" id="upload" onchange="uploadTasks()" style="display:none">
+            <button onclick="document.getElementById('upload').click()">アップロード</button>
             <ul id="todo-list"></ul>
         </div>
     </main>
@@ -58,7 +62,6 @@
             document.getElementById('todo-list').appendChild(li);
 
             document.getElementById('todo-input').value = '';
-            saveTasks();
         }
 
         function saveTasks() {
@@ -103,6 +106,63 @@
                     }
                     document.getElementById('todo-list').appendChild(li);
                 });
+            }
+        }
+
+        function downloadTasks() {
+            const tasks = [];
+            document.querySelectorAll('#todo-list li').forEach(li => {
+                tasks.push({
+                    text: li.textContent.replace('完了削除', ''),
+                    completed: li.classList.contains('completed')
+                });
+            });
+            const blob = new Blob([JSON.stringify(tasks)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'tasks.json';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function uploadTasks() {
+            const file = document.getElementById('upload').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const tasks = JSON.parse(e.target.result);
+                    document.getElementById('todo-list').innerHTML = '';
+                    tasks.forEach(task => {
+                        const li = document.createElement('li');
+                        li.textContent = task.text;
+
+                        const removeButton = document.createElement('button');
+                        removeButton.textContent = '削除';
+                        removeButton.classList.add('delete-button');
+                        removeButton.onclick = function() {
+                            li.remove();
+                            saveTasks();
+                        };
+
+                        const completeButton = document.createElement('button');
+                        completeButton.textContent = '完了';
+                        completeButton.classList.add('complete-button');
+                        completeButton.onclick = function() {
+                            li.classList.toggle('completed');
+                            saveTasks();
+                        };
+
+                        li.appendChild(completeButton);
+                        li.appendChild(removeButton);
+                        if (task.completed) {
+                            li.classList.add('completed');
+                        }
+                        document.getElementById('todo-list').appendChild(li);
+                    });
+                    saveTasks();
+                };
+                reader.readAsText(file);
             }
         }
     </script>
