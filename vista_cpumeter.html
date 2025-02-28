@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vista CPU & Memory Meter</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .gadget {
+            position: relative;
+            width: 220px;
+            height: 160px;
+        }
+        .meter {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 6px solid silver;
+        }
+        #cpu-meter {
+            z-index: 2;
+        }
+        #memory-meter {
+            left: 80px;
+            top: 40px;
+            width: 100px;
+            height: 100px;
+            z-index: 1;
+        }
+        .needle {
+            position: absolute;
+            width: 4px;
+            height: 50px;
+            background: red;
+            transform-origin: bottom center;
+            transition: transform 0.5s ease-in-out;
+        }
+        #memory-meter .needle {
+            height: 40px;
+        }
+        .usage-text {
+            position: absolute;
+            bottom: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            background: black;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        #cpu-text {
+            z-index: 3;
+        }
+    </style>
+</head>
+<body>
+    <div class="gadget">
+        <div class="meter" id="cpu-meter">
+            <div class="needle" id="cpu-needle"></div>
+            <div class="usage-text" id="cpu-text">0%</div>
+        </div>
+        <div class="meter" id="memory-meter">
+            <div class="needle" id="memory-needle"></div>
+            <div class="usage-text" id="memory-text">0%</div>
+        </div>
+    </div>
+    <script>
+        let lastFrameTime = performance.now();
+        let frameCount = 0;
+        let lastMemoryUsage = 0;
+
+        function measureUsage() {
+            const now = performance.now();
+            frameCount++;
+
+            if (now - lastFrameTime >= 1000) { // 1秒ごとに計測
+                const fps = frameCount;
+                frameCount = 0;
+                lastFrameTime = now;
+
+                // CPU使用率を推定（60FPSを基準）
+                const cpuUsage = Math.max(0, Math.min(100, (60 - fps) / 60 * 100));
+                document.getElementById("cpu-needle").style.transform = `rotate(${cpuUsage * 1.8 - 90}deg)`;
+                document.getElementById("cpu-text").textContent = `${cpuUsage.toFixed(1)}%`;
+            }
+
+            // メモリ使用率の推定（滑らかに変化）
+            if (navigator.deviceMemory) {
+                const totalMemory = navigator.deviceMemory * 1024; // MB
+                const usedMemory = totalMemory * (Math.random() * 0.5 + 0.3); // 仮の使用量（ランダムに変動）
+                const memoryUsage = (usedMemory / totalMemory) * 100;
+                lastMemoryUsage = lastMemoryUsage * 0.9 + memoryUsage * 0.1; // 値を滑らかに
+                document.getElementById("memory-needle").style.transform = `rotate(${lastMemoryUsage * 1.8 - 90}deg)`;
+                document.getElementById("memory-text").textContent = `${lastMemoryUsage.toFixed(1)}%`;
+            }
+            requestAnimationFrame(measureUsage);
+        }
+
+        requestAnimationFrame(measureUsage);
+    </script>
+</body>
+</html>
