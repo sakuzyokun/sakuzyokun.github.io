@@ -17,17 +17,27 @@
     </header>
     <main>
         <h1>文字数制限付きコメントボックス</h1>
-        <textarea id="commentBox" oninput="updateCounter()" maxlength="200"></textarea>
+        <label for="charLimit">文字数制限:</label>
+        <input type="number" id="charLimit" value="200" min="1" oninput="updateCharLimit()">
+        <textarea id="commentBox" oninput="updateCounter()"></textarea>
         <div class="counter" id="charCounter">0 / 200</div>
         <button onclick="submitComment()">コメントを送信</button>
     </main>
     <script>
+        function updateCharLimit() {
+            const charLimit = document.getElementById('charLimit').value;
+            const commentBox = document.getElementById('commentBox');
+            commentBox.maxLength = charLimit;
+            updateCounter();
+        }
+
         function updateCounter() {
             const commentBox = document.getElementById('commentBox');
             const charCounter = document.getElementById('charCounter');
             const currentLength = commentBox.value.length;
-            charCounter.innerText = `${currentLength} / 200`;
-            if (currentLength > 180) {
+            const charLimit = commentBox.maxLength;
+            charCounter.innerText = `${currentLength} / ${charLimit}`;
+            if (currentLength > charLimit - 20) {
                 charCounter.classList.add('warning');
             } else {
                 charCounter.classList.remove('warning');
@@ -36,7 +46,8 @@
 
         function submitComment() {
             const comment = document.getElementById('commentBox').value;
-            if (comment.length > 200) {
+            const charLimit = document.getElementById('commentBox').maxLength;
+            if (comment.length > charLimit) {
                 alert('コメントが長すぎます。');
             } else {
                 alert('コメントが送信されました： ' + comment);
