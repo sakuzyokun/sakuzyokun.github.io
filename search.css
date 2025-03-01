@@ -63,3 +63,17 @@ a {
 a:hover {
     color: #ffa500;
 }
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffa500;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff7f00;
+}
