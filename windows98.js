@@ -3,7 +3,14 @@ let originalWidth, originalHeight, originalTop, originalLeft;
 
 function toggleStartMenu() {
     const startMenu = document.getElementById('startMenu');
-    startMenu.style.display = startMenu.style.display === 'none' ? 'block' : 'none';
+    const startButton = document.getElementById('startButton');
+    if (startMenu.style.display === 'none') {
+        startMenu.style.display = 'block';
+        startButton.classList.add('active');
+    } else {
+        startMenu.style.display = 'none';
+        startButton.classList.remove('active');
+    }
 }
 
 function minimizeWindow(windowId, title) {
