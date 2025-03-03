@@ -13,6 +13,16 @@ function toggleStartMenu() {
     }
 }
 
+// スタートメニューが表示されているときにデスクトップなどの別のところをクリックしたらスタートメニューを隠してスタートボタンを戻す
+document.addEventListener('click', function(event) {
+    const startMenu = document.getElementById('startMenu');
+    const startButton = document.getElementById('startButton');
+    if (!startMenu.contains(event.target) && !startButton.contains(event.target)) {
+        startMenu.style.display = 'none';
+        startButton.classList.remove('active');
+    }
+});
+
 function minimizeWindow(windowId, title) {
     const window = document.getElementById(windowId);
     const taskbarWindows = document.getElementById('taskbarWindows');
@@ -77,6 +87,7 @@ function openNotepad() {
     notepadWindow.style.display = 'block';
     const startMenu = document.getElementById('startMenu');
     startMenu.style.display = 'none';
+    document.getElementById('startButton').classList.remove('active');
 }
 
 function openRun() {
@@ -86,12 +97,14 @@ function openRun() {
     runWindow.style.left = '10px'; // スタートボタンと同じ位置に表示
     const startMenu = document.getElementById('startMenu');
     startMenu.style.display = 'none';
+    document.getElementById('startButton').classList.remove('active');
 }
 
 function runCommand() {
     const commandInput = document.getElementById('commandInput').value;
     const runWindow = document.getElementById('runWindow');
     runWindow.style.display = 'none';
+    document.getElementById('startButton').classList.remove('active');
     if (commandInput.toLowerCase() === 'winver') {
         const winverWindow = document.getElementById('winverWindow');
         winverWindow.style.display = 'block';
@@ -152,3 +165,18 @@ document.addEventListener('keydown', function(event) {
         openRun();
     }
 });
+
+// タスクバーの右に現在の時間を表示する関数
+function updateTime() {
+    const statusBar = document.getElementById('statusBar');
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    statusBar.textContent = `${hours}:${minutes}`;
+}
+
+// ページが読み込まれたときに時間を更新し、毎分更新する
+window.onload = function() {
+    updateTime();
+    setInterval(updateTime, 60000);
+};
