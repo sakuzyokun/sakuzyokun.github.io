@@ -65,24 +65,28 @@
     </div>
 
     <div class="taskbar" id="taskbar">
-        <div class="start" id="startButton" onclick="toggleStartMenu()">
-            <div class="start-icon"></div>
-            スタート
-        </div>
-        <div class="taskbar-windows" id="taskbarWindows"></div>
+    <div class="start" id="startButton" onclick="toggleStartMenu()">
+        <div class="start-icon"></div>
+        <span>スタート</span>
     </div>
+    <div class="taskbar-windows" id="taskbarWindows"></div>
+</div>
 
-    <div class="start-menu" id="startMenu">
-        <ul>
-            <li onclick="openNotepad()">メモ帳</li>
-            <li onclick="openRun()">名前を指定して実行</li>
-            <li>プログラム</li>
-            <li>ドキュメント</li>
-            <li>設定</li>
-            <li>検索</li>
-            <li>ヘルプとサポート</li>
-        </ul>
+<div class="start-menu" id="startMenu">
+    <div class="start-menu-header">
+        <div class="start-icon-large"></div>
+        <div class="start-text">Windows 98</div>
     </div>
+    <ul>
+        <li onclick="openNotepad()">メモ帳</li>
+        <li onclick="openRun()">名前を指定して実行</li>
+        <li>プログラム</li>
+        <li>ドキュメント</li>
+        <li>設定</li>
+        <li>検索</li>
+        <li>ヘルプとサポート</li>
+    </ul>
+</div>
     <div class="title-bar" onmousedown="dragStart(event, 'myWindow')">
     <script src="windows98.js"></script>
 </body>
