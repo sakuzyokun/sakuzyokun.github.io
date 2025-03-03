@@ -134,12 +134,6 @@ body {
 
 .title-bar {
     cursor: move;
-    background: #000080;
-    color: white;
-    padding: 2px 5px;
-    border: 2px solid #000;
-    border-left: 2px solid #fff;
-    border-top: 2px solid #fff;
 }
 
 /*
