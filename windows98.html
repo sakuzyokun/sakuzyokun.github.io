@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/98.css">
     <link rel="stylesheet" href="windows98.css">
 </head>
-<body class="win98">
+<body class="win98" onclick="hideStartMenu(event)">
     <div class="window active" id="myWindow" onmousedown="setActiveWindow('myWindow')">
         <div class="title-bar">
             <div class="title-bar-text">マイコンピュータ</div>
@@ -65,32 +65,29 @@
     </div>
 
     <div class="taskbar" id="taskbar">
-    <div class="start" id="startButton" onclick="toggleStartMenu()">
-        <div class="start-icon"></div>
-        <span>スタート</span>
-    </div>
-    <div class="taskbar-windows" id="taskbarWindows"></div>
-        <div class="status-bar">
-            <p class="status-bar-field">19:42</p>
+        <div class="start" id="startButton" onclick="toggleStartMenu()">
+            <div class="start-icon"></div>
+            <span>スタート</span>
         </div>
-</div>
-
-<div class="start-menu" id="startMenu">
-    <div class="start-menu-header">
-        <div class="start-icon-large"></div>
-        <div class="start-text">Windows 98</div>
+        <div class="taskbar-windows" id="taskbarWindows"></div>
+        <div class="status-bar" id="statusBar"></div>
     </div>
-    <ul>
-        <li onclick="openNotepad()">メモ帳</li>
-        <li onclick="openRun()">名前を指定して実行</li>
-        <li>プログラム</li>
-        <li>ドキュメント</li>
-        <li>設定</li>
-        <li>検索</li>
-        <li>ヘルプとサポート</li>
-    </ul>
-</div>
-    <div class="title-bar" onmousedown="dragStart(event, 'myWindow')">
+
+    <div class="start-menu" id="startMenu" onclick="event.stopPropagation()">
+        <div class="start-menu-header">
+            <div class="start-icon-large"></div>
+            <div class="start-text">Windows 98</div>
+        </div>
+        <ul>
+            <li onclick="openNotepad()">メモ帳</li>
+            <li onclick="openRun()">名前を指定して実行</li>
+            <li>プログラム</li>
+            <li>ドキュメント</li>
+            <li>設定</li>
+            <li>検索</li>
+            <li>ヘルプとサポート</li>
+        </ul>
+    </div>
     <script src="windows98.js"></script>
 </body>
 </html>
