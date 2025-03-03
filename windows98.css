@@ -11,6 +11,8 @@ body {
     display: flex;
     align-items: center;
     z-index: 1001;
+    border-top: 2px solid #fff;
+    border-bottom: 2px solid #000;
 }
 
 .start {
@@ -21,6 +23,14 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
+    border: 2px solid #000;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
+    box-shadow: inset 1px 1px 0 0 #808080;
+}
+
+.start:hover {
+    background-color: #a8a8a8;
 }
 
 .start-icon {
@@ -28,6 +38,8 @@ body {
     height: 20px;
     background-color: white;
     margin-right: 5px;
+    background-image: url('path-to-start-icon.png'); /* Use the actual path to the Windows 98 start icon */
+    background-size: cover;
 }
 
 .start-menu {
@@ -36,16 +48,39 @@ body {
     bottom: 40px;
     left: 10px;
     width: 200px;
-    background-color: white;
-    border: 1px solid #000;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-color: #C0C0C0;
+    border: 2px solid #000;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     z-index: 1002;
+}
+
+.start-menu-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #000;
+    background-color: #000080;
+    color: white;
+}
+
+.start-icon-large {
+    width: 30px;
+    height: 30px;
+    background-image: url('path-to-start-icon.png'); /* Use the actual path to the Windows 98 start icon */
+    background-size: cover;
+    margin-right: 10px;
+}
+
+.start-text {
+    font-family: 'Microsoft Sans Serif', Arial, sans-serif;
+    font-size: 14px;
 }
 
 .start-menu ul {
     list-style: none;
     margin: 0;
     padding: 10px;
+    background-color: #C0C0C0;
 }
 
 .start-menu ul li {
@@ -54,7 +89,8 @@ body {
 }
 
 .start-menu ul li:hover {
-    background-color: #ddd;
+    background-color: #000080;
+    color: white;
 }
 
 .taskbar-windows {
@@ -98,6 +134,12 @@ body {
 
 .title-bar {
     cursor: move;
+    background: #000080;
+    color: white;
+    padding: 2px 5px;
+    border: 2px solid #000;
+    border-left: 2px solid #fff;
+    border-top: 2px solid #fff;
 }
 
 /*
