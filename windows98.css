@@ -29,9 +29,16 @@ body {
     box-shadow: inset 1px 1px 0 0 #808080;
 }
 
+.start.active {
+    border: 2px solid #000;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    box-shadow: inset 1px 1px 0 0 #808080, inset -1px -1px 0 0 #fff;
+}
+/*
 .start:hover {
     background-color: #a8a8a8;
-}
+}*/
 
 .start-icon {
     width: 20px;
