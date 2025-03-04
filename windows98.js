@@ -40,11 +40,11 @@ function minimizeWindow(windowId, title) {
 
 function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
-    const textarea = window.querySelector('textarea');
-    const input = window.querySelector('input');
+    const titleBar = window.querySelector('.title-bar');
+    const content = window.querySelector('.window-body');
     
     if (isMaximized) {
-        // 元のサイズと位置に戻す
+        // 元の状態に戻す
         window.style.transition = 'none';
         window.style.width = originalWidth;
         window.style.height = originalHeight;
@@ -52,41 +52,35 @@ function maximizeWindow(windowId) {
         window.style.left = originalLeft;
         window.style.position = 'absolute';
         
-        if (textarea) {
-            textarea.style.width = '100%';
-            textarea.style.height = 'calc(100% - 30px)';
-        }
-        if (input) {
-            input.style.width = '100%';
-        }
+        content.style.transition = 'none';
+        content.style.width = '100%';
+        content.style.height = '100%';
+        
         isMaximized = false;
     } else {
-        // 元のサイズと位置を保存
+        // 現在の状態を保存
         originalWidth = window.style.width;
         originalHeight = window.style.height;
         originalTop = window.style.top;
         originalLeft = window.style.left;
-        
-        // タイトルバーを先に移動
+
+        // タイトルバーだけ先に最大化位置に移動
         window.style.transition = 'top 1s, left 1s';
         window.style.top = '0';
         window.style.left = '0';
+        window.style.width = originalWidth; // 幅はそのまま
+        window.style.height = originalHeight; // 高さもそのまま
 
-        // 1秒後に全画面表示
-        setTimeout(function() {
+        // 1秒後に全画面最大化
+        setTimeout(() => {
             window.style.transition = 'width 1s, height 1s';
             window.style.width = '100%';
             window.style.height = '100%';
             window.style.position = 'fixed';
-            
-            if (textarea) {
-                textarea.style.width = '100%';
-                textarea.style.height = 'calc(100% - 30px)';
-            }
-            if (input) {
-                input.style.width = '100%';
-            }
-            
+
+            content.style.transition = 'width 1s, height 1s';
+            content.style.width = '100%';
+            content.style.height = 'calc(100% - 30px)'; // タイトルバーを考慮
             isMaximized = true;
         }, 1000);
     }
