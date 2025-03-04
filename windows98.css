@@ -19,6 +19,7 @@ body {
     background-color: #C0C0C0;
     display: flex;
     align-items: center;
+    justify-content: space-between; /* アイテムを左右に配置 */
     z-index: 1001;
     border-top: 2px solid #fff;
     border-bottom: 2px solid #000;
@@ -36,6 +37,10 @@ body {
     border-left: 2px solid #fff;
     border-top: 2px solid #fff;
     box-shadow: inset 1px 1px 0 0 #808080;
+}
+
+.start:hover {
+    background-color: #a8a8a8;
 }
 
 .start.active {
@@ -129,20 +134,13 @@ body {
     resize: both;
     overflow: hidden; /* 自動的にスクロールバーが表示されないように */
     position: absolute;
-    border: 1px solid #000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     z-index: 1;
-    cursor: move; /* ウィンドウをドラッグできるようにカーソルを変更 */
 }
 
 .window.active {
     z-index: 1000;
 }
-
-.title-bar {
-    cursor: move; /* タイトルバーをドラッグできるようにカーソルを変更 */
-}
-
 
 .window-body textarea {
     width: 100%;
@@ -150,16 +148,15 @@ body {
     box-sizing: border-box;
 }
 
-/*
-.title-bar.inactive {
-    background: #C0C0C0;
-    color: gray;
-}*/
+.title-bar {
+    cursor: move;
+}
 
 .status-bar {
     padding: 5px 10px;
     color: black;
-    font-family: 'Microsoft Sans Serif','MS Sans Serif', Arial, sans-serif;
+    font-family: '98px', sans-serif;
     font-size: 14px;
     margin-right: 10px;
+    text-align: right; /* 時刻をタスクバーの右側に配置 */
 }
