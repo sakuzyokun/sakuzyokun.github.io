@@ -38,6 +38,9 @@ function minimizeWindow(windowId, title) {
     taskbarWindows.appendChild(minimizedTitle);
 }
 
+let isMaximized = false;
+let originalWidth, originalHeight, originalTop, originalLeft;
+
 function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
     const titleBar = window.querySelector('.title-bar');
@@ -65,24 +68,24 @@ function maximizeWindow(windowId) {
         originalLeft = window.style.left;
 
         // タイトルバーだけ先に最大化位置に移動
-        window.style.transition = 'top 1s, left 1s';
+        window.style.transition = 'top 0.5s, left 0.5s';
         window.style.top = '0';
         window.style.left = '0';
         window.style.width = originalWidth; // 幅はそのまま
         window.style.height = originalHeight; // 高さもそのまま
 
-        // 1秒後に全画面最大化
+        // 0.5秒後に全画面最大化
         setTimeout(() => {
-            window.style.transition = 'width 1s, height 1s';
+            window.style.transition = 'width 0.5s, height 0.5s';
             window.style.width = '100%';
             window.style.height = '100%';
             window.style.position = 'fixed';
 
-            content.style.transition = 'width 1s, height 1s';
+            content.style.transition = 'width 0.5s, height 0.5s';
             content.style.width = '100%';
             content.style.height = 'calc(100% - 30px)'; // タイトルバーを考慮
             isMaximized = true;
-        }, 1000);
+        }, 500);
     }
 }
 
