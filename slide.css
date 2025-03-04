@@ -1,0 +1,214 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #00BFFF, #1E90FF); /* Windows Vista風の背景 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.slideshow-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(204, 229, 255, 0.7)); /* Aero風の背景 */
+    padding: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Aero風の枠 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.slides {
+    display: none;
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 0;
+    left: 0;
+    text-align: center; /* 画像を中央揃えにする */
+}
+
+.slides img {
+    max-width: 100%;
+    height: auto;
+}
+
+.active {
+    display: block;
+}
+
+.fade {
+    animation: fade 1s ease-in-out;
+}
+
+.slide-left {
+    animation: slide-left 1s ease-in-out;
+}
+
+.slide-right {
+    animation: slide-right 1s ease-in-out;
+}
+
+.mosaic {
+    animation: mosaic 1s ease-in-out;
+}
+
+.bounce {
+    animation: bounce 1s ease-in-out;
+}
+
+.zoom-in {
+    animation: zoom-in 1s ease-in-out;
+}
+
+.rotate {
+    animation: rotate 1s ease-in-out;
+}
+
+.flip {
+    animation: flip 1s ease-in-out;
+}
+
+.scale-up {
+    animation: scale-up 1s ease-in-out;
+}
+
+.slide-down {
+    animation: slide-down 1s ease-in-out;
+}
+
+@keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slide-left {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes slide-right {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes mosaic {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes zoom-in {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes flip {
+    from { transform: rotateY(0); }
+    to { transform: rotateY(360deg); }
+}
+
+@keyframes scale-up {
+    from { transform: scale(0.5); }
+    to { transform: scale(1); }
+}
+
+@keyframes slide-down {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+.controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.slideshow-container:hover .controls {
+    opacity: 1;
+}
+
+.prev, .next {
+    cursor: pointer;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.6);
+    user-select: none;
+}
+
+.control-buttons {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.slideshow-container:hover .control-buttons {
+    opacity: 1;
+}
+
+.control-buttons button {
+    cursor: pointer;
+    padding: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border: none;
+}
+
+.control-buttons button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.settings-container {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(204, 229, 255, 0.7)); /* Aero風の背景 */
+    padding: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Aero風の枠 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    width: 500px;
+    max-width: 100%;
+    backdrop-filter: blur(10px);
+}
+
+.settings-container label, .settings-container select, .settings-container input {
+    display: block;
+    margin: 10px 0;
+    background-color: rgba(255, 255, 255, 0.5); /* 背景色 */
+    padding: 5px;
+    border-radius: 5px;
+}

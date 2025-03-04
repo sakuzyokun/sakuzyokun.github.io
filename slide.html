@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スライドショー</title>
+    <link rel="stylesheet" href="slide.css">
+</head>
+<body>
+
+<div class="settings-container">
+    <h2>スライドショー設定</h2>
+    <label for="folder">フォルダ:</label>
+    <input type="file" id="folder" webkitdirectory directory>
+    <label for="display-time">それぞれの画像を表示:</label>
+    <select id="display-time">
+        <option value="3000">3秒</option>
+        <option value="5000">5秒</option>
+        <option value="10000">10秒</option>
+        <option value="15000">15秒</option>
+    </select>
+    <label for="transition">画像の推移:</label>
+    <select id="transition">
+        <option value="fade">フェード</option>
+        <option value="slide-left">スライド（左）</option>
+        <option value="slide-right">スライド（右）</option>
+        <option value="mosaic">モザイク</option>
+        <option value="bounce">バウンス</option>
+        <option value="zoom-in">ズームイン</option>
+        <option value="rotate">ローテーション</option>
+        <option value="flip">フリップ</option>
+        <option value="scale-up">スケールアップ</option>
+        <option value="slide-down">スライドダウン</option>
+    </select>
+    <label for="shuffle">
+        <input type="checkbox" id="shuffle"> 画像をシャッフル
+    </label>
+    <button onclick="applySettings()">OK</button>
+</div>
+
+<div class="slideshow-container" id="slideshow-container">
+    <div class="slides active fade">
+        <img src="image1.jpg" alt="Image 1">
+    </div>
+    <div class="slides fade">
+        <img src="image2.png" alt="Image 2">
+    </div>
+    <div class="slides fade">
+        <img src="image3.png" alt="Image 3">
+    </div>
+
+    <div class="controls">
+        <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+        <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+
+    <div class="control-buttons">
+        <button class="play" onclick="playSlideshow()">&#9654;</button>
+        <button class="pause" onclick="pauseSlideshow()">&#10074;&#10074;</button>
+        <button class="settings" onclick="toggleSettings()">&#9881;</button>
+    </div>
+</div>
+
+<script src="slide.js"></script>
+
+</body>
+</html>
