@@ -143,8 +143,8 @@ body {
 
 .title-bar {
     cursor: move;
-    background: #000080;
-    color: white;
+    /*background: #000080;
+    color: white;*/
     padding: 2px 5px;
 }
 
