@@ -178,5 +178,5 @@ function updateTime() {
 // ページが読み込まれたときに時間を更新し、毎分更新する
 window.onload = function() {
     updateTime();
-    setInterval(updateTime, 60000);
+    setInterval(updateTime, 5000);
 };
