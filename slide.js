@@ -37,9 +37,9 @@ function applySettings() {
     // デフォルトのテスト画像を設定
     if (files.length === 0) {
         files = [
-            { name: "test1.jpg", url: "image1.jpg" },
-            { name: "test2.jpg", url: "image2.png" },
-            { name: "test3.jpg", url: "image3.png" }
+            { name: "0light.jpg", url: "0light.jpg" },
+            { name: "1dark.jpg", url: "1dark.jpg" },
+            { name: "img0.jpg", url: "error408/img0.jpg" }
         ];
     }
 
