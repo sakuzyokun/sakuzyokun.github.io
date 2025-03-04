@@ -42,12 +42,16 @@ function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
     const textarea = window.querySelector('textarea');
     const input = window.querySelector('input');
+    
     if (isMaximized) {
+        // 元のサイズと位置に戻す
+        window.style.transition = 'none';
         window.style.width = originalWidth;
         window.style.height = originalHeight;
         window.style.top = originalTop;
         window.style.left = originalLeft;
         window.style.position = 'absolute';
+        
         if (textarea) {
             textarea.style.width = '100%';
             textarea.style.height = 'calc(100% - 30px)';
@@ -57,23 +61,34 @@ function maximizeWindow(windowId) {
         }
         isMaximized = false;
     } else {
+        // 元のサイズと位置を保存
         originalWidth = window.style.width;
         originalHeight = window.style.height;
         originalTop = window.style.top;
         originalLeft = window.style.left;
-        window.style.width = '100%';
-        window.style.height = '100%';
+        
+        // タイトルバーを先に移動
+        window.style.transition = 'top 1s, left 1s';
         window.style.top = '0';
         window.style.left = '0';
-        window.style.position = 'fixed';
-        if (textarea) {
-            textarea.style.width = '100%';
-            textarea.style.height = 'calc(100% - 30px)';
-        }
-        if (input) {
-            input.style.width = '100%';
-        }
-        isMaximized = true;
+
+        // 1秒後に全画面表示
+        setTimeout(function() {
+            window.style.transition = 'width 1s, height 1s';
+            window.style.width = '100%';
+            window.style.height = '100%';
+            window.style.position = 'fixed';
+            
+            if (textarea) {
+                textarea.style.width = '100%';
+                textarea.style.height = 'calc(100% - 30px)';
+            }
+            if (input) {
+                input.style.width = '100%';
+            }
+            
+            isMaximized = true;
+        }, 1000);
     }
 }
 
@@ -178,5 +193,5 @@ function updateTime() {
 // ページが読み込まれたときに時間を更新し、毎分更新する
 window.onload = function() {
     updateTime();
-    setInterval(updateTime, 5000);
+    setInterval(updateTime, 60000);
 };
