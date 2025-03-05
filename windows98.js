@@ -184,8 +184,19 @@ function updateTime() {
     statusBar.textContent = `${hours}:${minutes}`;
 }
 
+function hideStartMenu(event) {
+    const startMenu = document.getElementById('startMenu');
+    const startButton = document.getElementById('startButton');
+
+    // クリックイベントがスタートメニューやスタートボタン以外の場合のみ実行
+    if (!startMenu.contains(event.target) && !startButton.contains(event.target)) {
+        startMenu.style.display = 'none';
+        startButton.classList.remove('active');
+    }
+}
+
 // ページが読み込まれたときに時間を更新し、毎分更新する
 window.onload = function() {
     updateTime();
-    setInterval(updateTime, 60000);
+    setInterval(updateTime, 1);
 };
