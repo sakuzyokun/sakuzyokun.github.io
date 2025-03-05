@@ -132,11 +132,14 @@ body {
 
 .window {
     position: absolute;
-    overflow: hidden; /* スクロールバーを非表示に */
-    transition: top 1s, left 1s, width 1s, height 1s; /* 全体のアニメーション */
+    transition: top 0.5s, left 0.5s, width 0.5s, height 0.5s; /* アニメーションの対象と時間 */
     z-index: 1;
 }
-
+/*
+.window-body {
+    transition: width 0.5s, height 0.5s; /* 内容部分もスムーズに*/
+}
+*/
 .window.active {
     z-index: 1000;
 }
