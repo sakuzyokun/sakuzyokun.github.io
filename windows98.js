@@ -1,5 +1,5 @@
-let isMaximized = false;
-let originalWidth, originalHeight, originalTop, originalLeft;
+let isMaximized = {}; // 各ウィンドウごとに最大化状態を保持
+let originalProperties = {}; // 各ウィンドウごとの元のサイズと位置を保持
 
 function toggleStartMenu() {
     const startMenu = document.getElementById('startMenu');
@@ -42,30 +42,32 @@ function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
     const content = window.querySelector('.window-body');
 
-    if (isMaximized) {
+    if (isMaximized[windowId]) {
         // 元の状態に戻す
         window.style.transition = 'none';
-        window.style.width = originalWidth;
-        window.style.height = originalHeight;
-        window.style.top = originalTop;
-        window.style.left = originalLeft;
+        window.style.width = originalProperties[windowId].width;
+        window.style.height = originalProperties[windowId].height;
+        window.style.top = originalProperties[windowId].top;
+        window.style.left = originalProperties[windowId].left;
         content.style.transition = 'none';
         content.style.width = '100%';
         content.style.height = '100%';
-        isMaximized = false;
+        isMaximized[windowId] = false;
     } else {
         // 現在の状態を保存
-        originalWidth = window.style.width;
-        originalHeight = window.style.height;
-        originalTop = window.style.top;
-        originalLeft = window.style.left;
+        originalProperties[windowId] = {
+            width: window.style.width,
+            height: window.style.height,
+            top: window.style.top,
+            left: window.style.left
+        };
 
         // タイトルバーだけを先に移動する（0.5秒間）
         window.style.transition = 'top 0.5s, left 0.5s';
         window.style.top = '0'; // 画面の上部に移動
         window.style.left = '0'; // 画面の左側に移動
 
-        // 0.5秒後に全体のウィンドウを最大化
+        // タイトルバーが移動してから全画面化（さらに0.5秒）
         setTimeout(() => {
             window.style.transition = 'width 0.5s, height 0.5s';
             window.style.width = '100%'; // ウィンドウを全幅
@@ -75,8 +77,8 @@ function maximizeWindow(windowId) {
             // 内容も同時に最大化
             content.style.transition = 'width 0.5s, height 0.5s';
             content.style.width = '100%';
-            content.style.height = 'calc(100% - 30px)'; // タイトルバー分の高さを考慮
-            isMaximized = true;
+            content.style.height = 'calc(100% - 30px)'; // タイトルバーの高さを考慮
+            isMaximized[windowId] = true;
         }, 500); // タイトルバー移動後に0.5秒待機
     }
 }
