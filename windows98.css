@@ -89,7 +89,7 @@ body {
 }
 
 .start-text {
-    font-family: 'Microsoft Sans Serif', Arial, sans-serif;
+    font-family: 'Pixelated MS Sans Serif', Arial, sans-serif;
     font-size: 14px;
 }
 
@@ -161,7 +161,7 @@ body {
 .status-bar {
     padding: 5px 10px;
     color: black;
-    font-family: '98px', sans-serif;
+    font-family: '98px', 'Pixelated MS Sans Serif';
     font-size: 14px;
     margin-right: 10px;
     text-align: right; /* 時刻をタスクバーの右側に配置 */
