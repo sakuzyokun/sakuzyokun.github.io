@@ -40,7 +40,6 @@ function minimizeWindow(windowId, title) {
 
 function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
-    const titleBar = window.querySelector('.title-bar');
     const content = window.querySelector('.window-body');
 
     if (isMaximized) {
@@ -61,23 +60,22 @@ function maximizeWindow(windowId) {
         originalTop = window.style.top;
         originalLeft = window.style.left;
 
-        // タイトルバーだけ先に移動
+        // タイトルバーだけを先に移動する（0.5秒間）
         window.style.transition = 'top 0.5s, left 0.5s';
-        window.style.top = '0'; // 画面上部
-        window.style.left = '0'; // 画面左側
-        window.style.width = originalWidth; // 幅はそのまま
-        window.style.height = originalHeight; // 高さもそのまま
+        window.style.top = '0'; // 画面の上部に移動
+        window.style.left = '0'; // 画面の左側に移動
 
-        // タイトルバーの移動が終わった後にウィンドウ全体を拡大
+        // 0.5秒後に全体のウィンドウを最大化
         setTimeout(() => {
             window.style.transition = 'width 0.5s, height 0.5s';
-            window.style.width = '100%'; // 全画面幅
-            window.style.height = '100%'; // 全画面高さ
+            window.style.width = '100%'; // ウィンドウを全幅
+            window.style.height = '100%'; // ウィンドウを全高
             window.style.position = 'fixed';
 
+            // 内容も同時に最大化
             content.style.transition = 'width 0.5s, height 0.5s';
             content.style.width = '100%';
-            content.style.height = 'calc(100% - 30px)'; // タイトルバーの高さを考慮
+            content.style.height = 'calc(100% - 30px)'; // タイトルバー分の高さを考慮
             isMaximized = true;
         }, 500); // タイトルバー移動後に0.5秒待機
     }
