@@ -42,38 +42,38 @@ function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
     const content = window.querySelector('.window-body');
 
-    if (isMaximized) {
+    if (window.dataset.maximized === "true") {
         // 元の状態に戻す
         window.style.transition = 'none';
-        window.style.width = originalWidth;
-        window.style.height = originalHeight;
-        window.style.top = originalTop;
-        window.style.left = originalLeft;
+        window.style.width = window.dataset.originalWidth;
+        window.style.height = window.dataset.originalHeight;
+        window.style.top = window.dataset.originalTop;
+        window.style.left = window.dataset.originalLeft;
         content.style.transition = 'none';
         content.style.width = '100%';
         content.style.height = '100%';
-        isMaximized = false;
+        window.dataset.maximized = "false";
     } else {
         // 現在の状態を保存
-        originalWidth = window.style.width;
-        originalHeight = window.style.height;
-        originalTop = window.style.top;
-        originalLeft = window.style.left;
+        window.dataset.originalWidth = window.style.width;
+        window.dataset.originalHeight = window.style.height;
+        window.dataset.originalTop = window.style.top;
+        window.dataset.originalLeft = window.style.left;
 
         // アニメーションを設定
-        window.style.transition = 'all 0.5s ease';
-        content.style.transition = 'all 0.5s ease';
+        window.style.transition = 'all 0.3s ease';
+        content.style.transition = 'all 0.3s ease';
 
         // 最大化位置とサイズを設定
         window.style.top = '0';
         window.style.left = '0';
-        window.style.width = '100%';
-        window.style.height = '100%';
+        window.style.width = '100vw';
+        window.style.height = '100vh';
 
         // 内容の最大化
         content.style.width = '100%';
-        content.style.height = 'calc(100% - 30px)'; // タイトルバーを考慮
-        isMaximized = true;
+        content.style.height = 'calc(100% - 30px)'; // タイトルバー分を引く
+        window.dataset.maximized = "true";
     }
 }
 
