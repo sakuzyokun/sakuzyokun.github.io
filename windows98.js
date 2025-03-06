@@ -124,8 +124,8 @@ function runCommand() {
 
 function dragStart(event, windowId) {
     const window = document.getElementById(windowId);
-    const shiftX = event.clientX - window.getBoundingClientRect().left;
-    const shiftY = event.clientY - window.getBoundingClientRect().top;
+    let shiftX = event.clientX - window.getBoundingClientRect().left;
+    let shiftY = event.clientY - window.getBoundingClientRect().top;
 
     function moveAt(pageX, pageY) {
         window.style.left = pageX - shiftX + 'px';
@@ -137,11 +137,12 @@ function dragStart(event, windowId) {
     }
 
     document.addEventListener('mousemove', onMouseMove);
-
-    window.onmouseup = function() {
+    
+    // mouseup でイベントリスナーを削除（パフォーマンス向上）
+    document.addEventListener('mouseup', function onMouseUp() {
         document.removeEventListener('mousemove', onMouseMove);
-        window.onmouseup = null;
-    };
+        document.removeEventListener('mouseup', onMouseUp);
+    });
 }
 
 document.ondragstart = function() {
