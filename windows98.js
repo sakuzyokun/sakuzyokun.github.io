@@ -101,13 +101,24 @@ function openRun() {
 }
 
 function runCommand() {
-    const commandInput = document.getElementById('commandInput').value;
+    const commandInput = document.getElementById('commandInput').value.trim().toLowerCase();
     const runWindow = document.getElementById('runWindow');
     runWindow.style.display = 'none';
     document.getElementById('startButton').classList.remove('active');
-    if (commandInput.toLowerCase() === 'winver') {
-        const winverWindow = document.getElementById('winverWindow');
-        winverWindow.style.display = 'block';
+
+    switch (commandInput) {
+        case 'winver':
+            document.getElementById('winverWindow').style.display = 'block';
+            break;
+        case 'notepad':
+            document.getElementById('notepadWindow').style.display = 'block';
+            break;
+        case 'calc':  // 新しいコマンド（計算機）を追加
+            alert('計算機はまだ実装されていません！');
+            break;
+        default:
+            alert(`"${commandInput}" は見つかりませんでした。`);
+            break;
     }
 }
 
