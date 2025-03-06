@@ -26,28 +26,29 @@ body {
 }
 
 .start {
-    background-color: #C0C0C0;
-    color: white;
-    padding: 5px 10px;
+    background: linear-gradient(to bottom, #C0C0C0, #A0A0A0);
+    color: black;
+    padding: 5px 15px;
     margin: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     border: 2px solid #000;
-    border-left: 2px solid #fff;
-    border-top: 2px solid #fff;
-    box-shadow: inset 1px 1px 0 0 #808080;
+    border-left: 2px solid #FFF;
+    border-top: 2px solid #FFF;
+    box-shadow: inset -1px -1px 0 0 #808080, inset 1px 1px 0 0 #FFFFFF;
+    font-weight: bold;
 }
 
 .start:hover {
-    background-color: #a8a8a8;
+    background: #A8A8A8;
 }
 
 .start.active {
     border: 2px solid #000;
-    border-right: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    box-shadow: inset 1px 1px 0 0 #808080, inset -1px -1px 0 0 #fff;
+    border-right: 2px solid #FFF;
+    border-bottom: 2px solid #FFF;
+    box-shadow: inset 2px 2px 0 0 #808080, inset -2px -2px 0 0 #FFF;
 }
 
 .start-icon {
