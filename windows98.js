@@ -38,9 +38,6 @@ function minimizeWindow(windowId, title) {
     taskbarWindows.appendChild(minimizedTitle);
 }
 
-let isMaximized = false;
-let originalWidth, originalHeight, originalTop, originalLeft;
-
 function maximizeWindow(windowId) {
     const windowEl = document.getElementById(windowId);
     const titleBar = windowEl.querySelector('.title-bar');
