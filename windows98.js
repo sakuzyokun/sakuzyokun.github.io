@@ -38,22 +38,27 @@ function minimizeWindow(windowId, title) {
     taskbarWindows.appendChild(minimizedTitle);
 }
 
+let isMaximized = false;
+let originalWidth, originalHeight, originalTop, originalLeft;
+
 function maximizeWindow(windowId) {
     const windowEl = document.getElementById(windowId);
     const titleBar = windowEl.querySelector('.title-bar');
 
     if (isMaximized) {
-        // 元のサイズに戻す
-        windowEl.style.width = originalWidth;
-        windowEl.style.height = originalHeight;
-        windowEl.style.top = originalTop;
-        windowEl.style.left = originalLeft;
-
+        // ① タイトルバーを元のサイズに戻す（0.3秒アニメーション）
         titleBar.style.transition = 'width 0.3s ease';
-        titleBar.style.width = '100%';
+        titleBar.style.width = originalWidth;
         titleBar.style.position = 'relative';
 
-        isMaximized = false;
+        setTimeout(() => {
+            // ② ウィンドウのサイズを元に戻す（アニメーションなし）
+            windowEl.style.top = originalTop;
+            windowEl.style.left = originalLeft;
+            windowEl.style.width = originalWidth;
+            windowEl.style.height = originalHeight;
+            isMaximized = false;
+        }, 300);
     } else {
         // 現在のウィンドウの状態を保存
         originalWidth = windowEl.style.width;
@@ -61,7 +66,7 @@ function maximizeWindow(windowId) {
         originalTop = windowEl.style.top;
         originalLeft = windowEl.style.left;
 
-        // タイトルバーを最大化
+        // ① タイトルバーを最大化（0.3秒アニメーション）
         titleBar.style.transition = 'width 0.3s ease';
         titleBar.style.width = '100vw';
         titleBar.style.position = 'fixed';
@@ -69,16 +74,42 @@ function maximizeWindow(windowId) {
         titleBar.style.left = '0';
         titleBar.style.zIndex = '1002';
 
-        // 0.3秒後にウィンドウ全体を最大化
         setTimeout(() => {
+            // ② ウィンドウ全体を最大化（アニメーションなし）
             windowEl.style.top = '0';
             windowEl.style.left = '0';
             windowEl.style.width = '100vw';
             windowEl.style.height = '100vh';
+            isMaximized = true;
         }, 300);
-
-        isMaximized = true;
     }
+}
+
+function dragStart(event, windowId) {
+    const windowEl = document.getElementById(windowId);
+    const shiftX = event.clientX - windowEl.getBoundingClientRect().left;
+    const shiftY = event.clientY - windowEl.getBoundingClientRect().top;
+
+    // 🔹 最大化状態なら、ドラッグ開始時に元のサイズに戻す
+    if (isMaximized) {
+        maximizeWindow(windowId); // 元のサイズに戻す処理を呼び出す
+    }
+
+    function moveAt(pageX, pageY) {
+        windowEl.style.left = pageX - shiftX + 'px';
+        windowEl.style.top = pageY - shiftY + 'px';
+    }
+
+    function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    windowEl.onmouseup = function() {
+        document.removeEventListener('mousemove', onMouseMove);
+        windowEl.onmouseup = null;
+    };
 }
 
 document.ondragstart = function() {
@@ -129,41 +160,6 @@ function runCommand() {
             break;
     }
 }
-
-function dragStart(event, windowId) {
-    const windowEl = document.getElementById(windowId);
-    const shiftX = event.clientX - windowEl.getBoundingClientRect().left;
-    const shiftY = event.clientY - windowEl.getBoundingClientRect().top;
-
-    // 🔹 最大化状態なら、ドラッグ開始時に元のサイズに戻す
-    if (isMaximized) {
-        windowEl.style.width = originalWidth;
-        windowEl.style.height = originalHeight;
-        windowEl.style.top = '10px'; // 適当な位置に戻す
-        windowEl.style.left = '10px';
-        isMaximized = false;
-    }
-
-    function moveAt(pageX, pageY) {
-        windowEl.style.left = pageX - shiftX + 'px';
-        windowEl.style.top = pageY - shiftY + 'px';
-    }
-
-    function onMouseMove(event) {
-        moveAt(event.pageX, event.pageY);
-    }
-
-    document.addEventListener('mousemove', onMouseMove);
-
-    windowEl.onmouseup = function() {
-        document.removeEventListener('mousemove', onMouseMove);
-        windowEl.onmouseup = null;
-    };
-}
-
-document.ondragstart = function() {
-    return false;
-};
 
 function setActiveWindow(windowId) {
     const windows = document.getElementsByClassName('window');
