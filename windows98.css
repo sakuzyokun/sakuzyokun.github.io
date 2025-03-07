@@ -11,6 +11,11 @@ body {
     overflow: hidden; /* 画面がスクロールされないようにする */
 }
 
+html, body {
+    overflow: hidden;
+    height: 100%;
+}
+
 .taskbar {
     position: fixed;
     bottom: 0;
