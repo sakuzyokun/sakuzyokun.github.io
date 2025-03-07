@@ -38,18 +38,22 @@ function minimizeWindow(windowId, title) {
     taskbarWindows.appendChild(minimizedTitle);
 }
 
+let isMaximized = false;
+let originalWidth, originalHeight, originalTop, originalLeft;
+
 function maximizeWindow(windowId) {
     const windowEl = document.getElementById(windowId);
     const titleBar = windowEl.querySelector('.title-bar');
 
     if (isMaximized) {
-        // ① タイトルバーを元のサイズに戻す（0.3秒アニメーション）
-        titleBar.style.transition = 'width 0.3s ease';
+        // ① タイトルバーを元のサイズに戻す（0.3秒）
+        titleBar.style.transition = 'width 0.3s ease, left 0.3s ease';
         titleBar.style.width = originalWidth;
-        titleBar.style.position = 'relative';
+        titleBar.style.left = originalLeft;
+        titleBar.style.position = 'absolute';
 
         setTimeout(() => {
-            // ② ウィンドウのサイズを元に戻す（アニメーションなし）
+            // ② ウィンドウのサイズを元に戻す（即座に適用）
             windowEl.style.top = originalTop;
             windowEl.style.left = originalLeft;
             windowEl.style.width = originalWidth;
@@ -63,16 +67,16 @@ function maximizeWindow(windowId) {
         originalTop = windowEl.style.top;
         originalLeft = windowEl.style.left;
 
-        // ① タイトルバーを最大化（0.3秒アニメーション）
-        titleBar.style.transition = 'width 0.3s ease';
+        // ① タイトルバーを最大化（0.3秒）
+        titleBar.style.transition = 'width 0.3s ease, left 0.3s ease';
         titleBar.style.width = '100vw';
+        titleBar.style.left = '0';
         titleBar.style.position = 'fixed';
         titleBar.style.top = '0';
-        titleBar.style.left = '0';
         titleBar.style.zIndex = '1002';
 
         setTimeout(() => {
-            // ② ウィンドウ全体を最大化（アニメーションなし）
+            // ② ウィンドウ全体を最大化（即座に適用）
             windowEl.style.top = '0';
             windowEl.style.left = '0';
             windowEl.style.width = '100vw';
@@ -84,12 +88,26 @@ function maximizeWindow(windowId) {
 
 function dragStart(event, windowId) {
     const windowEl = document.getElementById(windowId);
+    const titleBar = windowEl.querySelector('.title-bar');
+
     const shiftX = event.clientX - windowEl.getBoundingClientRect().left;
     const shiftY = event.clientY - windowEl.getBoundingClientRect().top;
 
-    // 🔹 最大化状態なら、ドラッグ開始時に元のサイズに戻す
+    // **最大化状態なら、ドラッグ開始時にタイトルバーを0.3秒かけて縮小**
     if (isMaximized) {
-        maximizeWindow(windowId); // 元のサイズに戻す処理を呼び出す
+        titleBar.style.transition = 'width 0.3s ease, left 0.3s ease';
+        titleBar.style.width = originalWidth;
+        titleBar.style.left = originalLeft;
+        titleBar.style.position = 'absolute';
+
+        setTimeout(() => {
+            // **ウィンドウ全体を元のサイズに戻す**
+            windowEl.style.top = originalTop;
+            windowEl.style.left = originalLeft;
+            windowEl.style.width = originalWidth;
+            windowEl.style.height = originalHeight;
+            isMaximized = false;
+        }, 300);
     }
 
     function moveAt(pageX, pageY) {
