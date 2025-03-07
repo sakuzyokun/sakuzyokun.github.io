@@ -80,13 +80,17 @@ function minimizeWindow(windowId) {
 
     if (isMinimized) {
         // 元の位置に戻す
-        window.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease';
-        window.style.width = originalWidth;
-        window.style.height = originalHeight;
-        window.style.top = originalTop;
-        window.style.left = originalLeft;
+        titleBar.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease';
+        titleBar.style.top = originalTop;
+        titleBar.style.left = originalLeft;
+        titleBar.style.width = '100%';
 
         setTimeout(() => {
+            window.style.transition = 'none';
+            window.style.width = originalWidth;
+            window.style.height = originalHeight;
+            window.style.top = originalTop;
+            window.style.left = originalLeft;
             content.style.display = 'block';
             isMinimized = false;
         }, 200);
@@ -97,15 +101,19 @@ function minimizeWindow(windowId) {
         originalWidth = window.style.width;
         originalHeight = window.style.height;
 
-        // タスクバーの位置へ移動
-        window.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease';
-        window.style.top = '95%'; // タスクバーの位置
-        window.style.left = '10px'; // タスクバーの左端
-        window.style.width = '100px'; // 小さくする
-        window.style.height = '20px';
+        // タイトルバーのみタスクバーの位置へ移動
+        titleBar.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease';
+        titleBar.style.top = '95%'; // タスクバーの位置
+        titleBar.style.left = '10px'; // タスクバーの左端
+        titleBar.style.width = '100px'; // 小さくする
 
-        // 0.2秒後に内容を非表示
         setTimeout(() => {
+            // ウィンドウ全体を小さくして非表示
+            window.style.transition = 'none';
+            window.style.width = '100px';
+            window.style.height = '20px';
+            window.style.top = '95%';
+            window.style.left = '10px';
             content.style.display = 'none';
             isMinimized = true;
         }, 200);
@@ -178,10 +186,6 @@ document.querySelectorAll('.title-bar').forEach(bar => {
     bar.addEventListener('mousedown', event => dragStart(event, windowId));
     bar.addEventListener('touchstart', event => touchStart(event, windowId));
 });
-
-document.ondragstart = function() {
-    return false;
-};
 
 function closeWindow(windowId) {
     const window = document.getElementById(windowId);
