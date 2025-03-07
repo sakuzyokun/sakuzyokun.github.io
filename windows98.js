@@ -1,6 +1,3 @@
-let isMaximized = false;
-let originalWidth, originalHeight, originalTop, originalLeft;
-
 function toggleStartMenu() {
     const startMenu = document.getElementById('startMenu');
     const startButton = document.getElementById('startButton');
@@ -23,20 +20,9 @@ document.addEventListener('click', function(event) {
     }
 });
 
-function minimizeWindow(windowId, title) {
-    const window = document.getElementById(windowId);
-    const taskbarWindows = document.getElementById('taskbarWindows');
-    window.style.display = 'none';
-    const minimizedTitle = document.createElement('div');
-    minimizedTitle.className = 'window-title';
-    minimizedTitle.innerText = title;
-    minimizedTitle.onclick = function() {
-        window.style.display = 'block';
-        taskbarWindows.removeChild(minimizedTitle);
-        setActiveWindow(windowId);
-    };
-    taskbarWindows.appendChild(minimizedTitle);
-}
+let isMaximized = false;
+let isMinimized = false;
+let originalWidth, originalHeight, originalTop, originalLeft;
 
 function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
@@ -45,8 +31,9 @@ function maximizeWindow(windowId) {
 
     if (isMaximized) {
         // タイトルバーを0.3秒で元のサイズに戻す
-        titleBar.style.transition = 'width 0.3s ease';
+        titleBar.style.transition = 'width 0.3s ease, left 0.3s ease';
         titleBar.style.width = originalWidth;
+        titleBar.style.left = originalLeft;
 
         setTimeout(() => {
             // ウィンドウ全体のサイズを元に戻す（アニメーションなし）
@@ -57,8 +44,7 @@ function maximizeWindow(windowId) {
             window.style.left = originalLeft;
 
             // 内容のサイズを元に戻す
-            content.style.width = '100%';
-            content.style.height = 'calc(100% - 30px)';
+            content.style.display = 'block';
             isMaximized = false;
         }, 300);
     } else {
@@ -81,10 +67,48 @@ function maximizeWindow(windowId) {
             window.style.height = '100%';
 
             // 内容のサイズを最大化
-            content.style.width = '100%';
-            content.style.height = 'calc(100% - 30px)';
+            content.style.display = 'block';
             isMaximized = true;
         }, 300);
+    }
+}
+
+function minimizeWindow(windowId) {
+    const window = document.getElementById(windowId);
+    const titleBar = window.querySelector('.title-bar');
+    const content = window.querySelector('.window-body');
+
+    if (isMinimized) {
+        // 元の位置に戻す
+        window.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease';
+        window.style.width = originalWidth;
+        window.style.height = originalHeight;
+        window.style.top = originalTop;
+        window.style.left = originalLeft;
+
+        setTimeout(() => {
+            content.style.display = 'block';
+            isMinimized = false;
+        }, 200);
+    } else {
+        // 現在の位置とサイズを保存
+        originalTop = window.style.top;
+        originalLeft = window.style.left;
+        originalWidth = window.style.width;
+        originalHeight = window.style.height;
+
+        // タスクバーの位置へ移動
+        window.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease, height 0.2s ease';
+        window.style.top = '95%'; // タスクバーの位置
+        window.style.left = '10px'; // タスクバーの左端
+        window.style.width = '100px'; // 小さくする
+        window.style.height = '20px';
+
+        // 0.2秒後に内容を非表示
+        setTimeout(() => {
+            content.style.display = 'none';
+            isMinimized = true;
+        }, 200);
     }
 }
 
@@ -92,7 +116,7 @@ function maximizeWindow(windowId) {
 function dragStart(event, windowId) {
     const window = document.getElementById(windowId);
 
-    // 最大化状態なら元のサイズに戻す
+    // 最大化状態なら元のサイズに戻す（マウス位置には移動しない）
     if (isMaximized) {
         maximizeWindow(windowId);
     }
