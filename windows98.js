@@ -51,8 +51,15 @@ function maximizeWindow(windowId) {
         windowEl.style.left = originalLeft;
 
         // タイトルバーのスタイルをリセット
+        titleBar.style.transition = 'width 0.3s ease';
         titleBar.style.width = '100%';
         titleBar.style.position = 'relative';
+
+        // 内容のサイズをリセット（即時変更）
+        setTimeout(() => {
+            content.style.width = '100%';
+            content.style.height = 'calc(100% - 30px)';
+        }, 0);
 
         isMaximized = false;
     } else {
@@ -62,24 +69,26 @@ function maximizeWindow(windowId) {
         originalTop = windowEl.style.top;
         originalLeft = windowEl.style.left;
 
-        // タイトルバーだけ先に最大化
+        // タイトルバーを先に拡大
+        titleBar.style.transition = 'width 0.3s ease';
         titleBar.style.width = '100vw';
         titleBar.style.position = 'fixed';
         titleBar.style.top = '0';
         titleBar.style.left = '0';
         titleBar.style.zIndex = '1002';
 
-        // 少し遅れてウィンドウ全体を最大化
+        // タイトルバーが拡大した後にウィンドウ全体を最大化
         setTimeout(() => {
             windowEl.style.top = '0';
             windowEl.style.left = '0';
             windowEl.style.width = '100vw';
             windowEl.style.height = '100vh';
 
-            // 内容のサイズを調整
+            // 内容のサイズを一瞬で変更
             content.style.width = '100%';
-            content.style.height = 'calc(100% - 30px)'; // タイトルバーの分を引く
-        }, 100); // 100ms後に最大化
+            content.style.height = 'calc(100% - 30px)';
+        }, 300); // 0.3秒後に変更
+
         isMaximized = true;
     }
 }
