@@ -198,6 +198,51 @@ function hideStartMenu(event) {
     }
 }
 
+document.querySelectorAll('.window').forEach(windowEl => {
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    const titleBar = windowEl.querySelector('.title-bar');
+
+    // マウスイベント（PC向け）
+    titleBar.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        offsetX = e.clientX - windowEl.offsetLeft;
+        offsetY = e.clientY - windowEl.offsetTop;
+        windowEl.style.zIndex = 1000;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        windowEl.style.left = `${e.clientX - offsetX}px`;
+        windowEl.style.top = `${e.clientY - offsetY}px`;
+    });
+
+    document.addEventListener('mouseup', () => {
+        isDragging = false;
+    });
+
+    // タッチイベント（スマホ・タブレット向け）
+    titleBar.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        const touch = e.touches[0]; // 最初のタッチポイントを取得
+        offsetX = touch.clientX - windowEl.offsetLeft;
+        offsetY = touch.clientY - windowEl.offsetTop;
+        windowEl.style.zIndex = 1000;
+    });
+
+    document.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        const touch = e.touches[0];
+        windowEl.style.left = `${touch.clientX - offsetX}px`;
+        windowEl.style.top = `${touch.clientY - offsetY}px`;
+    });
+
+    document.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+});
+
 // ページが読み込まれたときに時間を更新し、毎分更新する
 window.onload = function() {
     updateTime();
