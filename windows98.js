@@ -39,41 +39,48 @@ function minimizeWindow(windowId, title) {
 }
 
 function maximizeWindow(windowId) {
-    const window = document.getElementById(windowId);
-    const content = window.querySelector('.window-body');
+    const windowEl = document.getElementById(windowId);
+    const titleBar = windowEl.querySelector('.title-bar');
+    const content = windowEl.querySelector('.window-body');
 
-    if (window.dataset.maximized === "true") {
-        // 元の状態に戻す
-        window.style.transition = 'none';
-        window.style.width = window.dataset.originalWidth;
-        window.style.height = window.dataset.originalHeight;
-        window.style.top = window.dataset.originalTop;
-        window.style.left = window.dataset.originalLeft;
-        content.style.transition = 'none';
-        content.style.width = '100%';
-        content.style.height = '100%';
-        window.dataset.maximized = "false";
+    if (isMaximized) {
+        // 🔹 元の状態に戻す
+        windowEl.style.width = originalWidth;
+        windowEl.style.height = originalHeight;
+        windowEl.style.top = originalTop;
+        windowEl.style.left = originalLeft;
+
+        // タイトルバーのスタイルをリセット
+        titleBar.style.width = '100%';
+        titleBar.style.position = 'relative';
+
+        isMaximized = false;
     } else {
-        // 現在の状態を保存
-        window.dataset.originalWidth = window.style.width;
-        window.dataset.originalHeight = window.style.height;
-        window.dataset.originalTop = window.style.top;
-        window.dataset.originalLeft = window.style.left;
+        // 🔹 現在のウィンドウの状態を保存
+        originalWidth = windowEl.style.width;
+        originalHeight = windowEl.style.height;
+        originalTop = windowEl.style.top;
+        originalLeft = windowEl.style.left;
 
-        // アニメーションを設定
-        window.style.transition = 'all 0.3s ease';
-        content.style.transition = 'all 0.3s ease';
+        // タイトルバーだけ先に最大化
+        titleBar.style.width = '100vw';
+        titleBar.style.position = 'fixed';
+        titleBar.style.top = '0';
+        titleBar.style.left = '0';
+        titleBar.style.zIndex = '1002';
 
-        // 最大化位置とサイズを設定
-        window.style.top = '0';
-        window.style.left = '0';
-        window.style.width = '100vw';
-        window.style.height = '100vh';
+        // 少し遅れてウィンドウ全体を最大化
+        setTimeout(() => {
+            windowEl.style.top = '0';
+            windowEl.style.left = '0';
+            windowEl.style.width = '100vw';
+            windowEl.style.height = '100vh';
 
-        // 内容の最大化
-        content.style.width = '100%';
-        content.style.height = 'calc(100% - 30px)'; // タイトルバー分を引く
-        window.dataset.maximized = "true";
+            // 内容のサイズを調整
+            content.style.width = '100%';
+            content.style.height = 'calc(100% - 30px)'; // タイトルバーの分を引く
+        }, 100); // 100ms後に最大化
+        isMaximized = true;
     }
 }
 
