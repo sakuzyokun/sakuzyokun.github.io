@@ -138,14 +138,14 @@ html, body {
 
 .window {
     position: absolute;
-    transition: all 0.5s ease; /* アニメーションの対象と時間 */
+    /*transition: all 0.5s ease; /* アニメーションの対象と時間 */
     z-index: 1;
 }
-
+/*
 .window-body {
-    transition: all 0.5s ease; /* 内容部分もスムーズに*/
+    transition: all 0.5s ease; /* 内容部分もスムーズに
 }
-
+*/
 .window.active {
     z-index: 1000;
 }
@@ -155,6 +155,7 @@ html, body {
     /*background: #000080;
     color: white;*/
     padding: 2px 5px;
+    transition: all 0.5s ease;
 }
 
 
