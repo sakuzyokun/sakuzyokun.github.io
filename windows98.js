@@ -41,35 +41,27 @@ function minimizeWindow(windowId, title) {
 function maximizeWindow(windowId) {
     const windowEl = document.getElementById(windowId);
     const titleBar = windowEl.querySelector('.title-bar');
-    const content = windowEl.querySelector('.window-body');
 
     if (isMaximized) {
-        // 🔹 元の状態に戻す
+        // 元のサイズに戻す
         windowEl.style.width = originalWidth;
         windowEl.style.height = originalHeight;
         windowEl.style.top = originalTop;
         windowEl.style.left = originalLeft;
 
-        // タイトルバーのスタイルをリセット
         titleBar.style.transition = 'width 0.3s ease';
         titleBar.style.width = '100%';
         titleBar.style.position = 'relative';
 
-        // 内容のサイズをリセット（即時変更）
-        setTimeout(() => {
-            content.style.width = '100%';
-            content.style.height = 'calc(100% - 30px)';
-        }, 0);
-
         isMaximized = false;
     } else {
-        // 🔹 現在のウィンドウの状態を保存
+        // 現在のウィンドウの状態を保存
         originalWidth = windowEl.style.width;
         originalHeight = windowEl.style.height;
         originalTop = windowEl.style.top;
         originalLeft = windowEl.style.left;
 
-        // タイトルバーを先に拡大
+        // タイトルバーを最大化
         titleBar.style.transition = 'width 0.3s ease';
         titleBar.style.width = '100vw';
         titleBar.style.position = 'fixed';
@@ -77,21 +69,21 @@ function maximizeWindow(windowId) {
         titleBar.style.left = '0';
         titleBar.style.zIndex = '1002';
 
-        // タイトルバーが拡大した後にウィンドウ全体を最大化
+        // 0.3秒後にウィンドウ全体を最大化
         setTimeout(() => {
             windowEl.style.top = '0';
             windowEl.style.left = '0';
             windowEl.style.width = '100vw';
             windowEl.style.height = '100vh';
-
-            // 内容のサイズを一瞬で変更
-            content.style.width = '100%';
-            content.style.height = 'calc(100% - 30px)';
-        }, 300); // 0.3秒後に変更
+        }, 300);
 
         isMaximized = true;
     }
 }
+
+document.ondragstart = function() {
+    return false;
+};
 
 function closeWindow(windowId) {
     const window = document.getElementById(windowId);
@@ -139,13 +131,22 @@ function runCommand() {
 }
 
 function dragStart(event, windowId) {
-    const window = document.getElementById(windowId);
-    let shiftX = event.clientX - window.getBoundingClientRect().left;
-    let shiftY = event.clientY - window.getBoundingClientRect().top;
+    const windowEl = document.getElementById(windowId);
+    const shiftX = event.clientX - windowEl.getBoundingClientRect().left;
+    const shiftY = event.clientY - windowEl.getBoundingClientRect().top;
+
+    // 🔹 最大化状態なら、ドラッグ開始時に元のサイズに戻す
+    if (isMaximized) {
+        windowEl.style.width = originalWidth;
+        windowEl.style.height = originalHeight;
+        windowEl.style.top = '10px'; // 適当な位置に戻す
+        windowEl.style.left = '10px';
+        isMaximized = false;
+    }
 
     function moveAt(pageX, pageY) {
-        window.style.left = pageX - shiftX + 'px';
-        window.style.top = pageY - shiftY + 'px';
+        windowEl.style.left = pageX - shiftX + 'px';
+        windowEl.style.top = pageY - shiftY + 'px';
     }
 
     function onMouseMove(event) {
@@ -153,12 +154,11 @@ function dragStart(event, windowId) {
     }
 
     document.addEventListener('mousemove', onMouseMove);
-    
-    // mouseup でイベントリスナーを削除（パフォーマンス向上）
-    document.addEventListener('mouseup', function onMouseUp() {
+
+    windowEl.onmouseup = function() {
         document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-    });
+        windowEl.onmouseup = null;
+    };
 }
 
 document.ondragstart = function() {
