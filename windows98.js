@@ -21,9 +21,9 @@ document.addEventListener('click', function(event) {
 });
 
 let isMaximized = false;
-let isMinimized = false;
 let activeWindow = null;
-let originalWidth, originalHeight, originalTop, originalLeft;
+let originalSize = {};
+let minimizedWindows = new Set();
 
 function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
@@ -32,24 +32,26 @@ function maximizeWindow(windowId) {
 
     if (isMaximized) {
         titleBar.style.transition = 'width 0.3s ease, left 0.3s ease, top 0.3s ease';
-        titleBar.style.width = originalWidth;
-        titleBar.style.left = originalLeft;
-        titleBar.style.top = originalTop;
+        titleBar.style.width = originalSize[windowId].width;
+        titleBar.style.left = originalSize[windowId].left;
+        titleBar.style.top = originalSize[windowId].top;
 
         setTimeout(() => {
             window.style.transition = 'none';
-            window.style.width = originalWidth;
-            window.style.height = originalHeight;
-            window.style.top = originalTop;
-            window.style.left = originalLeft;
+            window.style.width = originalSize[windowId].width;
+            window.style.height = originalSize[windowId].height;
+            window.style.top = originalSize[windowId].top;
+            window.style.left = originalSize[windowId].left;
             content.style.display = 'block';
             isMaximized = false;
         }, 300);
     } else {
-        originalWidth = window.style.width;
-        originalHeight = window.style.height;
-        originalTop = window.style.top;
-        originalLeft = window.style.left;
+        originalSize[windowId] = {
+            width: window.style.width,
+            height: window.style.height,
+            top: window.style.top,
+            left: window.style.left
+        };
 
         titleBar.style.transition = 'width 0.3s ease, left 0.3s ease, top 0.3s ease';
         titleBar.style.width = '100%';
@@ -66,33 +68,24 @@ function maximizeWindow(windowId) {
             isMaximized = true;
         }, 300);
     }
+
+    setActiveWindow(windowId);
 }
 
 function minimizeWindow(windowId) {
     const window = document.getElementById(windowId);
     const titleBar = window.querySelector('.title-bar');
     const content = window.querySelector('.window-body');
-    
-    if (isMinimized) {
-        titleBar.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
-        titleBar.style.top = originalTop;
-        titleBar.style.left = originalLeft;
-        titleBar.style.width = '100%';
 
-        setTimeout(() => {
-            window.style.transition = 'none';
-            window.style.width = originalWidth;
-            window.style.height = originalHeight;
-            window.style.top = originalTop;
-            window.style.left = originalLeft;
-            content.style.display = 'block';
-            isMinimized = false;
-        }, 300);
+    if (minimizedWindows.has(windowId)) {
+        restoreWindow(windowId);
     } else {
-        originalTop = window.style.top;
-        originalLeft = window.style.left;
-        originalWidth = window.style.width;
-        originalHeight = window.style.height;
+        originalSize[windowId] = {
+            width: window.style.width,
+            height: window.style.height,
+            top: window.style.top,
+            left: window.style.left
+        };
 
         titleBar.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease';
         titleBar.style.top = '95%';
@@ -106,25 +99,49 @@ function minimizeWindow(windowId) {
             window.style.top = '95%';
             window.style.left = '10px';
             content.style.display = 'none';
-            isMinimized = true;
+            minimizedWindows.add(windowId);
+            updateTaskbarButtons();
         }, 200);
     }
+}
 
-    updateTaskbarButtons();
+function restoreWindow(windowId) {
+    const window = document.getElementById(windowId);
+    const titleBar = window.querySelector('.title-bar');
+    const content = window.querySelector('.window-body');
+
+    if (minimizedWindows.has(windowId)) {
+        titleBar.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
+        titleBar.style.top = originalSize[windowId].top;
+        titleBar.style.left = originalSize[windowId].left;
+        titleBar.style.width = '100%';
+
+        setTimeout(() => {
+            window.style.transition = 'none';
+            window.style.width = originalSize[windowId].width;
+            window.style.height = originalSize[windowId].height;
+            window.style.top = originalSize[windowId].top;
+            window.style.left = originalSize[windowId].left;
+            content.style.display = 'block';
+            minimizedWindows.delete(windowId);
+            updateTaskbarButtons();
+        }, 300);
+    }
+
+    setActiveWindow(windowId);
 }
 
 function updateTaskbarButtons() {
     const taskbar = document.querySelector('.taskbar-windows');
     taskbar.innerHTML = '';
 
-    document.querySelectorAll('.window').forEach(win => {
-        const winId = win.id;
+    minimizedWindows.forEach(winId => {
         const button = document.createElement('button');
         button.classList.add('window-title');
         button.textContent = winId;
         button.onclick = () => restoreWindow(winId);
 
-        if (win === activeWindow) {
+        if (winId === activeWindow) {
             button.classList.add('active');
         }
 
@@ -132,22 +149,15 @@ function updateTaskbarButtons() {
     });
 }
 
-function restoreWindow(windowId) {
-    const window = document.getElementById(windowId);
-    if (isMinimized) {
-        minimizeWindow(windowId);
-    }
-
-    setActiveWindow(window);
-}
-
-function setActiveWindow(window) {
-    activeWindow = window;
-    updateTaskbarButtons();
+function setActiveWindow(windowId) {
+    activeWindow = windowId;
+    document.querySelectorAll('.window-title').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === windowId);
+    });
 }
 
 document.querySelectorAll('.window').forEach(win => {
-    win.onclick = () => setActiveWindow(win);
+    win.onclick = () => setActiveWindow(win.id);
 });
 
 // 初回のタスクバー更新
