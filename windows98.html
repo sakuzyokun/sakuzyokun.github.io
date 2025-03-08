@@ -74,7 +74,34 @@
             <p class="status-bar-field" id="statusBar">0:00</p>
         </div>
     </div>
+    <!-- 計算機ウィンドウ -->
+<div id="calcWindow" class="window" style="display: none; width: 250px; height: 180px;">
+    <div class="title-bar" onmousedown="dragStart(event, 'calcWindow')">
+        <div class="title-bar-text">電卓</div>
+        <div class="title-bar-controls">
+            <button onclick="closeWindow('calcWindow')">×</button>
+        </div>
+    </div>
+    <div class="window-body">
+        <input id="calcInput" type="text" style="width: 100%;" />
+        <button onclick="calculate()">計算</button>
+        <p id="calcResult">= </p>
+    </div>
+</div>
 
+<!-- エラーメッセージウィンドウ -->
+<div id="errorWindow" class="window" style="display: none; width: 250px; height: 120px;">
+    <div class="title-bar" onmousedown="dragStart(event, 'errorWindow')">
+        <div class="title-bar-text">エラー</div>
+        <div class="title-bar-controls">
+            <button onclick="closeWindow('errorWindow')">×</button>
+        </div>
+    </div>
+    <div class="window-body">
+        <p id="errorText">エラーが発生しました。</p>
+        <button onclick="closeWindow('errorWindow')">OK</button>
+    </div>
+</div>
     <div class="start-menu" id="startMenu" onclick="event.stopPropagation()">
         <div class="start-menu-header">
             <div class="start-icon-large"></div>
@@ -83,6 +110,7 @@
         <ul>
             <li onclick="openNotepad()">メモ帳</li>
             <li onclick="openRun()">名前を指定して実行</li>
+            <li onclick="openCalculator()">計算機</li>
             <li>プログラム</li>
             <li>ドキュメント</li>
             <li>設定</li>
