@@ -201,7 +201,7 @@ function runCommand() {
             document.getElementById('notepadWindow').style.display = 'block';
             break;
         case 'calc':  // 新しいコマンド（計算機）を追加
-            alert('計算機はまだ実装されていません！');
+            document.getElementById('calcWindow').style.display = 'block';
             break;
         default:
             alert(`"${commandInput}" は見つかりませんでした。`);
