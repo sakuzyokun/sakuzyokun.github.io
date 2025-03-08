@@ -36,6 +36,7 @@ function createTitleBarClone(window) {
     clone.style.left = `${rect.left}px`;
     clone.style.width = `${rect.width}px`;
     clone.style.transition = 'all 0.3s ease';
+    clone.style.zIndex = '1002';
     
     return clone;
 }
@@ -43,14 +44,14 @@ function createTitleBarClone(window) {
 function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
     const content = window.querySelector('.window-body');
-    
+
     if (isMaximized) {
         // タイトルバーのクローンを作って元の位置へ戻す
         const clone = createTitleBarClone(window);
         clone.style.width = originalSize[windowId].width;
         clone.style.left = originalSize[windowId].left;
         clone.style.top = originalSize[windowId].top;
-        
+
         setTimeout(() => {
             document.body.removeChild(clone);
             window.style.transition = 'none';
@@ -105,8 +106,9 @@ function minimizeWindow(windowId) {
         // タイトルバーのクローンを作ってタスクバーへ移動
         const clone = createTitleBarClone(window);
         clone.style.top = '95%';
-        clone.style.left = '10px';
+        clone.style.left = '100px'; // スタートボタンの右側
         clone.style.width = '100px';
+        clone.style.transition = 'all 0.2s ease';
 
         setTimeout(() => {
             document.body.removeChild(clone);
@@ -145,11 +147,15 @@ function updateTaskbarButtons() {
     const taskbar = document.querySelector('.taskbar-windows');
     taskbar.innerHTML = '';
 
+    let leftOffset = 100; // スタートボタンの右側
     minimizedWindows.forEach(winId => {
         const button = document.createElement('button');
         button.classList.add('window-title');
         button.textContent = winId;
         button.onclick = () => restoreWindow(winId);
+        button.style.position = 'absolute';
+        button.style.left = `${leftOffset}px`;
+        leftOffset += 110; // ボタンの間隔を調整
 
         taskbar.appendChild(button);
     });
