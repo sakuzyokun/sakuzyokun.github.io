@@ -22,6 +22,7 @@ document.addEventListener('click', function(event) {
 
 let isMaximized = false;
 let isMinimized = false;
+let activeWindow = null;
 let originalWidth, originalHeight, originalTop, originalLeft;
 
 function maximizeWindow(windowId) {
@@ -30,14 +31,12 @@ function maximizeWindow(windowId) {
     const content = window.querySelector('.window-body');
 
     if (isMaximized) {
-        // タイトルバーを0.3秒で元のサイズに戻す
         titleBar.style.transition = 'width 0.3s ease, left 0.3s ease, top 0.3s ease';
         titleBar.style.width = originalWidth;
         titleBar.style.left = originalLeft;
         titleBar.style.top = originalTop;
 
         setTimeout(() => {
-            // ウィンドウ全体のサイズを元に戻す（アニメーションなし）
             window.style.transition = 'none';
             window.style.width = originalWidth;
             window.style.height = originalHeight;
@@ -47,27 +46,22 @@ function maximizeWindow(windowId) {
             isMaximized = false;
         }, 300);
     } else {
-        // 現在のウィンドウのサイズと位置を保存
         originalWidth = window.style.width;
         originalHeight = window.style.height;
         originalTop = window.style.top;
         originalLeft = window.style.left;
 
-        // タイトルバーを0.3秒で最大化
         titleBar.style.transition = 'width 0.3s ease, left 0.3s ease, top 0.3s ease';
         titleBar.style.width = '100%';
         titleBar.style.left = '0';
         titleBar.style.top = '0';
 
         setTimeout(() => {
-            // ウィンドウ全体を最大化（アニメーションなし）
             window.style.transition = 'none';
             window.style.top = '0';
             window.style.left = '0';
             window.style.width = '100%';
             window.style.height = '100%';
-
-            // 内容のサイズを最大化
             content.style.display = 'block';
             isMaximized = true;
         }, 300);
@@ -78,10 +72,8 @@ function minimizeWindow(windowId) {
     const window = document.getElementById(windowId);
     const titleBar = window.querySelector('.title-bar');
     const content = window.querySelector('.window-body');
-    const taskbar = document.querySelector('.taskbar-windows');
-
+    
     if (isMinimized) {
-        // 最小化解除：タイトルバーを元の位置に戻す
         titleBar.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
         titleBar.style.top = originalTop;
         titleBar.style.left = originalLeft;
@@ -97,20 +89,17 @@ function minimizeWindow(windowId) {
             isMinimized = false;
         }, 300);
     } else {
-        // 現在の位置とサイズを保存
         originalTop = window.style.top;
         originalLeft = window.style.left;
         originalWidth = window.style.width;
         originalHeight = window.style.height;
 
-        // タイトルバーのみタスクバーの位置へ移動
         titleBar.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease';
-        titleBar.style.top = '95%'; // タスクバーの位置
-        titleBar.style.left = '10px'; // タスクバーの左端
-        titleBar.style.width = '100px'; // 小さくする
+        titleBar.style.top = '95%';
+        titleBar.style.left = '10px';
+        titleBar.style.width = '100px';
 
         setTimeout(() => {
-            // ウィンドウ全体を小さくして非表示
             window.style.transition = 'none';
             window.style.width = '100px';
             window.style.height = '20px';
@@ -118,83 +107,51 @@ function minimizeWindow(windowId) {
             window.style.left = '10px';
             content.style.display = 'none';
             isMinimized = true;
-
-            // タスクバーにボタンを作成
-            const taskbarButton = document.createElement('button');
-            taskbarButton.classList.add('window-title');
-            taskbarButton.textContent = windowId;
-            taskbarButton.onclick = () => minimizeWindow(windowId);
-            taskbar.appendChild(taskbarButton);
         }, 200);
     }
+
+    updateTaskbarButtons();
 }
 
-// ドラッグでウィンドウを移動
-function dragStart(event, windowId) {
+function updateTaskbarButtons() {
+    const taskbar = document.querySelector('.taskbar-windows');
+    taskbar.innerHTML = '';
+
+    document.querySelectorAll('.window').forEach(win => {
+        const winId = win.id;
+        const button = document.createElement('button');
+        button.classList.add('window-title');
+        button.textContent = winId;
+        button.onclick = () => restoreWindow(winId);
+
+        if (win === activeWindow) {
+            button.classList.add('active');
+        }
+
+        taskbar.appendChild(button);
+    });
+}
+
+function restoreWindow(windowId) {
     const window = document.getElementById(windowId);
-
-    // 最大化状態なら元のサイズに戻す（マウス位置には移動しない）
-    if (isMaximized) {
-        maximizeWindow(windowId);
+    if (isMinimized) {
+        minimizeWindow(windowId);
     }
 
-    const shiftX = event.clientX - window.getBoundingClientRect().left;
-    const shiftY = event.clientY - window.getBoundingClientRect().top;
-
-    function moveAt(pageX, pageY) {
-        window.style.left = pageX - shiftX + 'px';
-        window.style.top = pageY - shiftY + 'px';
-    }
-
-    function onMouseMove(event) {
-        moveAt(event.pageX, event.pageY);
-    }
-
-    document.addEventListener('mousemove', onMouseMove);
-
-    window.onmouseup = function() {
-        document.removeEventListener('mousemove', onMouseMove);
-        window.onmouseup = null;
-    };
+    setActiveWindow(window);
 }
 
-// タッチ操作にも対応（スマホ・タブレット）
-function touchStart(event, windowId) {
-    const window = document.getElementById(windowId);
-    
-    if (isMaximized) {
-        maximizeWindow(windowId);
-    }
-
-    const touch = event.touches[0];
-    const shiftX = touch.clientX - window.getBoundingClientRect().left;
-    const shiftY = touch.clientY - window.getBoundingClientRect().top;
-
-    function moveAt(pageX, pageY) {
-        window.style.left = pageX - shiftX + 'px';
-        window.style.top = pageY - shiftY + 'px';
-    }
-
-    function onTouchMove(event) {
-        event.preventDefault();
-        const touch = event.touches[0];
-        moveAt(touch.pageX, touch.pageY);
-    }
-
-    document.addEventListener('touchmove', onTouchMove);
-
-    window.ontouchend = function() {
-        document.removeEventListener('touchmove', onTouchMove);
-        window.ontouchend = null;
-    };
+function setActiveWindow(window) {
+    activeWindow = window;
+    updateTaskbarButtons();
 }
 
-// ドラッグとタッチイベントを適用
-document.querySelectorAll('.title-bar').forEach(bar => {
-    const windowId = bar.closest('.window').id;
-    bar.addEventListener('mousedown', event => dragStart(event, windowId));
-    bar.addEventListener('touchstart', event => touchStart(event, windowId));
+document.querySelectorAll('.window').forEach(win => {
+    win.onclick = () => setActiveWindow(win);
 });
+
+// 初回のタスクバー更新
+updateTaskbarButtons();
 
 function closeWindow(windowId) {
     const window = document.getElementById(windowId);
