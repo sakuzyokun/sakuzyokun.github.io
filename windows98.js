@@ -304,17 +304,20 @@ document.querySelectorAll('.window').forEach(windowEl => {
 });
 
 function openCalculator() {
-    const calcWindow = document.getElementById('calcWindow');
-    calcWindow.style.display = 'block';
+    document.getElementById('calcWindow').style.display = 'block';
     setActiveWindow('calcWindow');
 }
 
-function showError(message) {
-    const errorWindow = document.getElementById('errorWindow');
-    const errorText = document.getElementById('errorText');
-    errorText.textContent = message;
-    errorWindow.style.display = 'block';
-    setActiveWindow('errorWindow');
+function appendNumber(num) {
+    document.getElementById('calcInput').value += num;
+}
+
+function appendOperator(op) {
+    document.getElementById('calcInput').value += " " + op + " ";
+}
+
+function clearCalc() {
+    document.getElementById('calcInput').value = "";
 }
 
 function calculate() {
@@ -324,10 +327,16 @@ function calculate() {
         if (isNaN(result) || !isFinite(result)) {
             throw new Error('無効な計算です');
         }
-        document.getElementById('calcResult').textContent = `= ${result}`;
+        document.getElementById('calcInput').value = result;
     } catch (error) {
         showError('計算エラー: ' + error.message);
     }
+}
+
+function showError(message) {
+    document.getElementById('errorText').textContent = message;
+    document.getElementById('errorWindow').style.display = 'block';
+    setActiveWindow('errorWindow');
 }
 
 // ページが読み込まれたときに時間を更新し、毎分更新する
