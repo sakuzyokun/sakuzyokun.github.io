@@ -64,6 +64,34 @@
         </div>
     </div>
 
+    <!-- 計算機ウィンドウ -->
+    <div id="calcWindow" class="window active" style="display: none; width: 250px; height: 180px;">
+        <div class="title-bar" onmousedown="dragStart(event, 'calcWindow')">
+            <div class="title-bar-text">電卓</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="closeWindow('calcWindow')"></button>
+        </div>
+    </div>
+    <div class="window-body">
+        <input id="calcInput" type="text" style="width: 100%;" />
+        <button onclick="calculate()">計算</button>
+        <p id="calcResult">= </p>
+    </div>
+</div>
+
+    <!-- エラーメッセージウィンドウ -->
+    <div id="errorWindow" class="window active" style="display: none; width: 250px; height: 120px;">
+        <div class="title-bar" onmousedown="dragStart(event, 'errorWindow')">
+            <div class="title-bar-text">エラー</div>
+            <div class="title-bar-controls">
+                <button aria-label="Close" onclick="closeWindow('errorWindow')"></button>
+            </div>
+        </div>
+        <div class="window-body">
+            <p id="errorText">エラーが発生しました。</p>
+            <button onclick="closeWindow('errorWindow')">OK</button>
+        </div>
+    </div>
     <div class="taskbar" id="taskbar">
         <div class="start" id="startButton" onclick="toggleStartMenu()">
             <div class="start-icon"></div>
@@ -74,34 +102,6 @@
             <p class="status-bar-field" id="statusBar">0:00</p>
         </div>
     </div>
-    <!-- 計算機ウィンドウ -->
-<div id="calcWindow" class="window active" style="display: none; width: 250px; height: 180px;">
-    <div class="title-bar" onmousedown="dragStart(event, 'calcWindow')">
-        <div class="title-bar-text">電卓</div>
-        <div class="title-bar-controls">
-            <button aria-label="Close" onclick="closeWindow('calcWindow')"></button>
-        </div>
-    </div>
-    <div class="window-body">
-        <input id="calcInput" type="text" style="width: 100%;" />
-        <button onclick="calculate()">計算</button>
-        <p id="calcResult">= </p>
-    </div>
-</div>
-
-<!-- エラーメッセージウィンドウ -->
-<div id="errorWindow" class="window active" style="display: none; width: 250px; height: 120px;">
-    <div class="title-bar" onmousedown="dragStart(event, 'errorWindow')">
-        <div class="title-bar-text">エラー</div>
-        <div class="title-bar-controls">
-            <button aria-label="Close" onclick="closeWindow('errorWindow')"></button>
-        </div>
-    </div>
-    <div class="window-body">
-        <p id="errorText">エラーが発生しました。</p>
-        <button onclick="closeWindow('errorWindow')">OK</button>
-    </div>
-</div>
     <div class="start-menu" id="startMenu" onclick="event.stopPropagation()">
         <div class="start-menu-header">
             <div class="start-icon-large"></div>
