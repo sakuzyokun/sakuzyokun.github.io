@@ -21,22 +21,38 @@ document.addEventListener('click', function(event) {
 });
 
 let isMaximized = false;
-let activeWindow = null;
-let originalSize = {};
 let minimizedWindows = new Set();
+let originalSize = {};
+
+function createTitleBarClone(window) {
+    const titleBar = window.querySelector('.title-bar');
+    const clone = titleBar.cloneNode(true);
+    document.body.appendChild(clone);
+    
+    // 位置を合わせる
+    const rect = titleBar.getBoundingClientRect();
+    clone.style.position = 'absolute';
+    clone.style.top = `${rect.top}px`;
+    clone.style.left = `${rect.left}px`;
+    clone.style.width = `${rect.width}px`;
+    clone.style.transition = 'all 0.3s ease';
+    
+    return clone;
+}
 
 function maximizeWindow(windowId) {
     const window = document.getElementById(windowId);
-    const titleBar = window.querySelector('.title-bar');
     const content = window.querySelector('.window-body');
-
+    
     if (isMaximized) {
-        titleBar.style.transition = 'width 0.3s ease, left 0.3s ease, top 0.3s ease';
-        titleBar.style.width = originalSize[windowId].width;
-        titleBar.style.left = originalSize[windowId].left;
-        titleBar.style.top = originalSize[windowId].top;
-
+        // タイトルバーのクローンを作って元の位置へ戻す
+        const clone = createTitleBarClone(window);
+        clone.style.width = originalSize[windowId].width;
+        clone.style.left = originalSize[windowId].left;
+        clone.style.top = originalSize[windowId].top;
+        
         setTimeout(() => {
+            document.body.removeChild(clone);
             window.style.transition = 'none';
             window.style.width = originalSize[windowId].width;
             window.style.height = originalSize[windowId].height;
@@ -53,12 +69,14 @@ function maximizeWindow(windowId) {
             left: window.style.left
         };
 
-        titleBar.style.transition = 'width 0.3s ease, left 0.3s ease, top 0.3s ease';
-        titleBar.style.width = '100%';
-        titleBar.style.left = '0';
-        titleBar.style.top = '0';
+        // タイトルバーのクローンを作ってアニメーション
+        const clone = createTitleBarClone(window);
+        clone.style.width = '100%';
+        clone.style.left = '0';
+        clone.style.top = '0';
 
         setTimeout(() => {
+            document.body.removeChild(clone);
             window.style.transition = 'none';
             window.style.top = '0';
             window.style.left = '0';
@@ -68,15 +86,12 @@ function maximizeWindow(windowId) {
             isMaximized = true;
         }, 300);
     }
-
-    setActiveWindow(windowId);
 }
 
 function minimizeWindow(windowId) {
     const window = document.getElementById(windowId);
-    const titleBar = window.querySelector('.title-bar');
     const content = window.querySelector('.window-body');
-
+    
     if (minimizedWindows.has(windowId)) {
         restoreWindow(windowId);
     } else {
@@ -87,17 +102,16 @@ function minimizeWindow(windowId) {
             left: window.style.left
         };
 
-        titleBar.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease';
-        titleBar.style.top = '95%';
-        titleBar.style.left = '10px';
-        titleBar.style.width = '100px';
+        // タイトルバーのクローンを作ってタスクバーへ移動
+        const clone = createTitleBarClone(window);
+        clone.style.top = '95%';
+        clone.style.left = '10px';
+        clone.style.width = '100px';
 
         setTimeout(() => {
+            document.body.removeChild(clone);
             window.style.transition = 'none';
-            window.style.width = '100px';
-            window.style.height = '20px';
-            window.style.top = '95%';
-            window.style.left = '10px';
+            window.style.display = 'none';
             content.style.display = 'none';
             minimizedWindows.add(windowId);
             updateTaskbarButtons();
@@ -107,28 +121,24 @@ function minimizeWindow(windowId) {
 
 function restoreWindow(windowId) {
     const window = document.getElementById(windowId);
-    const titleBar = window.querySelector('.title-bar');
     const content = window.querySelector('.window-body');
 
     if (minimizedWindows.has(windowId)) {
-        titleBar.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
-        titleBar.style.top = originalSize[windowId].top;
-        titleBar.style.left = originalSize[windowId].left;
-        titleBar.style.width = '100%';
+        // タイトルバーのクローンを作って元の位置へ戻す
+        const clone = createTitleBarClone(window);
+        clone.style.top = originalSize[windowId].top;
+        clone.style.left = originalSize[windowId].left;
+        clone.style.width = originalSize[windowId].width;
 
         setTimeout(() => {
+            document.body.removeChild(clone);
             window.style.transition = 'none';
-            window.style.width = originalSize[windowId].width;
-            window.style.height = originalSize[windowId].height;
-            window.style.top = originalSize[windowId].top;
-            window.style.left = originalSize[windowId].left;
+            window.style.display = 'block';
             content.style.display = 'block';
             minimizedWindows.delete(windowId);
             updateTaskbarButtons();
         }, 300);
     }
-
-    setActiveWindow(windowId);
 }
 
 function updateTaskbarButtons() {
@@ -141,24 +151,9 @@ function updateTaskbarButtons() {
         button.textContent = winId;
         button.onclick = () => restoreWindow(winId);
 
-        if (winId === activeWindow) {
-            button.classList.add('active');
-        }
-
         taskbar.appendChild(button);
     });
 }
-
-function setActiveWindow(windowId) {
-    activeWindow = windowId;
-    document.querySelectorAll('.window-title').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent === windowId);
-    });
-}
-
-document.querySelectorAll('.window').forEach(win => {
-    win.onclick = () => setActiveWindow(win.id);
-});
 
 // 初回のタスクバー更新
 updateTaskbarButtons();
