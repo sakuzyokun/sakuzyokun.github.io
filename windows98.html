@@ -65,45 +65,65 @@
     </div>
 
     <!-- 計算機ウィンドウ -->
-    <div id="calcWindow" class="window active" style="display: none; width: 250px; height: 180px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'calcWindow')">
-            <div class="title-bar-text">電卓</div>
-            <div class="title-bar-controls">
-                <button aria-label="Close" onclick="closeWindow('calcWindow')"></button>
+<div id="calcWindow" class="window" style="display: none; width: 200px; height: 280px;">
+    <div class="title-bar" onmousedown="dragStart(event, 'calcWindow')">
+        <div class="title-bar-text">電卓</div>
+        <div class="title-bar-controls">
+            <button onclick="closeWindow('calcWindow')">×</button>
         </div>
     </div>
     <div class="window-body">
-        <input id="calcInput" type="text" style="width: 100%;" />
-        <button onclick="calculate()">計算</button>
-        <p id="calcResult">= </p>
+        <input id="calcInput" type="text" style="width: 100%; font-size: 16px; text-align: right;" readonly />
+
+        <div class="calc-buttons">
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="appendOperator('/')">÷</button>
+            
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="appendOperator('*')">×</button>
+            
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="appendOperator('-')">−</button>
+
+            <button onclick="appendNumber('0')">0</button>
+            <button onclick="clearCalc()">C</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="appendOperator('+')">＋</button>
+        </div>
     </div>
 </div>
 
-    <!-- エラーメッセージウィンドウ -->
-    <div id="errorWindow" class="window active" style="display: none; width: 250px; height: 120px;">
-        <div class="title-bar" onmousedown="dragStart(event, 'errorWindow')">
-            <div class="title-bar-text">エラー</div>
+<!-- エラーメッセージウィンドウ -->
+<div id="errorWindow" class="window" style="display: none; width: 250px; height: 120px;">
+    <div class="title-bar" onmousedown="dragStart(event, 'errorWindow')">
+        <div class="title-bar-text">エラー</div>
             <div class="title-bar-controls">
-                <button aria-label="Close" onclick="closeWindow('errorWindow')"></button>
+                <button onclick="closeWindow('errorWindow')">×</button>
             </div>
         </div>
-        <div class="window-body">
-            <p id="errorText">エラーが発生しました。</p>
-            <button onclick="closeWindow('errorWindow')">OK</button>
+            <div class="window-body">
+                <p id="errorText">エラーが発生しました。</p>
+                <button onclick="closeWindow('errorWindow')">OK</button>
+            </div>
         </div>
-    </div>
-    <div class="taskbar" id="taskbar">
-        <div class="start" id="startButton" onclick="toggleStartMenu()">
-            <div class="start-icon"></div>
-            <span>スタート</span>
+        <div class="taskbar" id="taskbar">
+            <div class="start" id="startButton" onclick="toggleStartMenu()">
+                <div class="start-icon"></div>
+                <span>スタート</span>
+            </div>
+            <div class="taskbar-windows" id="taskbarWindows"></div>
+            <div class="status-bar">
+                    <p class="status-bar-field" id="statusBar">0:00</p>
+            </div>
         </div>
-        <div class="taskbar-windows" id="taskbarWindows"></div>
-        <div class="status-bar">
-            <p class="status-bar-field" id="statusBar">0:00</p>
-        </div>
-    </div>
-    <div class="start-menu" id="startMenu" onclick="event.stopPropagation()">
-        <div class="start-menu-header">
+        <div class="start-menu" id="startMenu" onclick="event.stopPropagation()">
+            <div class="start-menu-header">
             <div class="start-icon-large"></div>
             <div class="start-text">Windows 98</div>
         </div>
