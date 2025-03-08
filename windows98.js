@@ -147,7 +147,7 @@ function updateTaskbarButtons() {
     const taskbar = document.querySelector('.taskbar-windows');
     taskbar.innerHTML = '';
 
-    let leftOffset = 100; // スタートボタンの右側
+    let leftOffset = 120; // スタートボタンの右側へ間隔を開ける
     minimizedWindows.forEach(winId => {
         const button = document.createElement('button');
         button.classList.add('window-title');
@@ -155,7 +155,7 @@ function updateTaskbarButtons() {
         button.onclick = () => restoreWindow(winId);
         button.style.position = 'absolute';
         button.style.left = `${leftOffset}px`;
-        leftOffset += 110; // ボタンの間隔を調整
+        leftOffset += 90; // 各ボタンの間隔を確保
 
         taskbar.appendChild(button);
     });
