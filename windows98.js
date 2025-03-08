@@ -31,9 +31,10 @@ function maximizeWindow(windowId) {
 
     if (isMaximized) {
         // タイトルバーを0.3秒で元のサイズに戻す
-        titleBar.style.transition = 'width 0.3s ease, left 0.3s ease';
+        titleBar.style.transition = 'width 0.3s ease, left 0.3s ease, top 0.3s ease';
         titleBar.style.width = originalWidth;
         titleBar.style.left = originalLeft;
+        titleBar.style.top = originalTop;
 
         setTimeout(() => {
             // ウィンドウ全体のサイズを元に戻す（アニメーションなし）
@@ -42,8 +43,6 @@ function maximizeWindow(windowId) {
             window.style.height = originalHeight;
             window.style.top = originalTop;
             window.style.left = originalLeft;
-
-            // 内容のサイズを元に戻す
             content.style.display = 'block';
             isMaximized = false;
         }, 300);
@@ -55,8 +54,10 @@ function maximizeWindow(windowId) {
         originalLeft = window.style.left;
 
         // タイトルバーを0.3秒で最大化
-        titleBar.style.transition = 'width 0.3s ease';
+        titleBar.style.transition = 'width 0.3s ease, left 0.3s ease, top 0.3s ease';
         titleBar.style.width = '100%';
+        titleBar.style.left = '0';
+        titleBar.style.top = '0';
 
         setTimeout(() => {
             // ウィンドウ全体を最大化（アニメーションなし）
@@ -77,10 +78,11 @@ function minimizeWindow(windowId) {
     const window = document.getElementById(windowId);
     const titleBar = window.querySelector('.title-bar');
     const content = window.querySelector('.window-body');
+    const taskbar = document.querySelector('.taskbar-windows');
 
     if (isMinimized) {
-        // 元の位置に戻す
-        titleBar.style.transition = 'top 0.2s ease, left 0.2s ease, width 0.2s ease';
+        // 最小化解除：タイトルバーを元の位置に戻す
+        titleBar.style.transition = 'top 0.3s ease, left 0.3s ease, width 0.3s ease';
         titleBar.style.top = originalTop;
         titleBar.style.left = originalLeft;
         titleBar.style.width = '100%';
@@ -93,7 +95,7 @@ function minimizeWindow(windowId) {
             window.style.left = originalLeft;
             content.style.display = 'block';
             isMinimized = false;
-        }, 200);
+        }, 300);
     } else {
         // 現在の位置とサイズを保存
         originalTop = window.style.top;
@@ -116,6 +118,13 @@ function minimizeWindow(windowId) {
             window.style.left = '10px';
             content.style.display = 'none';
             isMinimized = true;
+
+            // タスクバーにボタンを作成
+            const taskbarButton = document.createElement('button');
+            taskbarButton.classList.add('window-title');
+            taskbarButton.textContent = windowId;
+            taskbarButton.onclick = () => minimizeWindow(windowId);
+            taskbar.appendChild(taskbarButton);
         }, 200);
     }
 }
