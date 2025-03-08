@@ -303,6 +303,33 @@ document.querySelectorAll('.window').forEach(windowEl => {
     });
 });
 
+function openCalculator() {
+    const calcWindow = document.getElementById('calcWindow');
+    calcWindow.style.display = 'block';
+    setActiveWindow('calcWindow');
+}
+
+function showError(message) {
+    const errorWindow = document.getElementById('errorWindow');
+    const errorText = document.getElementById('errorText');
+    errorText.textContent = message;
+    errorWindow.style.display = 'block';
+    setActiveWindow('errorWindow');
+}
+
+function calculate() {
+    try {
+        const expression = document.getElementById('calcInput').value;
+        const result = eval(expression);
+        if (isNaN(result) || !isFinite(result)) {
+            throw new Error('無効な計算です');
+        }
+        document.getElementById('calcResult').textContent = `= ${result}`;
+    } catch (error) {
+        showError('計算エラー: ' + error.message);
+    }
+}
+
 // ページが読み込まれたときに時間を更新し、毎分更新する
 window.onload = function() {
     updateTime();
