@@ -112,6 +112,27 @@
                 <button onclick="closeWindow('errorWindow')">OK</button>
             </div>
         </div>
+
+    <div class="window" id="ie6-window">
+    <div class="title-bar">
+        <span class="title">Internet Explorer 6</span>
+        <div class="window-controls">
+            <button aria-label="Minimize" onclick="minimizeWindow('ie6-window', 'Internet Explorer 6')"></button>
+            <button aria-label="Maximize" onclick="maximizeWindow('ie6-window')"></button>
+            <button aria-label="Close" onclick="closeWindow('ie6-window')"></button>
+        </div>
+    </div>
+    <div class="window-body">
+        <div class="toolbar">
+            <button class="back">&#9664;</button>
+            <button class="forward">&#9654;</button>
+            <button class="refresh">&#10227;</button>
+            <input type="text" class="address-bar" value="https://www.example.com">
+            <button class="go">Go</button>
+        </div>
+        <iframe class="browser-view" src="https://www.msn.com/"></iframe>
+    </div>
+</div>
         <div class="taskbar" id="taskbar">
             <div class="start" id="startButton" onclick="toggleStartMenu()">
                 <div class="start-icon"></div>
