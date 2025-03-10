@@ -204,7 +204,7 @@ html, body {
 .ie6 {
     width: 600px;
     height: 400px;
-    background: #C0C0C0;
+    /*background: #C0C0C0;*/
     border: 2px solid black;
     position: absolute;
     left: 50px;
