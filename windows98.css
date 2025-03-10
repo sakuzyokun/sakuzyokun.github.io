@@ -200,3 +200,18 @@ html, body {
 .calc-buttons button:active {
     box-shadow: inset -1px -1px 0 0 #808080;
 }
+
+.dummy-title-bar {
+    position: absolute;
+    /*background-color: #000080;
+    color: white;*/
+    height: 20px;
+    width: 100px;
+    transition: width 0.3s ease, left 0.3s ease, top 0.3s ease;
+}
+
+.window.maximized .dummy-title-bar {
+    width: 100%; /* 最大化時に画面幅いっぱい */
+    left: 0;
+    top: 0;
+}
