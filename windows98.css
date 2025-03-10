@@ -175,42 +175,28 @@ html, body {
     text-align: right; /* 時刻をタスクバーの右側に配置 */
 }
 
-.calculator {
-    width: 200px; /* 計算機の横幅 */
-    height: 280px; /* 計算機の縦幅 */
-    background-color: #C0C0C0;
-    border: 2px solid black;
-    position: absolute;
-    display: none;
-    padding: 5px;
-}
-
-.calc-display {
-    width: 100%;
-    height: 40px;
-    font-size: 20px;
-    text-align: right;
-    padding: 5px;
-    background-color: white;
-    border: 2px inset gray;
-    margin-bottom: 5px;
-}
-
 .calc-buttons {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4列のグリッド */
-    gap: 3px; /* ボタン間の間隔 */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 5px;
 }
 
-.calc-button {
-    width: 45px;  /* ボタンの幅を調整 */
-    height: 40px; /* ボタンの高さを調整 */
-    font-size: 18px;
-    background-color: #E0E0E0;
-    border: 2px outset white;
+.calc-buttons button {
+    width: 45px;
+    height: 30px;
+    font-size: 14px;
+    font-family: 'Pixelated MS Sans Serif', Arial, sans-serif;
+    border: 2px solid #000;
+    background-color: #C0C0C0;
     cursor: pointer;
 }
 
-.calc-button:active {
-    border: 2px inset gray; /* 押したときの効果 */
+.calc-buttons button:hover {
+    background-color: #A8A8A8;
+}
+
+
+.calc-buttons button:active {
+    box-shadow: inset -1px -1px 0 0 #808080;
 }
