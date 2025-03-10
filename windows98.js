@@ -345,6 +345,15 @@ function showError(message) {
     setActiveWindow('errorWindow');
 }
 
+document.querySelector("#ie6-window .go").addEventListener("click", function() {
+    let url = document.querySelector("#ie6-window .address-bar").value;
+    document.querySelector("#ie6-window .browser-view").src = url;
+});
+
+document.querySelector("#ie6-window .refresh").addEventListener("click", function() {
+    let iframe = document.querySelector("#ie6-window .browser-view");
+    iframe.src = iframe.src;
+});
 // ページが読み込まれたときに時間を更新し、毎分更新する
 window.onload = function() {
     updateTime();
