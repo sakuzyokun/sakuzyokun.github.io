@@ -202,26 +202,26 @@ html, body {
 }
 
 .ie6 {
-        width: 600px;
-        height: 400px;
-        background: #C0C0C0;
-        border: 2px solid black;
-        position: absolute;
-        left: 50px;
-        top: 50px;
-    }
-    .toolbar {
-        display: flex;
-        padding: 5px;
-        background: #A0A0A0;
-        border-bottom: 2px solid black;
-    }
-    .address-bar {
-        flex-grow: 1;
-        margin: 0 5px;
-    }
-    .browser-view {
-        width: 100%;
-        height: calc(100% - 40px);
-        border: none;
-    }
+    width: 600px;
+    height: 400px;
+    background: #C0C0C0;
+    border: 2px solid black;
+    position: absolute;
+    left: 50px;
+    top: 50px;
+}
+.toolbar {
+    display: flex;
+    padding: 5px;
+    background: #A0A0A0;
+    border-bottom: 2px solid black;
+}
+.address-bar {
+    flex-grow: 1;
+    margin: 0 5px;
+}
+.browser-view {
+    width: 100%;
+    height: calc(100% - 40px);
+    border: none;
+}
