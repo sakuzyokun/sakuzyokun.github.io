@@ -386,7 +386,7 @@ function openIE6() {
 }
 
 // IE6 関連のイベントを初期化
-// initializeIE6();
+initializeIE6();
 
 // ページが読み込まれたときに時間を更新し、毎分更新する
 window.onload = function() {
