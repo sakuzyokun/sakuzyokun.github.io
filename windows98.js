@@ -304,9 +304,15 @@ document.querySelectorAll('.window').forEach(windowEl => {
 });
 
 function openCalculator() {
-    document.getElementById('calcWindow').style.display = 'block';
-    setActiveWindow('calcWindow');
+    const calcWindow = document.getElementById('calcWindow');
+    calcWindow.style.display = 'block';
+    setActiveWindow('calcWindow'); // 計算機をアクティブにする
 }
+
+// ウィンドウをクリックするとアクティブになるようにする
+document.getElementById('calcWindow').addEventListener('mousedown', function(event) {
+    setActiveWindow('calcWindow'); // 計算機ウィンドウをアクティブ化
+});
 
 function appendNumber(num) {
     document.getElementById('calcInput').value += num;
