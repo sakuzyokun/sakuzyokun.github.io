@@ -65,29 +65,37 @@
     </div>
 
     <!-- 計算機ウィンドウ -->
-<div id="calcWindow" class="calculator">
-    <div class="title-bar">
-        <span>計算機</span>
-        <button aria-label="Close" onclick="closeWindow('calcWindow')"></button>
+<div id="calcWindow" class="window" style="display: none; width: 200px; height: 280px;">
+    <div class="title-bar" onmousedown="dragStart(event, 'calcWindow')">
+        <div class="title-bar-text">電卓</div>
+        <div class="title-bar-controls">
+            <button aria-label="Close" onclick="closeWindow('calcWindow')"></button>
+        </div>
     </div>
-    <input type="text" id="calcDisplay" class="calc-display" readonly>
-    <div class="calc-buttons">
-        <button class="calc-button">7</button>
-        <button class="calc-button">8</button>
-        <button class="calc-button">9</button>
-        <button class="calc-button">/</button>
-        <button class="calc-button">4</button>
-        <button class="calc-button">5</button>
-        <button class="calc-button">6</button>
-        <button class="calc-button">*</button>
-        <button class="calc-button">1</button>
-        <button class="calc-button">2</button>
-        <button class="calc-button">3</button>
-        <button class="calc-button">-</button>
-        <button class="calc-button">0</button>
-        <button class="calc-button">C</button>
-        <button class="calc-button">=</button>
-        <button class="calc-button">+</button>
+    <div class="window-body">
+        <input id="calcInput" type="text" style="width: 100%; font-size: 16px; text-align: right;" readonly />
+
+        <div class="calc-buttons">
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button onclick="appendOperator('/')">÷</button>
+            
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="appendOperator('*')">×</button>
+            
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="appendOperator('-')">−</button>
+
+            <button onclick="appendNumber('0')">0</button>
+            <button onclick="clearCalc()">C</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="appendOperator('+')">＋</button>
+        </div>
     </div>
 </div>
 
