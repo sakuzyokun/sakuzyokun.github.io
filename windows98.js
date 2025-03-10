@@ -354,6 +354,11 @@ document.querySelector("#ie6-window .refresh").addEventListener("click", functio
     let iframe = document.querySelector("#ie6-window .browser-view");
     iframe.src = iframe.src;
 });
+
+document.getElementById('calcWindow').addEventListener('mousedown', function(event) {
+    setActiveWindow('ie6-window');
+});
+
 // ページが読み込まれたときに時間を更新し、毎分更新する
 window.onload = function() {
     updateTime();
