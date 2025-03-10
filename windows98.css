@@ -178,24 +178,24 @@ html, body {
 .calc-buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
-    margin-top: 10px;
+    gap: 2px;
+    margin-top: 5px;
 }
 
 .calc-buttons button {
-    width: 100%;
-    height: 40px;
-    font-size: 16px;
+    width: 45px;
+    height: 30px;
+    font-size: 14px;
     font-family: 'Pixelated MS Sans Serif', Arial, sans-serif;
     border: 2px solid #000;
     background-color: #C0C0C0;
-    box-shadow: inset 1px 1px 0 0 #808080;
     cursor: pointer;
 }
 
 .calc-buttons button:hover {
     background-color: #A8A8A8;
 }
+
 
 .calc-buttons button:active {
     box-shadow: inset -1px -1px 0 0 #808080;
