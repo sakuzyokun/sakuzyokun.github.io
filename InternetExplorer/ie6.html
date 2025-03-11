@@ -12,13 +12,13 @@
     src: url('../fonts/msgothic002.ttf') format('truetype');
 }
 body {
-    background-color: #008080; /* ティール背景色 */
-    margin: 0; /* 画面の外枠に余白をつけない */
-    padding: 0; /* 画面の外枠に余白をつけない */
-    overflow: hidden; /* 画面がスクロールされないようにする */
+    background-color: #008080;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
     font-family: 'MSGothic003', 'MS Gothic', 'Pixelated MS Sans Serif', sans-serif;
 }
-.ie6 {
+.window {
     width: 600px;
     height: 400px;
     border: 2px solid black;
@@ -47,7 +47,7 @@ body {
     <div class="title-bar">
         <div class="title-bar-text">Internet Explorer 6</div>
         <div class="window-controls">
-            <button aria-label="Minimize" onclick="minimizeWindow('ie6-window', 'Internet Explorer 6')"></button>
+            <button aria-label="Minimize" onclick="minimizeWindow('ie6-window')"></button>
             <button aria-label="Maximize" onclick="maximizeWindow('ie6-window')"></button>
             <button aria-label="Close" onclick="closeWindow('ie6-window')"></button>
         </div>
@@ -58,11 +58,12 @@ body {
             <button class="forward">&#9654;</button>
             <button class="refresh">&#10227;</button>
             <input type="text" class="address-bar" value="https://sakuzyokun.github.io/redstone_internet.html">
-            <button class="go">	&#x27A6; 移動</button>
+            <button class="go">&#x27A6; 移動</button>
         </div>
-        <iframe class="browser-view" src="https://sakuzyokun.github.io/redstone_internet.html"></iframe>
+        <iframe class="browser-view" id="ie6-browser-view" src="https://sakuzyokun.github.io/redstone_internet.html"></iframe>
     </div>
 </div>
+
 <script>
 let ie6History = [];
 let ie6HistoryIndex = -1;
@@ -71,43 +72,39 @@ function openIE6() {
     const ieWindow = document.getElementById('ie6-window');
     if (ieWindow) {
         ieWindow.style.display = 'block';
-        setActiveWindow('ie6-window'); // ウィンドウをアクティブ化
-    } else {
-        console.error('IE6のウィンドウが見つかりません');
+        initializeIE6(); // 初回開いたときに履歴管理をセットアップ
     }
 }
 
 function initializeIE6() {
     const iframe = document.getElementById("ie6-browser-view");
-
-    if (!iframe) {
-        console.error("エラー: #ie6-browser-view が見つかりません");
-        return;
-    }
-
+    const addressBar = document.querySelector("#ie6-window .address-bar");
     const goButton = document.querySelector("#ie6-window .go");
     const refreshButton = document.querySelector("#ie6-window .refresh");
     const backButton = document.querySelector("#ie6-window .back");
     const forwardButton = document.querySelector("#ie6-window .forward");
 
-    if (goButton) goButton.addEventListener("click", navigateIE6);
-    if (refreshButton) refreshButton.addEventListener("click", refreshIE6);
-    if (backButton) backButton.addEventListener("click", goBackIE6);
-    if (forwardButton) forwardButton.addEventListener("click", goForwardIE6);
+    if (!iframe || !addressBar) return;
+
+    // 初回URLを履歴に追加
+    ie6History = [iframe.src];
+    ie6HistoryIndex = 0;
+
+    goButton.addEventListener("click", navigateIE6);
+    refreshButton.addEventListener("click", refreshIE6);
+    backButton.addEventListener("click", goBackIE6);
+    forwardButton.addEventListener("click", goForwardIE6);
 
     iframe.addEventListener("load", function () {
         if (ie6HistoryIndex === -1 || ie6History[ie6HistoryIndex] !== iframe.src) {
             ie6History.push(iframe.src);
             ie6HistoryIndex = ie6History.length - 1;
         }
+        addressBar.value = iframe.contentWindow.location.href;
     });
 
     iframe.addEventListener("error", function () {
         showIE6Error("ページが見つかりませんでした");
-    });
-
-    document.getElementById('ie6-window')?.addEventListener('mousedown', function () {
-        setActiveWindow('ie6-window');
     });
 
     window.addEventListener("resize", resizeIE6);
@@ -125,6 +122,8 @@ function navigateIE6() {
     }
 
     iframe.src = url;
+    ie6History.push(url);
+    ie6HistoryIndex = ie6History.length - 1;
 }
 
 function refreshIE6() {
@@ -152,10 +151,10 @@ function showIE6Error(message) {
     alert(message);
 }
 
-// ページが読み込まれたときに時間を更新し、毎分更新する
+// 初回実行
 window.onload = function () {
-    initializeIE6();
     openIE6();
 };
 </script>
 </body>
+</html>
