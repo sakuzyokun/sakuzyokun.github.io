@@ -349,24 +349,35 @@ function showError(message) {
 let ie6History = [];
 let ie6HistoryIndex = -1;
 
-// Internet Explorer 6 の初期化処理
 function initializeIE6() {
+    const iframe = document.getElementById("ie6-browser-view");
+
+    if (!iframe) {
+        console.error("エラー: #ie6-browser-view が見つかりません");
+        return;
+    }
+
     const goButton = document.querySelector("#ie6-window .go");
     const refreshButton = document.querySelector("#ie6-window .refresh");
     const backButton = document.querySelector("#ie6-window .back");
     const forwardButton = document.querySelector("#ie6-window .forward");
-    const iframe = document.querySelector("#ie6-browser-view");
 
-    // 要素が存在するか確認してから addEventListener を実行
     if (goButton) goButton.addEventListener("click", navigateIE6);
     if (refreshButton) refreshButton.addEventListener("click", refreshIE6);
     if (backButton) backButton.addEventListener("click", goBackIE6);
     if (forwardButton) forwardButton.addEventListener("click", goForwardIE6);
 
-    if (!iframe) {
-    console.error("エラー: #ie6-browser-view が見つかりません");
-    return;
-}
+    iframe.addEventListener("load", function () {
+        if (ie6HistoryIndex === -1 || ie6History[ie6HistoryIndex] !== iframe.src) {
+            ie6History.push(iframe.src);
+            ie6HistoryIndex = ie6History.length - 1;
+        }
+    });
+
+    iframe.addEventListener("error", function () {
+        showIE6Error("ページが見つかりませんでした");
+    });
+
     document.getElementById('ie6-window')?.addEventListener('mousedown', function () {
         setActiveWindow('ie6-window');
     });
@@ -374,7 +385,6 @@ function initializeIE6() {
     window.addEventListener("resize", resizeIE6);
 }
 
-// URL に移動し、履歴を管理
 function navigateIE6() {
     const iframe = document.getElementById("ie6-browser-view");
     const addressBar = document.querySelector("#ie6-window .address-bar");
@@ -387,76 +397,31 @@ function navigateIE6() {
     }
 
     iframe.src = url;
-
-    // ページがロードできない場合のエラー処理
-    iframe.onerror = function () {
-        showIE6Error("ページが見つかりませんでした");
-    };
-
-    // 履歴に追加
-    if (ie6HistoryIndex === -1 || ie6History[ie6HistoryIndex] !== url) {
-        ie6History = ie6History.slice(0, ie6HistoryIndex + 1);
-        ie6History.push(url);
-        ie6HistoryIndex++;
-    }
-
-    updateIE6Buttons();
 }
 
-// ページをリロード
 function refreshIE6() {
-    const iframe = document.querySelector("#ie6-browser-view");
-    iframe.src = iframe.src;
+    const iframe = document.getElementById("ie6-browser-view");
+    if (iframe) {
+        iframe.src = iframe.src;
+    }
 }
 
-// 戻るボタン処理
 function goBackIE6() {
     if (ie6HistoryIndex > 0) {
         ie6HistoryIndex--;
-        document.querySelector("#ie6-browser-view").src = ie6History[ie6HistoryIndex];
-        document.querySelector("#ie6-window .address-bar").value = ie6History[ie6HistoryIndex];
-        updateIE6Buttons();
+        document.getElementById("ie6-browser-view").src = ie6History[ie6HistoryIndex];
     }
 }
 
-// 進むボタン処理
 function goForwardIE6() {
     if (ie6HistoryIndex < ie6History.length - 1) {
         ie6HistoryIndex++;
-        document.querySelector("#ie6-browser-view").src = ie6History[ie6HistoryIndex];
-        document.querySelector("#ie6-window .address-bar").value = ie6History[ie6HistoryIndex];
-        updateIE6Buttons();
+        document.getElementById("ie6-browser-view").src = ie6History[ie6HistoryIndex];
     }
 }
 
-// 戻る・進むボタンの状態を更新
-function updateIE6Buttons() {
-    document.querySelector("#ie6-window .back").disabled = ie6HistoryIndex <= 0;
-    document.querySelector("#ie6-window .forward").disabled = ie6HistoryIndex >= ie6History.length - 1;
-}
-
-// iframe のサイズをウィンドウに合わせて調整
-function resizeIE6() {
-    const ie6Window = document.getElementById('ie6-window');
-    const iframe = document.querySelector("#ie6-browser-view");
-
-    iframe.style.width = (ie6Window.clientWidth - 10) + "px";
-    iframe.style.height = (ie6Window.clientHeight - 50) + "px";
-}
-
-// IE6 のエラーウィンドウを表示
 function showIE6Error(message) {
-    document.getElementById('errorText').textContent = message;
-    document.getElementById('errorWindow').style.display = 'block';
-    setActiveWindow('errorWindow');
-}
-
-// IE6 ウィンドウを開く
-function openIE6() {
-    const ie6Window = document.getElementById('ie6-window');
-    ie6Window.style.display = 'block';
-    resizeIE6();
-    setActiveWindow('ie6-window');
+    alert(message);
 }
 
 // ページが読み込まれたときに時間を更新し、毎分更新する
