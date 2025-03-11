@@ -363,12 +363,10 @@ function initializeIE6() {
     if (backButton) backButton.addEventListener("click", goBackIE6);
     if (forwardButton) forwardButton.addEventListener("click", goForwardIE6);
 
-    if (iframe) {
-        iframe.addEventListener("error", function () {
-            showIE6Error("ページが見つかりませんでした");
-        });
-    }
-
+    if (!iframe) {
+    console.error("エラー: #ie6-browser-view が見つかりません");
+    return;
+}
     document.getElementById('ie6-window')?.addEventListener('mousedown', function () {
         setActiveWindow('ie6-window');
     });
@@ -378,13 +376,22 @@ function initializeIE6() {
 
 // URL に移動し、履歴を管理
 function navigateIE6() {
-    let url = document.querySelector("#ie6-window .address-bar").value;
-    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+    const iframe = document.getElementById("ie6-browser-view");
+    const addressBar = document.querySelector("#ie6-window .address-bar");
+
+    if (!iframe || !addressBar) return;
+
+    let url = addressBar.value.trim();
+    if (!url.startsWith("http")) {
         url = "http://" + url;
     }
 
-    const iframe = document.querySelector("#ie6-browser-view");
     iframe.src = url;
+
+    // ページがロードできない場合のエラー処理
+    iframe.onerror = function () {
+        showIE6Error("ページが見つかりませんでした");
+    };
 
     // 履歴に追加
     if (ie6HistoryIndex === -1 || ie6History[ie6HistoryIndex] !== url) {
