@@ -25,6 +25,31 @@ body {
     position: absolute;
     left: 50px;
     top: 50px;
+    background: white;
+    resize: both;
+    overflow: hidden;
+}
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px;
+    background: #000080;
+    color: white;
+    cursor: move;
+}
+.title-bar-text {
+    font-size: 14px;
+}
+.window-controls {
+    display: flex;
+}
+.window-controls button {
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    margin-left: 2px;
+    padding: 0;
 }
 .toolbar {
     display: flex;
@@ -43,13 +68,13 @@ body {
 }
 </style>
 <body>
-<div class="window" id="ie6-window" style="display: none;">
-    <div class="title-bar">
+<div class="window" id="ie6-window">
+    <div class="title-bar" id="ie6-title-bar">
         <div class="title-bar-text">Internet Explorer 6</div>
         <div class="window-controls">
-            <button aria-label="Minimize" onclick="minimizeWindow('ie6-window')"></button>
-            <button aria-label="Maximize" onclick="maximizeWindow('ie6-window')"></button>
-            <button aria-label="Close" onclick="closeWindow('ie6-window')"></button>
+            <button aria-label="Minimize" onclick="minimizeWindow('ie6-window')">🗕</button>
+            <button aria-label="Maximize" id="maximize-button" onclick="toggleMaximizeWindow('ie6-window')">🗖</button>
+            <button aria-label="Close" onclick="closeWindow('ie6-window')">🗙</button>
         </div>
     </div>
     <div class="window-body">
@@ -67,13 +92,38 @@ body {
 <script>
 let ie6History = [];
 let ie6HistoryIndex = -1;
+let isMaximized = false;
+let prevSize = { width: 600, height: 400, left: 50, top: 50 };
 
-function openIE6() {
-    const ieWindow = document.getElementById('ie6-window');
-    if (ieWindow) {
-        ieWindow.style.display = 'block';
-        initializeIE6(); // 初回開いたときに履歴管理をセットアップ
+function toggleMaximizeWindow(windowId) {
+    const win = document.getElementById(windowId);
+    if (!win) return;
+    
+    if (!isMaximized) {
+        prevSize = {
+            width: win.offsetWidth,
+            height: win.offsetHeight,
+            left: win.offsetLeft,
+            top: win.offsetTop
+        };
+        win.style.width = "100vw";
+        win.style.height = "100vh";
+        win.style.left = "0";
+        win.style.top = "0";
+        document.getElementById("maximize-button").innerText = "🗗"; // 元に戻すボタン
+    } else {
+        win.style.width = prevSize.width + "px";
+        win.style.height = prevSize.height + "px";
+        win.style.left = prevSize.left + "px";
+        win.style.top = prevSize.top + "px";
+        document.getElementById("maximize-button").innerText = "🗖"; // 最大化ボタン
     }
+    isMaximized = !isMaximized;
+    resizeIE6();
+}
+
+function closeWindow(windowId) {
+    document.getElementById(windowId).style.display = "none";
 }
 
 function initializeIE6() {
@@ -86,7 +136,6 @@ function initializeIE6() {
 
     if (!iframe || !addressBar) return;
 
-    // 初回URLを履歴に追加
     ie6History = [iframe.src];
     ie6HistoryIndex = 0;
 
@@ -103,11 +152,7 @@ function initializeIE6() {
         addressBar.value = iframe.contentWindow.location.href;
     });
 
-    iframe.addEventListener("error", function () {
-        showIE6Error("ページが見つかりませんでした");
-    });
-
-    window.addEventListener("resize", resizeIE6);
+    resizeIE6();
 }
 
 function navigateIE6() {
@@ -127,10 +172,7 @@ function navigateIE6() {
 }
 
 function refreshIE6() {
-    const iframe = document.getElementById("ie6-browser-view");
-    if (iframe) {
-        iframe.src = iframe.src;
-    }
+    document.getElementById("ie6-browser-view").src = document.getElementById("ie6-browser-view").src;
 }
 
 function goBackIE6() {
@@ -147,14 +189,30 @@ function goForwardIE6() {
     }
 }
 
-function showIE6Error(message) {
-    alert(message);
+function resizeIE6() {
+    const iframe = document.getElementById("ie6-browser-view");
+    const win = document.getElementById("ie6-window");
+    if (iframe && win) {
+        iframe.style.height = (win.clientHeight - 40) + "px";
+    }
 }
 
-// 初回実行
-window.onload = function () {
-    openIE6();
-};
+// ウィンドウのドラッグ移動
+let dragging = false, offsetX, offsetY;
+document.getElementById("ie6-title-bar").addEventListener("mousedown", (e) => {
+    dragging = true;
+    offsetX = e.clientX - document.getElementById("ie6-window").offsetLeft;
+    offsetY = e.clientY - document.getElementById("ie6-window").offsetTop;
+});
+document.addEventListener("mousemove", (e) => {
+    if (dragging) {
+        document.getElementById("ie6-window").style.left = `${e.clientX - offsetX}px`;
+        document.getElementById("ie6-window").style.top = `${e.clientY - offsetY}px`;
+    }
+});
+document.addEventListener("mouseup", () => dragging = false);
+
+window.onload = initializeIE6;
 </script>
 </body>
 </html>
