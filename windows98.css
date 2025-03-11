@@ -4,11 +4,17 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: 'MSGothic003';
+    src: url('msgothic003.ttf') format('truetype');
+}
+
 body {
     background-color: #008080; /* ティール背景色 */
     margin: 0; /* 画面の外枠に余白をつけない */
     padding: 0; /* 画面の外枠に余白をつけない */
     overflow: hidden; /* 画面がスクロールされないようにする */
+    font-family: 'MSGothic003', 'MS Gothic', 'Pixelated MS Sans Serif', sans-serif;
 }
 
 html, body {
