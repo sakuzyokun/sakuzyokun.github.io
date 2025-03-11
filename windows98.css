@@ -6,7 +6,7 @@
 
 @font-face {
     font-family: 'MSGothic003';
-    src: url('msgothic003.ttf') format('truetype');
+    src: url('fonts/msgothic003.ttf') format('truetype');
 }
 
 body {
