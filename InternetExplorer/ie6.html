@@ -25,7 +25,7 @@ body {
     position: absolute;
     left: 50px;
     top: 50px;
-    background: white;
+    /*background: white;*/
     resize: both;
     overflow: hidden;
 }
@@ -34,8 +34,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 3px;
-    background: #000080;
-    color: white;
+    /*background: #000080;
+    color: white;*/
     cursor: move;
 }
 .title-bar-text {
@@ -72,9 +72,9 @@ body {
     <div class="title-bar" id="ie6-title-bar">
         <div class="title-bar-text">Internet Explorer 6</div>
         <div class="window-controls">
-            <button aria-label="Minimize" onclick="minimizeWindow('ie6-window')"></button>
+            <button aria-label="Minimize" onclick="minimizeWindow('ie6-window')">🗕</button>
             <button aria-label="Maximize" id="maximize-button" onclick="toggleMaximizeWindow('ie6-window')">🗖</button>
-            <button aria-label="Close" onclick="closeWindow('ie6-window')"></button>
+            <button aria-label="Close" onclick="closeWindow('ie6-window')">🗙</button>
         </div>
     </div>
     <div class="window-body">
