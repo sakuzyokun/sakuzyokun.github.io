@@ -349,6 +349,16 @@ function showError(message) {
 let ie6History = [];
 let ie6HistoryIndex = -1;
 
+function openIE6() {
+    const ieWindow = document.getElementById('ie6-window');
+    if (ieWindow) {
+        ieWindow.style.display = 'block';
+        setActiveWindow('ie6-window'); // ウィンドウをアクティブ化
+    } else {
+        console.error('IE6のウィンドウが見つかりません');
+    }
+}
+
 function initializeIE6() {
     const iframe = document.getElementById("ie6-browser-view");
 
