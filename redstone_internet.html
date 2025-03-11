@@ -3,95 +3,216 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Red stone Internet</title>
-    <link rel="icon" href="image/Redstone.png">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #800000;
-            color: #fff;
-            text-align: center;
-        }
-        .header {
-            background-color: #800000;
-            padding: 10px;
-        }
-        .header img {
-            width: 50px;
-            vertical-align: middle;
-        }
-        .header h1 {
-            display: inline;
-            font-size: 2em;
-            vertical-align: middle;
-            margin-left: 10px;
-        }
-        .search-container {
-            margin-top: 20px;
-        }
-        .search-container input[type="text"] {
-            width: 60%;
-            padding: 10px;
-            font-size: 1.2em;
-        }
-        .search-container input[type="submit"] {
-            padding: 10px;
-            font-size: 1.2em;
-            background-color: #890000;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-        .content {
-            display: none; /* 初期状態は非表示 */
-            margin-top: 20px;
-        }
-        button {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #890000;
-            color: #fff;
-            font-size: 1em;
-            cursor: pointer;
-        }
-    </style>
-    <script>
-        function performSearch(event) {
-            event.preventDefault();
-            var query = document.getElementById("searchInput").value;
-            var url = "https://www.google.com/search?q=" + encodeURIComponent(query);
-            window.open(url, '_blank');
-        }
-
-        function toggleContent() {
-            var content = document.getElementById("content");
-            if (content.style.display === "none") {
-                content.style.display = "block";
-            } else {
-                content.style.display = "none";
-            }
-        }
-    </script>
+    <title>Windows 98</title>
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
 </head>
+<style>
+@font-face {
+    font-family: 'MSGothic003';
+    src: url('../fonts/msgothic002.ttf') format('truetype');
+}
+body {
+    background-color: #008080;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'MSGothic003', 'MS Gothic', 'Pixelated MS Sans Serif', sans-serif;
+}
+.window {
+    width: 600px;
+    height: 400px;
+    border: 2px solid black;
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    background: white;
+    resize: both;
+    overflow: hidden;
+}
+.title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px;
+    background: #000080;
+    color: white;
+    cursor: move;
+}
+.title-bar-text {
+    font-size: 14px;
+}
+.window-controls {
+    display: flex;
+}
+.window-controls button {
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    margin-left: 2px;
+    padding: 0;
+}
+.toolbar {
+    display: flex;
+    padding: 5px;
+    background: #A0A0A0;
+    border-bottom: 2px solid black;
+}
+.address-bar {
+    flex-grow: 1;
+    margin: 0 5px;
+}
+.browser-view {
+    width: 100%;
+    height: calc(100% - 40px);
+    border: none;
+}
+</style>
 <body>
-    <div class="header">
-        <img src="image/Redstone.png" alt="Red stone icon">
-        <h1>Red stone Internet</h1>
+<div class="window" id="ie6-window">
+    <div class="title-bar" id="ie6-title-bar">
+        <div class="title-bar-text">Internet Explorer 6</div>
+        <div class="window-controls">
+            <button aria-label="Minimize" onclick="minimizeWindow('ie6-window')">🗕</button>
+            <button aria-label="Maximize" id="maximize-button" onclick="toggleMaximizeWindow('ie6-window')">🗖</button>
+            <button aria-label="Close" onclick="closeWindow('ie6-window')">🗙</button>
+        </div>
     </div>
-    <div class="search-container">
-        <form onsubmit="performSearch(event)">
-            <input type="text" id="searchInput" placeholder="検索キーワードを入力">
-            <input type="submit" value="検索">
-        </form>
-        Rescover
-        <button onclick="toggleContent()">ON/OFF</button>
+    <div class="window-body">
+        <div class="toolbar">
+            <button class="back">&#9664; 戻る</button>
+            <button class="forward">&#9654;</button>
+            <button class="refresh">&#10227;</button>
+            <input type="text" class="address-bar" value="https://sakuzyokun.github.io/redstone_internet.html">
+            <button class="go">&#x27A6; 移動</button>
+        </div>
+        <iframe class="browser-view" id="ie6-browser-view" src="https://sakuzyokun.github.io/redstone_internet.html"></iframe>
     </div>
-    <div class="content" id="content">
-        <h2>JR高田馬場駅近くで女性刺され搬送</h2><p>東京都新宿区のJR高田馬場駅近くで、20代女性が刺され意識不明の状態で救急搬送されました。<br>40～50代の男性がその場で殺人未遂容疑で現行犯逮捕されました。</p>
-        <h2>米株式市場が急落</h2><p>トランプ米大統領の政策による混乱が続く中、米株式市場が急落し、S&P500指数は1カ月足らずで9％下落しました。</p>
-        <h2>東日本大震災14年</h2><p>東日本大震災から14年が経過し、各地で追悼の祈りがささげられました。<br>岩手県大船渡市、宮城県石巻市、福島県大熊町などで特別な思いが込められた追悼行事が行われました。</p>
-        <br><p>更新:2025/03/11 21:20</p>
-    </div>
+</div>
+
+<script>
+let ie6History = [];
+let ie6HistoryIndex = -1;
+let isMaximized = false;
+let prevSize = { width: 600, height: 400, left: 50, top: 50 };
+
+function toggleMaximizeWindow(windowId) {
+    const win = document.getElementById(windowId);
+    if (!win) return;
+    
+    if (!isMaximized) {
+        prevSize = {
+            width: win.offsetWidth,
+            height: win.offsetHeight,
+            left: win.offsetLeft,
+            top: win.offsetTop
+        };
+        win.style.width = "100vw";
+        win.style.height = "100vh";
+        win.style.left = "0";
+        win.style.top = "0";
+        document.getElementById("maximize-button").innerText = "🗗"; // 元に戻すボタン
+    } else {
+        win.style.width = prevSize.width + "px";
+        win.style.height = prevSize.height + "px";
+        win.style.left = prevSize.left + "px";
+        win.style.top = prevSize.top + "px";
+        document.getElementById("maximize-button").innerText = "🗖"; // 最大化ボタン
+    }
+    isMaximized = !isMaximized;
+    resizeIE6();
+}
+
+function closeWindow(windowId) {
+    document.getElementById(windowId).style.display = "none";
+}
+
+function initializeIE6() {
+    const iframe = document.getElementById("ie6-browser-view");
+    const addressBar = document.querySelector("#ie6-window .address-bar");
+    const goButton = document.querySelector("#ie6-window .go");
+    const refreshButton = document.querySelector("#ie6-window .refresh");
+    const backButton = document.querySelector("#ie6-window .back");
+    const forwardButton = document.querySelector("#ie6-window .forward");
+
+    if (!iframe || !addressBar) return;
+
+    ie6History = [iframe.src];
+    ie6HistoryIndex = 0;
+
+    goButton.addEventListener("click", navigateIE6);
+    refreshButton.addEventListener("click", refreshIE6);
+    backButton.addEventListener("click", goBackIE6);
+    forwardButton.addEventListener("click", goForwardIE6);
+
+    iframe.addEventListener("load", function () {
+        if (ie6HistoryIndex === -1 || ie6History[ie6HistoryIndex] !== iframe.src) {
+            ie6History.push(iframe.src);
+            ie6HistoryIndex = ie6History.length - 1;
+        }
+        addressBar.value = iframe.contentWindow.location.href;
+    });
+
+    resizeIE6();
+}
+
+function navigateIE6() {
+    const iframe = document.getElementById("ie6-browser-view");
+    const addressBar = document.querySelector("#ie6-window .address-bar");
+
+    if (!iframe || !addressBar) return;
+
+    let url = addressBar.value.trim();
+    if (!url.startsWith("http")) {
+        url = "http://" + url;
+    }
+
+    iframe.src = url;
+    ie6History.push(url);
+    ie6HistoryIndex = ie6History.length - 1;
+}
+
+function refreshIE6() {
+    document.getElementById("ie6-browser-view").src = document.getElementById("ie6-browser-view").src;
+}
+
+function goBackIE6() {
+    if (ie6HistoryIndex > 0) {
+        ie6HistoryIndex--;
+        document.getElementById("ie6-browser-view").src = ie6History[ie6HistoryIndex];
+    }
+}
+
+function goForwardIE6() {
+    if (ie6HistoryIndex < ie6History.length - 1) {
+        ie6HistoryIndex++;
+        document.getElementById("ie6-browser-view").src = ie6History[ie6HistoryIndex];
+    }
+}
+
+function resizeIE6() {
+    const iframe = document.getElementById("ie6-browser-view");
+    const win = document.getElementById("ie6-window");
+    if (iframe && win) {
+        iframe.style.height = (win.clientHeight - 40) + "px";
+    }
+}
+
+// ウィンドウのドラッグ移動
+let dragging = false, offsetX, offsetY;
+document.getElementById("ie6-title-bar").addEventListener("mousedown", (e) => {
+    dragging = true;
+    offsetX = e.clientX - document.getElementById("ie6-window").offsetLeft;
+    offsetY = e.clientY - document.getElementById("ie6-window").offsetTop;
+});
+document.addEventListener("mousemove", (e) => {
+    if (dragging) {
+        document.getElementById("ie6-window").style.left = `${e.clientX - offsetX}px`;
+        document.getElementById("ie6-window").style.top = `${e.clientY - offsetY}px`;
+    }
+});
+document.addEventListener("mouseup", () => dragging = false);
+
+window.onload = initializeIE6;
+</script>
 </body>
 </html>
