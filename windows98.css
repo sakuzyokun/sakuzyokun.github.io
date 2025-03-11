@@ -101,7 +101,7 @@ html, body {
 }
 
 .start-text {
-    font-family: 'Pixelated MS Sans Serif', Arial, sans-serif;
+    font-family: 'MSGothic003', Arial, sans-serif;
     font-size: 14px;
 }
 
@@ -147,18 +147,18 @@ html, body {
     /*transition: all 0.5s ease; /* アニメーションの対象と時間 */
     z-index: 1;
 }
-/*
+
 .window-body {
-    transition: all 0.5s ease; /* 内容部分もスムーズに
-    height: calc(100% - 30px);
+    font-family: 'MSGothic003', Arial, sans-serif;
 }
-*/
+
 .window.active {
     z-index: 1000;
 }
 
 .title-bar {
     cursor: move;
+    font-family: 'MSGothic003', Arial, sans-serif;
     /*background: #000080;
     color: white;*/
     padding: 2px 5px;
@@ -175,7 +175,7 @@ html, body {
 .status-bar {
     padding: 5px 10px;
     color: black;
-    font-family: '98px', 'Pixelated MS Sans Serif';
+    font-family: '98px', 'MSGothic003';
     font-size: 14px;
     margin-right: 10px;
     text-align: right; /* 時刻をタスクバーの右側に配置 */
@@ -192,7 +192,7 @@ html, body {
     width: 45px;
     height: 30px;
     font-size: 14px;
-    font-family: 'Pixelated MS Sans Serif', Arial, sans-serif;
+    font-family: 'MSGothic003', Arial, sans-serif;
     border: 2px solid #000;
     background-color: #C0C0C0;
     cursor: pointer;
