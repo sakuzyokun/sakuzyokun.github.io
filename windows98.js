@@ -351,20 +351,28 @@ let ie6HistoryIndex = -1;
 
 // Internet Explorer 6 の初期化処理
 function initializeIE6() {
-    document.querySelector("#ie6-window .go").addEventListener("click", navigateIE6);
-    document.querySelector("#ie6-window .refresh").addEventListener("click", refreshIE6);
-    document.querySelector("#ie6-window .back").addEventListener("click", goBackIE6);
-    document.querySelector("#ie6-window .forward").addEventListener("click", goForwardIE6);
-    document.getElementById('ie6-window').addEventListener('mousedown', function () {
+    const goButton = document.querySelector("#ie6-window .go");
+    const refreshButton = document.querySelector("#ie6-window .refresh");
+    const backButton = document.querySelector("#ie6-window .back");
+    const forwardButton = document.querySelector("#ie6-window .forward");
+    const iframe = document.querySelector("#ie6-browser-view");
+
+    // 要素が存在するか確認してから addEventListener を実行
+    if (goButton) goButton.addEventListener("click", navigateIE6);
+    if (refreshButton) refreshButton.addEventListener("click", refreshIE6);
+    if (backButton) backButton.addEventListener("click", goBackIE6);
+    if (forwardButton) forwardButton.addEventListener("click", goForwardIE6);
+
+    if (iframe) {
+        iframe.addEventListener("error", function () {
+            showIE6Error("ページが見つかりませんでした");
+        });
+    }
+
+    document.getElementById('ie6-window')?.addEventListener('mousedown', function () {
         setActiveWindow('ie6-window');
     });
 
-    // iframe のエラー処理
-    document.querySelector("#ie6-browser-view").addEventListener("error", function () {
-        showIE6Error("ページが見つかりませんでした");
-    });
-
-    // ウィンドウサイズ変更時に iframe サイズを調整
     window.addEventListener("resize", resizeIE6);
 }
 
@@ -444,11 +452,9 @@ function openIE6() {
     setActiveWindow('ie6-window');
 }
 
-// 初期化実行
-initializeIE6();
-
 // ページが読み込まれたときに時間を更新し、毎分更新する
-window.onload = function() {
+window.onload = function () {
+    initializeIE6();
     updateTime();
-    setInterval(updateTime, 1);
+    setInterval(updateTime, 10);
 };
