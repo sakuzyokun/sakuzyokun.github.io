@@ -91,28 +91,39 @@ function runCommand() {
     }
 }
 
-function dragStart(event, windowId) {
-    const window = document.getElementById(windowId);
-    let shiftX = event.clientX - window.getBoundingClientRect().left;
-    let shiftY = event.clientY - window.getBoundingClientRect().top;
+document.addEventListener("DOMContentLoaded", () => {
+    const windows = document.querySelectorAll(".window");
+
+    windows.forEach(win => {
+        const titleBar = win.querySelector(".title-bar");
+        titleBar.addEventListener("mousedown", (event) => dragStart(event, win));
+    });
+});
+
+function dragStart(event, windowElement) {
+    event.preventDefault();
+
+    let shiftX = event.clientX - windowElement.getBoundingClientRect().left;
+    let shiftY = event.clientY - windowElement.getBoundingClientRect().top;
 
     function moveAt(pageX, pageY) {
-        window.style.left = pageX - shiftX + 'px';
-        window.style.top = pageY - shiftY + 'px';
+        windowElement.style.left = pageX - shiftX + "px";
+        windowElement.style.top = pageY - shiftY + "px";
     }
 
     function onMouseMove(event) {
         moveAt(event.pageX, event.pageY);
     }
 
-    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener("mousemove", onMouseMove);
 
-    window.onmouseup = function() {
-        document.removeEventListener('mousemove', onMouseMove);
-        window.onmouseup = null;
+    windowElement.onmouseup = function() {
+        document.removeEventListener("mousemove", onMouseMove);
+        windowElement.onmouseup = null;
     };
 }
 
+document.ondragstart = () => false;
 document.ondragstart = function() {
     return false;
 };
