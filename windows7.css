@@ -32,7 +32,7 @@ body {
 
 .window {
     background: linear-gradient(to bottom, #F2F2F2, #E0E0E0);
-    border: 2px solid #AAB4C8;
+    /*border: 2px solid #AAB4C8;*/
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     position: absolute;
@@ -40,9 +40,9 @@ body {
 }
 
 .title-bar {
-    background: linear-gradient(to bottom, #4788C7, #1C478E);
+    /*background: linear-gradient(to bottom, #4788C7, #1C478E);*/
     color: white;
-    padding: 5px;
+    /*padding: 5px;*/
     display: flex;
     justify-content: space-between;
     align-items: center;
