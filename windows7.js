@@ -6,63 +6,85 @@ function toggleStartMenu() {
     startMenu.style.display = startMenu.style.display === 'none' ? 'block' : 'none';
 }
 
+let windowsState = {};
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".title-bar").forEach(bar => {
+        bar.addEventListener("mousedown", (event) => dragStart(event, bar.parentElement.id));
+    });
+});
+
+function dragStart(event, windowId) {
+    const window = document.getElementById(windowId);
+    let shiftX = event.clientX - window.getBoundingClientRect().left;
+    let shiftY = event.clientY - window.getBoundingClientRect().top;
+
+    function moveAt(pageX, pageY) {
+        window.style.left = `${pageX - shiftX}px`;
+        window.style.top = `${pageY - shiftY}px`;
+    }
+
+    function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+    }
+
+    document.addEventListener("mousemove", onMouseMove);
+
+    document.addEventListener("mouseup", () => {
+        document.removeEventListener("mousemove", onMouseMove);
+    }, { once: true });
+}
+
+function maximizeWindow(windowId) {
+    const window = document.getElementById(windowId);
+    if (!windowsState[windowId]) windowsState[windowId] = {};
+
+    if (windowsState[windowId].maximized) {
+        Object.assign(window.style, windowsState[windowId]);
+        windowsState[windowId].maximized = false;
+    } else {
+        windowsState[windowId] = {
+            width: window.style.width,
+            height: window.style.height,
+            top: window.style.top,
+            left: window.style.left,
+            position: window.style.position,
+            maximized: true
+        };
+        Object.assign(window.style, {
+            width: "100%",
+            height: "100%",
+            top: "0",
+            left: "0",
+            position: "fixed"
+        });
+    }
+}
+
 function minimizeWindow(windowId, title) {
     const window = document.getElementById(windowId);
-    const taskbarWindows = document.getElementById('taskbarWindows');
-    window.style.display = 'none';
-    const minimizedTitle = document.createElement('div');
-    minimizedTitle.className = 'window-title';
+    window.style.display = "none";
+    const taskbarWindows = document.getElementById("taskbarWindows");
+    const minimizedTitle = document.createElement("div");
+    minimizedTitle.className = "window-title";
     minimizedTitle.innerText = title;
-    minimizedTitle.onclick = function() {
-        window.style.display = 'block';
+    minimizedTitle.onclick = function () {
+        window.style.display = "block";
         taskbarWindows.removeChild(minimizedTitle);
         setActiveWindow(windowId);
     };
     taskbarWindows.appendChild(minimizedTitle);
 }
 
-function maximizeWindow(windowId) {
-    const window = document.getElementById(windowId);
-    const textarea = window.querySelector('textarea');
-    const input = window.querySelector('input');
-    if (isMaximized) {
-        window.style.width = originalWidth;
-        window.style.height = originalHeight;
-        window.style.top = originalTop;
-        window.style.left = originalLeft;
-        window.style.position = 'absolute';
-        if (textarea) {
-            textarea.style.width = '100%';
-            textarea.style.height = 'calc(100% - 30px)';
-        }
-        if (input) {
-            input.style.width = '100%';
-        }
-        isMaximized = false;
-    } else {
-        originalWidth = window.style.width;
-        originalHeight = window.style.height;
-        originalTop = window.style.top;
-        originalLeft = window.style.left;
-        window.style.width = '100%';
-        window.style.height = '100%';
-        window.style.top = '0';
-        window.style.left = '0';
-        window.style.position = 'fixed';
-        if (textarea) {
-            textarea.style.width = '100%';
-            textarea.style.height = 'calc(100% - 30px)';
-        }
-        if (input) {
-            input.style.width = '100%';
-        }
-        isMaximized = true;
-    }
+function closeWindow(windowId) {
+    document.getElementById(windowId).style.display = "none";
 }
 
-function closeWindow(windowId) {
-    const window = document.getElementById(windowId);
-    window.style.display = 'none';
+function setActiveWindow(windowId) {
+    document.querySelectorAll(".window").forEach(win => {
+        win.classList.toggle("active", win.id === windowId);
+        win.style.zIndex = win.id === windowId ? "1000" : "1";
+    });
 }
 
 function openNotepad() {
@@ -89,28 +111,6 @@ function runCommand() {
         const winverWindow = document.getElementById('winverWindow');
         winverWindow.style.display = 'block';
     }
-}
-
-function dragStart(event, windowId) {
-    const window = document.getElementById(windowId);
-    let shiftX = event.clientX - window.getBoundingClientRect().left;
-    let shiftY = event.clientY - window.getBoundingClientRect().top;
-
-    function moveAt(pageX, pageY) {
-        window.style.left = pageX - shiftX + 'px';
-        window.style.top = pageY - shiftY + 'px';
-    }
-
-    function onMouseMove(event) {
-        moveAt(event.pageX, event.pageY);
-    }
-
-    document.addEventListener('mousemove', onMouseMove);
-
-    window.onmouseup = function() {
-        document.removeEventListener('mousemove', onMouseMove);
-        window.onmouseup = null;
-    };
 }
 
 document.ondragstart = function() {
