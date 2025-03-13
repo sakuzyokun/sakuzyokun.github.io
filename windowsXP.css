@@ -93,16 +93,16 @@ body {
 
 .window {
     position: absolute;
-    border: 2px solid #808080;
+    /*border: 2px solid #808080;*/
     background: #F0F0F0;
-    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+    /*box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);*/
     z-index: 1;
-    min-width: 200px;
-    min-height: 150px;
+    /*min-width: 200px;
+    min-height: 150px;*/
 }
 
 .window .title-bar {
-    background: linear-gradient(to bottom, #000080, #0000A0);
+    /*background: linear-gradient(to bottom, #000080, #0000A0);*/
     color: white;
     padding: 5px;
     font-weight: bold;
@@ -112,8 +112,8 @@ body {
 }
 
 .window .title-bar-controls button {
-    width: 16px;
-    height: 16px;
+    /*width: 16px;
+    height: 16px;*/
     margin-left: 4px;
     cursor: pointer;
     border: none;
