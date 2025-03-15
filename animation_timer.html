@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>滑らかなアニメーションタイマー</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(0deg, #f0f8ff, #ffcccb);
+      animation: backgroundFade 10s infinite alternate;
+    }
+
+    @keyframes backgroundFade {
+      0% { background: linear-gradient(0deg, #f0f8ff, #ffcccb); }
+      50% { background: linear-gradient(0deg, #ccffcc, #ccccff); }
+      100% { background: linear-gradient(0deg, #ffcccb, #f0f8ff); }
+    }
+
+    #circle {
+      width: 200px;
+      height: 200px;
+      border: 10px solid lightblue;
+      border-radius: 50%;
+      position: relative;
+      background: conic-gradient(lightblue 100%, white 0%);
+    }
+
+    #timer {
+      font-size: 2em;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #333;
+    }
+
+    #controls {
+      margin-top: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>滑らかなアニメーションタイマー</h1>
+  <div id="circle">
+    <div id="timer">00:00:00</div>
+  </div>
+  <div id="controls">
+    <div class="input-group">
+      <label for="hoursInput">時間:</label>
+      <input type="number" id="hoursInput" min="0" value="0">
+    </div>
+    <div class="input-group">
+      <label for="minutesInput">分:</label>
+      <input type="number" id="minutesInput" min="0" max="59" value="0">
+    </div>
+    <div class="input-group">
+      <label for="secondsInput">秒:</label>
+      <input type="number" id="secondsInput" min="0" max="59" value="0">
+    </div>
+    <button onclick="setTimer()">タイマーを開始</button>
+  </div>
+  <script>
+    let countdownInterval;
+    let startTime, endTime;
+
+    function setTimer() {
+      const hours = parseInt(document.getElementById('hoursInput').value, 10) || 0;
+      const minutes = parseInt(document.getElementById('minutesInput').value, 10) || 0;
+      const seconds = parseInt(document.getElementById('secondsInput').value, 10) || 0;
+      const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+      if (totalSeconds <= 0) {
+        alert("有効な時間を入力してください！");
+        return;
+      }
+
+      startCountdown(totalSeconds);
+    }
+
+    function startCountdown(duration) {
+      if (countdownInterval) {
+        cancelAnimationFrame(countdownInterval);
+      }
+
+      const circle = document.getElementById('circle');
+      const timerDisplay = document.getElementById('timer');
+      startTime = Date.now();
+      endTime = startTime + duration * 1000;
+
+      function update() {
+        const now = Date.now();
+        const remainingTime = Math.max(0, endTime - now);
+        const elapsedSeconds = Math.floor(remainingTime / 1000);
+
+        const hours = Math.floor(elapsedSeconds / 3600);
+        const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+        const seconds = elapsedSeconds % 60;
+
+        timerDisplay.textContent =
+          `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        const progress = (1 - remainingTime / (duration * 1000)) * 100;
+        circle.style.background = `conic-gradient(lightblue ${100 - progress}%, white ${100 - progress}%)`;
+
+        if (remainingTime > 0) {
+          countdownInterval = requestAnimationFrame(update);
+        } else {
+          timerDisplay.textContent = "タイムアップ！";
+          circle.style.background = "conic-gradient(white 100%, white 100%)";
+        }
+      }
+
+      update();
+    }
+  </script>
+</body>
+</html>
