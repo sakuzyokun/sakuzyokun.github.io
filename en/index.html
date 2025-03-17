@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakuzyo-kun's Homepage</title>
+    <link rel="icon" href="../favicon.ico">
+    <link rel="stylesheet" href="../index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Sakuzyo-kun's Homepage</h1>
+        <div id="modeToggleButtons">
+            <button onclick="setMode('light')">Light Mode</button>
+            <button onclick="setMode('dark')">Dark mode</button>
+            <button onclick="setMode('photo')">Photo mode</button>
+        </div>
+    </header>
+    <main>
+        <div id="linkMenu" class="custom-menu" style="display: none;">
+            <ul>
+                <li onclick="openLink(event, '_blank')">Open in new tab</li>
+                <li onclick="openLink(event, '_self')">open</li>
+                <li onclick="copyLink(event)">Copy link</li>
+            </ul>
+        </div>
+        <div id="pageMenu" class="custom-menu" style="display: none;">
+            <ul>
+                <li onclick="location.reload();">Reload</li>
+                <li onclick="copyPageLink()">Copy page link</li>
+                <li onclick="toggleMessageBox(),hideMenus();">Turning the message box on/off</li>
+                <li onclick="location.href = '../index.html';">日本語に変更</li>
+                <li onclick="changeModes()">==Mode Change==</li>
+                <li onclick="setMode('light')">Switch to light mode</li>
+                <li onclick="setMode('dark')">Switch to dark mode</li>
+                <li onclick="setMode('photo')">Switch to photo mode</li>
+            </ul>
+        </div>
+        <section>
+            <h2>Home</h2>
+            <h3>table of contents</h3>
+            <p>No other pages have been translated yet.</p>
+            <ul>
+                <li><a href="notice.html">&#x1f514;notice</a></li>
+                <li><a href="Blog.html">&#x1f4c4;Blog</a></li>
+                <li><a href="search.html">&#x1f50d;Site Search</a></li>
+                <li><a href="https://scratch.mit.edu/projects/1082689744/" target="_blank">&#x1f4ac;Comment on Scratch</a></li>
+                <li><a href="chat.html">&#x1f4ac;Chat</a><br></li>
+                <li><a href="topic.html">&#x1f44d;Topic Voting Tool</a></li>
+                <li><a href="自己紹介.html">&#x1f4e2;self-introduction</a></li>
+                <li><a href="url.html">&#x1f517;URL list</a></li>
+                <li><a href="cmd.html">&#x1f4bb;Command Prompt</a></li>
+                <li><a href="emulator.html">&#x1f4bb;PC Emulator</a></li>
+                <li><a href="Scratch(4GB).html">&#x1f4e6;Scratch creations (4GB or more memory required)</a></li>
+                <li><a href="Scratch.html">&#x1f4c4;Scratch work (lightweight)</a></li>
+                <li><a href="creator.html">&#x1f468;&#x200d;&#x1f4bb;Developer</a></li>
+                <li><a href="game.html">&#x1f3ae;Game</a></li>
+                <li><a href="AI.html">&#x1f4bb;Things made by AI</a></li>
+                <li><a href="sakuzyo.html">&#x1f4bb;Something I made myself</a></li>
+                <li><a href="YouTube.html">&#x1f3ac;YouTube video list</a></li>
+                <li><a href="Video Vault.html">&#x1f3ac;Video Vault</a></li>
+                <li><a href="Echo/Echo.html">&#x1f916;Echo</a></li>
+                <li><a href="webmania/home.html">&#x1f468;&#x200d;&#x1f9b0;Web Mania Library</a></li>
+                <li><a href="redstone_internet.html"><img src="image/Redstone.png" alt="ico" width="25px">Red stone Internet</a></li>
+                <!--
+                <li><a href="Amasan/Amasan.html">&#x1f6cd;Amasan</a></li>-->
+                <li><a href="info.html">&#x2139;About this site</a></li>
+            </ul>
+        </section>
+        <section>
+            <h3>I play Scratch. Please follow me if you like!</h3>
+            <p><a href="https://scratch.mit.edu/users/exa2023_05/" target="_blank">URL is here</a></p>
+            <iframe src="https://scratch.mit.edu/projects/1081082864/embed" allowtransparency="true" width="485" height="402" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        </section>
+        <section><!--
+            <h3>We also use Discord</h3><!--
+            <p>見たからにはDiscordをやっている人はこのサーバーに<b><u>絶対入ってください</u></b></p>
+            <a href="https://discord.gg/p2zXu4mdG2" target="_blank">削除くんチャンネル公式サーバー</a><br>
+            <iframe src="https://discordapp.com/widget?id=1286249711199850529&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        </section>-->
+        <section>
+            <h3>I'm also on X (old Twitter), so please follow me!</h3>
+            <a href="https://twitter.com/sakuzyokun?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @sakuzyokun</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </section>
+        <section>
+            <h3>We're also on YouTube!</h3>
+            <p>*The video below is in Japanese.</p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/QNYKAbPThlU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </section>
+        <section>
+            <h3>error408.exe</h3>
+            <a href="https://scratch.mit.edu/projects/1046301158/" target="_blank">This is a heavy file, so you need at least 4GB of memory. It cannot be accessed on tablets (depending on the model).</a>
+        </section>
+        <section>
+            <h2>Read the blog here</h2>
+            <a href="Blog.html">Blog</a>
+            <!--<p>No, there was one above!</p>-->
+        </section>
+        <!-- メッセージボックスの要素 -->
+        <div id="messageBox" class="message-box" style="display: none;">
+            <div class="message-box-header">
+                <span>Message from a web page</span>
+                <button class="close-btn" onclick="closeMessageBox()">×</button>
+            </div>
+            <div class="message-box-body">
+                Please subscribe and like our YouTube channel!
+            </div>
+            <button onclick="web(), closeMessageBox()">OK</button>
+        </div>
+        <div id="toggleButton" style="position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);"></div>
+    </main>
+</body>
+</html>
