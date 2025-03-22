@@ -48,6 +48,7 @@
     <script>
         const consoleElement = document.getElementById('console');
         const inputElement = document.getElementById('input');
+        const promptElement = document.getElementById('prompt');
         let fileSystem = {}; // 仮想ファイルシステム
         let editingFile = null;
         let fileBuffer = [];
@@ -125,7 +126,7 @@
                         appendMessage(`無効なコマンド: ${command}`);
                     }
                     break;
-            　　case 'type':
+                case 'type':
                     if (args[1] && fileSystem[args[1]]) {
                         appendMessage(fileSystem[args[1]]);
                     } else {
@@ -147,18 +148,20 @@
         function handleCommand(event) {
             if (event.key === 'Enter') {
                 if (editingFile) {
-                    if (inputElement.value === '\u001A') { // Ctrl+Z (END OF FILE)
+                    if (inputElement.value === '\u001A') { // Ctrl+Z
                         fileSystem[editingFile] = fileBuffer.join('\n');
                         appendMessage(`ファイル '${editingFile}' を保存しました。`);
                         editingFile = null;
                         fileBuffer = [];
+                        promptElement.textContent = 'C:/> ';
                     } else {
                         fileBuffer.push(inputElement.value);
+                        appendMessage(inputElement.value, false);
                     }
                     inputElement.value = '';
                     return;
                 }
-            
+                
                 const command = inputElement.value;
                 appendOutput(command);
                 inputElement.value = '';
