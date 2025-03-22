@@ -48,6 +48,9 @@
     <script>
         const consoleElement = document.getElementById('console');
         const inputElement = document.getElementById('input');
+        let fileSystem = {}; // 仮想ファイルシステム
+        let editingFile = null;
+        let fileBuffer = [];
 
         function handleCommand(event) {
             if (event.key === 'Enter') {
@@ -117,11 +120,12 @@
                         editingFile = args[2];
                         fileBuffer = [];
                         appendMessage(`'${editingFile}' の編集を開始 (終了: Ctrl+Z + Enter)`);
+                        promptElement.textContent = '';
                     } else {
                         appendMessage(`無効なコマンド: ${command}`);
                     }
                     break;
-                case 'type':
+            　　case 'type':
                     if (args[1] && fileSystem[args[1]]) {
                         appendMessage(fileSystem[args[1]]);
                     } else {
@@ -139,10 +143,6 @@
 
             consoleElement.scrollTop = consoleElement.scrollHeight;
         }
-
-        let fileSystem = {}; // 仮想ファイルシステム
-        let editingFile = null;
-        let fileBuffer = [];
 
         function handleCommand(event) {
             if (event.key === 'Enter') {
