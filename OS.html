@@ -28,6 +28,8 @@
         <div class="info" id="windowX">ウィンドウX座標: 判定中...</div>
         <div class="info" id="windowY">ウィンドウY座標: 判定中...</div>
         <div class="info" id="deviceMemory">メモリ: 判定中...</div>
+        <div class="info" id="displaypixel">ディスプレイ深度: 判定中...</div>
+        <div class="info" id="screenbit">使用可能カラー数: 判定中...</div>
     </main>
     <script>
         function getOS() {
@@ -88,6 +90,13 @@
             document.getElementById('deviceMemory').innerText = `メモリ: ${deviceMemory}GB`;
         }
 
+        function updateScreenInfo() {
+            const displaypixel = screen.pixelDepth;
+            const screenbit = screen.colorDepth;
+            document.getElementById('displaypixel').innerText = `ディスプレイ深度: ${displaypixel}bit`;
+            document.getElementById('screenbit').innertext = `使用可能カラー数: ${screenbit}bit`
+        }
+        
         function updateAll() {
             document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
             document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
@@ -95,6 +104,7 @@
             updateResolution();
             updateWindowInfo();
             updateMemory();
+            updateScreenInfo();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
