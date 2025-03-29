@@ -16,30 +16,25 @@
         <a href="index.html" class="home-link">ホームに戻る</a>
     </header>
     <main>
-        <h1>エンコード&デコード</h1>
-        <p>URL:
-        <input type="text" name="URL" size="30" id="text">
-        </p>
+        <h2>エンコード&デコード</h2>
+        <label for="text">URL:</label>
+        <input type="text" id="text" size="30">
+        <button onclick="encodeText()">エンコード</button>
+        <button onclick="decodeText()">デコード</button>
+        <p><strong>結果:</strong> <span id="result"></span></p>
 
         <script>
-          function encode() {  
-            document.write("エンコード");
-            document.write(escape("ASCII:",text));
-            document.write(encodeURI("URI:",text));
-            document.write("<br>");
+          function encodeText() {
+              let text = document.getElementById("text").value;
+              let encodedURI = encodeURIComponent(text);
+              document.getElementById("result").textContent = "エンコード: " + encodedURI;
           }
 
-          function decode() {
-            document.write("デコード");
-            document.write(unescape("ASCII:",text));
-            document.write(decodeURI("URI:",text));
+          function decodeText() {
+              let text = document.getElementById("text").value;
+              let decodedURI = decodeURIComponent(text);
+              document.getElementById("result").textContent = "デコード: " + decodedURI;
           }
-
-          document.addEventListener('DOMContentLoaded', () => {
-              encode();
-              decode();
-              setInterval(updateAll, 1);  // 1ミリ秒ごとに更新
-          });
         </script>
     </main>
 </body>
