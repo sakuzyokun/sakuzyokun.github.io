@@ -30,6 +30,7 @@
         <div class="info" id="deviceMemory">メモリ: 判定中...</div>
         <div class="info" id="displaypixel">ディスプレイ深度: 判定中...</div>
         <div class="info" id="screenbit">使用可能カラー数: 判定中...</div>
+        <div class="info" id="keycode">押されたキー: 判定中...</div>
     </main>
     <script>
         function getOS() {
@@ -96,6 +97,17 @@
             document.getElementById('displaypixel').innerText = `ディスプレイ深度: ${displaypixel}bit`;
             document.getElementById('screenbit').innertext = `使用可能カラー数: ${screenbit}bit`
         }
+
+        function updateKeyInfo() {
+            if(window.event{
+                const iekeycode = window.event.keycode;
+                document.getElementById('iekeycode').innerText = `押されたキー: ${iekeycode}`
+            } else{
+                const firekeycode = e.keycode;
+                document.getElementById('firekeycode').innerText = `押されたキー: ${firekeycode}`
+            }
+        }
+        document.onkeydown = eve1;
         
         function updateAll() {
             document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
@@ -105,6 +117,7 @@
             updateWindowInfo();
             updateMemory();
             updateScreenInfo();
+            updateKeyInfo();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
