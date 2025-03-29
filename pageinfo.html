@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除くんのホームページ ページの情報</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="pageinfo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>ページの情報</h1>
+        <p>URL:
+        <input type="text" name="URL" size="30" id="text">
+        <button type="button" id="search-button">検索</button>
+        </p>
+        <p id="output"></p>
+
+        <script>
+            document.getElementById("search-button").addEventListener("click", function() {
+                const urlInput = document.getElementById("text").value;
+                try {
+                    const url = new URL(urlInput);
+
+                    const outputElement = document.getElementById("output");
+                    outputElement.innerHTML = `
+                        URL: ${url.href}<br>
+                        プロトコル: ${url.protocol}<br>
+                        ホスト名: ${url.hostname}<br>
+                        パス名: ${url.pathname}<br>
+                        コミュニケーションポート番号: ${url.port || "(既定)"}<br>
+                        ?以降の文字: ${url.search}<br>
+                        ターゲットウィンドウ: ${url.target || "(なし)"}
+                    `;
+                } catch (error) {
+                    alert("有効なURLを入力してください。");
+                }
+            });
+        </script>
+    </main>
+</body>
+</html>
