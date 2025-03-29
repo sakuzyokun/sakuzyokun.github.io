@@ -23,8 +23,10 @@
         <div class="info" id="isCharging">バッテリー状態: 判定中...</div>
         <div class="info" id="screenWidth">画面横幅: 判定中...</div>
         <div class="info" id="screenHeight">画面縦幅: 判定中...</div>
-        <div class="info" id="windowWidth">ウィンドウ横幅: 判定中...</div>
-        <div class="info" id="windowHeight">ウィンドウ縦幅: 判定中...</div>
+        <div class="info" id="windowWidth">ウィンドウ横幅（内側）: 判定中...</div>
+        <div class="info" id="windowHeight">ウィンドウ縦幅（内側）: 判定中...</div>
+        <div class="info" id="windowoutWidth">ウィンドウ横幅（外側）:判定中...</div>
+        <div class="info" id="windowoutHeight">ウィンドウ縦幅（外側）:判定中...</div>
         <div class="info" id="windowX">ウィンドウX座標: 判定中...</div>
         <div class="info" id="windowY">ウィンドウY座標: 判定中...</div>
         <div class="info" id="deviceMemory">メモリ: 判定中...</div>
@@ -78,10 +80,14 @@
         function updateWindowInfo() {
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
+            const windowoutWidth = window.outerWidth;
+            const windowoutHeight = window.outerHeight;
             const windowX = window.screenX;
             const windowY = window.screenY;
-            document.getElementById('windowWidth').innerText = `ウィンドウ横幅: ${windowWidth}px`;
-            document.getElementById('windowHeight').innerText = `ウィンドウ縦幅: ${windowHeight}px`;
+            document.getElementById('windowWidth').innerText = `ウィンドウ横幅（内側）: ${windowWidth}px`;
+            document.getElementById('windowHeight').innerText = `ウィンドウ縦幅（内側）: ${windowHeight}px`;
+            document.getElementById('windowoutWidth').innerText = `ウィンドウ横幅（外側）: ${windowoutWidth}px`;
+            document.getElementById('windowoutHeight').innerText = `ウィンドウ縦幅（外側）: ${windowoutHeight}px`;
             document.getElementById('windowX').innerText = `ウィンドウX座標: ${windowX}`;
             document.getElementById('windowY').innerText = `ウィンドウY座標: ${windowY}`;
         }
@@ -97,7 +103,7 @@
             document.getElementById('displaypixel').innerText = `ディスプレイ深度: ${displaypixel}bit`;
             document.getElementById('screenbit').innertext = `使用可能カラー数: ${screenbit}bit`
         }
-
+/*
         function updateKeyInfo() {
             if(window.event{
                 const iekeycode = window.event.keycode;
@@ -107,7 +113,7 @@
                 document.getElementById('firekeycode').innerText = `押されたキー: ${firekeycode}`
             }
         }
-        document.onkeydown = eve1;
+        document.onkeydown = eve1;*/
         
         function updateAll() {
             document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
@@ -117,7 +123,7 @@
             updateWindowInfo();
             updateMemory();
             updateScreenInfo();
-            updateKeyInfo();
+            //updateKeyInfo();
         }
 
         document.addEventListener('DOMContentLoaded', () => {
