@@ -36,7 +36,7 @@ h1 {
     color: #ffa500;
 }
 
-button {
+input {
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -46,6 +46,6 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+input:hover {
     background-color: #ff7f00;
 }
