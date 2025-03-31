@@ -16903,14 +16903,14 @@ const always = () => true
 Button.add(width / 2, height / 2 - 40, 400, 40, "シングルプレイ", "main menu", r => changeScene("loadsave menu"))
 Button.add(width / 2, height / 2 + 15, 400, 40, "マルチプレイ", "main menu", r => {
 changeScene("multiplayer menu")
-}, null, "マルチプレイヤーはしばらくお待ちください。")
+}, null, "マルチプレイヤーは実装されていません。")
 Button.add(width / 2, height / 2 + 70, 400, 40, "マーケットプレイス", "main menu", r => changeScene("marketplace"))
 Button.add(width / 2 - 105, height / 2 + 160, 190, 40, "設定", "main menu", r => changeScene("options"))
 Button.add(width / 2 + 105, height / 2 + 160, 190, 40, "終了", "main menu", r => {
 if(window.opener !== null || window.history.length === 1){
 close()
 }else{
-location.href = "https://www.nathaniel2006.repl.co"
+location.href = "https://sakuzyokun.github.io"
 }
 })
 Button.add(width / 2 - 235, height / 2 + 160, 40, 40, "?", "main menu", r => changeScene("help"))
