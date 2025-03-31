@@ -1425,7 +1425,7 @@ shadow: false,
 },
 {
 name: "grass",
-Name: "Grass Block",
+Name: "草ブロック",
 textures: [ "dirt", "grassTop", "grassSide" ],
 breakTime: 0.9,
 drop:"dirt",
@@ -6569,25 +6569,25 @@ world.setBlock(X + x, Y + y, Z + z, id)
 var cmds = [
 {
 name: "showAll",
-info: "Shows all messages.",
+info: "全てのメッセージを表示します。",
 func: () => Messages.showAll(),
 noCheats: true
 },
 {
 name: "clear",
-info: "Clears shown messages",
+info: "メッセージをクリアします。",
 func: () => Messages.clear(),
 noCheats: true
 },
 {
 name: "fromPlayer",
-info: "Sets position 1 to player",
+info: "ポジション1をプレーヤーに設定します。",
 func: () => fromPlayer()
 },
 {
 name: "fillToPlayer",
 args: ["block_name"],
-info: "Fills from position 1 to player position",
+info: "ポジション1からプレイヤーのポジションまでを埋めます。",
 func: split => {
 let id = blockIds[split[1]]
 if(!split[1]) id = 0
@@ -6596,12 +6596,12 @@ fillToPlayer(id)
 },
 {
 name: "copyToPlayer",
-info: "Copys blocks from position 1 to player position",
+info: "ブロックをポジション1からプレイヤーの位置にコピーします。",
 func: () => copyToPlayer()
 },
 {
 name: "pasteAtPlayer",
-info: "Pastes copied blocks at the player's position",
+info: "コピーしたブロックをプレイヤーの位置に貼り付けます。",
 func: () => pasteAtPlayer()
 },
 {
@@ -6630,7 +6630,7 @@ replaceBlocks(prevPos[0], prevPos[1]-1, prevPos[2], p2.x, p2.y-1, p2.z, replace,
 {
 name: "give",
 args: ["target", "block_name", "amount"],
-info: "Gives the target the the specified amount of specified blocks",
+info: "対象に指定されたブロックを指定された量与えます。",
 func: split => {
 let id = blockIds[split[2]]
 var amount = split[3] || 1
@@ -6660,11 +6660,11 @@ Messages.add("Can't select with selector "+split[1])
 {
 name: "kill",
 args: ["selector","message"],
-info: "Kills someone. Selectors: @s, your username, someone's uername, @a, @e",
+info: "セレクターで指定された人を殺します。セレクター: @s、あなたのユーザー名、誰かのユーザー名、@a、@e",
 func: split => {
 split[1] = split[1] || "@s"
 if(split[1] === "@s" || split[1] === username){
-dieMessage = split[2] || (username+" killed themself with the kill command. Why would you do that???")
+dieMessage = split[2] || (username+" は殺された")
 die()
 }else if(split[1] === "@a" || hasPlayer(split[1])){
 send({type:"kill", message:split[2] || "", data:split[1]})
@@ -6683,7 +6683,7 @@ Messages.add("Can't select with selector "+split[1])
 {
 name: "ban",
 args: ["username"],
-info: "Bans a player. They cannot rejoin the world. Only bans them until multiplayer turns off",
+info: "プレイヤーをBANします。プレイヤーは世界に再参加できません。マルチプレイヤーがオフになるまでBANされます。",
 func: split => {
 if(win.ban){
 ban(split[1])
@@ -6696,7 +6696,7 @@ noCheats:true
 {
 name: "unban",
 args: ["username"],
-info: "Unbans a player.",
+info: "プレイヤーのBANを解除します。",
 func: split => {
 if(win.unban){
 unban(split[1])
@@ -6709,7 +6709,7 @@ noCheats:true
 {
 name: "time",
 args: ["mode","n"],
-info: "mode can be: set, add, subtract. n is the time to set to. 1000 is a day. n an also be: day, night",
+info: "モードは: set, add, subtract です。nに設定する時間です。 1000 is a day. n an also be: day, night",
 func: split => {
 var time
 if(split[2] === "day") time = -20
@@ -6730,7 +6730,7 @@ Messages.add("No such mode: "+split[1])
 {
 name:"gamemode",
 args: ["mode"],
-info: "mode can be: creative, survival, spectator",
+info: "モードは: creative, survival, spectator です。",
 func: split => {
 let m = split[1]
 p.spectator = false
@@ -6743,7 +6743,7 @@ else Messages.add("Game mode doesn't exsist: "+m)
 {
 name:"tp",
 args: ["to_who"],
-info: "Teleport to someone. \"to_who\" should be a username.",
+info: "指定したユーザーにテレポートします。\"to_who\" はユーザー名にする必要があります。",
 func: split => {
 if(hasPlayer(split[1])){
 var player = getPlayerByUsername(split[1])
@@ -6759,7 +6759,7 @@ Messages.add("Player doesn't exsist: "+split[1])
 name:"online",
 args:[],
 noCheats: true,
-info: "Lists people that are playing on this world.",
+info: "このワールドでプレイしている人々をリスト化します。",
 func: split => {
 if(!multiplayer){
 return Messages.add("You are not in a multiplayer world.")
@@ -6770,7 +6770,7 @@ send({type:"fetchUsers"})
 {
 name:"playSound",
 args:["sound", "volume"],
-info:"Plays a sound. Sound can be any sound, for example: click, block.grass.dig1, entity.generic.explode1. Volume is a number from 0 to 1.",
+info:"サウンドを再生します。サウンドは、click、block.grass.dig1、entity.generic.explode1 など、任意のサウンドにすることができます。音量は 0 から 1 までの数値です。",
 func: split => {
 if(!split[1]) return
 if(playSound(split[1], 0, parseFloat(split[2]))){
@@ -6783,7 +6783,7 @@ Messages.add("That sound doesn't exsist.")
 {
 name:"sendEval",
 args:["selector","data"],
-info:"Send javascript to players. Only works if your'e the host. Selector can be: username, @p. If selector isn't specified, it sends it to all players except you.",
+info:"プレイヤーに JavaScript を送信します。ホストの場合にのみ機能します。セレクターは、ユーザー名、@p のいずれかです。セレクターが指定されていない場合は、自分以外のすべてのプレイヤーに送信されます。",
 func: split => {
 if(!multiplayer) return
 split.splice(0,1)
@@ -21340,7 +21340,7 @@ dirt()
 fill(255)
 textSize(25)
 ctx.textAlign = "center"
-text(`Loading... ${progress}% complete (${sub} / ${maxLoad})`, width / 2, height / 2)
+text(`読み込み中... ${progress}% 完了 (${sub} / ${maxLoad})`, width / 2, height / 2)
 }
 drawScreens.netherLoading = () => {
 world = dimensions.nether
@@ -21379,7 +21379,7 @@ nether()
 fill(255)
 textSize(25)
 ctx.textAlign = "center"
-text(`Loading... ${progress}% complete (${sub} / ${maxLoad})`, width / 2, height / 2)
+text(`読み込み中... ${progress}% 完了 (${sub} / ${maxLoad})`, width / 2, height / 2)
 }
 drawScreens.inventory = drawInv
 drawScreens.crafting = drawCrafting
@@ -21407,7 +21407,7 @@ dirt()
 ctx.textAlign = 'center'
 textSize(18)
 fill(255)
-text("Create New World", width / 2, 20)
+text("ワールド新規作成", width / 2, 20)
 }
 drawScreens["loadsave menu"] = () => {
 dirt()
