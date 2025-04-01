@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows風ホームページ</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0078D7;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .window {
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .window-header {
+            height: 30px;
+            background-color: #004d99;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+        .menu-bar {
+            height: 30px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            border-bottom: 1px solid #bbb;
+            position: relative;
+        }
+        .menu-item {
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #bbb;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+        }
+        .submenu div {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .menu-item:hover .submenu {
+            display: block;
+        }
+        .window-content {
+            padding: 10px;
+            flex-grow: 1;
+        }
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid #004d99;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            min-width: 200px;
+        }
+        .dialog button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+    </style>
+    <script>
+        function showDevelopmentDialog() {
+            document.getElementById('developmentDialog').style.display = 'block';
+        }
+        function closeDialog() {
+            document.getElementById('developmentDialog').style.display = 'none';
+        }
+    </script>
+</head>
+<body>
+    <div class="window">
+        <div class="window-header">ウィンドウ</div>
+        <div class="menu-bar">
+            <div class="menu-item">ファイル
+                <div class="submenu">
+                    <div>開く</div>
+                    <div>保存</div>
+                    <div>終了</div>
+                </div>
+            </div>
+            <div class="menu-item">編集
+                <div class="submenu">
+                    <div onclick="showDevelopmentDialog()">動画編集</div>
+                    <div onclick="location.href='image_edit.html'">画像編集</div>
+                    <div onclick="location.href='audio_edit.html'">音声編集</div>
+                </div>
+            </div>
+            <div class="menu-item">表示
+                <div class="submenu">
+                    <div>ツールバー</div>
+                    <div>ズーム</div>
+                </div>
+            </div>
+            <div class="menu-item">ヘルプ
+                <div class="submenu">
+                    <div>バージョン情報</div>
+                    <div>ヘルプを見る</div>
+                </div>
+            </div>
+        </div>
+        <div class="window-content">ここに内容を表示できます。</div>
+    </div>
+    <div id="developmentDialog" class="dialog">
+        <p>動画編集機能は現在開発中です。</p>
+        <button onclick="closeDialog()">OK</button>
+    </div>
+</body>
+</html>
