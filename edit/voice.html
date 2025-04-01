@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音声編集ツール</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 20px;
+            padding: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        label, button, input[type="number"], input[type="range"] {
+            display: block;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        input[type="range"], input[type="number"] {
+            width: 100%;
+        }
+        audio {
+            display: block;
+            margin: 20px auto;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>音声編集ツール</h1>
+
+        <input type="file" id="audioFile" accept="audio/*"><br>
+
+        <audio id="audioPlayer" controls></audio>
+
+        <button onclick="playAudio()">再生</button>
+        <button onclick="pauseAudio()">停止</button>
+        <button onclick="playReverseAudio()">逆再生</button>
+        <br>
+
+        <label>音量調整</label>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" onchange="changeVolume(this.value)">
+
+        <label>フェードイン (秒)</label>
+        <input type="number" id="fadeInDuration" min="0" step="0.1" value="1">
+
+        <label>フェードアウト (秒)</label>
+        <input type="number" id="fadeOutDuration" min="0" step="0.1" value="1">
+
+        <label>範囲再生 - 開始時間 (秒)</label>
+        <input type="number" id="startTime" min="0" step="1" value="0">
+
+        <label>範囲再生 - 終了時間 (秒)</label>
+        <input type="number" id="endTime" min="0" step="1" value="5">
+
+        <button onclick="playCutAudio()">範囲再生</button>
+
+        <label>再生速度</label>
+        <input type="number" id="playbackRate" min="0.1" max="16" step="0.1" value="1">
+        <button onclick="changePlaybackRate()">倍速再生</button>
+
+        <label>ノイズ追加 (強度)</label>
+        <input type="range" id="noiseLevel" min="0" max="1" step="0.1" value="0">
+        <button onclick="addNoise()">ノイズを追加</button>
+        <br>
+
+        <button onclick="downloadAudio()">編集後の音声をダウンロード</button>
+    </div>
+
+    <script>
+        const audioFileInput = document.getElementById('audioFile');
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        let audioContext;
+        let originalBuffer;
+
+        audioFileInput.addEventListener('change', async function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            originalBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            const objectURL = URL.createObjectURL(file);
+            audioPlayer.src = objectURL;
+        } catch (error) {
+            console.error("エラー: 音声データのデコードに失敗しました", error);
+            alert("アップロードされた音声ファイルがサポートされていない形式か、破損している可能性があります。別のファイルを試してください。");
+        }
+    }
+});
+
+
+        function playAudio() {
+            audioPlayer.play();
+        }
+
+        function pauseAudio() {
+            audioPlayer.pause();
+        }
+
+        function changeVolume(value) {
+            audioPlayer.volume = parseFloat(value);
+        }
+
+        function changePlaybackRate() {
+            const playbackRate = parseFloat(document.getElementById('playbackRate').value);
+            audioPlayer.playbackRate = playbackRate;
+        }
+
+        function playCutAudio() {
+            const startTime = parseFloat(document.getElementById('startTime').value);
+            const endTime = parseFloat(document.getElementById('endTime').value);
+
+            if (startTime >= 0 && endTime > startTime) {
+                audioPlayer.currentTime = startTime;
+                audioPlayer.play();
+                setTimeout(() => audioPlayer.pause(), (endTime - startTime) * 1000);
+            }
+        }
+
+        async function playReverseAudio() {
+            const reversedBuffer = audioContext.createBuffer(
+                originalBuffer.numberOfChannels,
+                originalBuffer.length,
+                originalBuffer.sampleRate
+            );
+
+            for (let i = 0; i < originalBuffer.numberOfChannels; i++) {
+                const channelData = originalBuffer.getChannelData(i).slice().reverse();
+                reversedBuffer.copyToChannel(channelData, i);
+            }
+
+            const source = audioContext.createBufferSource();
+            source.buffer = reversedBuffer;
+            source.connect(audioContext.destination);
+            source.start();
+        }
+
+        function addNoise() {
+            const noiseLevel = parseFloat(document.getElementById('noiseLevel').value);
+            if (!originalBuffer) return;
+
+            const noiseBuffer = audioContext.createBuffer(
+                originalBuffer.numberOfChannels,
+                originalBuffer.length,
+                originalBuffer.sampleRate
+            );
+
+            for (let i = 0; i < originalBuffer.numberOfChannels; i++) {
+                const channelData = noiseBuffer.getChannelData(i);
+                for (let j = 0; j < channelData.length; j++) {
+                    channelData[j] = (Math.random() * 2 - 1) * noiseLevel;
+                }
+            }
+
+            const source = audioContext.createBufferSource();
+            source.buffer = noiseBuffer;
+            source.connect(audioContext.destination);
+            source.start();
+        }
+
+        function downloadAudio() {
+            if (!originalBuffer) {
+                alert("音声ファイルをアップロードしてください！");
+                return;
+            }
+
+            // 一時的に逆再生を例に編集結果を保存
+            const reversedBuffer = audioContext.createBuffer(
+                originalBuffer.numberOfChannels,
+                originalBuffer.length,
+                originalBuffer.sampleRate
+            );
+
+            for (let i = 0; i < originalBuffer.numberOfChannels; i++) {
+                const channelData = originalBuffer.getChannelData(i).slice().reverse();
+                reversedBuffer.copyToChannel(channelData, i);
+            }
+
+            // バッファをオーディオファイルに変換
+            const offlineAudioContext = new OfflineAudioContext(
+                reversedBuffer.numberOfChannels,
+                reversedBuffer.length,
+                reversedBuffer.sampleRate
+            );
+            const bufferSource = offlineAudioContext.createBufferSource();
+            bufferSource.buffer = reversedBuffer;
+            bufferSource.connect(offlineAudioContext.destination);
+            bufferSource.start();
+
+            offlineAudioContext.startRendering().then(renderedBuffer => {
+                audioContext.decodeAudioData(renderedBuffer.getChannelData(0).buffer)
+                    .then(wavBuffer => {
+                        const wavBlob = bufferToWave(renderedBuffer);
+                        const url = URL.createObjectURL(wavBlob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = "edited-audio.wav";
+                        a.click();
+                    });
+            });
+        }
+
+        function bufferToWave(buffer) {
+            const length = buffer.length * buffer.numberOfChannels * 2 + 44;
+            const arrayBuffer = new ArrayBuffer(length);
+            const view = new DataView(arrayBuffer);
+
+            const writeString = (view, offset, string) => {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            };
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + buffer.length * buffer.numberOfChannels * 2, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, buffer.numberOfChannels, true);
+            view.setUint32(24, buffer.sampleRate, true);
+            view.setUint32(28, buffer.sampleRate * 4, true);
+            view.setUint16(32, buffer.numberOfChannels * 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, buffer.length * buffer.numberOfChannels * 2, true);
+
+            const offset = 44;
+            for (let i = 0; i < buffer.numberOfChannels; i++) {
+                const channelData = buffer.getChannelData(i);
+                for (let j = 0; j < channelData.length; j++) {
+                    const sample = Math.max(-1, Math.min(1, channelData[j]));
+                    view.setInt16(offset + (j * 2), sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                }
+            }
+
+            return new Blob([arrayBuffer], { type: 'audio/wav' });
+        }
+    </script>
+</body>
+</html>
+
