@@ -1,68 +1,128 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>画像編集ツール</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画像編集ツール</title>
+    <style>
+        canvas {
+            max-width: 100%;
+            border: 1px solid #ccc;
+        }
+    </style>
 </head>
 <body>
-  <h1>画像編集ツール</h1>
-  <input type="file" id="upload" accept="image/*">
-  <canvas id="canvas"></canvas>
-  <br>
-  <label for="resize">画像のサイズ:</label>
-  <input type="number" id="width" placeholder="幅">
-  <input type="number" id="height" placeholder="高さ">
-  <button id="resize">リサイズ</button>
-  <br><br>
-  <label for="save">保存形式:</label>
-  <select id="format">
-    <option value="image/jpeg">JPEG</option>
-    <option value="image/png">PNG</option>
-    <option value="image/gif">GIF</option>
-    <option value="original">元の形式</option>
-  </select>
-  <button id="save">保存</button>
-  <script>
-    const upload = document.getElementById('upload');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const widthInput = document.getElementById('width');
-    const heightInput = document.getElementById('height');
-    const resizeButton = document.getElementById('resize');
-    const formatSelect = document.getElementById('format');
-    const saveButton = document.getElementById('save');
-    let originalExtension = '';
+    <h2>画像編集ツール</h2>
+    <input type="file" id="upload" accept="image/*">
+    <br><br>
+    <canvas id="canvas"></canvas>
+    <br><br>
+    <label>明るさ: <input type="range" id="brightness" min="0" max="200" value="100"></label>
+    <label>コントラスト: <input type="range" id="contrast" min="0" max="200" value="100"></label>
+    <br><br>
+    <label>幅: <input type="number" id="width" min="10"></label>
+    <label>高さ: <input type="number" id="height" min="10"></label>
+    <button id="resize">サイズ変更</button>
+    <button id="crop">トリミング</button>
+    <button id="rotate">回転</button>
+    <button id="download">ダウンロード</button>
+    
+    <script>
+        const upload = document.getElementById('upload');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const brightness = document.getElementById('brightness');
+        const contrast = document.getElementById('contrast');
+        const rotateBtn = document.getElementById('rotate');
+        const downloadBtn = document.getElementById('download');
+        const widthInput = document.getElementById('width');
+        const heightInput = document.getElementById('height');
+        const resizeBtn = document.getElementById('resize');
+        const cropBtn = document.getElementById('crop');
+        let img = new Image();
+        let rotation = 0;
 
-    upload.addEventListener('change', (event) => {
-      const file = event.target.files[0];
-      originalExtension = file.type;
-      if (file) {
-        const img = new Image();
+        upload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    img.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0);
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            widthInput.value = img.width;
+            heightInput.value = img.height;
         };
-        img.src = URL.createObjectURL(file);
-      }
-    });
 
-    resizeButton.addEventListener('click', () => {
-      const width = parseInt(widthInput.value) || canvas.width;
-      const height = parseInt(heightInput.value) || canvas.height;
-      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      canvas.width = width;
-      canvas.height = height;
-      ctx.putImageData(imgData, 0, 0);
-    });
+        function applyFilters() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%)`;
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        }
 
-    saveButton.addEventListener('click', () => {
-      const format = formatSelect.value === 'original' ? originalExtension : formatSelect.value;
-      const link = document.createElement('a');
-      link.download = `edited-image.${format.split('/')[1]}`;
-      link.href = canvas.toDataURL(format);
-      link.click();
-    });
-  </script>
+        brightness.addEventListener('input', applyFilters);
+        contrast.addEventListener('input', applyFilters);
+
+        rotateBtn.addEventListener('click', () => {
+            rotation = (rotation + 90) % 360;
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            if (rotation % 180 === 0) {
+                tempCanvas.width = img.width;
+                tempCanvas.height = img.height;
+            } else {
+                tempCanvas.width = img.height;
+                tempCanvas.height = img.width;
+            }
+            
+            tempCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+            tempCtx.rotate(rotation * Math.PI / 180);
+            tempCtx.drawImage(img, -img.width / 2, -img.height / 2);
+            
+            canvas.width = tempCanvas.width;
+            canvas.height = tempCanvas.height;
+            ctx.drawImage(tempCanvas, 0, 0);
+        });
+
+        resizeBtn.addEventListener('click', () => {
+            const newWidth = parseInt(widthInput.value);
+            const newHeight = parseInt(heightInput.value);
+            if (newWidth > 0 && newHeight > 0) {
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+            }
+        });
+
+        cropBtn.addEventListener('click', () => {
+            const cropWidth = parseInt(widthInput.value);
+            const cropHeight = parseInt(heightInput.value);
+            if (cropWidth > 0 && cropHeight > 0) {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = cropWidth;
+                tempCanvas.height = cropHeight;
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCtx.drawImage(canvas, 0, 0, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+                canvas.width = cropWidth;
+                canvas.height = cropHeight;
+                ctx.drawImage(tempCanvas, 0, 0);
+            }
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'edited-image.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    </script>
 </body>
 </html>
