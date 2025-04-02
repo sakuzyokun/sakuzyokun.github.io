@@ -128,14 +128,10 @@
         function updateRefreshRate(timestamp) {
             frameCount++;
             const delta = timestamp - lastTimestamp;
-    
-            if (delta >= 1) { // 1ミリ秒ごとに計算
-                refreshRate = frameCount;
-                frameCount = 0;
-                lastTimestamp = timestamp;
-                document.getElementById('refreshRate').innerText = `リフレッシュレート: ${refreshRate}Hz`;
-            }
-            requestAnimationFrame(updateRefreshRate); // 次のフレームをリクエスト
+            refreshRate = frameCount;
+            frameCount = 0;
+            lastTimestamp = timestamp;
+            document.getElementById('refreshRate').innerText = `リフレッシュレート: ${refreshRate}Hz`;
         }
 
         function updateAll() {
@@ -147,6 +143,7 @@
             updateMemory();
             updateScreenInfo();
             updateFPS(); // FPSを更新
+            requestAnimationFrame(updateRefreshRate); // 次のフレームをリクエスト
         }
 
         document.addEventListener('DOMContentLoaded', () => {
