@@ -3,30 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>画像編集ツール</title>
+    <title>動匠Web</title>
     <style>
         canvas {
             max-width: 100%;
             border: 1px solid #ccc;
         }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0078D7;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .window {
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .window-header {
+            height: 30px;
+            background-color: #004d99;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+        .menu-bar {
+            height: 30px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            border-bottom: 1px solid #bbb;
+            position: relative;
+        }
+        .menu-item {
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #bbb;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+        }
+        .submenu div {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .menu-item:hover .submenu {
+            display: block;
+        }
+        .window-content {
+            padding: 10px;
+            flex-grow: 1;
+        }
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid #004d99;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            min-width: 200px;
+        }
+        .dialog button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
     </style>
 </head>
 <body>
-    <h2>画像編集ツール</h2>
-    <input type="file" id="upload" accept="image/*">
-    <br><br>
-    <canvas id="canvas"></canvas>
-    <br><br>
+    <div class="window">
+    <div class="window-header">画匠Web</div>
+            <div class="menu-bar">
+                <div class="menu-item">ファイル
+                    <div class="submenu">
+                        <div id="fileOpen">開く</div>
+                        <div id="download">保存</div>
+                        <div onclick="location.href='index.html'">終了</div>
+                    </div>
+                </div>
+                <div class="menu-item">ヘルプ
+                    <div class="submenu">
+                        <div onclick="showVersionDialog()">バージョン情報</div>
+                    </div>
+                </div>
+            </div>
+    <input type="file" id="upload" accept="image/*" style="display: none;">
     <label>明るさ: <input type="range" id="brightness" min="0" max="200" value="100"></label>
-    <label>コントラスト: <input type="range" id="contrast" min="0" max="200" value="100"></label>
+    <label>コントラスト: <input type="range" id="contrast" min="0" max="200" value="100"></label><br>
     <br><br>
     <label>幅: <input type="number" id="width" min="10"></label>
-    <label>高さ: <input type="number" id="height" min="10"></label>
+    <label>高さ: <input type="number" id="height" min="10"></label><br>
     <button id="resize">サイズ変更</button>
     <button id="crop">トリミング</button>
     <button id="rotate">回転</button>
     <button id="download">ダウンロード</button>
-    
+    <br><br>
+    <canvas id="canvas"></canvas>
+    <br><br>
+    </div>
+    <div id="VersionDialog" class="dialog">
+        <img src="image_edit_logo.png" alt="画匠Webのロゴ" width="75" height="75" oncontextmenu="return false;" onselectstart="return false;" onmousedown="return false;">
+        <p>画匠Web<br>Version 1.0.0</p>
+        <button onclick="closeDialog()">OK</button>
+    </div>
     <script>
         const upload = document.getElementById('upload');
         const canvas = document.getElementById('canvas');
@@ -123,6 +223,17 @@
             link.href = canvas.toDataURL();
             link.click();
         });
+
+        document.getElementById('fileOpen').addEventListener('click', function() {
+            document.getElementById('upload').click();
+        });
+        
+        function showVersionDialog() {
+            document.getElementById('VersionDialog').style.display = 'block';
+        }
+        function closeDialog() {
+            document.getElementById('VersionDialog').style.display = 'none';
+        }
     </script>
 </body>
 </html>
