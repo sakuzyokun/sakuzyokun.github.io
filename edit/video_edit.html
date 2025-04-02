@@ -14,9 +14,8 @@
   <p id="status"></p>
 
   <script>
-    // 新しいffmpeg.wasmを読み込み
-    const { createFFmpeg, fetchFile } = FFmpeg;
-    const ffmpeg = createFFmpeg({ log: true });
+    // FFmpegの設定を作成
+    const ffmpeg = FFmpeg.createFFmpeg({ log: true });
 
     document.getElementById("convertButton").addEventListener("click", async () => {
       const fileInput = document.getElementById("fileInput");
@@ -28,11 +27,11 @@
 
       document.getElementById("status").textContent = "変換中...";
 
-      // FFmpegを読み込む
+      // FFmpegをロード
       await ffmpeg.load();
       
       // MP4ファイルを仮想ファイルシステムに書き込む
-      ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(file));
+      ffmpeg.FS('writeFile', 'input.mp4', await ffmpeg.fetchFile(file));
 
       // 音声をMP3に変換
       await ffmpeg.run('-i', 'input.mp4', 'output.mp3');
