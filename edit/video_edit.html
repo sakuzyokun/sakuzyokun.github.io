@@ -14,6 +14,7 @@
   <p id="status"></p>
 
   <script>
+    // 新しいffmpeg.wasmを読み込み
     const { createFFmpeg, fetchFile } = FFmpeg;
     const ffmpeg = createFFmpeg({ log: true });
 
@@ -27,18 +28,19 @@
 
       document.getElementById("status").textContent = "変換中...";
 
+      // FFmpegを読み込む
       await ffmpeg.load();
       
-      // MP4ファイルを読み込み、変換する
+      // MP4ファイルを仮想ファイルシステムに書き込む
       ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(file));
 
-      // 音声を抽出してMP3に変換
+      // 音声をMP3に変換
       await ffmpeg.run('-i', 'input.mp4', 'output.mp3');
 
-      // 出力されたMP3を取得
+      // 変換後のMP3ファイルを取得
       const data = ffmpeg.FS('readFile', 'output.mp3');
 
-      // ダウンロードリンクを生成
+      // ダウンロード用のリンクを作成
       const audioBlob = new Blob([data.buffer], { type: 'audio/mp3' });
       const audioUrl = URL.createObjectURL(audioBlob);
       const a = document.createElement('a');
