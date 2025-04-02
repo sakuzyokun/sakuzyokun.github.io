@@ -6,56 +6,106 @@
     <title>音声編集ツール</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            background-color: #0078D7;
             font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 20px;
-            padding: 10px;
+            overflow: hidden;
         }
-        h1 {
-            text-align: center;
-            color: #444;
+        .window {
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
         }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        label, button, input[type="number"], input[type="range"] {
-            display: block;
-            margin: 10px 0;
-            font-size: 16px;
-        }
-        button {
-            background-color: #007BFF;
+        .window-header {
+            height: 30px;
+            background-color: #004d99;
             color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+        .menu-bar {
+            height: 30px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            border-bottom: 1px solid #bbb;
+            position: relative;
+        }
+        .menu-item {
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #bbb;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+        }
+        .submenu div {
+            padding: 5px 10px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #0056b3;
-        }
-        input[type="range"], input[type="number"] {
-            width: 100%;
-        }
-        audio {
+        .menu-item:hover .submenu {
             display: block;
-            margin: 20px auto;
-            width: 100%;
+        }
+        .window-content {
+            padding: 10px;
+            flex-grow: 1;
+        }
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid #004d99;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            min-width: 200px;
+        }
+        .dialog button {
+            margin-top: 10px;
+            padding: 5px 10px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>音声編集ツール</h1>
-
-        <input type="file" id="audioFile" accept="audio/*"><br>
+    <div class="window">
+        <div class="window-header">音匠Web</div>
+            <div class="menu-bar">
+                <div class="menu-item">ファイル
+                    <div class="submenu">
+                        <div id="fileOpen">開く</div>
+                        <div onclick="downloadAudio()">保存</div>
+                        <div onclick="location.href='index.html'">終了</div>
+                    </div>
+                </div>
+                <div class="menu-item">ヘルプ
+                    <div class="submenu">
+                        <div onclick="showVersionDialog()">バージョン情報</div>
+                    </div>
+                </div>
+            </div>
+         <div class="window-content">
+        <input type="file" id="audioFile" accept="audio/*" style="display: none;"><br>
 
         <audio id="audioPlayer" controls></audio>
 
@@ -91,6 +141,12 @@
         <br>
 
         <button onclick="downloadAudio()">編集後の音声をダウンロード</button>
+         </div>
+    </div>
+
+    <div id="VersionDialog" class="dialog">
+        <p>音匠Web<br>Version 1.2.5</p>
+        <button onclick="closeDialog()">OK</button>
     </div>
 
     <script>
@@ -116,7 +172,17 @@
     }
 });
 
-
+        document.getElementById('fileOpen').addEventListener('click', function() {
+            document.getElementById('audiofile').click();
+        });
+        //ここからダイアログ
+        function showVersionDialog() {
+            document.getElementById('VersionDialog').style.display = 'block';
+        }
+        function closeDialog() {
+            document.getElementById('VersionDialog').style.display = 'none';
+        }
+        //ここまで
         function playAudio() {
             audioPlayer.play();
         }
@@ -264,6 +330,7 @@
 
             return new Blob([arrayBuffer], { type: 'audio/wav' });
         }
+        
     </script>
 </body>
 </html>
