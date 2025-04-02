@@ -19,6 +19,17 @@
     <canvas id="canvas"></canvas>
     <label>開始時間: <input type="number" id="startTime" step="0.1"></label>
     <label>終了時間: <input type="number" id="endTime" step="0.1"></label>
+    <label>倍速: <input type="number" id="playbackRate" step="0.1" value="1"></label>
+    <label>フィルター:
+        <select id="filterSelect">
+            <option value="none">なし</option>
+            <option value="grayscale(100%)">グレースケール</option>
+            <option value="blur(5px)">ぼかし</option>
+            <option value="sepia(100%)">セピア</option>
+            <option value="brightness(150%)">明るさアップ</option>
+            <option value="contrast(200%)">コントラストアップ</option>
+        </select>
+    </label>
     <button id="applyFilter">フィルター適用</button>
     <button id="exportButton">出力</button>
     <div id="progressBarContainer">
@@ -36,6 +47,8 @@
         const videoInput = document.getElementById('videoInput');
         const applyFilterButton = document.getElementById('applyFilter');
         const exportButton = document.getElementById('exportButton');
+        const filterSelect = document.getElementById('filterSelect');
+        const playbackRateInput = document.getElementById('playbackRate');
         const downloadVideoLink = document.getElementById('downloadVideoLink');
         const downloadAudioLink = document.getElementById('downloadAudioLink');
         const progressBarContainer = document.getElementById('progressBarContainer');
@@ -56,6 +69,7 @@
             canvas.height = video.videoHeight;
             function step() {
                 if (!video.paused && !video.ended) {
+                    ctx.filter = filterSelect.value;
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                     requestAnimationFrame(step);
                 }
@@ -64,7 +78,11 @@
         });
 
         applyFilterButton.addEventListener('click', function () {
-            ctx.filter = 'grayscale(100%)'; // グレースケールのフィルターを適用
+            ctx.filter = filterSelect.value;
+        });
+
+        playbackRateInput.addEventListener('input', function () {
+            video.playbackRate = parseFloat(playbackRateInput.value);
         });
 
         exportButton.addEventListener('click', async () => {
