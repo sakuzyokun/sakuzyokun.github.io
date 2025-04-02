@@ -32,9 +32,13 @@
         <div class="info" id="deviceMemory">メモリ: 判定中...</div>
         <div class="info" id="displaypixel">ディスプレイ深度: 判定中...</div>
         <div class="info" id="screenbit">使用可能カラー数: 判定中...</div>
-        <!--<div class="info" id="keycode">押されたキー: 判定中...</div>-->
+        <div class="info" id="fps">FPS: 判定中...</div>
     </main>
     <script>
+        let lastFrameTime = performance.now();
+        let frameCount = 0;
+        let fps = 0;
+
         function getOS() {
             const userAgent = window.navigator.userAgent;
             if (userAgent.indexOf('Windows NT 10.0') !== -1) return 'Windows 10, Windows 11';
@@ -101,20 +105,21 @@
             const displaypixel = screen.pixelDepth;
             const screenbit = screen.colorDepth;
             document.getElementById('displaypixel').innerText = `ディスプレイ深度: ${displaypixel}bit`;
-            document.getElementById('screenbit').innertext = `使用可能カラー数: ${screenbit}bit`
+            document.getElementById('screenbit').innerText = `使用可能カラー数: ${screenbit}bit`;
         }
-/*
-        function updateKeyInfo() {
-            if(window.event{
-                const iekeycode = window.event.keycode;
-                document.getElementById('iekeycode').innerText = `押されたキー: ${iekeycode}`
-            } else{
-                const firekeycode = e.keycode;
-                document.getElementById('firekeycode').innerText = `押されたキー: ${firekeycode}`
+
+        function updateFPS() {
+            const now = performance.now();
+            const delta = now - lastFrameTime;
+            frameCount++;
+            if (delta > 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastFrameTime = now;
+                document.getElementById('fps').innerText = `FPS: ${fps}`;
             }
         }
-        document.onkeydown = eve1;*/
-        
+
         function updateAll() {
             document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
             document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
@@ -123,7 +128,7 @@
             updateWindowInfo();
             updateMemory();
             updateScreenInfo();
-            //updateKeyInfo();
+            updateFPS(); // FPSを更新
         }
 
         document.addEventListener('DOMContentLoaded', () => {
