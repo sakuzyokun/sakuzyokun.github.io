@@ -1,59 +1,98 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>簡単な動画編集</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡単な動画編集ツール</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mux.js/5.6.7/mux.min.js"></script>
+    <style>
+        canvas { display: block; margin-top: 10px; }
+    </style>
 </head>
 <body>
-  <h1>簡単な動画編集 (トリミング & 速度変更)</h1>
-  
-  <input type="file" id="videoInput" accept="video/mp4">
-  <video id="video" controls></video>
-  
-  <label>開始時間: <input type="number" id="startTime" step="0.1"></label>
-  <label>終了時間: <input type="number" id="endTime" step="0.1"></label>
-  <button id="trimButton">トリミング</button>
-  
-  <label>再生速度: 
-    <select id="speedSelect">
-      <option value="0.5">0.5x</option>
-      <option value="1" selected>1x</option>
-      <option value="1.5">1.5x</option>
-      <option value="2">2x</option>
-    </select>
-  </label>
+    <h2>動画編集ツール</h2>
+    <input type="file" id="videoInput" accept="video/mp4,video/webm">
+    <video id="video" controls></video>
+    <canvas id="canvas"></canvas>
+    <button id="applyFilter">フィルター適用</button>
+    <button id="startRecording">録画開始</button>
+    <button id="stopRecording" disabled>録画停止 & MP4変換</button>
+    <a id="downloadLink" style="display: none;">ダウンロード</a>
+    
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const videoInput = document.getElementById('videoInput');
+        const applyFilterButton = document.getElementById('applyFilter');
+        const startRecordingButton = document.getElementById('startRecording');
+        const stopRecordingButton = document.getElementById('stopRecording');
+        const downloadLink = document.getElementById('downloadLink');
 
-  <script>
-    const video = document.getElementById('video');
-    const videoInput = document.getElementById('videoInput');
-    const startTime = document.getElementById('startTime');
-    const endTime = document.getElementById('endTime');
-    const trimButton = document.getElementById('trimButton');
-    const speedSelect = document.getElementById('speedSelect');
+        let mediaRecorder;
+        let recordedChunks = [];
 
-    videoInput.addEventListener('change', function(event) {
-      const file = event.target.files[0];
-      if (file) {
-        video.src = URL.createObjectURL(file);
-      }
-    });
+        videoInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                video.src = URL.createObjectURL(file);
+            }
+        });
 
-    trimButton.addEventListener('click', function() {
-      const start = parseFloat(startTime.value) || 0;
-      const end = parseFloat(endTime.value) || video.duration;
-      video.currentTime = start;
+        video.addEventListener('play', function () {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            function step() {
+                if (!video.paused && !video.ended) {
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    requestAnimationFrame(step);
+                }
+            }
+            requestAnimationFrame(step);
+        });
 
-      video.ontimeupdate = function() {
-        if (video.currentTime >= end) {
-          video.pause();
+        applyFilterButton.addEventListener('click', function () {
+            ctx.filter = 'grayscale(100%)'; // グレースケールのフィルターを適用
+        });
+
+        startRecordingButton.addEventListener('click', () => {
+            recordedChunks = [];
+            const stream = canvas.captureStream();
+            mediaRecorder = new MediaRecorder(stream);
+            
+            mediaRecorder.ondataavailable = (event) => recordedChunks.push(event.data);
+            mediaRecorder.onstop = () => {
+                convertWebMtoMP4(new Blob(recordedChunks, { type: 'video/webm' }));
+            };
+
+            mediaRecorder.start();
+            startRecordingButton.disabled = true;
+            stopRecordingButton.disabled = false;
+        });
+
+        stopRecordingButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            startRecordingButton.disabled = false;
+            stopRecordingButton.disabled = true;
+        });
+
+        function convertWebMtoMP4(webmBlob) {
+            const reader = new FileReader();
+            reader.readAsArrayBuffer(webmBlob);
+            reader.onloadend = function () {
+                const data = new Uint8Array(reader.result);
+                const remuxer = new muxjs.mp4.Transmuxer();
+                remuxer.push({ data: data, byteLength: data.length });
+                remuxer.flush();
+                
+                const mp4Blob = new Blob([remuxer.getData()], { type: 'video/mp4' });
+                const url = URL.createObjectURL(mp4Blob);
+                downloadLink.href = url;
+                downloadLink.download = 'edited_video.mp4';
+                downloadLink.style.display = 'block';
+                downloadLink.innerText = 'MP4をダウンロード';
+            };
         }
-      };
-    });
-
-    speedSelect.addEventListener('change', function() {
-      video.playbackRate = parseFloat(speedSelect.value);
-    });
-  </script>
+    </script>
 </body>
 </html>
