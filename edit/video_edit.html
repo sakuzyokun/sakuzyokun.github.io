@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>メディアファイル変換</title>
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@latest"></script>
+</head>
+<body>
+  <h1>MP4から音声（MP3）や動画形式の変換</h1>
+  
+  <input type="file" id="fileInput" accept="video/mp4">
+  <button id="convertButton">変換する</button>
+  <p id="status"></p>
+
+  <script>
+    const { createFFmpeg, fetchFile } = FFmpeg;
+    const ffmpeg = createFFmpeg({ log: true });
+
+    document.getElementById("convertButton").addEventListener("click", async () => {
+      const fileInput = document.getElementById("fileInput");
+      const file = fileInput.files[0];
+      if (!file) {
+        alert("ファイルを選択してください。");
+        return;
+      }
+
+      document.getElementById("status").textContent = "変換中...";
+
+      await ffmpeg.load();
+      
+      // MP4ファイルを読み込み、変換する
+      ffmpeg.FS('writeFile', 'input.mp4', await fetchFile(file));
+
+      // 音声を抽出してMP3に変換
+      await ffmpeg.run('-i', 'input.mp4', 'output.mp3');
+
+      // 出力されたMP3を取得
+      const data = ffmpeg.FS('readFile', 'output.mp3');
+
+      // ダウンロードリンクを生成
+      const audioBlob = new Blob([data.buffer], { type: 'audio/mp3' });
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const a = document.createElement('a');
+      a.href = audioUrl;
+      a.download = 'output.mp3';
+      a.textContent = 'MP3をダウンロード';
+      document.body.appendChild(a);
+
+      document.getElementById("status").textContent = "変換完了！";
+    });
+  </script>
+</body>
+</html>
