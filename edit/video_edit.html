@@ -3,20 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡単な動画編集ツール</title>
+    <title>動匠Web</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mux.js/5.6.7/mux.min.js"></script>
     <style>
         canvas { display: block; margin-top: 10px; }
         #progressBarContainer { display: none; margin-top: 10px; }
         #progressBar { width: 100%; height: 10px; background: lightgray; }
         #progress { height: 100%; width: 0%; background: green; }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0078D7;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .window {
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .window-header {
+            height: 30px;
+            background-color: #004d99;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+        .menu-bar {
+            height: 30px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            border-bottom: 1px solid #bbb;
+            position: relative;
+        }
+        .menu-item {
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #bbb;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+        }
+        .submenu div {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .menu-item:hover .submenu {
+            display: block;
+        }
+        .window-content {
+            padding: 10px;
+            flex-grow: 1;
+        }
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid #004d99;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            min-width: 200px;
+        }
+        .dialog button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+        img{
+	        /* SPの長押し禁止 */
+	        -webkit-touch-callout:none;
+	        -webkit-user-select:none;
+	        -moz-touch-callout:none;
+	        -moz-user-select:none;
+	        user-select:none;
+	    }
     </style>
 </head>
 <body>
-    <h2>動画編集ツール</h2>
-    <input type="file" id="videoInput" accept="video/mp4,video/webm">
+    <div class="window">
+        <div class="window-header">動匠Web</div>
+            <div class="menu-bar">
+                <div class="menu-item">ファイル
+                    <div class="submenu">
+                        <div id="fileOpen">開く</div>
+                        <div onclick="showdlDialog()" id="exportButton">保存</div>
+                        <div onclick="location.href='index.html'">終了</div>
+                    </div>
+                </div>
+                <div class="menu-item">ヘルプ
+                    <div class="submenu">
+                        <div onclick="showVersionDialog()">バージョン情報</div>
+                    </div>
+                </div>
+            </div>
+         <div class="window-content">
+    <input type="file" id="videoInput" accept="video/mp4,video/webm" style="display: none;">
     <video id="video" controls></video>
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas"></canvas><br>
     <label>開始時間: <input type="number" id="startTime" step="0.1"></label>
     <label>終了時間: <input type="number" id="endTime" step="0.1"></label>
     <label>倍速: <input type="number" id="playbackRate" step="0.1" value="1"></label>
@@ -31,15 +135,24 @@
         </select>
     </label>
     <button id="applyFilter">フィルター適用</button>
-    <button id="exportButton">出力</button>
-    <div id="progressBarContainer">
-        <div id="progressBar">
-            <div id="progress"></div>
+    <!--<button id="exportButton">出力</button>-->
+         </div>
+    <div id="dlDialog" class="dialog">
+        <div id="progressBarContainer">
+            <div id="progressBar">
+                <div id="progress"></div>
+            </div>
         </div>
+        <a id="downloadVideoLink" style="display: none;">動画をダウンロード</a>
+        <a id="downloadAudioLink" style="display: none;">音声をダウンロード</a>
+        
     </div>
-    <a id="downloadVideoLink" style="display: none;">動画をダウンロード</a>
-    <a id="downloadAudioLink" style="display: none;">音声をダウンロード</a>
     
+    <div id="VersionDialog" class="dialog">
+        <img src="image_edit_logo.png" alt="画匠Webのロゴ" width="75" height="75" oncontextmenu="return false;" onselectstart="return false;" onmousedown="return false;">
+        <p>動匠Web<br>Version 1.2.0</p>
+        <button onclick="closeDialog()">OK</button>
+    </div>
     <script>
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
@@ -137,6 +250,21 @@
                 }
                 progress.style.width = ((video.currentTime - startTime) / (endTime - startTime)) * 100 + '%';
             };
+        });
+        function showVersionDialog() {
+            document.getElementById('VersionDialog').style.display = 'block';
+        }
+        function showdlDialog() {
+            document.getElementById('dlDialog').style.display = 'block';
+        }
+        function closeDialog() {
+            document.getElementById('VersionDialog').style.display = 'none';
+        }
+        function closeDialog2() {
+            document.getElementById('dlDialog').style.display = 'none';
+        }
+        document.getElementById('fileOpen').addEventListener('click', function() {
+            document.getElementById('videoInput').click();
         });
     </script>
 </body>
