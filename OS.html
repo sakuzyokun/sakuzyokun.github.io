@@ -124,7 +124,7 @@
                 document.getElementById('fps').innerText = `FPS: ${fps}`;
             }
         }
-
+/*
         function updateRefreshRate(timestamp) {
             frameCount++;
             const delta = timestamp - lastTimestamp;
@@ -133,7 +133,7 @@
             lastTimestamp = timestamp;
             document.getElementById('refreshRate').innerText = `リフレッシュレート: ${refreshRate}Hz`;
         }
-
+*/
         function updateAll() {
             document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
             document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
@@ -143,7 +143,7 @@
             updateMemory();
             updateScreenInfo();
             updateFPS(); // FPSを更新
-            requestAnimationFrame(updateRefreshRate); // 次のフレームをリクエスト
+            //requestAnimationFrame(updateRefreshRate); // 次のフレームをリクエスト
         }
 
         document.addEventListener('DOMContentLoaded', () => {
