@@ -14,9 +14,10 @@
     <input type="file" id="videoInput" accept="video/mp4,video/webm">
     <video id="video" controls></video>
     <canvas id="canvas"></canvas>
+    <label>開始時間: <input type="number" id="startTime" step="0.1"></label>
+    <label>終了時間: <input type="number" id="endTime" step="0.1"></label>
     <button id="applyFilter">フィルター適用</button>
-    <button id="startRecording">録画開始</button>
-    <button id="stopRecording" disabled>録画停止 & MP4変換</button>
+    <button id="exportButton">出力</button>
     <a id="downloadLink" style="display: none;">ダウンロード</a>
     
     <script>
@@ -25,8 +26,7 @@
         const ctx = canvas.getContext('2d');
         const videoInput = document.getElementById('videoInput');
         const applyFilterButton = document.getElementById('applyFilter');
-        const startRecordingButton = document.getElementById('startRecording');
-        const stopRecordingButton = document.getElementById('stopRecording');
+        const exportButton = document.getElementById('exportButton');
         const downloadLink = document.getElementById('downloadLink');
 
         let mediaRecorder;
@@ -55,7 +55,9 @@
             ctx.filter = 'grayscale(100%)'; // グレースケールのフィルターを適用
         });
 
-        startRecordingButton.addEventListener('click', () => {
+        exportButton.addEventListener('click', () => {
+            const startTime = parseFloat(document.getElementById('startTime').value) || 0;
+            const endTime = parseFloat(document.getElementById('endTime').value) || video.duration;
             recordedChunks = [];
             const stream = canvas.captureStream();
             mediaRecorder = new MediaRecorder(stream);
@@ -65,15 +67,16 @@
                 convertWebMtoMP4(new Blob(recordedChunks, { type: 'video/webm' }));
             };
 
+            video.currentTime = startTime;
+            video.play();
             mediaRecorder.start();
-            startRecordingButton.disabled = true;
-            stopRecordingButton.disabled = false;
-        });
-
-        stopRecordingButton.addEventListener('click', () => {
-            mediaRecorder.stop();
-            startRecordingButton.disabled = false;
-            stopRecordingButton.disabled = true;
+            
+            video.ontimeupdate = function() {
+                if (video.currentTime >= endTime) {
+                    video.pause();
+                    mediaRecorder.stop();
+                }
+            };
         });
 
         function convertWebMtoMP4(webmBlob) {
@@ -91,6 +94,7 @@
                 downloadLink.download = 'edited_video.mp4';
                 downloadLink.style.display = 'block';
                 downloadLink.innerText = 'MP4をダウンロード';
+                downloadLink.click();
             };
         }
     </script>
