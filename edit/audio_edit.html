@@ -3,96 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡単な動画編集ツール</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mux.js/5.6.7/mux.min.js"></script>
+    <title>音匠Web</title>
     <style>
-        canvas { display: block; margin-top: 10px; }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0078D7;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .window {
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .window-header {
+            height: 30px;
+            background-color: #004d99;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+        .menu-bar {
+            height: 30px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            border-bottom: 1px solid #bbb;
+            position: relative;
+        }
+        .menu-item {
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #bbb;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+        }
+        .submenu div {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .menu-item:hover .submenu {
+            display: block;
+        }
+        .window-content {
+            padding: 10px;
+            flex-grow: 1;
+        }
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border: 2px solid #004d99;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            min-width: 200px;
+        }
+        .dialog button {
+            margin-top: 10px;
+            padding: 5px 10px;
+        }
+        img{
+	        /* SPの長押し禁止 */
+	        -webkit-touch-callout:none;
+	        -webkit-user-select:none;
+	        -moz-touch-callout:none;
+	        -moz-user-select:none;
+	        user-select:none;
+	}
+	audio {
+    		position: relative;
+    		z-index: -1;
+	}
     </style>
 </head>
 <body>
-    <h2>動画編集ツール</h2>
-    <input type="file" id="videoInput" accept="video/mp4,video/webm">
-    <video id="video" controls></video>
-    <canvas id="canvas"></canvas>
-    <button id="applyFilter">フィルター適用</button>
-    <button id="startRecording">録画開始</button>
-    <button id="stopRecording" disabled>録画停止 & MP4変換</button>
-    <a id="downloadLink" style="display: none;">ダウンロード</a>
-    
+    <div class="window">
+        <div class="window-header">音匠Web</div>
+            <div class="menu-bar">
+                <div class="menu-item">ファイル
+                    <div class="submenu">
+                        <div id="fileOpen">開く</div>
+                        <div onclick="downloadAudio()">保存</div>
+                        <div onclick="location.href='index.html'">終了</div>
+                    </div>
+                </div>
+                <div class="menu-item">ヘルプ
+                    <div class="submenu">
+                        <div onclick="showVersionDialog()">バージョン情報</div>
+                    </div>
+                </div>
+            </div>
+         <div class="window-content">
+        <input type="file" id="audioFile" accept="audio/*" style="display: none;"><br>
+
+        <audio id="audioPlayer" controls></audio>
+
+        <button onclick="playAudio()">再生</button>
+        <button onclick="pauseAudio()">停止</button>
+        <button onclick="playReverseAudio()">逆再生</button>
+        <br>
+
+        <label>音量調整</label>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.5" onchange="changeVolume(this.value)">
+        <br>
+
+        <label>フェードイン (秒)</label>
+        <input type="number" id="fadeInDuration" min="0" step="0.1" value="1">
+        <br>
+
+        <label>フェードアウト (秒)</label>
+        <input type="number" id="fadeOutDuration" min="0" step="0.1" value="1">
+        <br>
+
+        <label>範囲再生 - 開始時間 (秒)</label>
+        <input type="number" id="startTime" min="0" step="1" value="0">
+        <br>
+
+        <label>範囲再生 - 終了時間 (秒)</label>
+        <input type="number" id="endTime" min="0" step="1" value="5">
+        <br>
+
+        <button onclick="playCutAudio()">範囲再生</button>
+        <br>
+
+        <label>再生速度</label>
+        <input type="number" id="playbackRate" min="0.1" max="16" step="0.1" value="1">
+        <button onclick="changePlaybackRate()">倍速再生</button>
+        <br>
+
+        <label>ノイズ追加 (強度)</label>
+        <input type="range" id="noiseLevel" min="0" max="1" step="0.1" value="0">
+        <button onclick="addNoise()">ノイズを追加</button>
+        <br>
+
+        <!--<button onclick="downloadAudio()">編集後の音声をダウンロード</button>-->
+         </div>
+    </div>
+
+    <div id="VersionDialog" class="dialog">
+        <img src="audio_edit_logo.png" alt="音匠Webのロゴ" width="75" height="75" oncontextmenu="return false;" onselectstart="return false;" onmousedown="return false;">
+        <p>音匠Web<br>Version 1.2.5</p>
+        <button onclick="closeDialog()">OK</button>
+    </div>
+
     <script>
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const videoInput = document.getElementById('videoInput');
-        const applyFilterButton = document.getElementById('applyFilter');
-        const startRecordingButton = document.getElementById('startRecording');
-        const stopRecordingButton = document.getElementById('stopRecording');
-        const downloadLink = document.getElementById('downloadLink');
+        const audioFileInput = document.getElementById('audioFile');
+        const audioPlayer = document.getElementById('audioPlayer');
 
-        let mediaRecorder;
-        let recordedChunks = [];
+        let audioContext;
+        let originalBuffer;
 
-        videoInput.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                video.src = URL.createObjectURL(file);
-            }
+        audioFileInput.addEventListener('change', async function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            originalBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            const objectURL = URL.createObjectURL(file);
+            audioPlayer.src = objectURL;
+        } catch (error) {
+            console.error("エラー: 音声データのデコードに失敗しました", error);
+            alert("アップロードされた音声ファイルがサポートされていない形式か、破損している可能性があります。別のファイルを試してください。");
+        }
+    }
+});
+
+        document.getElementById('fileOpen').addEventListener('click', function() {
+            document.getElementById('audioFile').click();
         });
+        //ここからダイアログ
+        function showVersionDialog() {
+            document.getElementById('VersionDialog').style.display = 'block';
+        }
+        function closeDialog() {
+            document.getElementById('VersionDialog').style.display = 'none';
+        }
+        //ここまで
+        function playAudio() {
+            audioPlayer.play();
+        }
 
-        video.addEventListener('play', function () {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            function step() {
-                if (!video.paused && !video.ended) {
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    requestAnimationFrame(step);
+        function pauseAudio() {
+            audioPlayer.pause();
+        }
+
+        function changeVolume(value) {
+            audioPlayer.volume = parseFloat(value);
+        }
+
+        function changePlaybackRate() {
+            const playbackRate = parseFloat(document.getElementById('playbackRate').value);
+            audioPlayer.playbackRate = playbackRate;
+        }
+
+        function playCutAudio() {
+            const startTime = parseFloat(document.getElementById('startTime').value);
+            const endTime = parseFloat(document.getElementById('endTime').value);
+
+            if (startTime >= 0 && endTime > startTime) {
+                audioPlayer.currentTime = startTime;
+                audioPlayer.play();
+                setTimeout(() => audioPlayer.pause(), (endTime - startTime) * 1000);
+            }
+        }
+
+        async function playReverseAudio() {
+            const reversedBuffer = audioContext.createBuffer(
+                originalBuffer.numberOfChannels,
+                originalBuffer.length,
+                originalBuffer.sampleRate
+            );
+
+            for (let i = 0; i < originalBuffer.numberOfChannels; i++) {
+                const channelData = originalBuffer.getChannelData(i).slice().reverse();
+                reversedBuffer.copyToChannel(channelData, i);
+            }
+
+            const source = audioContext.createBufferSource();
+            source.buffer = reversedBuffer;
+            source.connect(audioContext.destination);
+            source.start();
+        }
+
+        function addNoise() {
+            const noiseLevel = parseFloat(document.getElementById('noiseLevel').value);
+            if (!originalBuffer) return;
+
+            const noiseBuffer = audioContext.createBuffer(
+                originalBuffer.numberOfChannels,
+                originalBuffer.length,
+                originalBuffer.sampleRate
+            );
+
+            for (let i = 0; i < originalBuffer.numberOfChannels; i++) {
+                const channelData = noiseBuffer.getChannelData(i);
+                for (let j = 0; j < channelData.length; j++) {
+                    channelData[j] = (Math.random() * 2 - 1) * noiseLevel;
                 }
             }
-            requestAnimationFrame(step);
-        });
 
-        applyFilterButton.addEventListener('click', function () {
-            ctx.filter = 'grayscale(100%)'; // グレースケールのフィルターを適用
-        });
-
-        startRecordingButton.addEventListener('click', () => {
-            recordedChunks = [];
-            const stream = canvas.captureStream();
-            mediaRecorder = new MediaRecorder(stream);
-            
-            mediaRecorder.ondataavailable = (event) => recordedChunks.push(event.data);
-            mediaRecorder.onstop = () => {
-                convertWebMtoMP4(new Blob(recordedChunks, { type: 'video/webm' }));
-            };
-
-            mediaRecorder.start();
-            startRecordingButton.disabled = true;
-            stopRecordingButton.disabled = false;
-        });
-
-        stopRecordingButton.addEventListener('click', () => {
-            mediaRecorder.stop();
-            startRecordingButton.disabled = false;
-            stopRecordingButton.disabled = true;
-        });
-
-        function convertWebMtoMP4(webmBlob) {
-            const reader = new FileReader();
-            reader.readAsArrayBuffer(webmBlob);
-            reader.onloadend = function () {
-                const data = new Uint8Array(reader.result);
-                const remuxer = new muxjs.mp4.Transmuxer();
-                remuxer.push({ data: data, byteLength: data.length });
-                remuxer.flush();
-                
-                const mp4Blob = new Blob([remuxer.getData()], { type: 'video/mp4' });
-                const url = URL.createObjectURL(mp4Blob);
-                downloadLink.href = url;
-                downloadLink.download = 'edited_video.mp4';
-                downloadLink.style.display = 'block';
-                downloadLink.innerText = 'MP4をダウンロード';
-            };
+            const source = audioContext.createBufferSource();
+            source.buffer = noiseBuffer;
+            source.connect(audioContext.destination);
+            source.start();
         }
+
+        function downloadAudio() {
+            if (!originalBuffer) {
+                alert("音声ファイルをアップロードしてください！");
+                return;
+            }
+
+            // 一時的に逆再生を例に編集結果を保存
+            const reversedBuffer = audioContext.createBuffer(
+                originalBuffer.numberOfChannels,
+                originalBuffer.length,
+                originalBuffer.sampleRate
+            );
+
+            for (let i = 0; i < originalBuffer.numberOfChannels; i++) {
+                const channelData = originalBuffer.getChannelData(i).slice().reverse();
+                reversedBuffer.copyToChannel(channelData, i);
+            }
+
+            // バッファをオーディオファイルに変換
+            const offlineAudioContext = new OfflineAudioContext(
+                reversedBuffer.numberOfChannels,
+                reversedBuffer.length,
+                reversedBuffer.sampleRate
+            );
+            const bufferSource = offlineAudioContext.createBufferSource();
+            bufferSource.buffer = reversedBuffer;
+            bufferSource.connect(offlineAudioContext.destination);
+            bufferSource.start();
+
+            offlineAudioContext.startRendering().then(renderedBuffer => {
+                audioContext.decodeAudioData(renderedBuffer.getChannelData(0).buffer)
+                    .then(wavBuffer => {
+                        const wavBlob = bufferToWave(renderedBuffer);
+                        const url = URL.createObjectURL(wavBlob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = "edited-audio.wav";
+                        a.click();
+                    });
+            });
+        }
+
+        function bufferToWave(buffer) {
+            const length = buffer.length * buffer.numberOfChannels * 2 + 44;
+            const arrayBuffer = new ArrayBuffer(length);
+            const view = new DataView(arrayBuffer);
+
+            const writeString = (view, offset, string) => {
+                for (let i = 0; i < string.length; i++) {
+                    view.setUint8(offset + i, string.charCodeAt(i));
+                }
+            };
+
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + buffer.length * buffer.numberOfChannels * 2, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, buffer.numberOfChannels, true);
+            view.setUint32(24, buffer.sampleRate, true);
+            view.setUint32(28, buffer.sampleRate * 4, true);
+            view.setUint16(32, buffer.numberOfChannels * 2, true);
+            view.setUint16(34, 16, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, buffer.length * buffer.numberOfChannels * 2, true);
+
+            const offset = 44;
+            for (let i = 0; i < buffer.numberOfChannels; i++) {
+                const channelData = buffer.getChannelData(i);
+                for (let j = 0; j < channelData.length; j++) {
+                    const sample = Math.max(-1, Math.min(1, channelData[j]));
+                    view.setInt16(offset + (j * 2), sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                }
+            }
+
+            return new Blob([arrayBuffer], { type: 'audio/wav' });
+        }
+        
     </script>
 </body>
 </html>
