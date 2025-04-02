@@ -41,6 +41,7 @@
 
         let mediaRecorder;
         let recordedChunks = [];
+        let audioStream;
 
         videoInput.addEventListener('change', function(event) {
             const file = event.target.files[0];
@@ -65,21 +66,25 @@
             ctx.filter = 'grayscale(100%)'; // グレースケールのフィルターを適用
         });
 
-        exportButton.addEventListener('click', () => {
+        exportButton.addEventListener('click', async () => {
             const startTime = parseFloat(document.getElementById('startTime').value) || 0;
             const endTime = parseFloat(document.getElementById('endTime').value) || video.duration;
             recordedChunks = [];
-            const stream = canvas.captureStream();
-            mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+            const videoStream = canvas.captureStream();
+            audioStream = video.captureStream().getAudioTracks();
+            const combinedStream = new MediaStream([...videoStream.getVideoTracks(), ...audioStream]);
+
+            mediaRecorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' });
             
             mediaRecorder.ondataavailable = (event) => recordedChunks.push(event.data);
-            mediaRecorder.onstop = () => {
+            mediaRecorder.onstop = async () => {
                 const webmBlob = new Blob(recordedChunks, { type: 'video/webm' });
-                const url = URL.createObjectURL(webmBlob);
+                const mp4Blob = await convertWebMtoMP4(webmBlob);
+                const url = URL.createObjectURL(mp4Blob);
                 downloadLink.href = url;
-                downloadLink.download = 'edited_video.webm';
+                downloadLink.download = 'edited_video.mp4';
                 downloadLink.style.display = 'block';
-                downloadLink.innerText = 'WebMをダウンロード';
+                downloadLink.innerText = 'MP4をダウンロード';
                 downloadLink.click();
                 progressBarContainer.style.display = 'none';
             };
@@ -99,6 +104,22 @@
                 progress.style.width = ((video.currentTime - startTime) / (endTime - startTime)) * 100 + '%';
             };
         });
+
+        async function convertWebMtoMP4(webmBlob) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsArrayBuffer(webmBlob);
+                reader.onloadend = function () {
+                    const data = new Uint8Array(reader.result);
+                    const remuxer = new muxjs.mp4.Transmuxer();
+                    remuxer.on('data', (segment) => {
+                        resolve(new Blob([segment.initSegment, segment.data], { type: 'video/mp4' }));
+                    });
+                    remuxer.push({ data: data, byteLength: data.length });
+                    remuxer.flush();
+                };
+            });
+        }
     </script>
 </body>
 </html>
