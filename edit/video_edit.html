@@ -120,9 +120,9 @@
                     </div>
                 </div>
             </div>
-         <div class="window-content">
+         <!--<div class="window-content">-->
     <input type="file" id="videoInput" accept="video/mp4,video/webm" style="display: none;">
-    <video id="video" controls></video>
+   <!-- <video id="video" controls></video>
     <canvas id="canvas"></canvas><br>
     <label>開始時間: <input type="number" id="startTime" step="0.1"></label>
     <label>終了時間: <input type="number" id="endTime" step="0.1"></label>
@@ -138,8 +138,29 @@
         </select>
     </label>
     <button id="applyFilter">フィルター適用</button>
-    <!--<button id="exportButton">出力</button>-->
-         </div>
+    <!--<button id="exportButton">出力</button>
+         </div>-->
+	    <div class="window-content">
+    <!--<input type="file" id="videoInput" accept="video/mp4,video/webm" style="display: none;">
+    <button id="addVideo">動画を追加</button>-->
+    <table border="1" id="videoTable">
+        <thead>
+            <tr>
+                <th>名前</th>
+                <th>X座標</th>
+                <th>Y座標</th>
+                <th>大きさ</th>
+                <th>開始時間</th>
+                <th>終了時間</th>
+                <th>倍速</th>
+                <th>フィルター</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+	    <!--ダイアログ-->
     <div id="dlDialog" class="dialog">
         <div id="progressBarContainer">
             <div id="progressBar">
@@ -269,6 +290,33 @@
         document.getElementById('fileOpen').addEventListener('click', function() {
             document.getElementById('videoInput').click();
         });
+	//テーブル
+    document.getElementById('videoInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const table = document.getElementById('videoTable').getElementsByTagName('tbody')[0];
+            const row = table.insertRow();
+            
+            row.insertCell(0).textContent = file.name;
+            row.insertCell(1).innerHTML = '<input type="number" value="0">'; // X座標
+            row.insertCell(2).innerHTML = '<input type="number" value="0">'; // Y座標
+            row.insertCell(3).innerHTML = '<input type="number" value="100">'; // 大きさ
+            row.insertCell(4).innerHTML = '<input type="number" step="0.1" value="0">'; // 開始時間
+            row.insertCell(5).innerHTML = '<input type="number" step="0.1" value="10">'; // 終了時間
+            row.insertCell(6).innerHTML = '<input type="number" step="0.1" value="1">'; // 倍速
+            
+            const filterSelect = document.createElement('select');
+            filterSelect.innerHTML = `
+                <option value="none">なし</option>
+                <option value="grayscale(100%)">グレースケール</option>
+                <option value="blur(5px)">ぼかし</option>
+                <option value="sepia(100%)">セピア</option>
+                <option value="brightness(150%)">明るさアップ</option>
+                <option value="contrast(200%)">コントラストアップ</option>
+            `;
+            row.insertCell(7).appendChild(filterSelect);
+        }
+    });
     </script>
 </body>
 </html>
