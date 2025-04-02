@@ -108,7 +108,7 @@
             </div>
             <div class="menu-item">編集
                 <div class="submenu">
-                    <div onclick="showDevelopmentDialog()">ムービークラフト</div>
+                    <div onclick="location.href='video_edit.html'">ムービークラフト</div>
                     <div onclick="location.href='image_edit.html'">画像工房</div>
                     <div onclick="location.href='audio_edit.html'">音匠Web</div>
                 </div>
@@ -121,7 +121,7 @@
             </div>
             <div class="menu-item">ヘルプ
                 <div class="submenu">
-                    <div>バージョン情報</div>
+                    <div onclick="showDevelopmentDialog()">バージョン情報</div>
                     <div>ヘルプを見る</div>
                 </div>
             </div>
@@ -129,7 +129,7 @@
         <div class="window-content">これはランチャーです。<br>ここで編集はできません。<br>開くには 編集 メニューから選んでください。</div>
     </div>
     <div id="developmentDialog" class="dialog">
-        <p>動画編集機能は現在開発中です。</p>
+        <p>編集ソフトランチャー<br>Version 1.1.0</p>
         <button onclick="closeDialog()">OK</button>
     </div>
 </body>
