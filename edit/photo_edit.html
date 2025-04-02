@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>画像編集ツール</title>
+</head>
+<body>
+  <h1>画像編集ツール</h1>
+  <input type="file" id="upload" accept="image/*">
+  <canvas id="canvas"></canvas>
+  <br>
+  <label for="resize">画像のサイズ:</label>
+  <input type="number" id="width" placeholder="幅">
+  <input type="number" id="height" placeholder="高さ">
+  <button id="resize">リサイズ</button>
+  <br><br>
+  <label for="save">保存形式:</label>
+  <select id="format">
+    <option value="image/jpeg">JPEG</option>
+    <option value="image/png">PNG</option>
+    <option value="image/gif">GIF</option>
+    <option value="original">元の形式</option>
+  </select>
+  <button id="save">保存</button>
+  <script>
+    const upload = document.getElementById('upload');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const widthInput = document.getElementById('width');
+    const heightInput = document.getElementById('height');
+    const resizeButton = document.getElementById('resize');
+    const formatSelect = document.getElementById('format');
+    const saveButton = document.getElementById('save');
+    let originalExtension = '';
+
+    upload.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      originalExtension = file.type;
+      if (file) {
+        const img = new Image();
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+        };
+        img.src = URL.createObjectURL(file);
+      }
+    });
+
+    resizeButton.addEventListener('click', () => {
+      const width = parseInt(widthInput.value) || canvas.width;
+      const height = parseInt(heightInput.value) || canvas.height;
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      canvas.width = width;
+      canvas.height = height;
+      ctx.putImageData(imgData, 0, 0);
+    });
+
+    saveButton.addEventListener('click', () => {
+      const format = formatSelect.value === 'original' ? originalExtension : formatSelect.value;
+      const link = document.createElement('a');
+      link.download = `edited-image.${format.split('/')[1]}`;
+      link.href = canvas.toDataURL(format);
+      link.click();
+    });
+  </script>
+</body>
+</html>
