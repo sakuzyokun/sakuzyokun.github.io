@@ -121,7 +121,7 @@
                 </div>
             </div>
          <!--<div class="window-content">-->
-    <input type="file" id="videoInput" accept="video/mp4,video/webm" style="display: none;">
+    
    <!--
     <label>開始時間: <input type="number" id="startTime" step="0.1"></label>
     <label>終了時間: <input type="number" id="endTime" step="0.1"></label>
@@ -138,10 +138,10 @@
     </label>
     <button id="applyFilter">フィルター適用</button>-->
     <button id="exportButton" style="display: none;">出力</button>
-         </div>
+         <!--</div>-->
 	    <div class="window-content">
-    <!--<input type="file" id="videoInput" accept="video/mp4,video/webm" style="display: none;">
-    <button id="addVideo">動画を追加</button>-->
+	<input type="file" id="videoInput" accept="video/mp4,video/webm" style="display: none;">
+    <!--<button id="addVideo">動画を追加</button>-->
 	<video id="video" controls></video>
 	<canvas id="canvas"></canvas><br>
     <table border="1" id="videoTable">
@@ -161,6 +161,7 @@
         </tbody>
     </table>
 </div>
+    </div>
 	    <!--ダイアログ-->
     <div id="dlDialog" class="dialog">
         <div id="progressBarContainer">
@@ -170,7 +171,6 @@
         </div>
         <a id="downloadVideoLink" style="display: none;">動画をダウンロード</a>
         <a id="downloadAudioLink" style="display: none;">音声をダウンロード</a>
-        
     </div>
     
     <div id="VersionDialog" class="dialog">
