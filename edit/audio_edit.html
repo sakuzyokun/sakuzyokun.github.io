@@ -85,6 +85,14 @@
             margin-top: 10px;
             padding: 5px 10px;
         }
+        img{
+	        /* SPの長押し禁止 */
+	        -webkit-touch-callout:none;
+	        -webkit-user-select:none;
+	        -moz-touch-callout:none;
+	        -moz-user-select:none;
+	        user-select:none;
+	    }
     </style>
 </head>
 <body>
@@ -152,6 +160,7 @@
     </div>
 
     <div id="VersionDialog" class="dialog">
+        <img src="audio_edit_logo.png" alt="音匠Webのロゴ" width="75" height="75" oncontextmenu="return false;" onselectstart="return false;" onmousedown="return false;">
         <p>音匠Web<br>Version 1.2.5</p>
         <button onclick="closeDialog()">OK</button>
     </div>
