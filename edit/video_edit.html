@@ -3,53 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>メディアファイル変換</title>
-  <!-- ffmpeg.wasm の CDNをインポート -->
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@latest/dist/ffmpeg.min.js"></script>
+  <title>簡単な動画編集</title>
 </head>
 <body>
-  <h1>MP4から音声（MP3）や動画形式の変換</h1>
+  <h1>簡単な動画編集 (トリミング & 速度変更)</h1>
   
-  <input type="file" id="fileInput" accept="video/mp4">
-  <button id="convertButton">変換する</button>
-  <p id="status"></p>
+  <input type="file" id="videoInput" accept="video/mp4">
+  <video id="video" controls></video>
+  
+  <label>開始時間: <input type="number" id="startTime" step="0.1"></label>
+  <label>終了時間: <input type="number" id="endTime" step="0.1"></label>
+  <button id="trimButton">トリミング</button>
+  
+  <label>再生速度: 
+    <select id="speedSelect">
+      <option value="0.5">0.5x</option>
+      <option value="1" selected>1x</option>
+      <option value="1.5">1.5x</option>
+      <option value="2">2x</option>
+    </select>
+  </label>
 
   <script>
-    // FFmpegをインスタンス化
-    const ffmpeg = FFmpeg.createFFmpeg({ log: true });
+    const video = document.getElementById('video');
+    const videoInput = document.getElementById('videoInput');
+    const startTime = document.getElementById('startTime');
+    const endTime = document.getElementById('endTime');
+    const trimButton = document.getElementById('trimButton');
+    const speedSelect = document.getElementById('speedSelect');
 
-    document.getElementById("convertButton").addEventListener("click", async () => {
-      const fileInput = document.getElementById("fileInput");
-      const file = fileInput.files[0];
-      if (!file) {
-        alert("ファイルを選択してください。");
-        return;
+    videoInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        video.src = URL.createObjectURL(file);
       }
+    });
 
-      document.getElementById("status").textContent = "変換中...";
+    trimButton.addEventListener('click', function() {
+      const start = parseFloat(startTime.value) || 0;
+      const end = parseFloat(endTime.value) || video.duration;
+      video.currentTime = start;
 
-      // FFmpegをロード
-      await ffmpeg.load();
-      
-      // MP4ファイルを仮想ファイルシステムに書き込む
-      ffmpeg.FS('writeFile', 'input.mp4', await ffmpeg.fetchFile(file));
+      video.ontimeupdate = function() {
+        if (video.currentTime >= end) {
+          video.pause();
+        }
+      };
+    });
 
-      // 音声をMP3に変換
-      await ffmpeg.run('-i', 'input.mp4', 'output.mp3');
-
-      // 変換後のMP3ファイルを取得
-      const data = ffmpeg.FS('readFile', 'output.mp3');
-
-      // ダウンロード用のリンクを作成
-      const audioBlob = new Blob([data.buffer], { type: 'audio/mp3' });
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const a = document.createElement('a');
-      a.href = audioUrl;
-      a.download = 'output.mp3';
-      a.textContent = 'MP3をダウンロード';
-      document.body.appendChild(a);
-
-      document.getElementById("status").textContent = "変換完了！";
+    speedSelect.addEventListener('change', function() {
+      video.playbackRate = parseFloat(speedSelect.value);
     });
   </script>
 </body>
