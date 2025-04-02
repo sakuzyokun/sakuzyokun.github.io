@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>メディアファイル変換</title>
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@latest"></script>
+  <!-- ffmpeg.wasm の CDNをインポート -->
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@latest/dist/ffmpeg.min.js"></script>
 </head>
 <body>
   <h1>MP4から音声（MP3）や動画形式の変換</h1>
@@ -14,7 +15,7 @@
   <p id="status"></p>
 
   <script>
-    // FFmpegの設定を作成
+    // FFmpegをインスタンス化
     const ffmpeg = FFmpeg.createFFmpeg({ log: true });
 
     document.getElementById("convertButton").addEventListener("click", async () => {
