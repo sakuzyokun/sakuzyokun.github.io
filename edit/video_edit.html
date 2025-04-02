@@ -94,7 +94,7 @@
             padding: 5px 10px;
         }
         img{
-	        /* SPの長押し禁止 */
+		/* SPの長押し禁止 */
 	        -webkit-touch-callout:none;
 	        -webkit-user-select:none;
 	        -moz-touch-callout:none;
@@ -195,6 +195,10 @@
         let videoRecorder, audioRecorder;
         let videoChunks = [], audioChunks = [];
 
+	document.getElementById('fileOpen').addEventListener('click', function() {
+            document.getElementById('videoInput').click();
+        });
+
         videoInput.addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -288,9 +292,6 @@
         function closeDialog2() {
             document.getElementById('dlDialog').style.display = 'none';
         }
-        document.getElementById('fileOpen').addEventListener('click', function() {
-            document.getElementById('videoInput').click();
-        });
 	//テーブル
     document.getElementById('videoInput').addEventListener('change', function(event) {
         const file = event.target.files[0];
@@ -302,9 +303,9 @@
             row.insertCell(1).innerHTML = '<input type="number" value="0">'; // X座標
             row.insertCell(2).innerHTML = '<input type="number" value="0">'; // Y座標
             row.insertCell(3).innerHTML = '<input type="number" value="100">'; // 大きさ
-            row.insertCell(4).innerHTML = '<input type="number" step="0.1" value="0">'; // 開始時間
-            row.insertCell(5).innerHTML = '<input type="number" step="0.1" value="10">'; // 終了時間
-            row.insertCell(6).innerHTML = '<input type="number" step="0.1" value="1">'; // 倍速
+            row.insertCell(4).innerHTML = '<input type="number" id="startTime" step="0.1">'; // 開始時間
+            row.insertCell(5).innerHTML = '<input type="number" id="endTime" step="0.1">'; // 終了時間
+            row.insertCell(6).innerHTML = '<input type="number" id="playbackRate" step="0.1" value="1">'; // 倍速
             
             const filterSelect = document.createElement('select');
             filterSelect.innerHTML = `
