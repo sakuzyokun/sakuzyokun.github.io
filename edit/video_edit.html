@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>動匠Web</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mux.js/5.6.7/mux.min.js"></script>
     <style>
         canvas { display: block; margin-top: 10px; }
         #progressBarContainer { display: none; margin-top: 10px; }
@@ -206,19 +205,6 @@
             }
         });
 
-        video.addEventListener('play', function () {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            function step() {
-                if (!video.paused && !video.ended) {
-                    ctx.filter = filterSelect.value;
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    requestAnimationFrame(step);
-                }
-            }
-            requestAnimationFrame(step);
-        });
-
         applyFilterButton.addEventListener('click', function () {
             ctx.filter = filterSelect.value;
         });
@@ -226,10 +212,61 @@
         playbackRateInput.addEventListener('input', function () {
             video.playbackRate = parseFloat(playbackRateInput.value);
         });
+        function showVersionDialog() {
+            document.getElementById('VersionDialog').style.display = 'block';
+        }
+        function showdlDialog() {
+            document.getElementById('dlDialog').style.display = 'block';
+        }
+        function closeDialog() {
+            document.getElementById('VersionDialog').style.display = 'none';
+        }
+        function closeDialog2() {
+            document.getElementById('dlDialog').style.display = 'none';
+        }
+
+        video.addEventListener('play', function () {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            function drawFrame() {
+                if (!video.paused && !video.ended) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    requestAnimationFrame(drawFrame);
+                }
+            }
+            drawFrame();
+        });
+
+        document.getElementById('videoInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                video.src = URL.createObjectURL(file);
+                const table = document.getElementById('videoTable').getElementsByTagName('tbody')[0];
+                const row = table.insertRow();
+                row.insertCell(0).textContent = file.name;
+                row.insertCell(1).innerHTML = '<input type="number" class="xCoord" value="0">';
+                row.insertCell(2).innerHTML = '<input type="number" class="yCoord" value="0">';
+                row.insertCell(3).innerHTML = '<input type="number" class="size" value="100">';
+                row.insertCell(4).innerHTML = '<input type="number" class="startTime" step="0.1">';
+                row.insertCell(5).innerHTML = '<input type="number" class="endTime" step="0.1">';
+                row.insertCell(6).innerHTML = '<input type="number" class="playbackRate" step="0.1" value="1">';
+                const filterSelect = document.createElement('select');
+                filterSelect.innerHTML = `
+                    <option value="none">なし</option>
+                    <option value="grayscale(100%)">グレースケール</option>
+                    <option value="blur(5px)">ぼかし</option>
+                    <option value="sepia(100%)">セピア</option>
+                    <option value="brightness(150%)">明るさアップ</option>
+                    <option value="contrast(200%)">コントラストアップ</option>
+                `;
+                row.insertCell(7).appendChild(filterSelect);
+            }
+        });
 
         exportButton.addEventListener('click', async () => {
-            const startTime = parseFloat(document.getElementById('startTime').value) || 0;
-            const endTime = parseFloat(document.getElementById('endTime').value) || video.duration;
+            const startTime = parseFloat(document.querySelector('.startTime').value) || 0;
+            const endTime = parseFloat(document.querySelector('.endTime').value) || video.duration;
             videoChunks = [];
             audioChunks = [];
             
@@ -280,45 +317,6 @@
                 progress.style.width = ((video.currentTime - startTime) / (endTime - startTime)) * 100 + '%';
             };
         });
-        function showVersionDialog() {
-            document.getElementById('VersionDialog').style.display = 'block';
-        }
-        function showdlDialog() {
-            document.getElementById('dlDialog').style.display = 'block';
-        }
-        function closeDialog() {
-            document.getElementById('VersionDialog').style.display = 'none';
-        }
-        function closeDialog2() {
-            document.getElementById('dlDialog').style.display = 'none';
-        }
-	//テーブル
-    document.getElementById('videoInput').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const table = document.getElementById('videoTable').getElementsByTagName('tbody')[0];
-            const row = table.insertRow();
-            
-            row.insertCell(0).textContent = file.name;
-            row.insertCell(1).innerHTML = '<input type="number" value="0">'; // X座標
-            row.insertCell(2).innerHTML = '<input type="number" value="0">'; // Y座標
-            row.insertCell(3).innerHTML = '<input type="number" value="100">'; // 大きさ
-            row.insertCell(4).innerHTML = '<input type="number" id="startTime" step="0.1">'; // 開始時間
-            row.insertCell(5).innerHTML = '<input type="number" id="endTime" step="0.1">'; // 終了時間
-            row.insertCell(6).innerHTML = '<input type="number" id="playbackRate" step="0.1" value="1">'; // 倍速
-            
-            const filterSelect = document.createElement('select');
-            filterSelect.innerHTML = `
-                <option value="none">なし</option>
-                <option value="grayscale(100%)">グレースケール</option>
-                <option value="blur(5px)">ぼかし</option>
-                <option value="sepia(100%)">セピア</option>
-                <option value="brightness(150%)">明るさアップ</option>
-                <option value="contrast(200%)">コントラストアップ</option>
-            `;
-            row.insertCell(7).appendChild(filterSelect);
-        }
-    });
     </script>
 </body>
 </html>
