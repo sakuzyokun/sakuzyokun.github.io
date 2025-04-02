@@ -107,6 +107,8 @@
                     <div class="submenu">
                         <div id="fileOpen">開く</div>
                         <div onclick="downloadAudio()">保存</div>
+                        <div onclick="downloadReverseAudio()">逆再生音声ダウンロード</div>
+                        <div onclick="downloadRangeAudio()">範囲再生音声ダウンロード</div>
                         <div onclick="location.href='index.html'">終了</div>
                     </div>
                 </div>
@@ -232,6 +234,7 @@
         }
 
         async function playReverseAudio() {
+            if (!originalBuffer) return;
             const reversedBuffer = audioContext.createBuffer(
                 originalBuffer.numberOfChannels,
                 originalBuffer.length,
@@ -314,11 +317,46 @@
             });
         }
 
+        function downloadReverseAudio() {
+            if (!originalBuffer) return;
+            downloadBuffer(originalBuffer, "reversed-audio.wav", true);
+        }
+
+        function downloadRangeAudio() {
+            if (!originalBuffer) return;
+            downloadBuffer(originalBuffer, "cut-audio.wav", false, 2, 5); // 範囲再生 2秒から5秒
+        }
+
+        function downloadBuffer(buffer, filename, reverse = false, startTime = 0, endTime = null) {
+            const length = endTime ? (endTime - startTime) * buffer.sampleRate : buffer.length;
+            const outputBuffer = audioContext.createBuffer(buffer.numberOfChannels, length, buffer.sampleRate);
+
+            for (let i = 0; i < buffer.numberOfChannels; i++) {
+                let channelData = buffer.getChannelData(i).slice(startTime * buffer.sampleRate, endTime ? endTime * buffer.sampleRate : buffer.length);
+                if (reverse) channelData = channelData.reverse();
+                outputBuffer.copyToChannel(channelData, i);
+            }
+
+            const offlineContext = new OfflineAudioContext(outputBuffer.numberOfChannels, outputBuffer.length, outputBuffer.sampleRate);
+            const source = offlineContext.createBufferSource();
+            source.buffer = outputBuffer;
+            source.connect(offlineContext.destination);
+            source.start();
+
+            offlineContext.startRendering().then(renderedBuffer => {
+                const wavBlob = bufferToWave(renderedBuffer);
+                const url = URL.createObjectURL(wavBlob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = filename;
+                a.click();
+            });
+        }
+
         function bufferToWave(buffer) {
             const length = buffer.length * buffer.numberOfChannels * 2 + 44;
             const arrayBuffer = new ArrayBuffer(length);
             const view = new DataView(arrayBuffer);
-
             const writeString = (view, offset, string) => {
                 for (let i = 0; i < string.length; i++) {
                     view.setUint8(offset + i, string.charCodeAt(i));
@@ -339,18 +377,18 @@
             writeString(view, 36, 'data');
             view.setUint32(40, buffer.length * buffer.numberOfChannels * 2, true);
 
-            const offset = 44;
+            let offset = 44;
             for (let i = 0; i < buffer.numberOfChannels; i++) {
                 const channelData = buffer.getChannelData(i);
                 for (let j = 0; j < channelData.length; j++) {
                     const sample = Math.max(-1, Math.min(1, channelData[j]));
-                    view.setInt16(offset + (j * 2), sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                    view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
+                    offset += 2;
                 }
             }
 
             return new Blob([arrayBuffer], { type: 'audio/wav' });
         }
-        
     </script>
 </body>
 </html>
