@@ -26,7 +26,8 @@
             <div id="progress"></div>
         </div>
     </div>
-    <a id="downloadLink" style="display: none;">ダウンロード</a>
+    <a id="downloadVideoLink" style="display: none;">動画をダウンロード</a>
+    <a id="downloadAudioLink" style="display: none;">音声をダウンロード</a>
     
     <script>
         const video = document.getElementById('video');
@@ -35,13 +36,13 @@
         const videoInput = document.getElementById('videoInput');
         const applyFilterButton = document.getElementById('applyFilter');
         const exportButton = document.getElementById('exportButton');
-        const downloadLink = document.getElementById('downloadLink');
+        const downloadVideoLink = document.getElementById('downloadVideoLink');
+        const downloadAudioLink = document.getElementById('downloadAudioLink');
         const progressBarContainer = document.getElementById('progressBarContainer');
         const progress = document.getElementById('progress');
 
-        let mediaRecorder;
-        let recordedChunks = [];
-        let audioStream;
+        let videoRecorder, audioRecorder;
+        let videoChunks = [], audioChunks = [];
 
         videoInput.addEventListener('change', function(event) {
             const file = event.target.files[0];
@@ -69,24 +70,37 @@
         exportButton.addEventListener('click', async () => {
             const startTime = parseFloat(document.getElementById('startTime').value) || 0;
             const endTime = parseFloat(document.getElementById('endTime').value) || video.duration;
-            recordedChunks = [];
-            const videoStream = canvas.captureStream();
-            audioStream = video.captureStream().getAudioTracks();
-            const combinedStream = new MediaStream([...videoStream.getVideoTracks(), ...audioStream]);
-
-            mediaRecorder = new MediaRecorder(combinedStream, { mimeType: 'video/webm' });
+            videoChunks = [];
+            audioChunks = [];
             
-            mediaRecorder.ondataavailable = (event) => recordedChunks.push(event.data);
-            mediaRecorder.onstop = async () => {
-                const webmBlob = new Blob(recordedChunks, { type: 'video/webm' });
-                const mp4Blob = await convertWebMtoMP4(webmBlob);
-                const url = URL.createObjectURL(mp4Blob);
-                downloadLink.href = url;
-                downloadLink.download = 'edited_video.mp4';
-                downloadLink.style.display = 'block';
-                downloadLink.innerText = 'MP4をダウンロード';
-                downloadLink.click();
-                progressBarContainer.style.display = 'none';
+            const videoStream = canvas.captureStream();
+            const audioStream = video.captureStream().getAudioTracks();
+            const micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+            const combinedAudioStream = new MediaStream([...audioStream, ...micStream.getAudioTracks()]);
+
+            videoRecorder = new MediaRecorder(videoStream, { mimeType: 'video/webm' });
+            audioRecorder = new MediaRecorder(combinedAudioStream, { mimeType: 'audio/webm' });
+            
+            videoRecorder.ondataavailable = (event) => videoChunks.push(event.data);
+            audioRecorder.ondataavailable = (event) => audioChunks.push(event.data);
+
+            videoRecorder.onstop = () => {
+                const webmBlob = new Blob(videoChunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(webmBlob);
+                downloadVideoLink.href = url;
+                downloadVideoLink.download = 'edited_video.webm';
+                downloadVideoLink.style.display = 'block';
+                downloadVideoLink.innerText = '動画をダウンロード';
+            };
+
+            audioRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                const url = URL.createObjectURL(audioBlob);
+                downloadAudioLink.href = url;
+                downloadAudioLink.download = 'recorded_audio.mp3';
+                downloadAudioLink.style.display = 'block';
+                downloadAudioLink.innerText = '音声をダウンロード';
             };
 
             progressBarContainer.style.display = 'block';
@@ -94,32 +108,18 @@
 
             video.currentTime = startTime;
             video.play();
-            mediaRecorder.start();
+            videoRecorder.start();
+            audioRecorder.start();
             
             video.ontimeupdate = function() {
                 if (video.currentTime >= endTime) {
                     video.pause();
-                    mediaRecorder.stop();
+                    videoRecorder.stop();
+                    audioRecorder.stop();
                 }
                 progress.style.width = ((video.currentTime - startTime) / (endTime - startTime)) * 100 + '%';
             };
         });
-
-        async function convertWebMtoMP4(webmBlob) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsArrayBuffer(webmBlob);
-                reader.onloadend = function () {
-                    const data = new Uint8Array(reader.result);
-                    const remuxer = new muxjs.mp4.Transmuxer();
-                    remuxer.on('data', (segment) => {
-                        resolve(new Blob([segment.initSegment, segment.data], { type: 'video/mp4' }));
-                    });
-                    remuxer.push({ data: data, byteLength: data.length });
-                    remuxer.flush();
-                };
-            });
-        }
     </script>
 </body>
 </html>
