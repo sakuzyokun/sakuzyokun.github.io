@@ -118,7 +118,10 @@
     <button id="resize">サイズ変更</button>
     <button id="crop">トリミング</button>
     <button id="rotate">回転</button>
-    <button id="download">ダウンロード</button>
+    <button onclick="setMode('draw')">ペン</button><br>
+    <button onclick="setMode('text')">文字</button>
+    <input type="text" id="textInput" style="display: none; position: absolute;">
+    <!--<button id="download">ダウンロード</button>-->
     <br><br>
     <canvas id="canvas"></canvas>
     <br><br>
@@ -225,6 +228,25 @@
             link.click();
         });
 
+        canvas.addEventListener('mousemove', (e) => {
+            if (drawing && mode === 'draw') {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            drawing = false;
+        });
+
+        textInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                ctx.fillText(textInput.value, parseInt(textInput.style.left), parseInt(textInput.style.top));
+                textInput.value = '';
+                textInput.style.display = 'none';
+            }
+        });
+        
         document.getElementById('fileOpen').addEventListener('click', function() {
             document.getElementById('upload').click();
         });
