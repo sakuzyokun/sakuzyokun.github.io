@@ -143,14 +143,26 @@
         const heightInput = document.getElementById('height');
         const resizeBtn = document.getElementById('resize');
         const cropBtn = document.getElementById('crop');
+        const textInput = document.getElementById('textInput');
         let img = new Image();
         let rotation = 0;
+        let mode = 'draw';
+        let drawing = false;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight - 70;
+
+        
 
         upload.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = (event) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    };
                     img.src = event.target.result;
                 };
                 reader.readAsDataURL(file);
@@ -256,6 +268,17 @@
         }
         function closeDialog() {
             document.getElementById('VersionDialog').style.display = 'none';
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'canvas.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function setMode(selectedMode) {
+            mode = selectedMode;
         }
     </script>
 </body>
