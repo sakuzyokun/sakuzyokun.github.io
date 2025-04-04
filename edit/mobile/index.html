@@ -39,7 +39,6 @@
             border-radius: 5px;
         }
         .menu {
-            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -48,11 +47,16 @@
             background: white;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
             padding: 10px;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
         }
         .menu div {
             padding: 15px;
             cursor: pointer;
             border-bottom: 1px solid #ddd;
+        }
+        .menu.active {
+            transform: translateX(0);
         }
         .dialog {
             display: none;
@@ -70,7 +74,7 @@
     <script>
         function toggleMenu() {
             let menu = document.getElementById('menu');
-            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            menu.classList.toggle('active');
         }
         function showDevelopmentDialog() {
             document.getElementById('developmentDialog').style.display = 'block';
@@ -84,14 +88,14 @@
     <button class="menu-button" onclick="toggleMenu()">☰ メニュー</button>
     <div id="menu" class="menu">
         <div onclick="toggleMenu()">閉じる</div>
-        <div>ファイル</div>
-        <div>編集</div>
-        <div>表示</div>
+        <div onclick="location.href='video_edit.html'">動匠Web</div>
+        <div onclick="location.href='image_edit.html'">画匠Web</div>
+        <div onclick="location.href='audio_edit.html'">音匠Web</div>
         <div onclick="showDevelopmentDialog()">バージョン情報</div>
     </div>
     <div class="window">
         <p>これはスマホ向けランチャーです。<br>編集はメニューから選んでください。</p>
-        <button onclick="location.href='index.html'">PC版</button>
+        <button onclick="location.href='index.html'">PC版へ</button>
     </div>
     <div id="developmentDialog" class="dialog">
         <p>編集ソフトランチャー<br>Version 1.1.0</p>
