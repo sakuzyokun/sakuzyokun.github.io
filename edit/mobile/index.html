@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>編集ソフトランチャー</title>
+    <title>編集ソフトランチャー - スマホ版</title>
     <style>
         body {
             margin: 0;
@@ -11,62 +11,48 @@
             background-color: #0078D7;
             font-family: Arial, sans-serif;
             overflow: hidden;
-        }
-        .window {
-            width: 100vw;
-            height: 100vh;
-            background-color: white;
-            position: absolute;
-            top: 0;
-            left: 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 0;
             display: flex;
             flex-direction: column;
-        }
-        .window-header {
-            height: 30px;
-            background-color: #004d99;
-            color: white;
-            display: flex;
             align-items: center;
-            padding-left: 10px;
-            font-weight: bold;
+            justify-content: center;
+            height: 100vh;
         }
-        .menu-bar {
-            height: 30px;
-            background-color: #ddd;
+        .window {
+            width: 90vw;
+            height: 80vh;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
             display: flex;
-            align-items: center;
-            padding-left: 10px;
-            border-bottom: 1px solid #bbb;
-            position: relative;
-        }
-        .menu-item {
-            margin-right: 15px;
-            cursor: pointer;
-            position: relative;
-        }
-        .submenu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border: 1px solid #bbb;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            min-width: 150px;
-        }
-        .submenu div {
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        .menu-item:hover .submenu {
-            display: block;
-        }
-        .window-content {
+            flex-direction: column;
+            text-align: center;
             padding: 10px;
-            flex-grow: 1;
+        }
+        .menu-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #004d99;
+            color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+        }
+        .menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60vw;
+            height: 100vh;
+            background: white;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+        }
+        .menu div {
+            padding: 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
         }
         .dialog {
             display: none;
@@ -79,14 +65,13 @@
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
-            min-width: 200px;
-        }
-        .dialog button {
-            margin-top: 10px;
-            padding: 5px 10px;
         }
     </style>
     <script>
+        function toggleMenu() {
+            let menu = document.getElementById('menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
         function showDevelopmentDialog() {
             document.getElementById('developmentDialog').style.display = 'block';
         }
@@ -96,37 +81,16 @@
     </script>
 </head>
 <body>
+    <button class="menu-button" onclick="toggleMenu()">☰ メニュー</button>
+    <div id="menu" class="menu">
+        <div onclick="toggleMenu()">閉じる</div>
+        <div>ファイル</div>
+        <div>編集</div>
+        <div>表示</div>
+        <div onclick="showDevelopmentDialog()">バージョン情報</div>
+    </div>
     <div class="window">
-        <div class="window-header">編集ソフトランチャー</div>
-        <div class="menu-bar">
-            <div class="menu-item">ファイル
-                <div class="submenu">
-                    <div>開く</div>
-                    <div>保存</div>
-                    <div onclick="location.href='../index.html'">終了</div>
-                </div>
-            </div>
-            <div class="menu-item">編集
-                <div class="submenu">
-                    <div onclick="location.href='video_edit.html'">動匠Web</div>
-                    <div onclick="location.href='image_edit.html'">画匠Web</div>
-                    <div onclick="location.href='audio_edit.html'">音匠Web</div>
-                </div>
-            </div>
-            <div class="menu-item">表示
-                <div class="submenu">
-                    <div>ツールバー</div>
-                    <div>ズーム</div>
-                </div>
-            </div>
-            <div class="menu-item">ヘルプ
-                <div class="submenu">
-                    <div onclick="showDevelopmentDialog()">バージョン情報</div>
-                    <div>ヘルプを見る</div>
-                </div>
-            </div>
-        </div>
-        <div class="window-content">これはランチャーです。<br>ここで編集はできません。<br>開くには 編集 メニューから選んでください。</div>
+        <p>これはスマホ向けランチャーです。<br>編集はメニューから選んでください。</p>
         <button onclick="location.href='index.html'">PC版</button>
     </div>
     <div id="developmentDialog" class="dialog">
