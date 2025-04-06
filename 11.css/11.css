@@ -46,7 +46,7 @@ body {
     border: none;
     color: var(--titlebar-text);
     font-size: 14px;
-    cursor: pointer;
+    /*cursor: pointer;*/
     width: 28px;
     height: 28px;
     text-align: center;
@@ -72,7 +72,7 @@ body {
     background-color: #f3f3f3;
     font-family: 'Segoe UI', sans-serif;
     font-size: 14px;
-    cursor: pointer;
+    /*cursor: pointer;*/
     box-shadow: none;
     transition: all 0.15s ease-in-out;
 }
