@@ -1,6 +1,11 @@
 # https://sakuzyokun.github.io  
 削除くんの公式ホームページです。  
 お好きに使っていいですが使う際はScratchかDiscordでDMかなんかで送ってください  
+
+10.cssの使い方  
+```html
+<link rel="stylesheet" href="https://sakuzyokun.github.io/10.css/10.css">
+```
   
 windows11 emulator created by Laaouatni Anas  
 Copyright (c) 2021 Laaouatni Anas
