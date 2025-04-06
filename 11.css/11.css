@@ -4,19 +4,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 
 :root {
-    --titlebar-bg: #f9f9f9;
+    --titlebar-bg: #f9f9f9cc; /* 少し透明感 */
     --titlebar-text: #1f1f1f;
     --titlebar-hover: rgba(0, 0, 0, 0.06);
     --titlebar-close-hover: #f1707a;
     --border-radius: 12px;
     --button-hover-bg: #e5f1fb;
     --accent-color: #0078d4;
-    --shadow-depth: 0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-depth: 0 8px 24px rgba(0, 0, 0, 0.15); /* より深い影 */
 }
 
 body {
     font-family: "Segoe UI Variable", "Noto Sans JP", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background: #e6e6e6;
+    background: linear-gradient(145deg, #e2e2e2, #f0f0f0); /* より柔らかい背景 */
+    margin: 0;
+    padding: 40px;
 }
 
 .win11-window {
@@ -26,7 +28,8 @@ body {
     box-shadow: var(--shadow-depth);
     background-color: #ffffff;
     overflow: hidden;
-    margin: 40px auto;
+    margin: auto;
+    backdrop-filter: blur(8px); /* アクリル風味 */
 }
 
 .win11-title-bar {
@@ -35,19 +38,22 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 16px;
+    padding: 8px 12px;
     border-bottom: 1px solid #e0e0e0;
     height: 42px;
+    border-top-left-radius: var(--border-radius); /* 上角も丸める */
+    border-top-right-radius: var(--border-radius);
+    -webkit-app-region: drag; /* Electron風にしたい場合 */
 }
 
 .win11-title {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 14.5px;
 }
 
 .win11-controls {
     display: flex;
-    gap: 6px;
+    gap: 4px;
 }
 
 .win11-btn {
@@ -60,7 +66,8 @@ body {
     text-align: center;
     border-radius: 6px;
     line-height: 32px;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    -webkit-app-region: no-drag;
 }
 
 .win11-btn:hover {
@@ -74,8 +81,9 @@ body {
 
 .win11-window-body {
     padding: 20px;
-    font-size: 14px;
+    font-size: 13.8px;
     color: #333;
+    line-height: 1.6;
 }
 
 .win11-button {
@@ -86,6 +94,7 @@ body {
     font-family: 'Segoe UI Variable', sans-serif;
     font-size: 14px;
     transition: all 0.15s ease-in-out;
+    cursor: pointer;
 }
 
 .win11-button:hover {
