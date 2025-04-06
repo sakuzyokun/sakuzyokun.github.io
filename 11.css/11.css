@@ -68,7 +68,7 @@ body {
 .win11-button {
     padding: 6px 16px;
     border: 1px solid #ccc;
-    border-radius: 2px;
+    border-radius: 4px;
     background-color: #f3f3f3;
     font-family: 'Segoe UI', sans-serif;
     font-size: 14px;
