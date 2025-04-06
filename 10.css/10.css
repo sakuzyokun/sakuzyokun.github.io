@@ -1,23 +1,25 @@
-/* win10.css */
-
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+
 :root {
-    --titlebar-bg: #ffffff; /* デフォルト白 */
+    --titlebar-bg: #ffffff;
     --titlebar-text: #000000;
-    --titlebar-hover: rgba(0, 0, 0, 0.1);
+    --titlebar-hover: rgba(0, 0, 0, 0.06);
     --titlebar-close-hover: #e81123;
+    --border-color: #a6a6a6;
 }
 
 body {
     font-family: "Segoe UI", "Noto Sans JP", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #ececec;
+    margin: 0;
+    padding: 20px;
 }
 
 .win10-window {
     width: 400px;
-    border: 1px solid #ccc;
-    /*border-radius: 6px;*/
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
     background-color: white;
+    box-shadow: 0 0 0 1px #d0d0d0, 0 4px 12px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     margin: 40px auto;
 }
@@ -28,29 +30,34 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 12px;
+    height: 32px; /* 高さ調整 */
+    padding: 0 8px;
     border-bottom: 1px solid #ccc;
+    -webkit-user-select: none;
 }
 
 .win10-title {
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 32px;
 }
 
 .win10-controls {
     display: flex;
-    gap: 6px;
 }
 
 .win10-btn {
+    width: 46px;
+    height: 32px;
     background: transparent;
     border: none;
     color: var(--titlebar-text);
     font-size: 14px;
-    /*cursor: pointer;*/
-    width: 28px;
-    height: 28px;
-    text-align: center;
-    /*border-radius: 2px;*/
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s;
 }
 
 .win10-btn:hover {
@@ -59,30 +66,33 @@ body {
 
 .win10-btn.close:hover {
     background-color: var(--titlebar-close-hover);
+    color: white;
 }
 
 .win10-window-body {
     padding: 16px;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
 .win10-button {
     padding: 6px 16px;
     border: 1px solid #ccc;
-    /*border-radius: 2px;*/
     background-color: #f3f3f3;
     font-family: 'Segoe UI', sans-serif;
     font-size: 14px;
-    /*cursor: pointer;*/
+    cursor: pointer;
     box-shadow: none;
     transition: all 0.15s ease-in-out;
+    margin-right: 8px;
 }
 
 .win10-button:hover {
-    background-color: #e0eef9;
-    box-shadow: 0 0 0 2px #0078d4/*rgba(0, 120, 215, 0.3);*/
+    background-color: #e5f1fb;
+    box-shadow: 0 0 0 2px #0078d4;
 }
 
 .win10-button:active {
-    background-color: #e0eef9;
+    background-color: #cde6f7;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
