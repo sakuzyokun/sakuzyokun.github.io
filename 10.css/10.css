@@ -79,7 +79,7 @@ body {
 
 .win10-button:hover {
     background-color: #e0eef9;
-    box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.3);
+    box-shadow: 0 0 0 2px #0078d4/*rgba(0, 120, 215, 0.3);*/
 }
 
 .win10-button:active {
