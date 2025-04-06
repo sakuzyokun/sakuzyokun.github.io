@@ -83,6 +83,6 @@ body {
 }
 
 .win11-button:active {
-    background-color: #d9d9d9;
+    background-color: #e0eef9;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
