@@ -1,23 +1,30 @@
-/* win10.css */
+/* ===11.css=== */
 
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI+Variable:wght@400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+
 :root {
-    --titlebar-bg: #f3f3f3;
-    --titlebar-text: #000000;
-    --titlebar-hover: rgba(0, 0, 0, 0.1);
-    --titlebar-close-hover: #e81123;
+    --titlebar-bg: #f9f9f9;
+    --titlebar-text: #1f1f1f;
+    --titlebar-hover: rgba(0, 0, 0, 0.06);
+    --titlebar-close-hover: #f1707a;
+    --border-radius: 12px;
+    --button-hover-bg: #e5f1fb;
+    --accent-color: #0078d4;
+    --shadow-depth: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 body {
-    font-family: "Segoe UI", "Noto Sans JP", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Segoe UI Variable", "Noto Sans JP", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #e6e6e6;
 }
 
 .win11-window {
     width: 400px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    background-color: white;
+    border: 1px solid #d0d0d0;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-depth);
+    background-color: #ffffff;
     overflow: hidden;
     margin: 40px auto;
 }
@@ -28,12 +35,14 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 12px;
-    border-bottom: 1px solid #ccc;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e0e0e0;
+    height: 42px;
 }
 
 .win11-title {
     font-weight: 600;
+    font-size: 15px;
 }
 
 .win11-controls {
@@ -46,11 +55,12 @@ body {
     border: none;
     color: var(--titlebar-text);
     font-size: 14px;
-    /*cursor: pointer;*/
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     text-align: center;
-    border-radius: 2px;
+    border-radius: 6px;
+    line-height: 32px;
+    transition: background-color 0.2s;
 }
 
 .win11-btn:hover {
@@ -59,30 +69,31 @@ body {
 
 .win11-btn.close:hover {
     background-color: var(--titlebar-close-hover);
+    color: white;
 }
 
 .win11-window-body {
-    padding: 16px;
+    padding: 20px;
+    font-size: 14px;
+    color: #333;
 }
 
 .win11-button {
-    padding: 6px 16px;
+    padding: 8px 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 6px;
     background-color: #f3f3f3;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI Variable', sans-serif;
     font-size: 14px;
-    /*cursor: pointer;*/
-    box-shadow: none;
     transition: all 0.15s ease-in-out;
 }
 
 .win11-button:hover {
-    background-color: #e0eef9;
-    box-shadow: 0 0 0 2px #0078d4 /*rgba(0, 120, 212, 0.3);*/
+    background-color: var(--button-hover-bg);
+    box-shadow: 0 0 0 2px var(--accent-color);
 }
 
 .win11-button:active {
-    background-color: #e0eef9;
+    background-color: #dbeefb;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
