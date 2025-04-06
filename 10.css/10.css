@@ -50,7 +50,7 @@ body {
     width: 28px;
     height: 28px;
     text-align: center;
-    border-radius: 2px;
+    /*border-radius: 2px;*/
 }
 
 .win10-btn:hover {
