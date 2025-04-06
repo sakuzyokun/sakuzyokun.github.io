@@ -2,7 +2,7 @@
 削除くんの公式ホームページです。  
 お好きに使っていいですが使う際はScratchかDiscordでDMかなんかで送ってください  
 
-10.cssの使い方  
+10.cssの使い方(Windows11風にも見えます)  
 ```html
 <link rel="stylesheet" href="https://sakuzyokun.github.io/10.css/10.css">
 ```
