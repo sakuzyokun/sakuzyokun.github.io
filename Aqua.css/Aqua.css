@@ -1,0 +1,104 @@
+/* ===== 共通スタイル（変わらない部分） ===== */
+
+.mac-window {
+  width: 500px;
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.mac-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 10px;
+  height: 30px;
+  position: relative;
+}
+
+.mac-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.mac-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.mac-btn.close    { background-color: #ff5f57; }
+.mac-btn.minimize { background-color: #ffbd2e; }
+.mac-btn.maximize { background-color: #28c840; }
+
+.mac-title {
+  font-size: 13px;
+  font-weight: 500;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.mac-content {
+  padding: 16px;
+  font-size: 14px;
+}
+
+
+/* ===== ライトモード（明示 or 自動） ===== */
+
+.mac-window.light,
+@media (prefers-color-scheme: light) {
+  .mac-window:not(.dark):not(.light) {
+    background: #fefefe;
+    border: 1px solid #ccc;
+    color: #333;
+  }
+
+  .mac-window.light {
+    background: #fefefe;
+    border: 1px solid #ccc;
+    color: #333;
+  }
+
+  .mac-window.light .mac-titlebar,
+  .mac-window:not(.dark):not(.light) .mac-titlebar {
+    background: linear-gradient(to bottom, #e3e3e3, #cfcfcf);
+  }
+
+  .mac-window.light .mac-title,
+  .mac-window:not(.dark):not(.light) .mac-title {
+    color: #333;
+  }
+}
+
+
+/* ===== ダークモード（明示 or 自動） ===== */
+
+.mac-window.dark,
+@media (prefers-color-scheme: dark) {
+  .mac-window:not(.light):not(.dark) {
+    background: #1e1e1e;
+    border: 1px solid #444;
+    color: #eee;
+  }
+
+  .mac-window.dark {
+    background: #1e1e1e;
+    border: 1px solid #444;
+    color: #eee;
+  }
+
+  .mac-window.dark .mac-titlebar,
+  .mac-window:not(.light):not(.dark) .mac-titlebar {
+    background: linear-gradient(to bottom, #333, #222);
+  }
+
+  .mac-window.dark .mac-title,
+  .mac-window:not(.light):not(.dark) .mac-title {
+    color: #eee;
+  }
+}
