@@ -1,22 +1,24 @@
-/* ===Aqua.css=== */
+/* === Aqua.css Improved === */
 
-/* ===== 共通スタイル（変わらない部分） ===== */
-
+/* ===== 共通スタイル ===== */
 .mac-window {
   width: 500px;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  backdrop-filter: saturate(180%) blur(20px);
+  transition: all 0.3s ease-in-out;
 }
 
 .mac-titlebar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 4px 10px;
   height: 30px;
   position: relative;
+  user-select: none;
 }
 
 .mac-buttons {
@@ -29,11 +31,26 @@
   height: 12px;
   border-radius: 50%;
   display: inline-block;
+  box-shadow: inset 0 -1px 1px rgba(0,0,0,0.2);
+  border: 1px solid rgba(0,0,0,0.1);
+  transition: transform 0.2s;
 }
 
-.mac-btn.close    { background-color: #ff5f57; }
-.mac-btn.minimize { background-color: #ffbd2e; }
-.mac-btn.maximize { background-color: #28c840; }
+.mac-btn:hover {
+  transform: scale(1.1);
+}
+
+.mac-btn.close {
+  background: radial-gradient(circle at 30% 30%, #ff5f57, #bf3b30);
+}
+
+.mac-btn.minimize {
+  background: radial-gradient(circle at 30% 30%, #ffbd2e, #bf9123);
+}
+
+.mac-btn.maximize {
+  background: radial-gradient(circle at 30% 30%, #28c840, #1aab29);
+}
 
 .mac-title {
   font-size: 13px;
@@ -41,6 +58,7 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  color: inherit;
   pointer-events: none;
 }
 
@@ -50,8 +68,7 @@
 }
 
 
-/* ===== ライトモード（明示 or 自動） ===== */
-
+/* ===== ライトモード ===== */
 .mac-window.light,
 @media (prefers-color-scheme: light) {
   .mac-window:not(.dark):not(.light) {
@@ -66,20 +83,18 @@
     color: #333;
   }
 
-  .mac-window.light .mac-titlebar,
-  .mac-window:not(.dark):not(.light) .mac-titlebar {
-    background: linear-gradient(to bottom, #e3e3e3, #cfcfcf);
+  .mac-titlebar {
+    background: linear-gradient(to bottom, #f6f6f6, #dcdcdc);
+    border-bottom: 1px solid #aaa;
   }
 
-  .mac-window.light .mac-title,
-  .mac-window:not(.dark):not(.light) .mac-title {
+  .mac-title {
     color: #333;
   }
 }
 
 
-/* ===== ダークモード（明示 or 自動） ===== */
-
+/* ===== ダークモード ===== */
 .mac-window.dark,
 @media (prefers-color-scheme: dark) {
   .mac-window:not(.light):not(.dark) {
@@ -94,13 +109,12 @@
     color: #eee;
   }
 
-  .mac-window.dark .mac-titlebar,
-  .mac-window:not(.light):not(.dark) .mac-titlebar {
-    background: linear-gradient(to bottom, #333, #222);
+  .mac-titlebar {
+    background: linear-gradient(to bottom, #3a3a3a, #1f1f1f);
+    border-bottom: 1px solid #555;
   }
 
-  .mac-window.dark .mac-title,
-  .mac-window:not(.light):not(.dark) .mac-title {
+  .mac-title {
     color: #eee;
   }
 }
