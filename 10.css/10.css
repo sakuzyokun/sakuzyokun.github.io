@@ -1,80 +1,88 @@
 /* win10.css */
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+:root {
+    --titlebar-bg: #ffffff; /* デフォルト白 */
+    --titlebar-text: #000000;
+    --titlebar-hover: rgba(0, 0, 0, 0.1);
+    --titlebar-close-hover: #e81123;
+}
+
 body {
     font-family: "Segoe UI", "Noto Sans JP", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* 変数でカスタマイズ可能 */
-:root {
-  --titlebar-bg: #ffffff;
-  --titlebar-text: #000000;
-  --button-bg: #f3f3f3;
-  --button-hover: #e5e5e5;
-  --button-active: #d9d9d9;
-  --titlebar-hover: rgba(0, 0, 0, 0.1);
-  --titlebar-close-hover: #e81123;
-}
-
-/* ウィンドウのスタイル */
 .win10-window {
-  width: 400px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  background-color: white;
-  overflow: hidden;
-  margin: 40px auto;
+    width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    overflow: hidden;
+    margin: 40px auto;
 }
 
-/* タイトルバー */
 .win10-title-bar {
-  background-color: var(--titlebar-bg);
-  color: var(--titlebar-text);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 12px;
-  border-bottom: 1px solid #ccc;
+    background-color: var(--titlebar-bg);
+    color: var(--titlebar-text);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 12px;
+    border-bottom: 1px solid #ccc;
 }
 
-/* ボタン */
+.win10-title {
+    font-weight: 600;
+}
+
+.win10-controls {
+    display: flex;
+    gap: 6px;
+}
+
 .win10-btn {
-  background: transparent;
-  border: none;
-  color: var(--titlebar-text);
-  font-size: 14px;
-  cursor: pointer;
-  width: 28px;
-  height: 28px;
-  text-align: center;
-  border-radius: 2px;
+    background: transparent;
+    border: none;
+    color: var(--titlebar-text);
+    font-size: 14px;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    border-radius: 2px;
 }
 
 .win10-btn:hover {
-  background-color: var(--titlebar-hover);
+    background-color: var(--titlebar-hover);
 }
 
 .win10-btn.close:hover {
-  background-color: var(--titlebar-close-hover);
+    background-color: var(--titlebar-close-hover);
 }
 
-/* OK / Cancelボタン */
+.win10-window-body {
+    padding: 16px;
+}
+
 .win10-button {
-  padding: 6px 16px;
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  background-color: var(--button-bg);
-  font-family: 'Segoe UI', sans-serif;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.15s ease-in-out;
+    padding: 6px 16px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    background-color: #f3f3f3;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: none;
+    transition: all 0.15s ease-in-out;
 }
 
 .win10-button:hover {
-  background-color: var(--button-hover);
+    background-color: #e5e5e5;
+    box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.3);
 }
 
 .win10-button:active {
-  background-color: var(--button-active);
+    background-color: #d9d9d9;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
