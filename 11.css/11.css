@@ -2,7 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 :root {
-    --titlebar-bg: #ffffff; /* デフォルト白 */
+    --titlebar-bg: #D7DAEB; /* デフォルト白 */
     --titlebar-text: #000000;
     --titlebar-hover: rgba(0, 0, 0, 0.1);
     --titlebar-close-hover: #e81123;
