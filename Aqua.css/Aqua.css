@@ -93,6 +93,16 @@
   }
 }
 
+.mac-window.light .mac-titlebar,
+.mac-window:not(.dark):not(.light) .mac-titlebar {
+  background: linear-gradient(
+    to bottom,
+    #f9f9f9 0%,
+    #eaeaea 40%,
+    #d5d5d5 100%
+  );
+  border-bottom: 1px solid #b1b1b1;
+}
 
 /* ===== ダークモード ===== */
 .mac-window.dark,
@@ -117,4 +127,16 @@
   .mac-title {
     color: #eee;
   }
+}
+
+/* === タイトルバー グラデーション（ダークモード）=== */
+.mac-window.dark .mac-titlebar,
+.mac-window:not(.light):not(.dark) .mac-titlebar {
+  background: linear-gradient(
+    to bottom,
+    #4b4b4b 0%,
+    #3a3a3a 50%,
+    #2a2a2a 100%
+  );
+  border-bottom: 1px solid #111;
 }
