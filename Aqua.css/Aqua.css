@@ -1,4 +1,4 @@
-/* === Aqua.css Improved === */
+/* ===Aqua.css=== */
 
 /* ===== 共通スタイル ===== */
 .mac-window {
@@ -105,7 +105,23 @@
 }
 
 /* ===== ダークモード ===== */
-.mac-window.dark,
+.mac-window.dark {
+  background: #1e1e1e;
+  border: 1px solid #444;
+  color: #eee;
+}
+
+.mac-window.dark .mac-titlebar {
+  background: linear-gradient(to bottom, #4b4b4b 0%, #3a3a3a 50%, #2a2a2a 100%);
+  border-bottom: 1px solid #111;
+}
+
+.mac-window.dark .mac-content {
+  background-color: #2a2a2a;
+  color: #eee;
+}
+
+/* prefers-color-scheme: dark に従うスタイル */
 @media (prefers-color-scheme: dark) {
   .mac-window:not(.light):not(.dark) {
     background: #1e1e1e;
@@ -113,45 +129,17 @@
     color: #eee;
   }
 
-  .mac-window.dark {
-    background: #1e1e1e;
-    border: 1px solid #444;
-    color: #eee;
+  .mac-window:not(.light):not(.dark) .mac-titlebar {
+    background: linear-gradient(to bottom, #4b4b4b 0%, #3a3a3a 50%, #2a2a2a 100%);
+    border-bottom: 1px solid #111;
   }
 
-  .mac-titlebar {
-    background: linear-gradient(to bottom, #3a3a3a, #1f1f1f);
-    border-bottom: 1px solid #555;
-  }
-
-  .mac-title {
-    color: #fff;
-  }
-}
-
-/* === タイトルバー グラデーション（ダークモード）=== */
-.mac-window.dark .mac-titlebar,
-.mac-window:not(.light):not(.dark) .mac-titlebar {
-  background: linear-gradient(
-    to bottom,
-    #4b4b4b 0%,
-    #3a3a3a 50%,
-    #2a2a2a 100%
-  );
-  border-bottom: 1px solid #111;
-}
-
-/* ダークモード時のコンテンツ部分 */
-.mac-window.dark .mac-content,
-@media (prefers-color-scheme: dark) {
   .mac-window:not(.light):not(.dark) .mac-content {
     background-color: #2a2a2a;
     color: #eee;
   }
 
-  .mac-window.dark .mac-content {
-    background-color: #2a2a2a;
-    color: #eee;
+  .mac-window:not(.light):not(.dark) .mac-title {
+    color: #fff;
   }
 }
-
