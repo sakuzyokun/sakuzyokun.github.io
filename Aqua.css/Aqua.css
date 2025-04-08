@@ -140,3 +140,18 @@
   );
   border-bottom: 1px solid #111;
 }
+
+/* ダークモード時のコンテンツ部分 */
+.mac-window.dark .mac-content,
+@media (prefers-color-scheme: dark) {
+  .mac-window:not(.light):not(.dark) .mac-content {
+    background-color: #2a2a2a;
+    color: #eee;
+  }
+
+  .mac-window.dark .mac-content {
+    background-color: #2a2a2a;
+    color: #eee;
+  }
+}
+
