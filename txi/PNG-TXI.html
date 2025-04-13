@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PNG → TXI Converter</title>
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: auto; padding: 1em; }
+    textarea { width: 100%; height: 300px; font-family: monospace; }
+    canvas { display: none; }
+  </style>
+</head>
+<body>
+  <h1>🖼️ PNG → TXI 変換ツール</h1>
+
+  <input type="file" id="pngInput" accept="image/png" />
+  <br><br>
+
+  <label for="txiOutput">TXI 出力内容:</label><br>
+  <textarea id="txiOutput" placeholder="ここに変換後のTXIが表示されます"></textarea>
+  <br>
+
+  <button id="saveTxi">💾 TXIとして保存</button>
+
+  <canvas id="canvas"></canvas>
+
+  <script>
+    const pngInput = document.getElementById('pngInput');
+    const txiOutput = document.getElementById('txiOutput');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    pngInput.addEventListener('change', function() {
+      const file = pngInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+
+          const imageData = ctx.getImageData(0, 0, img.width, img.height);
+          const data = imageData.data;
+
+          const lines = [];
+          lines.push('# Textual Image Format v1.1');
+          lines.push(`width: ${img.width}`);
+          lines.push(`height: ${img.height}`);
+          lines.push('');
+          lines.push('# pixel data');
+
+	// ピクセル処理部分を以下のように変更
+if (img.width >= 50 && img.height >= 50) {
+  // 右上から左下への読み取り
+  for (let y = 0; y < img.height; y++) {
+    for (let x = img.width - 1; x >= 0; x--) {
+      const index = (y * img.width + x) * 4;
+      const r = data[index].toString(16).padStart(2, '0').toUpperCase();
+      const g = data[index + 1].toString(16).padStart(2, '0').toUpperCase();
+      const b = data[index + 2].toString(16).padStart(2, '0').toUpperCase();
+      const a = data[index + 3].toString(16).padStart(2, '0').toUpperCase();
+      lines.push(`${r}${g}${b}${a}`);
+    }
+  }
+} else {
+  // 通常の左上からの読み取り
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i].toString(16).padStart(2, '0').toUpperCase();
+    const g = data[i + 1].toString(16).padStart(2, '0').toUpperCase();
+    const b = data[i + 2].toString(16).padStart(2, '0').toUpperCase();
+    const a = data[i + 3].toString(16).padStart(2, '0').toUpperCase();
+    lines.push(`${r}${g}${b}${a}`);
+  }
+}
+
+
+          for (let i = 0; i < data.length; i += 4) {
+            const r = data[i].toString(16).padStart(2, '0').toUpperCase();
+            const g = data[i + 1].toString(16).padStart(2, '0').toUpperCase();
+            const b = data[i + 2].toString(16).padStart(2, '0').toUpperCase();
+            const a = data[i + 3].toString(16).padStart(2, '0').toUpperCase();
+            lines.push(`${r}${g}${b}${a}`);
+          }
+
+          txiOutput.value = lines.join('\n');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // TXI保存機能
+    document.getElementById('saveTxi').addEventListener('click', () => {
+      const blob = new Blob([txiOutput.value], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.download = 'converted.txi';
+      link.href = URL.createObjectURL(blob);
+      link.click();
+    });
+  </script>
+</body>
+</html>
