@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>PNG → TXI Converter</title>
+  <title>画像 → TXI 変換ツール</title>
   <style>
     body { font-family: sans-serif; max-width: 700px; margin: auto; padding: 1em; }
     textarea { width: 100%; height: 300px; font-family: monospace; }
     canvas { display: none; }
+    #preview { max-width: 100%; margin-bottom: 1em; }
   </style>
 </head>
 <body>
-  <h1>🖼️ PNG → TXI 変換ツール</h1>
+  <h1>🖼️ 画像 → TXI 変換ツール</h1>
 
-  <input type="file" id="pngInput" accept="image/png" />
+  <input type="file" id="imageInput" accept="image/*" />
   <br><br>
+	
+  <button id="drawFromTxi">🖌️ 変換画像を再描画</button>
+  <canvas id="previewCanvas" style="border: 1px solid #ccc; margin-top: 1em;"></canvas>
 
   <label for="txiOutput">TXI 出力内容:</label><br>
   <textarea id="txiOutput" placeholder="ここに変換後のTXIが表示されます"></textarea>
@@ -24,19 +28,22 @@
   <canvas id="canvas"></canvas>
 
   <script>
-    const pngInput = document.getElementById('pngInput');
+    const imageInput = document.getElementById('imageInput');
     const txiOutput = document.getElementById('txiOutput');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+    const preview = document.getElementById('preview');
 
-    pngInput.addEventListener('change', function() {
-      const file = pngInput.files[0];
+    imageInput.addEventListener('change', function() {
+      const file = imageInput.files[0];
       if (!file) return;
 
       const reader = new FileReader();
       reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
+          preview.src = img.src; // プレビュー表示
+
           canvas.width = img.width;
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0);
@@ -51,37 +58,26 @@
           lines.push('');
           lines.push('# pixel data');
 
-	// ピクセル処理部分を以下のように変更
-if (img.width >= 50 && img.height >= 50) {
-  // 右上から左下への読み取り
-  for (let y = 0; y < img.height; y++) {
-    for (let x = img.width - 1; x >= 0; x--) {
-      const index = (y * img.width + x) * 4;
-      const r = data[index].toString(16).padStart(2, '0').toUpperCase();
-      const g = data[index + 1].toString(16).padStart(2, '0').toUpperCase();
-      const b = data[index + 2].toString(16).padStart(2, '0').toUpperCase();
-      const a = data[index + 3].toString(16).padStart(2, '0').toUpperCase();
-      lines.push(`${r}${g}${b}${a}`);
-    }
-  }
-} else {
-  // 通常の左上からの読み取り
-  for (let i = 0; i < data.length; i += 4) {
-    const r = data[i].toString(16).padStart(2, '0').toUpperCase();
-    const g = data[i + 1].toString(16).padStart(2, '0').toUpperCase();
-    const b = data[i + 2].toString(16).padStart(2, '0').toUpperCase();
-    const a = data[i + 3].toString(16).padStart(2, '0').toUpperCase();
-    lines.push(`${r}${g}${b}${a}`);
-  }
-}
-
-
-          for (let i = 0; i < data.length; i += 4) {
-            const r = data[i].toString(16).padStart(2, '0').toUpperCase();
-            const g = data[i + 1].toString(16).padStart(2, '0').toUpperCase();
-            const b = data[i + 2].toString(16).padStart(2, '0').toUpperCase();
-            const a = data[i + 3].toString(16).padStart(2, '0').toUpperCase();
-            lines.push(`${r}${g}${b}${a}`);
+          // 特定サイズ以上で右上→左下、それ以外は通常左上→右下
+          if (img.width >= 50 && img.height >= 50) {
+            for (let y = 0; y < img.height; y++) {
+              for (let x = img.width - 1; x >= 0; x--) {
+                const index = (y * img.width + x) * 4;
+                const r = data[index].toString(16).padStart(2, '0').toUpperCase();
+                const g = data[index + 1].toString(16).padStart(2, '0').toUpperCase();
+                const b = data[index + 2].toString(16).padStart(2, '0').toUpperCase();
+                const a = data[index + 3].toString(16).padStart(2, '0').toUpperCase();
+                lines.push(`${r}${g}${b}${a}`);
+              }
+            }
+          } else {
+            for (let i = 0; i < data.length; i += 4) {
+              const r = data[i].toString(16).padStart(2, '0').toUpperCase();
+              const g = data[i + 1].toString(16).padStart(2, '0').toUpperCase();
+              const b = data[i + 2].toString(16).padStart(2, '0').toUpperCase();
+              const a = data[i + 3].toString(16).padStart(2, '0').toUpperCase();
+              lines.push(`${r}${g}${b}${a}`);
+            }
           }
 
           txiOutput.value = lines.join('\n');
@@ -90,8 +86,49 @@ if (img.width >= 50 && img.height >= 50) {
       };
       reader.readAsDataURL(file);
     });
+    // 追加: TXIからcanvasに再描画（プレビュー用）
+document.getElementById('drawFromTxi').addEventListener('click', () => {
+  const lines = txiOutput.value.trim().split('\n');
+  const widthLine = lines.find(line => line.startsWith('width:'));
+  const heightLine = lines.find(line => line.startsWith('height:'));
+  const width = parseInt(widthLine.split(':')[1]);
+  const height = parseInt(heightLine.split(':')[1]);
+  const pixelLines = lines.slice(lines.findIndex(l => l.startsWith('# pixel data')) + 1);
 
-    // TXI保存機能
+  const previewCanvas = document.getElementById('previewCanvas');
+  const previewCtx = previewCanvas.getContext('2d');
+
+  // 軽量プレビュー: 最大300pxに縮小表示
+  const scale = Math.min(300 / width, 300 / height, 1);
+  previewCanvas.width = Math.floor(width * scale);
+  previewCanvas.height = Math.floor(height * scale);
+
+  const fullCanvas = document.createElement('canvas');
+  fullCanvas.width = width;
+  fullCanvas.height = height;
+  const fullCtx = fullCanvas.getContext('2d');
+
+  const imageData = fullCtx.createImageData(width, height);
+  const data = imageData.data;
+
+  for (let i = 0; i < pixelLines.length; i++) {
+    const hex = pixelLines[i];
+    const index = i * 4;
+    if (hex.length === 8) {
+      data[index] = parseInt(hex.slice(0, 2), 16);     // R
+      data[index + 1] = parseInt(hex.slice(2, 4), 16); // G
+      data[index + 2] = parseInt(hex.slice(4, 6), 16); // B
+      data[index + 3] = parseInt(hex.slice(6, 8), 16); // A
+    }
+  }
+
+  fullCtx.putImageData(imageData, 0, 0);
+
+  // スケーリングして描画
+  previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+  previewCtx.drawImage(fullCanvas, 0, 0, previewCanvas.width, previewCanvas.height);
+});
+
     document.getElementById('saveTxi').addEventListener('click', () => {
       const blob = new Blob([txiOutput.value], { type: 'text/plain' });
       const link = document.createElement('a');
