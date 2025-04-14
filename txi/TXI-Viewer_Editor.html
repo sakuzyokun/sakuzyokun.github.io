@@ -25,6 +25,11 @@
     #toolbar {
       margin-top: 1em;
     }
+    #errorMessage {
+      color: red;
+      margin-top: 1em;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -43,64 +48,76 @@
     <button id="saveTxi">💾 TXIとして保存</button>
   </div>
 
+  <div id="errorMessage"></div>
+
   <script>
     const editor = document.getElementById('editor');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+    const errorMessage = document.getElementById('errorMessage');
+
+    const MAX_WIDTH = 100;  // 最大幅
+    const MAX_HEIGHT = 100; // 最大高さ
 
     // 16進数カラーコードをRGBAに変換
-function hexToRgba(hex) {
-  hex = hex.trim().replace(/^#/, ''); // #があれば除去
+    function hexToRgba(hex) {
+      hex = hex.trim().replace(/^#/, ''); // #があれば除去
 
-  if (hex.length === 6) hex += 'FF'; // αがない → 不透明補完
-  if (hex.length !== 8) return [0, 0, 0, 255]; // 異常な長さ → 黒
+      if (hex.length === 6) hex += 'FF'; // αがない → 不透明補完
+      if (hex.length !== 8) return [0, 0, 0, 255]; // 異常な長さ → 黒
 
-  return [
-    parseInt(hex.slice(0, 2), 16),
-    parseInt(hex.slice(2, 4), 16),
-    parseInt(hex.slice(4, 6), 16),
-    parseInt(hex.slice(6, 8), 16)
-  ];
-}
+      return [
+        parseInt(hex.slice(0, 2), 16),
+        parseInt(hex.slice(2, 4), 16),
+        parseInt(hex.slice(4, 6), 16),
+        parseInt(hex.slice(6, 8), 16)
+      ];
+    }
 
-
-// TXIテキストから画像を描画
-function renderImageFromText(text) {
+    // TXIテキストから画像を描画
+    function renderImageFromText(text) {
   try {
     const lines = text.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith('#'));
-    
-    // TXIの幅と高さを取得
+
     const widthLine = lines.find(line => line.startsWith('width:'));
     const heightLine = lines.find(line => line.startsWith('height:'));
-    const width = parseInt(widthLine.split(':')[1]);
-    const height = parseInt(heightLine.split(':')[1]);
-    
-    // ピクセルデータを取得
-    const pixels = lines.slice(2);
-    
-    // ピクセル数が一致しない場合は警告を出す
-    if (pixels.length !== width * height) {
-      console.warn(`ピクセル数が合いません：${pixels.length} 個ですが、${width}×${height}=${width * height} 必要です`);
+    if (!widthLine || !heightLine) {
+      errorMessage.textContent = 'width または height が見つかりません';
       return;
     }
 
-    // キャンバスのサイズを設定
+    const width = parseInt(widthLine.split(':')[1]);
+    const height = parseInt(heightLine.split(':')[1]);
+    const maxPixels = width * height;
+
+    const pixels = lines.slice(2);
+
+    // 超過チェック
+    if (pixels.length > maxPixels) {
+      errorMessage.textContent = '超えています！指定されたサイズよりピクセル数が多いです。';
+      return;
+    } else {
+      errorMessage.textContent = '';
+    }
+
+    if (pixels.length < maxPixels) {
+      console.warn(`ピクセル数が不足：${pixels.length} 個。必要数は ${maxPixels} 個です`);
+    }
+
     canvas.width = width;
     canvas.height = height;
 
-    // 画像データを生成
     const imgData = ctx.createImageData(width, height);
 
-    // ピクセルデータをRGBaに変換してキャンバスに描画
     for (let i = 0; i < pixels.length; i++) {
       const [r, g, b, a] = hexToRgba(pixels[i]);
       imgData.data.set([r, g, b, a], i * 4);
     }
 
-    // キャンバスに描画
     ctx.putImageData(imgData, 0, 0);
   } catch (e) {
     console.error('描画エラー:', e);
+    errorMessage.textContent = '描画中にエラーが発生しました。';
   }
 }
 
