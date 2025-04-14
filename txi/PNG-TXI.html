@@ -42,7 +42,7 @@
       reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
-          preview.src = img.src; // プレビュー表示
+          previewCanvas.src = img.src; // プレビュー表示
 
           canvas.width = img.width;
           canvas.height = img.height;
@@ -86,7 +86,7 @@
       };
       reader.readAsDataURL(file);
     });
-    // 追加: TXIからcanvasに再描画（プレビュー用）
+
 document.getElementById('drawFromTxi').addEventListener('click', () => {
   const lines = txiOutput.value.trim().split('\n');
   const widthLine = lines.find(line => line.startsWith('width:'));
