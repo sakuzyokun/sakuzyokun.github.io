@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>GFT Viewer & Editor</title>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 1em; }
+    textarea { width: 100%; height: 300px; font-family: monospace; }
+    canvas { display: block; margin-top: 1em; border: 1px solid #ccc; image-rendering: pixelated; }
+    #toolbar { margin-top: 1em; }
+    #errorMessage { color: red; font-weight: bold; margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <h1>🖼️ GFT Viewer & Editor</h1>
+
+  <textarea id="editor" placeholder="GFTフォーマットでアニメーションを定義..."></textarea>
+  <canvas id="canvas"></canvas>
+
+  <div id="toolbar">
+    <button id="saveGft">💾 GFTとして保存</button>
+  </div>
+
+  <div id="errorMessage"></div>
+
+  <script>
+    const editor = document.getElementById('editor');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const errorMessage = document.getElementById('errorMessage');
+
+    let animationId;
+    let currentFrameIndex = 0;
+    let frames = [];
+
+    function hexToRgba(hex) {
+      hex = hex.trim().replace(/^#/, '');
+      if (hex.length === 6) hex += 'FF';
+      if (hex.length !== 8) return [0, 0, 0, 0];
+      return [
+        parseInt(hex.slice(0, 2), 16),
+        parseInt(hex.slice(2, 4), 16),
+        parseInt(hex.slice(4, 6), 16),
+        parseInt(hex.slice(6, 8), 16)
+      ];
+    }
+
+    function parseGFT(text) {
+      const lines = text.split('\n').map(line => line.trim()).filter(l => l && !l.startsWith('#'));
+      const widthLine = lines.find(line => line.startsWith('width:'));
+      const heightLine = lines.find(line => line.startsWith('height:'));
+
+      if (!widthLine || !heightLine) throw new Error('width または height が見つかりません');
+
+      const width = parseInt(widthLine.split(':')[1]);
+      const height = parseInt(heightLine.split(':')[1]);
+
+      const frameBlocks = text.match(/frame\s*{[\s\S]*?}/g);
+      if (!frameBlocks) throw new Error('frame { ... } が見つかりません');
+
+      const parsedFrames = frameBlocks.map(block => {
+        const durationMatch = block.match(/duration\s*:\s*(\d+)/);
+        const duration = durationMatch ? parseInt(durationMatch[1]) : 500;
+
+        const pixelLines = block
+          .replace(/frame\s*{/, '')
+          .replace(/}/, '')
+          .split('\n')
+          .map(line => line.trim())
+          .filter(line => line && !line.startsWith('duration'));
+
+        if (pixelLines.length < width * height) {
+          // 補完
+          const missing = width * height - pixelLines.length;
+          for (let i = 0; i < missing; i++) pixelLines.push('00000000');
+        }
+
+        return { duration, pixels: pixelLines };
+      });
+
+      return { width, height, frames: parsedFrames };
+    }
+
+    function drawFrame(frame, width, height) {
+      canvas.width = width;
+      canvas.height = height;
+      const imgData = ctx.createImageData(width, height);
+
+      for (let i = 0; i < width * height; i++) {
+        const [r, g, b, a] = hexToRgba(frame.pixels[i]);
+        imgData.data.set([r, g, b, a], i * 4);
+      }
+
+      ctx.putImageData(imgData, 0, 0);
+    }
+
+    function playAnimation(data) {
+      frames = data.frames;
+      currentFrameIndex = 0;
+
+      function next() {
+        drawFrame(frames[currentFrameIndex], data.width, data.height);
+        const duration = frames[currentFrameIndex].duration;
+        currentFrameIndex = (currentFrameIndex + 1) % frames.length;
+        animationId = setTimeout(next, duration);
+      }
+
+      next();
+    }
+
+    function start() {
+      clearTimeout(animationId);
+      try {
+        const data = parseGFT(editor.value);
+        errorMessage.textContent = '';
+        playAnimation(data);
+      } catch (e) {
+        errorMessage.textContent = 'パースエラー: ' + e.message;
+      }
+    }
+
+    editor.addEventListener('input', () => start());
+
+    document.getElementById('saveGft').addEventListener('click', () => {
+      const blob = new Blob([editor.value], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.download = 'animation.gft';
+      link.href = URL.createObjectURL(blob);
+      link.click();
+    });
+
+    // 初期デモ用GFT
+    editor.value = `width: 3
+height: 3
+
+frame {
+  duration: 400
+  FF0000FF
+  00FF00FF
+  0000FFFF
+  000000FF
+  FFFFFF00
+  00000000
+  FF00FFFF
+  00FFFFFF
+  FFFF00FF
+}
+
+frame {
+  duration: 700
+  00000000
+  FFFF00FF
+  00FFFFFF
+  00000000
+  FFFFFF00
+  000000FF
+  0000FFFF
+  00FF00FF
+  FF0000FF
+}`;
+    start();
+  </script>
+</body>
+</html>
