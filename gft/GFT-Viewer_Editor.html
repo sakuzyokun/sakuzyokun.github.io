@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>GFT Viewer & Editor</title>
+  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
   <style>
     body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 1em; }
     textarea { width: 100%; height: 300px; font-family: monospace; }
@@ -21,6 +23,7 @@
   <div id="toolbar">
     <button id="openGft">📂 GFTを開く</button>
     <button id="saveGft">💾 GFTとして保存</button>
+    <button id="saveGif">🎞️ GIFとして保存</button>
   </div>
 
   <div id="errorMessage"></div>
@@ -147,6 +150,45 @@
       };
       reader.readAsText(file);
     });
+//gif保存
+    document.getElementById('saveGif').addEventListener('click', () => {
+  try {
+    const data = parseGFT(editor.value);
+    const gif = new GIF({
+      workers: 2,
+      quality: 10,
+      workerScript: 'https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js'
+    });
+
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    tempCanvas.width = data.width;
+    tempCanvas.height = data.height;
+
+    data.frames.forEach(frame => {
+      const imgData = tempCtx.createImageData(data.width, data.height);
+      for (let i = 0; i < data.width * data.height; i++) {
+        const [r, g, b, a] = hexToRgba(frame.pixels[i]);
+        imgData.data.set([r, g, b, a], i * 4);
+      }
+      tempCtx.putImageData(imgData, 0, 0);
+      gif.addFrame(tempCtx, { copy: true, delay: frame.duration });
+    });
+
+    gif.on('finished', blob => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'animation.gif';
+      link.click();
+    });
+
+    gif.render();
+  } catch (e) {
+    errorMessage.textContent = 'GIF保存エラー: ' + e.message;
+  }
+});
+
 
     // 初期デモ用GFT
     editor.value = `width: 3
