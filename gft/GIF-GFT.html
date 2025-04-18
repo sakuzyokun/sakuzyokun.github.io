@@ -2,8 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>GIF / MP4 → GFT 変換ツール</title>
-  <script src="https://cdn.jsdelivr.net/npm/gifuct-js@2.1.2/dist/gifuct.min.js"></script>
+  <title>MP4 → GFT 変換ツール</title>
   <style>
     body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 1em; }
     input, button { margin: 1em 0; }
@@ -12,11 +11,12 @@
   </style>
 </head>
 <body>
-  <h1>🎥 GIF / MP4 → GFT 変換ツール</h1>
+  <h1>🎥 MP4 → GFT 変換ツール</h1>
 
-  <input type="file" id="fileInput" accept="video/mp4,image/gif">
+  <input type="file" id="fileInput" accept="video/mp4">
   <button id="convertBtn">🔁 GFTに変換</button>
   <button id="saveBtn">💾 保存</button>
+  <p><a href="https://convertio.co/ja/gif-mp4/">GIFを変換する場合はこちら</p>
 
   <textarea id="gftOutput" placeholder="ここにGFT出力が表示されます"></textarea>
 
@@ -39,75 +39,40 @@
     });
 
     convertBtn.addEventListener('click', async () => {
-      if (!file) return alert('ファイルを選択してください');
+      if (!file) return alert('MP4ファイルを選択してください');
 
-      const ext = file.name.split('.').pop().toLowerCase();
-      if (ext === 'gif') {
-        const buffer = await file.arrayBuffer();
-        const gif = gifuct.parseGIF(buffer);
-        const frames = gifuct.decompressFrames(gif, true);
-        const width = gif.lsd.width;
-        const height = gif.lsd.height;
+      const url = URL.createObjectURL(file);
+      video.src = url;
 
-        canvas.width = width;
-        canvas.height = height;
+      await video.play();
+      const width = video.videoWidth;
+      const height = video.videoHeight;
+      canvas.width = width;
+      canvas.height = height;
 
-        const gft = [`width: ${width}`, `height: ${height}`, ''];
-        for (const frame of frames) {
-          const img = ctx.createImageData(width, height);
-          img.data.set(frame.patch);
-          ctx.putImageData(img, 0, 0);
+      const duration = video.duration * 1000;
+      const interval = 200;
+      let current = 0;
+      const gft = [`width: ${width}`, `height: ${height}`, ''];
 
-          const imgData = ctx.getImageData(0, 0, width, height).data;
-          gft.push(`frame {\n  duration: ${frame.delay * 10}`);
-          for (let i = 0; i < imgData.length; i += 4) {
-            const r = imgData[i].toString(16).padStart(2, '0');
-            const g = imgData[i + 1].toString(16).padStart(2, '0');
-            const b = imgData[i + 2].toString(16).padStart(2, '0');
-            const a = imgData[i + 3].toString(16).padStart(2, '0');
-            gft.push(`  ${r}${g}${b}${a}`);
-          }
-          gft.push('}\n');
+      while (current < duration) {
+        await seekVideo(video, current / 1000);
+        ctx.drawImage(video, 0, 0, width, height);
+        const imgData = ctx.getImageData(0, 0, width, height).data;
+
+        gft.push(`frame {\n  duration: ${interval}`);
+        for (let i = 0; i < imgData.length; i += 4) {
+          const r = imgData[i].toString(16).padStart(2, '0');
+          const g = imgData[i + 1].toString(16).padStart(2, '0');
+          const b = imgData[i + 2].toString(16).padStart(2, '0');
+          const a = imgData[i + 3].toString(16).padStart(2, '0');
+          gft.push(`  ${r}${g}${b}${a}`);
         }
-
-        output.value = gft.join('\n');
-
-      } else if (ext === 'mp4') {
-        const url = URL.createObjectURL(file);
-        video.src = url;
-
-        await video.play();
-        const width = video.videoWidth;
-        const height = video.videoHeight;
-        canvas.width = width;
-        canvas.height = height;
-
-        const duration = video.duration * 1000;
-        const interval = 200;
-        let current = 0;
-        const gft = [`width: ${width}`, `height: ${height}`, ''];
-
-        while (current < duration) {
-          await seekVideo(video, current / 1000);
-          ctx.drawImage(video, 0, 0, width, height);
-          const imgData = ctx.getImageData(0, 0, width, height).data;
-
-          gft.push(`frame {\n  duration: ${interval}`);
-          for (let i = 0; i < imgData.length; i += 4) {
-            const r = imgData[i].toString(16).padStart(2, '0');
-            const g = imgData[i + 1].toString(16).padStart(2, '0');
-            const b = imgData[i + 2].toString(16).padStart(2, '0');
-            const a = imgData[i + 3].toString(16).padStart(2, '0');
-            gft.push(`  ${r}${g}${b}${a}`);
-          }
-          gft.push('}\n');
-          current += interval;
-        }
-
-        output.value = gft.join('\n');
-      } else {
-        alert('GIFまたはMP4のみ対応しています');
+        gft.push('}\n');
+        current += interval;
       }
+
+      output.value = gft.join('\n');
     });
 
     saveBtn.addEventListener('click', () => {
