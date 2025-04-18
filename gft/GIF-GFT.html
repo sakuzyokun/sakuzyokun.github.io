@@ -1,59 +1,129 @@
-<input type="file" id="gifInput" accept="image/gif">
-<button id="convertBtn">GFTに変換</button>
-<pre id="output"></pre>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>GIF / MP4 → GFT 変換ツール</title>
+  <script src="https://unpkg.com/gifuct-js/dist/gifuct.min.js"></script>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 1em; }
+    input, button { margin: 1em 0; }
+    video, canvas { display: none; }
+    textarea { width: 100%; height: 300px; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <h1>🎥 GIF / MP4 → GFT 変換ツール</h1>
 
-<script src="https://unpkg.com/gifuct-js/dist/gifuct.min.js"></script>
-<script>
-  const gifInput = document.getElementById('gifInput');
-  const output = document.getElementById('output');
+  <input type="file" id="fileInput" accept="video/mp4,image/gif">
+  <button id="convertBtn">🔁 GFTに変換</button>
+  <button id="saveBtn">💾 保存</button>
 
-  let gifArrayBuffer;
+  <textarea id="gftOutput" placeholder="ここにGFT出力が表示されます"></textarea>
 
-  gifInput.addEventListener('change', async () => {
-    const file = gifInput.files[0];
-    if (!file) return;
-    gifArrayBuffer = await file.arrayBuffer();
-  });
+  <video id="video" crossorigin="anonymous"></video>
+  <canvas id="canvas"></canvas>
 
-  document.getElementById('convertBtn').addEventListener('click', async () => {
-    if (!gifArrayBuffer) return alert('GIFを選択してください');
-    
-    const gif = gifuct.parseGIF(gifArrayBuffer);
-    const frames = gifuct.decompressFrames(gif, true);
-
-    const width = gif.lsd.width;
-    const height = gif.lsd.height;
-
-    const canvas = document.createElement('canvas');
+  <script>
+    const fileInput = document.getElementById('fileInput');
+    const convertBtn = document.getElementById('convertBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const output = document.getElementById('gftOutput');
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = width;
-    canvas.height = height;
 
-    let gft = `width: ${width}\nheight: ${height}\n\n`;
+    let file;
 
-    for (const frame of frames) {
-      const img = ctx.createImageData(width, height);
-      img.data.set(frame.patch);
-      ctx.putImageData(img, 0, 0);
+    fileInput.addEventListener('change', (e) => {
+      file = e.target.files[0];
+    });
 
-      const frameData = ctx.getImageData(0, 0, width, height).data;
-      gft += `frame {\n  duration: ${frame.delay * 10}\n`;
+    convertBtn.addEventListener('click', async () => {
+      if (!file) return alert('ファイルを選択してください');
 
-      for (let i = 0; i < frameData.length; i += 4) {
-        const r = frameData[i + 0].toString(16).padStart(2, '0');
-        const g = frameData[i + 1].toString(16).padStart(2, '0');
-        const b = frameData[i + 2].toString(16).padStart(2, '0');
-        const a = frameData[i + 3].toString(16).padStart(2, '0');
-        gft += `  ${r}${g}${b}${a}\n`;
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (ext === 'gif') {
+        const buffer = await file.arrayBuffer();
+        const gif = gifuct.parseGIF(buffer);
+        const frames = gifuct.decompressFrames(gif, true);
+        const width = gif.lsd.width;
+        const height = gif.lsd.height;
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const gft = [`width: ${width}`, `height: ${height}`, ''];
+        for (const frame of frames) {
+          const img = ctx.createImageData(width, height);
+          img.data.set(frame.patch);
+          ctx.putImageData(img, 0, 0);
+
+          const imgData = ctx.getImageData(0, 0, width, height).data;
+          gft.push(`frame {\n  duration: ${frame.delay * 10}`);
+          for (let i = 0; i < imgData.length; i += 4) {
+            const r = imgData[i].toString(16).padStart(2, '0');
+            const g = imgData[i + 1].toString(16).padStart(2, '0');
+            const b = imgData[i + 2].toString(16).padStart(2, '0');
+            const a = imgData[i + 3].toString(16).padStart(2, '0');
+            gft.push(`  ${r}${g}${b}${a}`);
+          }
+          gft.push('}\n');
+        }
+
+        output.value = gft.join('\n');
+
+      } else if (ext === 'mp4') {
+        const url = URL.createObjectURL(file);
+        video.src = url;
+
+        await video.play();
+        const width = video.videoWidth;
+        const height = video.videoHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        const duration = video.duration * 1000;
+        const interval = 200;
+        let current = 0;
+        const gft = [`width: ${width}`, `height: ${height}`, ''];
+
+        while (current < duration) {
+          await seekVideo(video, current / 1000);
+          ctx.drawImage(video, 0, 0, width, height);
+          const imgData = ctx.getImageData(0, 0, width, height).data;
+
+          gft.push(`frame {\n  duration: ${interval}`);
+          for (let i = 0; i < imgData.length; i += 4) {
+            const r = imgData[i].toString(16).padStart(2, '0');
+            const g = imgData[i + 1].toString(16).padStart(2, '0');
+            const b = imgData[i + 2].toString(16).padStart(2, '0');
+            const a = imgData[i + 3].toString(16).padStart(2, '0');
+            gft.push(`  ${r}${g}${b}${a}`);
+          }
+          gft.push('}\n');
+          current += interval;
+        }
+
+        output.value = gft.join('\n');
+      } else {
+        alert('GIFまたはMP4のみ対応しています');
       }
-      gft += `}\n\n`;
-    }
+    });
 
-    output.textContent = gft;
-    const blob = new Blob([gft], { type: 'text/plain' });
-    const link = document.createElement('a');
-    link.download = 'converted.gft';
-    link.href = URL.createObjectURL(blob);
-    link.click();
-  });
-</script>
+    saveBtn.addEventListener('click', () => {
+      const blob = new Blob([output.value], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.download = 'converted.gft';
+      link.href = URL.createObjectURL(blob);
+      link.click();
+    });
+
+    function seekVideo(video, time) {
+      return new Promise(resolve => {
+        video.currentTime = time;
+        video.onseeked = resolve;
+      });
+    }
+  </script>
+</body>
+</html>
