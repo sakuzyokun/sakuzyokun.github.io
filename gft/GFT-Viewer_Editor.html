@@ -16,8 +16,10 @@
 
   <textarea id="editor" placeholder="GFTフォーマットでアニメーションを定義..."></textarea>
   <canvas id="canvas"></canvas>
+  <input type="file" id="openGftInput" accept=".gft,.txt" style="display: none;" />
 
   <div id="toolbar">
+    <button id="openGft">📂 GFTを開く</button>
     <button id="saveGft">💾 GFTとして保存</button>
   </div>
 
@@ -28,6 +30,8 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const errorMessage = document.getElementById('errorMessage');
+    const openInput = document.getElementById('openGftInput');
+    const openButton = document.getElementById('openGft');
 
     let animationId;
     let currentFrameIndex = 0;
@@ -127,6 +131,21 @@
       link.download = 'animation.gft';
       link.href = URL.createObjectURL(blob);
       link.click();
+    });
+
+    
+    openButton.addEventListener('click', () => openInput.click());
+
+    openInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        editor.value = e.target.result;
+        start(); // 読み込み後に再生
+      };
+      reader.readAsText(file);
     });
 
     // 初期デモ用GFT
