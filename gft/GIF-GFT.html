@@ -62,8 +62,8 @@
 
       while (current < duration) {
         await seekVideo(video, current / 1000);
-        ctx.drawImage(video, 0, 0, width, height);
-        const imgData = ctx.getImageData(0, 0, width, height).data;
+        ctx.drawImage(video, 0, 0, targetWidth, targetHeight);
+        const imgData = ctx.getImageData(0, 0, targetWidth, targetHeight).data;
 
         gft.push(`frame {\n  duration: ${interval}`);
         for (let i = 0; i < imgData.length; i += 4) {
