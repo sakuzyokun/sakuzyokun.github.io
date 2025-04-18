@@ -1,0 +1,59 @@
+<input type="file" id="gifInput" accept="image/gif">
+<button id="convertBtn">GFTに変換</button>
+<pre id="output"></pre>
+
+<script src="https://unpkg.com/gifuct-js/dist/gifuct.min.js"></script>
+<script>
+  const gifInput = document.getElementById('gifInput');
+  const output = document.getElementById('output');
+
+  let gifArrayBuffer;
+
+  gifInput.addEventListener('change', async () => {
+    const file = gifInput.files[0];
+    if (!file) return;
+    gifArrayBuffer = await file.arrayBuffer();
+  });
+
+  document.getElementById('convertBtn').addEventListener('click', async () => {
+    if (!gifArrayBuffer) return alert('GIFを選択してください');
+    
+    const gif = gifuct.parseGIF(gifArrayBuffer);
+    const frames = gifuct.decompressFrames(gif, true);
+
+    const width = gif.lsd.width;
+    const height = gif.lsd.height;
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = width;
+    canvas.height = height;
+
+    let gft = `width: ${width}\nheight: ${height}\n\n`;
+
+    for (const frame of frames) {
+      const img = ctx.createImageData(width, height);
+      img.data.set(frame.patch);
+      ctx.putImageData(img, 0, 0);
+
+      const frameData = ctx.getImageData(0, 0, width, height).data;
+      gft += `frame {\n  duration: ${frame.delay * 10}\n`;
+
+      for (let i = 0; i < frameData.length; i += 4) {
+        const r = frameData[i + 0].toString(16).padStart(2, '0');
+        const g = frameData[i + 1].toString(16).padStart(2, '0');
+        const b = frameData[i + 2].toString(16).padStart(2, '0');
+        const a = frameData[i + 3].toString(16).padStart(2, '0');
+        gft += `  ${r}${g}${b}${a}\n`;
+      }
+      gft += `}\n\n`;
+    }
+
+    output.textContent = gft;
+    const blob = new Blob([gft], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.download = 'converted.gft';
+    link.href = URL.createObjectURL(blob);
+    link.click();
+  });
+</script>
