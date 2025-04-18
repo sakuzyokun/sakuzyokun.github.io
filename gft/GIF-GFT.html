@@ -58,7 +58,7 @@
       const duration = video.duration * 1000;
       const interval = 200;
       let current = 0;
-      const gft = [`width: ${width}`, `height: ${height}`, ''];
+      const gft = [`width: ${targetWidth}`, `height: ${targetHeight}`, ''];
 
       while (current < duration) {
         await seekVideo(video, current / 1000);
