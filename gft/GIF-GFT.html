@@ -32,6 +32,15 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
+    const targetWidth = 64;  // ← お好みで。GFTが小さいならこれで十分
+    const targetHeight = Math.floor(video.videoHeight * (targetWidth / video.videoWidth));
+
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+
+    ctx.drawImage(video, 0, 0, targetWidth, targetHeight);
+
+
     let file;
 
     fileInput.addEventListener('change', (e) => {
