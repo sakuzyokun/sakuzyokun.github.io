@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>.sot サウンドジェネレータ</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    textarea { width: 100%; height: 200px; }
+    button { padding: 10px 20px; font-size: 1em; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h2>.sot ファイルでサウンド作成</h2>
+
+<textarea id="sotInput" placeholder="[00:00.000] sine 440Hz 1.0s
+[00:01.000] square 660Hz 0.5s
+[00:02.000] noise 0.3s"></textarea><br>
+
+<button onclick="playSOT()">▶️ 再生する</button>
+
+<script>
+function parseTimeToSeconds(timeStr) {
+  const match = timeStr.match(/(\d+):(\d+\.\d+)/);
+  if (!match) return 0;
+  return parseInt(match[1]) * 60 + parseFloat(match[2]);
+}
+
+function playSOT() {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const lines = document.getElementById("sotInput").value.trim().split("\n");
+
+  for (const line of lines) {
+    const match = line.match(/\[(.*?)\]\s*(\w+)\s*(\d+)?Hz?\s*(\d+(\.\d+)?)s/);
+    if (match) {
+      const time = parseTimeToSeconds(match[1]);
+      const type = match[2]; // sine, square, noise etc.
+      const freq = parseFloat(match[3]);
+      const duration = parseFloat(match[4]);
+
+      const startTime = ctx.currentTime + time;
+
+      if (type === 'noise') {
+        const bufferSize = ctx.sampleRate * duration;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const output = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        noise.connect(ctx.destination);
+        noise.start(startTime);
+      } else {
+        const osc = ctx.createOscillator();
+        osc.type = type;
+        osc.frequency.value = freq;
+        osc.connect(ctx.destination);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      }
+    }
+  }
+}
+</script>
+
+</body>
+</html>
