@@ -30,10 +30,9 @@
 <button onclick="playSOT()">▶️ 再生する</button>
 
 <script>
-function parseTimeToSeconds(timeStr) {
-  const match = timeStr.match(/(\d+):(\d+\.\d+)/);
-  if (!match) return 0;
-  return parseInt(match[1]) * 60 + parseFloat(match[2]);
+function parseTimeToSeconds(t) {
+  const match = t.match(/(\d+):(\d+\.\d+)/);
+  return match ? parseInt(match[1]) * 60 + parseFloat(match[2]) : 0;
 }
 
 function playSOT() {
@@ -47,61 +46,86 @@ function playSOT() {
     const time = parseTimeToSeconds(match[1]);
     const type = match[2];
     const freq = parseFloat(match[3]) || 440;
-    const duration = parseFloat(match[4]);
-    const volume = parseFloat(match[6]);
+    const dur = parseFloat(match[4]);
+    const vol = parseFloat(match[6]);
 
-    const startTime = ctx.currentTime + time;
+    const start = ctx.currentTime + time;
+    const gain = ctx.createGain();
+    gain.gain.value = vol;
+    gain.connect(ctx.destination);
 
-    const gainNode = ctx.createGain();
-    gainNode.gain.value = volume;
-    gainNode.connect(ctx.destination);
-
-    if (type === 'noise') {
-      const bufferSize = ctx.sampleRate * duration;
-      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-      const output = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        output[i] = Math.random() * 2 - 1;
-      }
-      const noise = ctx.createBufferSource();
-      noise.buffer = buffer;
-      noise.connect(gainNode);
-      noise.start(startTime);
-    } else if (type === 'chime') {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(volume, startTime);
-      gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
-      osc.connect(gain).connect(ctx.destination);
-      osc.start(startTime);
-      osc.stop(startTime + duration);
-    } else if (type === 'fm') {
-      const carrier = ctx.createOscillator();
-      const modulator = ctx.createOscillator();
-      const modGain = ctx.createGain();
-
-      carrier.type = 'sine';
-      modulator.type = 'sine';
-
-      carrier.frequency.value = freq;
-      modulator.frequency.value = freq * 2;
-      modGain.gain.value = freq * 0.5;
-
-      modulator.connect(modGain).connect(carrier.frequency);
-      carrier.connect(gainNode);
-      modulator.start(startTime);
-      carrier.start(startTime);
-      carrier.stop(startTime + duration);
-      modulator.stop(startTime + duration);
-    } else {
+    if (type === 'square' || type === 'sine' || type === 'sawtooth' || type === 'triangle') {
       const osc = ctx.createOscillator();
       osc.type = type;
       osc.frequency.value = freq;
-      osc.connect(gainNode);
-      osc.start(startTime);
-      osc.stop(startTime + duration);
+      osc.connect(gain);
+      osc.start(start);
+      osc.stop(start + dur);
+    }
+
+    else if (type === 'pluck') {
+      const osc = ctx.createOscillator();
+      const pluckGain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = freq;
+      pluckGain.gain.setValueAtTime(vol, start);
+      pluckGain.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      osc.connect(pluckGain).connect(ctx.destination);
+      osc.start(start);
+      osc.stop(start + dur);
+    }
+
+    else if (type === 'bass') {
+      const osc = ctx.createOscillator();
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(200, start);
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      osc.connect(filter).connect(gain);
+      osc.start(start);
+      osc.stop(start + dur);
+    }
+
+    else if (type === 'bell') {
+      const osc1 = ctx.createOscillator();
+      const osc2 = ctx.createOscillator();
+      const bellGain = ctx.createGain();
+      bellGain.gain.setValueAtTime(vol, start);
+      bellGain.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      osc1.type = 'sine'; osc1.frequency.value = freq;
+      osc2.type = 'sine'; osc2.frequency.value = freq * 2.5;
+      osc1.connect(bellGain).connect(ctx.destination);
+      osc2.connect(bellGain);
+      osc1.start(start); osc2.start(start);
+      osc1.stop(start + dur); osc2.stop(start + dur);
+    }
+
+    else if (type === 'kick') {
+      const osc = ctx.createOscillator();
+      const kickGain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(150, start);
+      osc.frequency.exponentialRampToValueAtTime(50, start + dur);
+      kickGain.gain.setValueAtTime(vol, start);
+      kickGain.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      osc.connect(kickGain).connect(ctx.destination);
+      osc.start(start);
+      osc.stop(start + dur);
+    }
+
+    else if (type === 'snare') {
+      const bufferSize = ctx.sampleRate * dur;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+      const noise = ctx.createBufferSource();
+      const snareGain = ctx.createGain();
+      snareGain.gain.setValueAtTime(vol, start);
+      snareGain.gain.exponentialRampToValueAtTime(0.01, start + dur);
+      noise.buffer = buffer;
+      noise.connect(snareGain).connect(ctx.destination);
+      noise.start(start);
     }
   }
 }
