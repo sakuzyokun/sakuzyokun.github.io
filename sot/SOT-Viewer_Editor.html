@@ -5,17 +5,18 @@
   <title>.sot サウンドジェネレータ</title>
   <style>
     body { font-family: sans-serif; padding: 20px; }
-    textarea { width: 100%; height: 200px; }
+    textarea { width: 100%; height: 220px; }
     button { padding: 10px 20px; font-size: 1em; margin-top: 10px; }
   </style>
 </head>
 <body>
 
-<h2>.sot ファイルでサウンド作成</h2>
+<h2>.sot ファイルでサウンド作成 🎼</h2>
 
-<textarea id="sotInput" placeholder="[00:00.000] sine 440Hz 1.0s
-[00:01.000] square 660Hz 0.5s
-[00:02.000] noise 0.3s"></textarea><br>
+<textarea id="sotInput" placeholder="[00:00.000] sine 440Hz 1.0s 0.5
+[00:01.000] sawtooth 660Hz 0.8s 1.0
+[00:02.000] chime 880Hz 0.4s 0.3
+[00:03.000] noise 0.5s 0.2"></textarea><br>
 
 <button onclick="playSOT()">▶️ 再生する</button>
 
@@ -31,34 +32,67 @@ function playSOT() {
   const lines = document.getElementById("sotInput").value.trim().split("\n");
 
   for (const line of lines) {
-    const match = line.match(/\[(.*?)\]\s*(\w+)\s*(\d+)?Hz?\s*(\d+(\.\d+)?)s/);
-    if (match) {
-      const time = parseTimeToSeconds(match[1]);
-      const type = match[2]; // sine, square, noise etc.
-      const freq = parseFloat(match[3]);
-      const duration = parseFloat(match[4]);
+    const match = line.match(/\[(.*?)\]\s*(\w+)\s*(\d+)?Hz?\s*(\d+(\.\d+)?)s\s*(\d+(\.\d+)?)/);
+    if (!match) continue;
 
-      const startTime = ctx.currentTime + time;
+    const time = parseTimeToSeconds(match[1]);
+    const type = match[2];
+    const freq = parseFloat(match[3]) || 440;
+    const duration = parseFloat(match[4]);
+    const volume = parseFloat(match[6]);
 
-      if (type === 'noise') {
-        const bufferSize = ctx.sampleRate * duration;
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const output = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-          output[i] = Math.random() * 2 - 1;
-        }
-        const noise = ctx.createBufferSource();
-        noise.buffer = buffer;
-        noise.connect(ctx.destination);
-        noise.start(startTime);
-      } else {
-        const osc = ctx.createOscillator();
-        osc.type = type;
-        osc.frequency.value = freq;
-        osc.connect(ctx.destination);
-        osc.start(startTime);
-        osc.stop(startTime + duration);
+    const startTime = ctx.currentTime + time;
+
+    const gainNode = ctx.createGain();
+    gainNode.gain.value = volume;
+    gainNode.connect(ctx.destination);
+
+    if (type === 'noise') {
+      const bufferSize = ctx.sampleRate * duration;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
       }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      noise.connect(gainNode);
+      noise.start(startTime);
+    } else if (type === 'chime') {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(volume, startTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+      osc.connect(gain).connect(ctx.destination);
+      osc.start(startTime);
+      osc.stop(startTime + duration);
+    } else if (type === 'fm') {
+      const carrier = ctx.createOscillator();
+      const modulator = ctx.createOscillator();
+      const modGain = ctx.createGain();
+
+      carrier.type = 'sine';
+      modulator.type = 'sine';
+
+      carrier.frequency.value = freq;
+      modulator.frequency.value = freq * 2;
+      modGain.gain.value = freq * 0.5;
+
+      modulator.connect(modGain).connect(carrier.frequency);
+      carrier.connect(gainNode);
+      modulator.start(startTime);
+      carrier.start(startTime);
+      carrier.stop(startTime + duration);
+      modulator.stop(startTime + duration);
+    } else {
+      const osc = ctx.createOscillator();
+      osc.type = type;
+      osc.frequency.value = freq;
+      osc.connect(gainNode);
+      osc.start(startTime);
+      osc.stop(startTime + duration);
     }
   }
 }
