@@ -2,16 +2,25 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>.sot サウンドジェネレータ</title>
+  <title>SOT Player & Editor</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    textarea { width: 100%; height: 220px; }
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 1em;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      font-family: monospace;
+    }
     button { padding: 10px 20px; font-size: 1em; margin-top: 10px; }
   </style>
 </head>
 <body>
 
-<h2>.sot ファイルでサウンド作成 🎼</h2>
+<h2>🎼 SOT Player & Editor</h2>
 
 <textarea id="sotInput" placeholder="[00:00.000] sine 440Hz 1.0s 0.5
 [00:01.000] sawtooth 660Hz 0.8s 1.0
