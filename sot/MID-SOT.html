@@ -2,24 +2,32 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>MIDI → .sot 変換ツール</title>
+  <title>MIDI → SOT 変換ツール</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; }
-    textarea { width: 100%; height: 300px; margin-top: 10px; }
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 1em;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      font-family: monospace;
+    }
     input, button { margin-top: 10px; font-size: 1em; }
   </style>
 </head>
 <body>
 
-<h2>MIDI → .sot 変換ツール 🎹</h2>
+<h2>🎹 MIDI → SOT 変換ツール</h2>
 
 <input type="file" id="midiFileInput" accept=".mid,.midi">
 <button onclick="convertMIDItoSOT()">変換する</button>
 
 <textarea id="sotOutput" placeholder=".sot 形式の出力がここに表示されます"></textarea>
 
-<!-- MIDI解析ライブラリ -->
-<script src="https://unpkg.com/@tonejs/midi"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tonejs/midi@2.0.14/dist/Midi.min.js"></script>
 
 <script>
 function convertMIDItoSOT() {
