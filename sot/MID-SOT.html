@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MIDI → .sot 変換ツール</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    textarea { width: 100%; height: 300px; margin-top: 10px; }
+    input, button { margin-top: 10px; font-size: 1em; }
+  </style>
+</head>
+<body>
+
+<h2>MIDI → .sot 変換ツール 🎹</h2>
+
+<input type="file" id="midiFileInput" accept=".mid,.midi">
+<button onclick="convertMIDItoSOT()">変換する</button>
+
+<textarea id="sotOutput" placeholder=".sot 形式の出力がここに表示されます"></textarea>
+
+<!-- MIDI解析ライブラリ -->
+<script src="https://cdn.jsdelivr.net/npm/midiconvert@0.5.2/build/MidiConvert.min.js"></script>
+
+<script>
+function convertMIDItoSOT() {
+  const input = document.getElementById('midiFileInput');
+  const output = document.getElementById('sotOutput');
+
+  if (!input.files.length) {
+    alert("MIDIファイルを選んでください");
+    return;
+  }
+
+  const file = input.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    MidiConvert.parse(e.target.result).then(midi => {
+      const lines = [];
+
+      midi.tracks.forEach(track => {
+        track.notes.forEach(note => {
+          const time = note.time;
+          const min = String(Math.floor(time / 60)).padStart(2, '0');
+          const sec = (time % 60).toFixed(3).padStart(6, '0');
+          const timestamp = `[${min}:${sec}]`;
+
+          const frequency = note.frequency.toFixed(1) + "Hz";
+          const duration = note.duration.toFixed(2) + "s";
+          const velocity = note.velocity.toFixed(2);
+
+          // デフォルトは"sine"で変換
+          lines.push(`${timestamp} sine ${frequency} ${duration} ${velocity}`);
+        });
+      });
+
+      output.value = lines.join('\n');
+    }).catch(err => {
+      alert("MIDIファイルの解析に失敗しました");
+      console.error(err);
+    });
+  };
+
+  reader.readAsArrayBuffer(file);
+}
+</script>
+
+</body>
+</html>
