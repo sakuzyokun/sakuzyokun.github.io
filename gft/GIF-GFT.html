@@ -16,6 +16,13 @@
   <input type="file" id="fileInput" accept="video/mp4">
   <button id="convertBtn">🔁 GFTに変換</button>
   <button id="saveBtn">💾 保存</button>
+  <label for="resolution">解像度:</label>
+  <select id="resolution">
+    <option value="64">64</option>
+    <option value="128">128</option>
+    <option value="256">256</option>
+    <option value="512" selected>512</option>
+  </select>
   <p><a href="https://convertio.co/ja/gif-mp4/">GIFを変換する場合はこちら</a></p>
 
   <textarea id="gftOutput" placeholder="ここにGFT出力が表示されます"></textarea>
@@ -31,6 +38,7 @@
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
+    const resolutionSelect = document.getElementById('resolution');
 
     let file;
 
@@ -49,7 +57,7 @@
       const videoWidth = video.videoWidth;
       const videoHeight = video.videoHeight;
 
-      const targetWidth = 512;//GFTの解像度
+      const targetWidth = parseInt(resolutionSelect.value, 10);//GFT解像度
       const targetHeight = Math.floor(videoHeight * (targetWidth / videoWidth));
 
       canvas.width = targetWidth;
