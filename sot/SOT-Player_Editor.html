@@ -28,6 +28,8 @@
 [00:03.000] noise 0.5s 0.2"></textarea><br>
 
 <button onclick="playSOT()">▶️ 再生する</button>
+<button onclick="downloadSOT()">💾 ダウンロード</button>
+<input type="file" accept=".sot,.txt" onchange="loadSOT(event)" />
 
 <script>
 function parseTimeTag(tag, bpm, timeSig) {
@@ -167,6 +169,25 @@ function playSingleSound(ctx, soundDesc, dur, vol, start) {
     noise.connect(g).connect(ctx.destination);
     noise.start(start);
   }
+}
+
+function downloadSOT() {
+  const content = document.getElementById("sotInput").value;
+  const blob = new Blob([content], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "soundtrack.sot";
+  a.click();
+}
+
+function loadSOT(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    document.getElementById("sotInput").value = reader.result;
+  };
+  reader.readAsText(file);
 }
 </script>
 
