@@ -64,7 +64,7 @@ function playSOT() {
     if (!tagMatch) continue;
 
     const time = parseTimeTag(tagMatch[1], bpm, timeSig);
-    const start = ctx.currentTime + time;
+    const start = Math.max(ctx.currentTime + time, ctx.currentTime);  // start time should not be in the past
     const rest = line.replace(tagMatch[0], "").trim();
 
     // 和音形式
