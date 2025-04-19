@@ -10,9 +10,9 @@
     #toolbar { margin-top: 1em; }
     #errorMessage { color: red; font-weight: bold; margin-top: 1em; }
   </style>
-  <!-- gif.js -->
-  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js"></script>
+  <!-- gif.js (MIT) by jnordberg: https://github.com/jnordberg/gif.js -->
+  <script src="libs/gif.js"></script>
+  <script src="libs/gif.worker.js"></script>
 </head>
 <body>
   <h1>🖼️ GFT Viewer & Editor</h1>
@@ -163,7 +163,7 @@
           quality: 10,
           width: data.width,
           height: data.height,
-          workerScript: 'https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.worker.js'
+          workerScript: 'libs/gif.worker.js'
         });
 
         const tempCanvas = document.createElement('canvas');
