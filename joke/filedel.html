@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>削除確認</title>
+  <style>
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <button id="deleteButton">ファイルを削除</button>
+
+  <script>
+    document.getElementById("deleteButton").addEventListener("click", function() {
+      let level = 1;
+      let confirmed = true;
+
+      while (confirmed) {
+        let message = "本当に".repeat(level) + "削除しますか？";
+        confirmed = confirm(message);
+        level++;
+      }
+
+      alert("削除はキャンセルされました。");
+    });
+  </script>
+
+</body>
+</html>
