@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>激遅検索エンジン</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    input {
+      padding: 12px;
+      width: 80%;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background-color: #888;
+      cursor: not-allowed;
+    }
+
+    .result {
+      margin-top: 30px;
+      font-size: 18px;
+    }
+
+    .loading-dots::after {
+      content: "";
+      display: inline-block;
+      animation: dots 1.5s steps(3, end) infinite;
+    }
+
+    @keyframes dots {
+      0% { content: ""; }
+      33% { content: "."; }
+      66% { content: ".."; }
+      100% { content: "..."; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>激遅検索エンジン</h1>
+    <input type="text" id="input" placeholder="検索ワードを入力..." />
+    <br />
+    <button onclick="startSearch()" id="searchBtn">検索</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const input = document.getElementById('input');
+    const searchBtn = document.getElementById('searchBtn');
+    const resultDiv = document.getElementById('result');
+
+    let realValue = "";
+    let displayValue = "";
+    let inputInProgress = false;
+
+    input.addEventListener('input', (e) => {
+      if (inputInProgress) return;
+      realValue = e.target.value;
+      input.value = ""; // Clear visible input
+      displayValue = "";
+      inputInProgress = true;
+      typeOut(realValue);
+    });
+
+    function typeOut(text) {
+      let index = 0;
+      function typeChar() {
+        if (index < text.length) {
+          displayValue += text[index];
+          input.value = displayValue;
+          index++;
+          setTimeout(typeChar, 1000);
+        } else {
+          inputInProgress = false;
+        }
+      }
+      typeChar();
+    }
+
+    function startSearch() {
+      searchBtn.disabled = true;
+      resultDiv.textContent = "検索中";
+      resultDiv.classList.add("loading-dots");
+
+      setTimeout(() => {
+        resultDiv.classList.remove("loading-dots");
+        resultDiv.textContent = "見つかりませんでした。";
+        searchBtn.disabled = false;
+      }, 2 * 60 * 1000); // 2 minutes
+    }
+  </script>
+</body>
+</html>
