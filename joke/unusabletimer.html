@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>壊れたタイマー</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .timer-box {
+      background: #2e2e2e;
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .timer {
+      font-size: 48px;
+      font-weight: bold;
+      color: #00ffcc;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: crimson;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="timer-box">
+    <h1>完全に信頼できないタイマー</h1>
+    <div class="timer" id="timer">00:00:00</div>
+    <button onclick="resetTimer()">リセット（意味ない）</button>
+  </div>
+
+  <script>
+    let seconds = 0;
+    const timerEl = document.getElementById('timer');
+
+    function updateDisplay(sec) {
+      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const s = String(Math.abs(sec % 60)).padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    function glitchyStep() {
+      // ランダムに加減算してバグらせる
+      const delta = Math.floor(Math.random() * 20) - 10; // -10〜+9秒
+      seconds += delta;
+      timerEl.textContent = updateDisplay(seconds);
+    }
+
+    // 100〜300msでランダム更新（バグってる感）
+    setInterval(glitchyStep, Math.random() * 200 + 100);
+
+    function resetTimer() {
+      seconds = Math.floor(Math.random() * 10000 - 5000); // 意味不明な値
+      timerEl.textContent = updateDisplay(seconds);
+    }
+  </script>
+</body>
+</html>
