@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>今日のジョーク</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background-color: #fff8dc;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #ff4500;
+    }
+    #joke-box {
+      background-color: #fff;
+      border: 2px solid #ff4500;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      width: 60%;
+      font-size: 1.2em;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ff4500;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #e03e00;
+    }
+    .link-list {
+      margin-top: 40px;
+    }
+    .link-list a {
+      display: block;
+      margin: 5px 0;
+      color: #ff4500;
+      text-decoration: none;
+    }
+    .link-list a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🤣 今日のジョーク 🤣</h1>
+  <div id="joke-box">
+    ここにジョークが表示されます！
+  </div>
+  <button onclick="showJoke()">ジョークを表示！</button>
+
+  <div class="link-list">
+    <h2>📚 ジョーク一覧ページ</h2>
+    <a href="copy.html">ジョーク1：コピーすると…</a>
+    <a href="longurl/index.html">ジョーク2：URLを長くする</a>
+  </div>
+
+  <script>
+    const jokes = [
+      "今日、冷蔵庫を開けたら…賞味期限が自分より長かった。",
+      "パソコンに“元気出して”って言ったら、フリーズした。",
+      "人生はロールプレイングゲーム。…チュートリアルが終わった気がしない。",
+      "AIに恋をした。彼女は「あなたのタイプではありません」と言った。",
+      "上司の冗談に笑ったら、来週のシフトが消えた。"
+    ];
+
+    function showJoke() {
+      const jokeBox = document.getElementById("joke-box");
+      const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+      jokeBox.textContent = randomJoke;
+    }
+  </script>
+
+</body>
+</html>
