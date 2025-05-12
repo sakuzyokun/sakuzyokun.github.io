@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="auto">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ランダム言語サイト</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .lang-label {
+      font-size: 14px;
+      color: gray;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+    }
+
+    p {
+      font-size: 18px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="content">
+    <!-- 内容はJavaScriptで注入 -->
+  </div>
+
+  <script>
+    const languages = [
+      {
+        code: 'ja',
+        label: '日本語',
+        title: 'ようこそ！',
+        text: 'このページは毎回ランダムな言語で表示されます。',
+        button: 'もう一回見る'
+      },
+      {
+        code: 'en',
+        label: 'English',
+        title: 'Welcome!',
+        text: 'This page appears in a random language each time.',
+        button: 'See Again'
+      },
+      {
+        code: 'es',
+        label: 'Español',
+        title: '¡Bienvenido!',
+        text: 'Esta página aparece en un idioma aleatorio cada vez.',
+        button: 'Ver otra vez'
+      },
+      {
+        code: 'zh',
+        label: '中文',
+        title: '欢迎！',
+        text: '此页面每次都会以随机语言显示。',
+        button: '再看一次'
+      },
+      {
+        code: 'eo',
+        label: 'Esperanto',
+        title: 'Bonvenon!',
+        text: 'Ĉi tiu paĝo aperas en hazarda lingvo ĉiufoje.',
+        button: 'Revidu'
+      }
+    ];
+
+    const chosen = languages[Math.floor(Math.random() * languages.length)];
+
+    const content = `
+      <div class="lang-label">[${chosen.label}]</div>
+      <h1>${chosen.title}</h1>
+      <p>${chosen.text}</p>
+      <button onclick="location.reload()">${chosen.button}</button>
+    `;
+
+    document.getElementById('content').innerHTML = content;
+  </script>
+</body>
+</html>
