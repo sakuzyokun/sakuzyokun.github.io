@@ -1,39 +1,210 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>削除くんのホームページ 履歴管理ツール</title>
-    <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="data.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>容量・通信速度変換 & ダウンロード時間計算ツール</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #444;
+    }
+
+    label {
+      display: block;
+      margin-top: 1em;
+      font-weight: bold;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.6em;
+      font-size: 1em;
+      margin-top: 0.3em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #0078d4;
+      color: white;
+      margin-top: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .output {
+      margin-top: 2em;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 1em;
+      border-radius: 5px;
+      white-space: pre-wrap;
+    }
+
+    hr {
+      margin: 2em 0;
+      border: none;
+      border-top: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>削除くんのホームページ</h1>
-        <a href="index.html" class="home-link">ホームに戻る</a>
-    </header>
-    <main>
-        <h1>履歴管理ツール</h1>
-        <input type="text" id="inputText" placeholder="テキストを入力してください">
-        <button onclick="addHistory()">履歴に追加</button>
-        <ul id="historyList"></ul>
-    </main>
-    <script>
-        function addHistory() {
-            const text = document.getElementById('inputText').value;
-            if (text === '') {
-                alert('テキストを入力してください');
-                return;
-            }
 
-            const li = document.createElement('li');
-            li.innerText = text;
-            document.getElementById('historyList').appendChild(li);
-            document.getElementById('inputText').value = '';
-        }
-    </script>
+<h1>容量・通信速度変換 & ダウンロード時間計算</h1>
+
+<!-- 容量/速度変換 -->
+<label for="value">数値を入力：</label>
+<input type="number" id="value" placeholder="例: 2048" />
+
+<label for="unit">単位を選択：</label>
+<select id="unit">
+  <optgroup label="データ容量">
+    <option value="b">ビット (b)</option>
+    <option value="B">バイト (B)</option>
+    <option value="KB">キロバイト (KB)</option>
+    <option value="MB">メガバイト (MB)</option>
+    <option value="GB">ギガバイト (GB)</option>
+    <option value="TB">テラバイト (TB)</option>
+    <option value="PB">ペタバイト (PB)</option>
+  </optgroup>
+  <optgroup label="通信速度">
+    <option value="bps">ビット/秒 (bps)</option>
+    <option value="Kbps">キロビット/秒 (Kbps)</option>
+    <option value="Mbps">メガビット/秒 (Mbps)</option>
+    <option value="Gbps">ギガビット/秒 (Gbps)</option>
+  </optgroup>
+</select>
+
+<button onclick="convert()">変換する</button>
+
+<div class="output" id="outputArea"></div>
+
+<hr>
+
+<!-- ダウンロード時間計算 -->
+<h2>📥 ダウンロード時間の目安</h2>
+
+<label for="fileSize">ファイルサイズ：</label>
+<input type="number" id="fileSize" placeholder="例: 100" />
+
+<select id="fileUnit">
+  <option value="MB">MB</option>
+  <option value="GB">GB</option>
+  <option value="KB">KB</option>
+</select>
+
+<label for="speed">通信速度：</label>
+<input type="number" id="speed" placeholder="例: 10" />
+
+<select id="speedUnit">
+  <option value="Mbps">Mbps</option>
+  <option value="Kbps">Kbps</option>
+  <option value="Gbps">Gbps</option>
+</select>
+
+<button onclick="calculateDownloadTime()">時間を計算</button>
+
+<div class="output" id="downloadTimeArea"></div>
+
+<script>
+function convert() {
+  const value = parseFloat(document.getElementById('value').value);
+  const unit = document.getElementById('unit').value;
+  const output = document.getElementById('outputArea');
+  if (isNaN(value)) {
+    output.textContent = '有効な数値を入力してください。';
+    return;
+  }
+
+  let bits = 0;
+  let isSpeed = false;
+
+  switch (unit) {
+    case 'b': bits = value; break;
+    case 'B': bits = value * 8; break;
+    case 'KB': bits = value * 1024 * 8; break;
+    case 'MB': bits = value * 1024 ** 2 * 8; break;
+    case 'GB': bits = value * 1024 ** 3 * 8; break;
+    case 'TB': bits = value * 1024 ** 4 * 8; break;
+    case 'PB': bits = value * 1024 ** 5 * 8; break;
+    case 'bps': bits = value; isSpeed = true; break;
+    case 'Kbps': bits = value * 1_000; isSpeed = true; break;
+    case 'Mbps': bits = value * 1_000_000; isSpeed = true; break;
+    case 'Gbps': bits = value * 1_000_000_000; isSpeed = true; break;
+  }
+
+  let result = '';
+
+  if (!isSpeed) {
+    result = `🧮 データ容量換算:
+- ビット: ${bits.toLocaleString()} b
+- バイト: ${(bits / 8).toLocaleString()} B
+- KB: ${(bits / 8 / 1024).toFixed(2)} KB
+- MB: ${(bits / 8 / 1024 ** 2).toFixed(2)} MB
+- GB: ${(bits / 8 / 1024 ** 3).toFixed(2)} GB
+- TB: ${(bits / 8 / 1024 ** 4).toFixed(4)} TB
+- PB: ${(bits / 8 / 1024 ** 5).toFixed(6)} PB`;
+  } else {
+    result = `⚡ 通信速度換算:
+- bps: ${bits.toLocaleString()} bps
+- Kbps: ${(bits / 1_000).toFixed(2)} Kbps
+- Mbps: ${(bits / 1_000_000).toFixed(2)} Mbps
+- Gbps: ${(bits / 1_000_000_000).toFixed(3)} Gbps`;
+  }
+
+  output.textContent = result;
+}
+
+function calculateDownloadTime() {
+  const size = parseFloat(document.getElementById('fileSize').value);
+  const sizeUnit = document.getElementById('fileUnit').value;
+  const speed = parseFloat(document.getElementById('speed').value);
+  const speedUnit = document.getElementById('speedUnit').value;
+  const output = document.getElementById('downloadTimeArea');
+
+  if (isNaN(size) || isNaN(speed) || speed <= 0) {
+    output.textContent = '有効なファイルサイズと通信速度を入力してください。';
+    return;
+  }
+
+  // ファイルサイズをbitに変換
+  let sizeInBits = size;
+  switch (sizeUnit) {
+    case 'KB': sizeInBits *= 1024 * 8; break;
+    case 'MB': sizeInBits *= 1024 ** 2 * 8; break;
+    case 'GB': sizeInBits *= 1024 ** 3 * 8; break;
+  }
+
+  // 通信速度をbpsに変換
+  let speedInBps = speed;
+  switch (speedUnit) {
+    case 'Kbps': speedInBps *= 1_000; break;
+    case 'Mbps': speedInBps *= 1_000_000; break;
+    case 'Gbps': speedInBps *= 1_000_000_000; break;
+  }
+
+  const seconds = sizeInBits / speedInBps;
+  const minutes = Math.floor(seconds / 60);
+  const secs = (seconds % 60).toFixed(1);
+
+  output.textContent = `⏱️ 推定ダウンロード時間: ${minutes}分 ${secs}秒`;
+}
+</script>
+
 </body>
 </html>
