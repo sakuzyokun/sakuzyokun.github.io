@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>コピー確認地獄EX</title>
+  <style>
+    body {
+      margin: 0;
+      background: #0f0f0f;
+      font-family: 'Segoe UI', sans-serif;
+      color: #f8f8f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #00ffe0;
+      text-shadow: 0 0 5px #00ffe0, 0 0 10px #00ffe0;
+    }
+
+    #text {
+      border: 1px solid #444;
+      background: #1a1a1a;
+      padding: 20px;
+      width: 60%;
+      margin-bottom: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #222;
+    }
+
+    button {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #00ffe0, #0077ff);
+      border: none;
+      color: black;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00ffe0;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00ffe0;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <h1>コピー確認地獄EX</h1>
+  <div id="text">これはコピーされるべき非常に重要な文章です。</div>
+  <button onclick="startCopy()">コピーする</button>
+
+  <script>
+    const confirmations = [
+      "本当にコピーしますか？",
+      "それは必要なコピーですか？",
+      "コピー後の人生に備えていますか？",
+      "過去のコピーを思い出しましたか？",
+      "これが最後のチャンスかもしれません。続けますか？",
+      "世界はあなたの選択を見ています。後戻りできませんよ？",
+      "深呼吸はしましたか？",
+      "「はい」を押す勇気、あなたにありますか？",
+      "注意：このダイアログでは「OK」でキャンセル、「キャンセル」でコピーされます"
+    ];
+
+    function startCopy() {
+      for (let i = 0; i < confirmations.length; i++) {
+        const reverse = (i === confirmations.length - 1);
+        const result = confirm(confirmations[i]);
+
+        if (reverse) {
+          if (result) {
+            alert("あなたは罠にかかりました。コピーはキャンセルされました。");
+            return;
+          } else {
+            break; // 逆確認突破
+          }
+        } else {
+          if (!result) {
+            alert("コピーは中止されました。あなたは慎重な人です。");
+            return;
+          }
+        }
+      }
+
+      const text = document.getElementById('text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("コピーが完了しました（ここまで来たあなたに拍手）。");
+      });
+    }
+  </script>
+</body>
+</html>
