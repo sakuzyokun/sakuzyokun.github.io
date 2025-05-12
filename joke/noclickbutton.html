@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>絶対に押せないボタン</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .button-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    button {
+      position: absolute;
+      padding: 14px 28px;
+      font-size: 18px;
+      background-color: #e63946;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button id="runawayBtn">押してみろ</button>
+  </div>
+
+  <script>
+    const button = document.getElementById('runawayBtn');
+    const container = document.querySelector('.button-container');
+
+    function getRandomPosition() {
+      const padding = 50;
+      const maxX = container.clientWidth - button.offsetWidth - padding;
+      const maxY = container.clientHeight - button.offsetHeight - padding;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+      return { x, y };
+    }
+
+    function moveButton() {
+      const { x, y } = getRandomPosition();
+      button.style.left = `${x}px`;
+      button.style.top = `${y}px`;
+    }
+
+    moveButton(); // 初期位置
+
+    container.addEventListener('mousemove', (e) => {
+      const rect = button.getBoundingClientRect();
+      const distance = Math.hypot(
+        e.clientX - (rect.left + rect.width / 2),
+        e.clientY - (rect.top + rect.height / 2)
+      );
+
+      if (distance < 100) {
+        moveButton();
+      }
+    });
+
+    button.addEventListener('click', () => {
+      alert("押せるわけないだろ！");
+    });
+
+    // タッチでも逃げる
+    container.addEventListener('touchstart', (e) => {
+      moveButton();
+    });
+  </script>
+</body>
+</html>
