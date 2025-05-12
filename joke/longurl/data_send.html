@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>無駄に長いURL中継所</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: #f0f4f8;
+      color: #333;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .loader {
+      border: 6px solid #e0e0e0;
+      border-top: 6px solid #007acc;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 1.5em 0;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .footer {
+      font-size: 0.9rem;
+      color: #aaa;
+      position: absolute;
+      bottom: 1em;
+    }
+  </style>
+  <script>
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      const url = params.get("url") || decodeURIComponent(window.location.hash.slice(1));
+
+      if (url && url.startsWith("http")) {
+        setTimeout(() => {
+          window.location.href = url;
+        }, 1500);
+      } else {
+        document.querySelector("h1").textContent = "URLが見つかりませんでした";
+        document.querySelector("p").textContent = "埋め込まれたURLが無効か存在しません。";
+        document.querySelector(".loader").style.display = "none";
+      }
+    };
+  </script>
+</head>
+<body>
+  <h1>無駄に長いURLへようこそ</h1>
+  <p>実はただの中継ページです。まもなく本当のURLにジャンプします…</p>
+  <div class="loader"></div>
+  <div class="footer">© 2025 Unshortener™</div>
+</body>
+</html>
