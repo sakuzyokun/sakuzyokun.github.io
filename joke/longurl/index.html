@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>無駄に長いURLジェネレーター</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8fafc;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2em;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 2em;
+    }
+
+    .container {
+      background: #fff;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 0.75em;
+      font-size: 1rem;
+      margin-bottom: 1em;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    .footer {
+      margin-top: 3em;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>無駄に長いURLメーカー</h1>
+  <p>URL短縮？いいえ、時代は「URLロング」です。</p>
+
+  <div class="container">
+    <input type="text" id="input" placeholder="例：https://test.com">
+    
+    <select id="mode">
+      <option value="?url=">?url=（クエリ形式）</option>
+      <option value="#">#（ハッシュ形式）</option>
+      <option value="/r/">/r/（パス形式）</option>
+    </select>
+    
+    <button onclick="generate()">URLをロング化！</button>
+    
+    <input type="text" id="output" readonly placeholder="ここにロングURLが表示されます">
+  </div>
+
+  <div class="footer">© 2025 Unshortener™ / 長くてごめん</div>
+
+  <script>
+    const domain = "https://sakuzyokun.github.io/joke/longurl/data_send.html";
+
+    function generate() {
+      const url = document.getElementById("input").value.trim();
+      const mode = document.getElementById("mode").value;
+      let longURL = "";
+
+      if (!url.startsWith("http")) {
+        alert("https:// で始まる正しいURLを入力してください！");
+        return;
+      }
+
+      if (mode === "?url=") {
+        longURL = `${domain}?url=${encodeURIComponent(url)}`;
+      } else if (mode === "#") {
+        longURL = `${domain}#${encodeURIComponent(url)}`;
+      } else if (mode === "/r/") {
+        longURL = `${domain}/r/${encodeURIComponent(url)}`;
+      }
+
+      document.getElementById("output").value = longURL;
+    }
+  </script>
+</body>
+</html>
