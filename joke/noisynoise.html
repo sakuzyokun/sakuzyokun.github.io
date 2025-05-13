@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>静かなページ（ではない）</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fafafa;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box {
+      text-align: center;
+      padding: 40px;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>静かなページです</h1>
+    <p>このボタンをクリックしてください。</p>
+    <button onclick="playSound()">クリック</button>
+    <audio id="loudSound">
+      <source src="https://www.soundjay.com/button/beep-09.mp3" type="audio/mpeg">
+      お使いのブラウザは audio タグをサポートしていません。
+    </audio>
+  </div>
+
+  <script>
+    function playSound() {
+      const audio = document.getElementById('loudSound');
+      audio.volume = 1.0; // 最大音量
+      audio.play();
+      alert("うるさいでしょ？（^_^）");
+    }
+  </script>
+</body>
+</html>
