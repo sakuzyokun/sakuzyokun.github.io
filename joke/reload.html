@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>リダイレクト中...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .redirect-box {
+      text-align: center;
+      padding: 40px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="redirect-box">
+    <h1>ページを移動しています...</h1>
+    <p>しばらくお待ちください。</p>
+    <p id="tip"></p>
+  </div>
+
+  <script>
+    const tips = [
+      "安全な接続を確立しています...",
+      "セッションを検証中...",
+      "ポートを確認中...",
+      "念のためもう一度確認しています...",
+      "思ったより遅いですね...",
+      "進行中です...（本当です）",
+      "ログを収集中...",
+      "順調です（たぶん）...",
+    ];
+
+    document.getElementById('tip').textContent = tips[Math.floor(Math.random() * tips.length)];
+
+    setTimeout(() => {
+      // 自分自身にリロード（あたかも別ページへ進むように見せる）
+      location.href = location.href.split('?')[0] + '?step=' + Math.floor(Math.random() * 9999);
+    }, 3000); // 3秒後に遷移
+  </script>
+</body>
+</html>
