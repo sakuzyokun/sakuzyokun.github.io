@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>超高精度IQテスト</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f0f8;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .result {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>超高精度IQテスト</h1>
+
+    <div class="question">
+      <p>Q1. 月が笑ったら、あなたは何をしますか？</p>
+      <input type="radio" name="q1"> 笑い返す<br>
+      <input type="radio" name="q1"> お辞儀する<br>
+      <input type="radio" name="q1"> 布団を干す<br>
+      <input type="radio" name="q1"> 知らんけど、カレー作る<br>
+    </div>
+
+    <div class="question">
+      <p>Q2. あなたは机です。まず何をしますか？</p>
+      <input type="radio" name="q2"> じっとする<br>
+      <input type="radio" name="q2"> 自分を疑う<br>
+      <input type="radio" name="q2"> 本を食べる<br>
+      <input type="radio" name="q2"> 引き出しから脱出<br>
+    </div>
+
+    <div class="question">
+      <p>Q3. 目玉焼きに必要なのは？</p>
+      <input type="radio" name="q3"> 目玉<br>
+      <input type="radio" name="q3"> 焼き<br>
+      <input type="radio" name="q3"> 火星の引力<br>
+      <input type="radio" name="q3"> 卵（普通すぎて選びたくない）<br>
+    </div>
+
+    <button onclick="showResult()">結果を表示</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    const results = [
+      "あなたのIQは 3。あなたは天才か…？（逆の意味で）",
+      "IQ: ∞　考えることをやめた先に到達する境地です。",
+      "IQ: ナス 🍆　ナスに勝る知性など、この世に存在しない。",
+      "あなたのIQは 404。見つかりませんでした。",
+      "IQ: 9000↑↑（でも測定不能）",
+      "IQ: -12　ある意味、珍しい。逆の天才。",
+      "あなたのIQは……秘密です。誰にも言わないで。",
+      "IQ: 0.0001　でも気持ちは100点。"
+    ];
+
+    function showResult() {
+      const result = results[Math.floor(Math.random() * results.length)];
+      document.getElementById('result').textContent = result;
+    }
+  </script>
+</body>
+</html>
