@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>激遅スクロール</title>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 50px;
+      line-height: 2;
+    }
+
+    .content {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .spacer {
+      height: 5000px; /* めちゃくちゃ長くする */
+    }
+
+    button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="content">
+    <h1>激遅スクロールページ</h1>
+    <p>
+      ここにある文章をすべて読むには、ある種の覚悟が必要です。
+      あなたが何者であれ、この文を読み進めるには忍耐力が試されることでしょう。
+      スクロールは1pxずつ、時間だけが進んでいきます。
+    </p>
+
+    <p>...</p>
+
+    <p>
+      哲学的に言えば、人生もこのページのようなものです。
+      少しずつしか進まない。だけど、戻るのもまた難しい。
+      それでも、我々は進まなければならないのです。
+    </p>
+
+    <p>...</p>
+
+    <p>
+      それでも読みたいあなたに、敬意を表します。
+      あなたはもうすでに、我々の期待以上の人物です。
+      でも…まだ1%も読めていません。
+    </p>
+  </div>
+
+  <div class="spacer"></div>
+
+  <button onclick="slowScroll()">ちょっとスクロール</button>
+
+  <script>
+    function slowScroll() {
+      window.scrollBy({
+        top: 2, // たったの2px！
+        behavior: 'smooth'
+      });
+    }
+  </script>
+
+</body>
+</html>
