@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>🪞 鏡の世界へようこそ</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #eef2f7;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      transform: scaleX(-1); /* 全体反転 */
+    }
+
+    .container {
+      width: 80%;
+      margin: 50px auto;
+      padding: 40px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      transform: scaleX(-1); /* 中身だけ元に戻す */
+      direction: rtl;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #888;
+    }
+
+    #mirrorCursor {
+      position: fixed;
+      width: 15px;
+      height: 15px;
+      background: red;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div id="mirrorCursor"></div>
+
+  <div class="container">
+    <h1>🪞 鏡の中のウェブサイトへようこそ</h1>
+    <p>
+      この世界ではすべてが逆転しています。マウスの動きも、文字の入力も。
+      どうか、あなたの感覚だけを信じて進んでください。
+    </p>
+
+    <p>↓ お名前を入力してみてください（逆に出ます）</p>
+    <input type="text" id="mirrorInput" placeholder="ここに入力…">
+
+    <div class="footer">
+      &copy; 2025 鏡面世界研究所 Mirrorverse Labs™
+    </div>
+  </div>
+
+  <script>
+    // マウス反転カーソル
+    const mirrorCursor = document.getElementById("mirrorCursor");
+    document.addEventListener("mousemove", e => {
+      const mirroredX = window.innerWidth - e.clientX;
+      mirrorCursor.style.left = `${mirroredX}px`;
+      mirrorCursor.style.top = `${e.clientY}px`;
+    });
+
+    // 逆さ文字マップ
+    const mirrorMap = {
+      'a': 'ɐ', 'b': 'q', 'c': 'ɔ', 'd': 'p',
+      'e': 'ǝ', 'f': 'ɟ', 'g': 'ƃ', 'h': 'ɥ',
+      'i': 'ᴉ', 'j': 'ɾ', 'k': 'ʞ', 'l': 'ʃ',
+      'm': 'ɯ', 'n': 'u', 'o': 'o', 'p': 'd',
+      'q': 'b', 'r': 'ɹ', 's': 's', 't': 'ʇ',
+      'u': 'n', 'v': 'ʌ', 'w': 'ʍ', 'x': 'x',
+      'y': 'ʎ', 'z': 'z',
+      'A': '∀', 'B': '𐐒', 'C': 'Ɔ', 'D': '◖',
+      'E': 'Ǝ', 'F': 'Ⅎ', 'G': '⅁', 'H': 'H',
+      'I': 'I', 'J': 'ſ', 'K': '⋊', 'L': '⅂',
+      'M': 'W', 'N': 'N', 'O': 'O', 'P': 'Ԁ',
+      'Q': 'Ό', 'R': 'ᴚ', 'S': 'S', 'T': '⊥',
+      'U': '∩', 'V': 'Λ', 'W': 'M', 'X': 'X',
+      'Y': '⅄', 'Z': 'Z',
+      '0': '0', '1': 'Ɩ', '2': 'ᄅ', '3': 'Ɛ',
+      '4': 'ㄣ', '5': 'ϛ', '6': '9', '7': 'ㄥ',
+      '8': '8', '9': '6',
+      '.': '˙', ',': "'", '?': '¿', '!': '¡',
+      '"': '„', "'": ',', '(': ')', ')': '(',
+      '[': ']', ']': '[', '{': '}', '}': '{',
+      '&': '⅋', '_': '‾', '^': 'v', ';': '؛'
+    };
+
+    const input = document.getElementById("mirrorInput");
+    input.addEventListener("input", e => {
+      const original = input.value;
+      const flipped = original.split('').map(char => mirrorMap[char] || char).reverse().join('');
+      input.value = flipped;
+    });
+  </script>
+</body>
+</html>
