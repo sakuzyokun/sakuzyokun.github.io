@@ -33,126 +33,157 @@
         <div class="info" id="displaypixel">ディスプレイ深度: 判定中...</div>
         <div class="info" id="screenbit">使用可能カラー数: 判定中...</div>
         <div class="info" id="fps">FPS: 判定中...</div>
-        <div class="info" id="refreshRate">リフレッシュレート: 判定中...</div>
+        <div class="info" id="language">言語設定: 判定中...</div>
+        <div class="info" id="timezone">タイムゾーン: 判定中...</div>
+        <div class="info" id="currentTime">現在時刻: 判定中...</div>
+        <div class="info" id="connection">ネット接続: 判定中...</div>
+        <div class="info" id="userAgent">ユーザーエージェント: 判定中...</div>
+        <div class="info" id="platform">プラットフォーム: 判定中...</div>
+        <div class="info" id="cookieEnabled">Cookieの有効性: 判定中...</div>
+        <div class="info" id="storageInfo">ストレージ推定容量: 判定中...</div>
+        <div class="info" id="gpuInfo">GPU情報: 判定中...</div>
     </main>
     <script>
-        let lastFrameTime = performance.now();
-        let lastTimestamp = performance.now();
         let frameCount = 0;
         let fps = 0;
-        let frameCount = 0;
-        let refreshRate = 0;
+        let lastFpsUpdate = performance.now();
 
         function getOS() {
-            const userAgent = window.navigator.userAgent;
-            if (userAgent.indexOf('Windows NT 10.0') !== -1) return 'Windows 10, Windows 11';
-            if (userAgent.indexOf('Windows NT 6.3') !== -1) return 'Windows 8.1';
-            if (userAgent.indexOf('Windows NT 6.2') !== -1) return 'Windows 8';
-            if (userAgent.indexOf('Windows NT 6.1') !== -1) return 'Windows 7';
-            if (userAgent.indexOf('Windows NT 6.0') !== -1) return 'Windows Vista';
-            if (userAgent.indexOf('Windows NT 5.1') !== -1) return 'Windows XP';
-            if (userAgent.indexOf('Windows NT 5.0') !== -1) return 'Windows 2000';
-            if (userAgent.indexOf('Mac OS X') !== -1) return 'macOS';
-            if (userAgent.indexOf('Android') !== -1) return 'Android';
-            if (userAgent.indexOf('iPhone') !== -1) return 'iOS (iPhone)';
-            if (userAgent.indexOf('iPad') !== -1) return 'iOS (iPad)';
-            if (userAgent.indexOf('Linux') !== -1) return 'Linux';
+            const ua = navigator.userAgent;
+            if (ua.includes('Windows NT 10.0')) return 'Windows 10/11';
+            if (ua.includes('Windows NT 6.3')) return 'Windows 8.1';
+            if (ua.includes('Windows NT 6.2')) return 'Windows 8';
+            if (ua.includes('Windows NT 6.1')) return 'Windows 7';
+            if (ua.includes('Windows NT 6.0')) return 'Windows Vista';
+            if (ua.includes('Windows NT 5.1')) return 'Windows XP';
+            if (ua.includes('Mac OS X')) return 'macOS';
+            if (ua.includes('Android')) return 'Android';
+            if (ua.includes('iPhone')) return 'iOS (iPhone)';
+            if (ua.includes('iPad')) return 'iOS (iPad)';
+            if (ua.includes('Linux')) return 'Linux';
             return 'Unknown';
         }
 
         function getBrowser() {
-            const userAgent = window.navigator.userAgent;
-            if (userAgent.indexOf('Firefox') !== -1) return 'Mozilla Firefox';
-            if (userAgent.indexOf('SamsungBrowser') !== -1) return 'Samsung Internet';
-            if (userAgent.indexOf('Opera') !== -1 || userAgent.indexOf('OPR') !== -1) return 'Opera';
-            if (userAgent.indexOf('Trident') !== -1) return 'Microsoft Internet Explorer';
-            if (userAgent.indexOf('Edge') !== -1) return 'Microsoft Edge';
-            if (userAgent.indexOf('Chrome') !== -1) return 'Google Chrome';
-            if (userAgent.indexOf('Safari') !== -1) return 'Apple Safari';
+            const ua = navigator.userAgent;
+            if (ua.includes('Firefox')) return 'Mozilla Firefox';
+            if (ua.includes('SamsungBrowser')) return 'Samsung Internet';
+            if (ua.includes('OPR') || ua.includes('Opera')) return 'Opera';
+            if (ua.includes('Edg')) return 'Microsoft Edge';
+            if (ua.includes('Trident')) return 'Internet Explorer';
+            if (ua.includes('Chrome')) return 'Google Chrome';
+            if (ua.includes('Safari')) return 'Apple Safari';
             return 'Unknown';
         }
 
-        function updateBatteryInfo(battery) {
-            const batteryLevel = battery.level * 100;
-            const isCharging = battery.charging;
-            document.getElementById('batteryLevel').innerText = `バッテリー残量: ${batteryLevel}%`;
-            document.getElementById('isCharging').innerText = `バッテリー状態: ${isCharging ? '充電中' : '充電していません'}`;
+        function updateBatteryInfo() {
+            if (!navigator.getBattery) {
+                document.getElementById('batteryLevel').innerText = 'バッテリー残量: 非対応';
+                document.getElementById('isCharging').innerText = 'バッテリー状態: 非対応';
+                return;
+            }
+            navigator.getBattery().then(battery => {
+                document.getElementById('batteryLevel').innerText = `バッテリー残量: ${Math.round(battery.level * 100)}%`;
+                document.getElementById('isCharging').innerText = `バッテリー状態: ${battery.charging ? '充電中' : '充電していません'}`;
+            });
         }
 
         function updateResolution() {
-            const screenWidth = screen.width;
-            const screenHeight = screen.height;
-            document.getElementById('screenWidth').innerText = `画面横幅: ${screenWidth}px`;
-            document.getElementById('screenHeight').innerText = `画面縦幅: ${screenHeight}px`;
+            document.getElementById('screenWidth').innerText = `画面横幅: ${screen.width}px`;
+            document.getElementById('screenHeight').innerText = `画面縦幅: ${screen.height}px`;
         }
 
         function updateWindowInfo() {
-            const windowWidth = window.innerWidth;
-            const windowHeight = window.innerHeight;
-            const windowoutWidth = window.outerWidth;
-            const windowoutHeight = window.outerHeight;
-            const windowX = window.screenX;
-            const windowY = window.screenY;
-            document.getElementById('windowWidth').innerText = `ウィンドウ横幅（内側）: ${windowWidth}px`;
-            document.getElementById('windowHeight').innerText = `ウィンドウ縦幅（内側）: ${windowHeight}px`;
-            document.getElementById('windowoutWidth').innerText = `ウィンドウ横幅（外側）: ${windowoutWidth}px`;
-            document.getElementById('windowoutHeight').innerText = `ウィンドウ縦幅（外側）: ${windowoutHeight}px`;
-            document.getElementById('windowX').innerText = `ウィンドウX座標: ${windowX}`;
-            document.getElementById('windowY').innerText = `ウィンドウY座標: ${windowY}`;
+            document.getElementById('windowWidth').innerText = `ウィンドウ横幅（内側）: ${window.innerWidth}px`;
+            document.getElementById('windowHeight').innerText = `ウィンドウ縦幅（内側）: ${window.innerHeight}px`;
+            document.getElementById('windowoutWidth').innerText = `ウィンドウ横幅（外側）: ${window.outerWidth}px`;
+            document.getElementById('windowoutHeight').innerText = `ウィンドウ縦幅（外側）: ${window.outerHeight}px`;
+            document.getElementById('windowX').innerText = `ウィンドウX座標: ${window.screenX}`;
+            document.getElementById('windowY').innerText = `ウィンドウY座標: ${window.screenY}`;
         }
 
         function updateMemory() {
-            const deviceMemory = navigator.deviceMemory;
-            document.getElementById('deviceMemory').innerText = `メモリ: ${deviceMemory}GB`;
+            const mem = navigator.deviceMemory || '不明';
+            document.getElementById('deviceMemory').innerText = `メモリ: ${mem}GB`;
         }
 
         function updateScreenInfo() {
-            const displaypixel = screen.pixelDepth;
-            const screenbit = screen.colorDepth;
-            document.getElementById('displaypixel').innerText = `ディスプレイ深度: ${displaypixel}bit`;
-            document.getElementById('screenbit').innerText = `使用可能カラー数: ${screenbit}bit`;
+            document.getElementById('displaypixel').innerText = `ディスプレイ深度: ${screen.pixelDepth}bit`;
+            document.getElementById('screenbit').innerText = `使用可能カラー数: ${screen.colorDepth}bit`;
         }
 
-        function updateFPS() {
-            const now = performance.now();
-            const delta = now - lastFrameTime;
-            frameCount++;
-            if (delta > 1000) {
-                fps = frameCount;
-                frameCount = 0;
-                lastFrameTime = now;
-                document.getElementById('fps').innerText = `FPS: ${fps}`;
+        function updateExtraInfo() {
+            document.getElementById('language').innerText = `言語設定: ${navigator.language}`;
+            document.getElementById('timezone').innerText = `タイムゾーン: ${Intl.DateTimeFormat().resolvedOptions().timeZone}`;
+            document.getElementById('currentTime').innerText = `現在時刻: ${new Date().toLocaleString()}`;
+            document.getElementById('userAgent').innerText = `ユーザーエージェント: ${navigator.userAgent}`;
+            document.getElementById('platform').innerText = `プラットフォーム: ${navigator.platform}`;
+            document.getElementById('cookieEnabled').innerText = `Cookieの有効性: ${navigator.cookieEnabled ? '有効' : '無効'}`;
+
+            // ネットワーク情報
+            if (navigator.connection) {
+                const conn = navigator.connection;
+                document.getElementById('connection').innerText =
+                `ネット接続: ${conn.effectiveType}, 下り速度: ${conn.downlink}Mbps`;
+            } else {
+                document.getElementById('connection').innerText = 'ネット接続: 非対応';
+            }
+
+            // ストレージ容量
+            if (navigator.storage && navigator.storage.estimate) {
+                navigator.storage.estimate().then(estimate => {
+                    const used = (estimate.usage / 1024 / 1024).toFixed(2);
+                    const quota = (estimate.quota / 1024 / 1024).toFixed(2);
+                    document.getElementById('storageInfo').innerText = `ストレージ推定容量: 使用 ${used}MB / 総容量 ${quota}MB`;
+                });
+            } else {
+                document.getElementById('storageInfo').innerText = 'ストレージ推定容量: 非対応';
+            }
+
+            // GPU情報（WebGL）
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    const vendor = debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : '不明';
+                    const renderer = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : '不明';
+                    document.getElementById('gpuInfo').innerText = `GPU情報: ${vendor} / ${renderer}`;
+                } else {
+                    document.getElementById('gpuInfo').innerText = 'GPU情報: 取得不可';
+                }
+            } catch (e) {
+                document.getElementById('gpuInfo').innerText = 'GPU情報: エラー';
             }
         }
-/*
-        function updateRefreshRate(timestamp) {
-            frameCount++;
-            const delta = timestamp - lastTimestamp;
-            refreshRate = frameCount;
-            frameCount = 0;
-            lastTimestamp = timestamp;
-            document.getElementById('refreshRate').innerText = `リフレッシュレート: ${refreshRate}Hz`;
-        }
-*/
-        function updateAll() {
+
+        function updateStaticInfo() {
             document.getElementById('osInfo').innerText = `OS: ${getOS()}`;
             document.getElementById('browserInfo').innerText = `ブラウザ: ${getBrowser()}`;
-            navigator.getBattery().then(updateBatteryInfo);
+            updateBatteryInfo();
             updateResolution();
             updateWindowInfo();
             updateMemory();
             updateScreenInfo();
-            updateFPS(); // FPSを更新
-            //requestAnimationFrame(updateRefreshRate); // 次のフレームをリクエスト
+            updateExtraInfo();
+        }
+
+        function fpsLoop() {
+            frameCount++;
+            const now = performance.now();
+            if (now - lastFpsUpdate >= 1000) {
+                document.getElementById('fps').innerText = `FPS: ${frameCount}`;
+                frameCount = 0;
+                lastFpsUpdate = now;
+            }
+            requestAnimationFrame(fpsLoop);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateAll();
-            setInterval(updateAll, 1);  // 1ミリ秒ごとに更新
+            updateStaticInfo();
+            setInterval(updateStaticInfo, 1000); // 1秒ごとに更新で十分
+            requestAnimationFrame(fpsLoop);
         });
-        
-        // 最初にrequestAnimationFrameを呼び出して、リフレッシュレートを計測開始
-        requestAnimationFrame(updateRefreshRate);
     </script>
 </body>
 </html>
