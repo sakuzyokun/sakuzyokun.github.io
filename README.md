@@ -10,8 +10,13 @@
 ```html
 <link rel="stylesheet" href="https://sakuzyokun.github.io/11.css/11.css">
 ```
+Aqua.cssの使い方
+```html
+<link rel="stylesheet" href="https://sakuzyokun.github.io/Aqua.css/Aqua.css">
+```
+  
 上のURLで引っ張ってくるなら問題ないですがダウンロードして使う場合は以下のライセンス表記をお願いします  
-```html  
+```html
 <!-- [名前].css was created by sakuzyokun -->
 ```  
   
