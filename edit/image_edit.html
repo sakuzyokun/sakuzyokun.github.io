@@ -120,6 +120,12 @@
                 <div onclick="location.href='index.html'">終了</div>
             </div>
         </div>
+        <div class="menu-item">編集
+            <div class="submenu">
+                <div id="undo">元に戻す</div>
+                <div id="redo">やり直す</div>
+            </div>
+        </div>
         <div class="menu-item">ヘルプ
             <div class="submenu">
                 <div onclick="showVersionDialog()">バージョン情報</div>
@@ -129,8 +135,8 @@
   <div class="toolbar">
     <input type="file" id="imageLoader" accept="image/*">
     <input type="file" id="addImageBtn" accept="image/*">
-    <button id="undoBtn">Undo</button>
-    <button id="redoBtn">Redo</button>
+    <button id="undoBtn">元に戻す</button>
+    <button id="redoBtn">やり直す</button>
     <button id="clearAllBtn">全消去</button>
     <button id="trimBtn">トリミング</button>
     <button id="resizeCanvasBtn">キャンバスリサイズ</button>
@@ -447,13 +453,21 @@ canvas.addEventListener('mousemove', e => {
     document.getElementById('download').addEventListener('click', function() {
         document.getElementById('saveBtn').click();
     });
+
+    document.getElementById('undo').addEventListener('click', function() {
+        document.getElementById('undoBtn').click();
+    });
+
+    document.getElementById('redo').addEventListener('click', function() {
+        document.getElementById('redoBtn').click();
+    });
     
     function showVersionDialog() {
-            document.getElementById('VersionDialog').style.display = 'block';
-        }
-        function closeDialog() {
-            document.getElementById('VersionDialog').style.display = 'none';
-        }
+        document.getElementById('VersionDialog').style.display = 'block';
+    }
+    function closeDialog() {
+        document.getElementById('VersionDialog').style.display = 'none';
+    }
 </script>
 </body>
 </html>
