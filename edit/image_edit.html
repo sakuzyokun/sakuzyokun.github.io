@@ -54,6 +54,54 @@
       background: #f0f0f0;
       padding: 5px;
     }
+    .dialog {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      border: 2px solid #004d99;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      min-width: 200px;
+    }
+    .dialog button {
+      margin-top: 10px;
+      padding: 5px 10px;
+    }
+        .menu-bar {
+            height: 30px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            border-bottom: 1px solid #bbb;
+            position: relative;
+        }
+        .menu-item {
+            margin-right: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #bbb;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            min-width: 150px;
+        }
+        .submenu div {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .menu-item:hover .submenu {
+            display: block;
+        }
     #mousePos {
       padding: 5px;
       text-align: center;
