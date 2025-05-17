@@ -1,285 +1,411 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>画匠Web</title>
-    <style>
-        canvas {
-            max-width: 100%;
-            border: 1px solid #ccc;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #0078D7;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
-        .window {
-            width: 100vw;
-            height: 100vh;
-            background-color: white;
-            position: absolute;
-            top: 0;
-            left: 0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 0;
-            display: flex;
-            flex-direction: column;
-        }
-        .window-header {
-            height: 30px;
-            background-color: #004d99;
-            color: white;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            font-weight: bold;
-        }
-        .menu-bar {
-            height: 30px;
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            border-bottom: 1px solid #bbb;
-            position: relative;
-        }
-        .menu-item {
-            margin-right: 15px;
-            cursor: pointer;
-            position: relative;
-        }
-        .submenu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border: 1px solid #bbb;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            min-width: 150px;
-        }
-        .submenu div {
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        .menu-item:hover .submenu {
-            display: block;
-        }
-        .window-content {
-            padding: 10px;
-            flex-grow: 1;
-        }
-        .dialog {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border: 2px solid #004d99;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            min-width: 200px;
-        }
-        .dialog button {
-            margin-top: 10px;
-            padding: 5px 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>画匠Web</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #0078D7;
+      color: #000;
+    }
+    .window {
+      width: 100vw;
+      height: 100vh;
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+    .window-header {
+      height: 30px;
+      background-color: #004d99;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      font-weight: bold;
+    }
+    .toolbar {
+      background: #ddd;
+      padding: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+    canvas {
+      border: 2px solid #ccc;
+      margin: 0 auto;
+      display: block;
+      background: white;
+    }
+    button, input, select {
+      padding: 5px 8px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #999;
+    }
+    .trim-inputs {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      background: #f0f0f0;
+      padding: 5px;
+    }
+    #mousePos {
+      padding: 5px;
+      text-align: center;
+      background: #e0e0e0;
+    }
+  </style>
 </head>
 <body>
-    <div class="window">
-    <div class="window-header">画匠Web</div>
-            <div class="menu-bar">
-                <div class="menu-item">ファイル
-                    <div class="submenu">
-                        <div id="fileOpen">開く</div>
-                        <div id="download">保存</div>
-                        <div onclick="location.href='index.html'">終了</div>
-                    </div>
-                </div>
-                <div class="menu-item">ヘルプ
-                    <div class="submenu">
-                        <div onclick="showVersionDialog()">バージョン情報</div>
-                    </div>
-                </div>
+<div class="window">
+  <div class="window-header">画匠Web</div>
+    <div class="menu-bar">
+        <div class="menu-item">ファイル
+            <div class="submenu">
+                <div id="fileOpen">開く</div>
+                <div id="download">保存</div>
+                <div onclick="location.href='index.html'">終了</div>
             </div>
-        <div class="window-content">
-    <input type="file" id="upload" accept="image/*" style="display: none;">
-    <label>明るさ: <input type="range" id="brightness" min="0" max="200" value="100"></label>
-    <label>コントラスト: <input type="range" id="contrast" min="0" max="200" value="100"></label><br>
-    <br><br>
-    <label>幅: <input type="number" id="width" min="10"></label>
-    <label>高さ: <input type="number" id="height" min="10"></label><br>
-    <button id="resize">サイズ変更</button>
-    <button id="crop">トリミング</button>
-    <button id="rotate">回転</button>
-    <button onclick="setMode('draw')">ペン</button><br>
-    <button onclick="setMode('text')">文字</button>
-    <input type="text" id="textInput" style="display: none; position: absolute;">
-    <!--<button id="download">ダウンロード</button>-->
-    <br><br>
-    <canvas id="canvas"></canvas>
-    <br><br>
+        </div>
+        <div class="menu-item">ヘルプ
+            <div class="submenu">
+                <div onclick="showVersionDialog()">バージョン情報</div>
+            </div>
+        </div>
     </div>
-    <div id="VersionDialog" class="dialog">
-        <img src="image_edit_logo.png" alt="画匠Webのロゴ" width="75" height="75" oncontextmenu="return false;" onselectstart="return false;" onmousedown="return false;">
-        <p>画匠Web<br>Version 1.0.0</p>
-        <button onclick="closeDialog()">OK</button>
-    </div>
-    <script>
-        const upload = document.getElementById('upload');
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const brightness = document.getElementById('brightness');
-        const contrast = document.getElementById('contrast');
-        const rotateBtn = document.getElementById('rotate');
-        const downloadBtn = document.getElementById('download');
-        const widthInput = document.getElementById('width');
-        const heightInput = document.getElementById('height');
-        const resizeBtn = document.getElementById('resize');
-        const cropBtn = document.getElementById('crop');
-        const textInput = document.getElementById('textInput');
-        let img = new Image();
-        let rotation = 0;
-        let mode = 'draw';
-        let drawing = false;
+  <div class="toolbar">
+    <input type="file" id="imageLoader" accept="image/*">
+    <input type="file" id="addImageBtn" accept="image/*">
+    <button id="undoBtn">Undo</button>
+    <button id="redoBtn">Redo</button>
+    <button id="clearAllBtn">全消去</button>
+    <button id="trimBtn">トリミング</button>
+    <button id="resizeCanvasBtn">キャンバスリサイズ</button>
+    <button id="saveBtn">保存(PNG)</button>
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight - 70;
+    <select id="tool">
+      <option value="pen">ペン</option>
+      <option value="eraser">消しゴム</option>
+      <option value="shape-line">直線</option>
+      <option value="shape-rect">四角</option>
+      <option value="shape-circle">円</option>
+      <option value="text">文字</option>
+    </select>
 
-        
+    <input type="color" id="colorPicker" value="#000000">
+    <input type="range" id="lineWidth" min="1" max="20" value="3">
+    <label>文字サイズ:<input type="number" id="fontSize" value="20" min="5" max="100"></label>
 
-        upload.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    };
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+    幅: <input type="number" id="canvasWidth" value="800"> px
+    高さ: <input type="number" id="canvasHeight" value="600"> px
+  </div>
 
-        img.onload = () => {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            ctx.drawImage(img, 0, 0);
-            widthInput.value = img.width;
-            heightInput.value = img.height;
-        };
+  <div class="trim-inputs">
+    X:<input type="number" id="trimX" value="0">
+    Y:<input type="number" id="trimY" value="0">
+    幅:<input type="number" id="trimW" value="100">
+    高さ:<input type="number" id="trimH" value="100">
+    <button id="trimByInput">数値でトリミング</button>
+  </div>
 
-        function applyFilters() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.filter = `brightness(${brightness.value}%) contrast(${contrast.value}%)`;
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        }
+  <div id="mousePos">マウス座標: X:0 Y:0</div>
 
-        brightness.addEventListener('input', applyFilters);
-        contrast.addEventListener('input', applyFilters);
+  <canvas id="canvas" width="800" height="600"></canvas>
+</div>
 
-        rotateBtn.addEventListener('click', () => {
-            rotation = (rotation + 90) % 360;
-            const tempCanvas = document.createElement('canvas');
-            const tempCtx = tempCanvas.getContext('2d');
-            
-            if (rotation % 180 === 0) {
-                tempCanvas.width = img.width;
-                tempCanvas.height = img.height;
-            } else {
-                tempCanvas.width = img.height;
-                tempCanvas.height = img.width;
-            }
-            
-            tempCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
-            tempCtx.rotate(rotation * Math.PI / 180);
-            tempCtx.drawImage(img, -img.width / 2, -img.height / 2);
-            
-            canvas.width = tempCanvas.width;
-            canvas.height = tempCanvas.height;
-            ctx.drawImage(tempCanvas, 0, 0);
-        });
+<div id="VersionDialog" class="dialog">
+    <img src="image_edit_logo.png" alt="画匠Webのロゴ" width="75" height="75" oncontextmenu="return false;" onselectstart="return false;" onmousedown="return false;">
+    <p>画匠Web<br>Version 1.1.0</p>
+    <button onclick="closeDialog()">OK</button>
+</div>
 
-        resizeBtn.addEventListener('click', () => {
-            const newWidth = parseInt(widthInput.value);
-            const newHeight = parseInt(heightInput.value);
-            if (newWidth > 0 && newHeight > 0) {
-                canvas.width = newWidth;
-                canvas.height = newHeight;
-                ctx.drawImage(img, 0, 0, newWidth, newHeight);
-            }
-        });
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const toolSelector = document.getElementById('tool');
+  const mousePosDisplay = document.getElementById('mousePos');
+  let tool = toolSelector.value;
+  let painting = false, startX, startY;
+  let color = document.getElementById('colorPicker').value;
+  let lineWidth = document.getElementById('lineWidth').value;
+  let fontSize = document.getElementById('fontSize').value;
+  const undoStack = [], redoStack = [];
+  const trimBoxColor = 'rgba(255,0,0,0.5)';
+  let trimOverlay = null;
 
-        cropBtn.addEventListener('click', () => {
-            const cropWidth = parseInt(widthInput.value);
-            const cropHeight = parseInt(heightInput.value);
-            if (cropWidth > 0 && cropHeight > 0) {
-                const tempCanvas = document.createElement('canvas');
-                tempCanvas.width = cropWidth;
-                tempCanvas.height = cropHeight;
-                const tempCtx = tempCanvas.getContext('2d');
-                tempCtx.drawImage(canvas, 0, 0, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
-                canvas.width = cropWidth;
-                canvas.height = cropHeight;
-                ctx.drawImage(tempCanvas, 0, 0);
-            }
-        });
+  function saveState() {
+    undoStack.push(canvas.toDataURL());
+    if (undoStack.length > 50) undoStack.shift();
+    redoStack.length = 0;
+  }
 
-        downloadBtn.addEventListener('click', () => {
-            const link = document.createElement('a');
-            link.download = 'edited-image.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        });
+  function restoreState(from, to) {
+    if (from.length === 0) return;
+    to.push(canvas.toDataURL());
+    const img = new Image();
+    img.src = from.pop();
+    img.onload = () => ctx.drawImage(img, 0, 0);
+  }
 
-        canvas.addEventListener('mousemove', (e) => {
-            if (drawing && mode === 'draw') {
-                ctx.lineTo(e.offsetX, e.offsetY);
-                ctx.stroke();
-            }
-        });
+  document.getElementById('undoBtn').onclick = () => restoreState(undoStack, redoStack);
+  document.getElementById('redoBtn').onclick = () => restoreState(redoStack, undoStack);
+  document.getElementById('clearAllBtn').onclick = () => {
+    saveState();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  };
 
-        canvas.addEventListener('mouseup', () => {
-            drawing = false;
-        });
+  toolSelector.onchange = () => {
+    tool = toolSelector.value;
+    clearTrimOverlay();
+  };
 
-        textInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                ctx.fillText(textInput.value, parseInt(textInput.style.left), parseInt(textInput.style.top));
-                textInput.value = '';
-                textInput.style.display = 'none';
-            }
-        });
-        
-        document.getElementById('fileOpen').addEventListener('click', function() {
-            document.getElementById('upload').click();
-        });
-        
-        function showVersionDialog() {
+  document.getElementById('colorPicker').oninput = e => color = e.target.value;
+  document.getElementById('lineWidth').oninput = e => lineWidth = e.target.value;
+  document.getElementById('fontSize').oninput = e => fontSize = e.target.value;
+
+  function getMousePos(e) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    };
+  }
+
+  function drawTrimBox(x, y, w, h) {
+    clearTrimOverlay();
+    trimOverlay = {x, y, w, h};
+    ctx.save();
+    ctx.strokeStyle = trimBoxColor;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 3]);
+    ctx.strokeRect(x, y, w, h);
+    ctx.restore();
+  }
+
+  function clearTrimOverlay() {
+    if (trimOverlay) {
+      ctx.drawImage(new Image(), 0, 0, 0, 0); // dummy to trigger repaint
+      const img = new Image();
+      img.src = canvas.toDataURL();
+      img.onload = () => ctx.drawImage(img, 0, 0);
+      trimOverlay = null;
+    }
+  }
+
+  ['trimX', 'trimY', 'trimW', 'trimH'].forEach(id => {
+    document.getElementById(id).oninput = () => {
+      const x = parseInt(document.getElementById('trimX').value);
+      const y = parseInt(document.getElementById('trimY').value);
+      const w = parseInt(document.getElementById('trimW').value);
+      const h = parseInt(document.getElementById('trimH').value);
+      drawTrimBox(x, y, w, h);
+    };
+  });
+
+  document.getElementById('imageLoader').onchange = function(e) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const img = new Image();
+      img.onload = function() {
+        saveState();
+        canvas.width = img.width;
+        canvas.height = img.height;
+        document.getElementById('canvasWidth').value = img.width;
+        document.getElementById('canvasHeight').value = img.height;
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(e.target.files[0]);
+  };
+
+  document.getElementById('saveBtn').onclick = () => {
+    clearTrimOverlay();
+    const link = document.createElement('a');
+    link.download = 'edited_image.png';
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+
+  document.getElementById('resizeCanvasBtn').onclick = () => {
+    const width = parseInt(document.getElementById('canvasWidth').value);
+    const height = parseInt(document.getElementById('canvasHeight').value);
+    if (!width || !height) return;
+    saveState();
+    const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    canvas.width = width;
+    canvas.height = height;
+    ctx.putImageData(img, 0, 0);
+  };
+
+  document.getElementById('trimBtn').onclick = () => {
+    const x = parseInt(document.getElementById('trimX').value);
+    const y = parseInt(document.getElementById('trimY').value);
+    const w = parseInt(document.getElementById('trimW').value);
+    const h = parseInt(document.getElementById('trimH').value);
+    clearTrimOverlay();
+    const imgData = ctx.getImageData(x, y, w, h);
+    saveState();
+    canvas.width = w;
+    canvas.height = h;
+    ctx.putImageData(imgData, 0, 0);
+    document.getElementById('canvasWidth').value = w;
+    document.getElementById('canvasHeight').value = h;
+  };
+
+  document.getElementById('trimByInput').onclick = () => {
+    document.getElementById('trimBtn').click();
+  };
+
+  canvas.onmousedown = e => {
+    if (tool === 'text') {
+      const pos = getMousePos(e);
+      const text = prompt('入力する文字:');
+      if (text) {
+        ctx.fillStyle = color;
+        ctx.font = `${fontSize}px sans-serif`;
+        ctx.fillText(text, pos.x, pos.y);
+        saveState();
+      }
+      return;
+    }
+    saveState();
+    const pos = getMousePos(e);
+    startX = pos.x;
+    startY = pos.y;
+    painting = true;
+    if (tool === 'pen' || tool === 'eraser') {
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+    }
+  };
+
+  canvas.onmouseup = e => {
+    if (!painting) return;
+    const pos = getMousePos(e);
+    painting = false;
+    if (tool.startsWith('shape')) {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+      ctx.beginPath();
+      if (tool === 'shape-line') {
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(pos.x, pos.y);
+      } else if (tool === 'shape-rect') {
+        ctx.rect(startX, startY, pos.x - startX, pos.y - startY);
+      } else if (tool === 'shape-circle') {
+        const r = Math.hypot(pos.x - startX, pos.y - startY);
+        ctx.arc(startX, startY, r, 0, 2 * Math.PI);
+      }
+      ctx.stroke();
+    }
+  };
+
+  canvas.onmousemove = e => {
+    const pos = getMousePos(e);
+    mousePosDisplay.textContent = `マウス座標: X:${Math.floor(pos.x)} Y:${Math.floor(pos.y)}`;
+    if (!painting) return;
+    if (tool === 'pen') {
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+      ctx.lineCap = 'round';
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    } else if (tool === 'eraser') {
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = lineWidth * 2;
+      ctx.lineCap = 'round';
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    }
+  };
+
+  let addedImages = [];
+
+document.getElementById('addImageBtn').onchange = function(e) {
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const img = new Image();
+    img.src = event.target.result;
+    img.onload = () => {
+      addedImages.push({
+        image: img,
+        x: 50,
+        y: 50,
+        dragging: false,
+        offsetX: 0,
+        offsetY: 0
+      });
+      drawAll();
+    };
+  };
+  reader.readAsDataURL(e.target.files[0]);
+};
+
+function drawAll() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(baseImage, 0, 0);
+  for (const item of addedImages) {
+    ctx.drawImage(item.image, item.x, item.y);
+  }
+}
+
+let baseImage = new Image();
+baseImage.src = canvas.toDataURL(); // 初期状態を保存
+
+canvas.addEventListener('mousedown', e => {
+  const pos = getMousePos(e);
+  for (let i = addedImages.length - 1; i >= 0; i--) {
+    const img = addedImages[i];
+    if (
+      pos.x >= img.x &&
+      pos.x <= img.x + img.image.width &&
+      pos.y >= img.y &&
+      pos.y <= img.y + img.image.height
+    ) {
+      img.dragging = true;
+      img.offsetX = pos.x - img.x;
+      img.offsetY = pos.y - img.y;
+      break;
+    }
+  }
+});
+
+canvas.addEventListener('mouseup', () => {
+  addedImages.forEach(img => img.dragging = false);
+});
+
+canvas.addEventListener('mousemove', e => {
+  const pos = getMousePos(e);
+  let needsRedraw = false;
+  for (const img of addedImages) {
+    if (img.dragging) {
+      img.x = pos.x - img.offsetX;
+      img.y = pos.y - img.offsetY;
+      needsRedraw = true;
+    }
+  }
+  if (needsRedraw) drawAll();
+});
+    document.getElementById('fileOpen').addEventListener('click', function() {
+        document.getElementById('imageLoader').click();
+    });
+
+    document.getElementById('download').addEventListener('click', function() {
+        document.getElementById('saveBtn').click();
+    });
+    
+    function showVersionDialog() {
             document.getElementById('VersionDialog').style.display = 'block';
         }
         function closeDialog() {
             document.getElementById('VersionDialog').style.display = 'none';
         }
-
-        function downloadImage() {
-            const link = document.createElement('a');
-            link.download = 'canvas.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        }
-
-        function setMode(selectedMode) {
-            mode = selectedMode;
-        }
-    </script>
+</script>
 </body>
 </html>
