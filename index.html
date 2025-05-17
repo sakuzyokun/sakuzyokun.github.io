@@ -13,6 +13,12 @@
     <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
     <link rel="alternate" href="en/index.html">
     <script src="index.js" defer></script>
+    <!-- PC版HTMLの<head>内に追加 -->
+    <script>
+      if (/Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        window.location.href = "mobile/index.html"; // モバイル用ページへリダイレクト
+      }
+    </script>
 </head>
 <body>
     <header>
