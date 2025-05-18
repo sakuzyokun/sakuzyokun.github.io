@@ -131,9 +131,9 @@ function setActiveWindow(windowId) {
     const taskbarWindows = document.getElementsByClassName('window-title');
     for (const title of taskbarWindows) {
         if (title.innerText === document.getElementById(windowId).querySelector('.title-bar-text').innerText) {
-            title.classList.add('active');
+            title.classList.add('glass active');
         } else {
-            title.classList.remove('active');
+            title.classList.remove('glass active');
         }
     }
 }
