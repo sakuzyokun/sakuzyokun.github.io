@@ -121,7 +121,7 @@ function setActiveWindow(windowId) {
     const windows = document.getElementsByClassName('window');
     for (const win of windows) {
         if (win.id === windowId) {
-            win.className = 'window active';
+            win.className = 'window glass active';
             win.style.zIndex = '1000'; // 最前面に表示
         } else {
             win.className = 'window';
