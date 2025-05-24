@@ -42,6 +42,11 @@
         <div class="info" id="cookieEnabled">Cookieの有効性: 判定中...</div>
         <div class="info" id="storageInfo">ストレージ推定容量: 判定中...</div>
         <div class="info" id="gpuInfo">GPU情報: 判定中...</div>
+        <div class="info" id="cpuCores">CPUスレッド数: 判定中...</div>
+        <div class="info" id="touchSupport">タッチ対応: 判定中...</div>
+        <div class="info" id="browserVendor">ブラウザベンダー: 判定中...</div>
+        <div class="info" id="heapSize">JSヒープ: 判定中...</div>
+        <div class="info" id="pageLoad">ページ読み込み時間: 判定中...</div>
     </main>
     <script>
         let frameCount = 0;
@@ -119,6 +124,12 @@
             document.getElementById('userAgent').innerText = `ユーザーエージェント: ${navigator.userAgent}`;
             document.getElementById('platform').innerText = `プラットフォーム: ${navigator.platform}`;
             document.getElementById('cookieEnabled').innerText = `Cookieの有効性: ${navigator.cookieEnabled ? '有効' : '無効'}`;
+            // CPUコア数
+            document.getElementById('cpuCores').innerText = `CPUスレッド数: ${navigator.hardwareConcurrency}スレッド`;
+            // タッチ対応
+            document.getElementById('touchSupport').innerText = `タッチ対応: ${navigator.maxTouchPoints > 0 ? 'あり' : 'なし'}`;
+            // ブラウザベンダー
+            document.getElementById('browserVendor').innerText = `ブラウザベンダー: ${navigator.vendor}`;
 
             // ネットワーク情報
             if (navigator.connection) {
@@ -154,6 +165,21 @@
                 }
             } catch (e) {
                 document.getElementById('gpuInfo').innerText = 'GPU情報: エラー';
+            }
+            // JSヒープ（Chrome専用）
+            if (performance.memory) {
+                const usedJSHeap = (performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(2);
+                const totalJSHeap = (performance.memory.totalJSHeapSize / 1024 / 1024).toFixed(2);
+                document.getElementById('heapSize').innerText = `JSヒープ: 使用 ${usedJSHeap}MB / 総計 ${totalJSHeap}MB`;
+            } else {
+                document.getElementById('heapSize').innerText = 'JSヒープ: 非対応';
+            }
+            // ページ読み込み時間
+            const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+            if (loadTime > 0) {
+                document.getElementById('pageLoad').innerText = `ページ読み込み時間: ${loadTime}ms`;
+            } else {
+                document.getElementById('pageLoad').innerText = 'ページ読み込み時間: 計測中...';
             }
         }
 
