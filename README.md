@@ -18,6 +18,11 @@ Aqua.cssの使い方
 上のURLで引っ張ってくるなら問題ないですがダウンロードして使う場合は以下のライセンス表記をお願いします  
 ```html
 <!-- [名前].css was created by sakuzyokun -->
+```
+
+PythonやVisualStudioのソースコードを改造し公開する場合は``README.md``やソースコードのコメントアウトにこう書いてください
+```py
+# [アプリの名前] was created by sakuzyokun
 ```  
   
 windows11 emulator created by Laaouatni Anas  
