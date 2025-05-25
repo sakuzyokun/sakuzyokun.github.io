@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>"app_distribution/GFT/files" ファイル一覧</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f3f4f6;
+      padding: 2rem;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .file-list {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .file-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      gap: 1rem;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .file-icon {
+      width: 28px;
+      height: 28px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Crystal_Project_executable.png/32px-Crystal_Project_executable.png') no-repeat center/contain;
+    }
+
+    .file-name {
+      font-weight: 500;
+      color: #1f2937;
+    }
+
+    .file-size,
+    .file-date {
+      font-size: 0.85rem;
+      color: #6b7280;
+    }
+
+    .file-item:hover {
+      background-color: #f0f9ff;
+    }
+
+    .context-menu {
+      position: absolute;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: block;
+      z-index: 100;
+    }
+
+    .context-menu a {
+      display: block;
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      color: #111827;
+    }
+
+    .context-menu a:hover {
+      background-color: #e0f2fe;
+    }
+
+    #overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 50;
+    }
+
+    #propertyModal {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      width: 300px;
+      z-index: 60;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    }
+
+    #propertyModal h2 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    #propertyModal ul {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      list-style: none;
+      padding-left: 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>"app_distribution/GFT/files" ファイル一覧</h1>
+
+<div class="file-list">
+
+  <div class="file-item" data-name="mp4shot.png" data-size="91.4 KB" data-date="2025/05/25 04:00" data-path="app_distribution/GFT/files/mp4shot.png">
+    <div class="file-icon"></div>
+    <div class="file-name">mp4shot.png</div>
+    <div class="file-size">91.4 KB</div>
+    <div class="file-date">2025/05/25 04:00</div>
+  </div>
+
+  <div class="file-item" data-name="vieshot.png" data-size="91.4 KB" data-date="2025/05/25 04:00" data-path="app_distribution/GFT/files/vieshot.png">
+    <div class="file-icon"></div>
+    <div class="file-name">vieshot.png</div>
+    <div class="file-size">91.4 KB</div>
+    <div class="file-date">2025/05/25 04:00</div>
+  </div>
+  
+</div>
+
+<!-- モーダル -->
+<div id="overlay"></div>
+<div id="propertyModal">
+  <h2>ファイルのプロパティ</h2>
+  <ul id="propertyDetails"></ul>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const items = document.querySelectorAll('.file-item');
+    const overlay = document.getElementById('overlay');
+    const modal = document.getElementById('propertyModal');
+    const propertyDetails = document.getElementById('propertyDetails');
+
+    let contextMenu;
+
+    items.forEach(item => {
+      item.addEventListener("contextmenu", e => {
+        e.preventDefault();
+
+        // 既存メニュー削除
+        if (contextMenu) contextMenu.remove();
+
+        contextMenu = document.createElement("div");
+        contextMenu.className = "context-menu";
+        contextMenu.style.top = `${e.pageY}px`;
+        contextMenu.style.left = `${e.pageX}px`;
+
+        const download = document.createElement("a");
+        download.textContent = "ダウンロード";
+        download.href = item.dataset.path;
+        download.download = item.dataset.name;
+
+        const prop = document.createElement("a");
+        prop.textContent = "プロパティ";
+        prop.href = "#";
+        prop.onclick = () => {
+          propertyDetails.innerHTML = `
+            <li><strong>ファイル名:</strong> ${item.dataset.name}</li>
+            <li><strong>種類:</strong> 画像 (.png)</li>
+            <li><strong>サイズ:</strong> ${item.dataset.size}</li>
+            <li><strong>更新日時:</strong> ${item.dataset.date}</li>
+            <li><strong>保存場所:</strong> ${item.dataset.path}</li>
+            <li><strong>MIMEタイプ:</strong> application/x-msdownload</li>
+          `;
+          modal.style.display = "block";
+          overlay.style.display = "block";
+          contextMenu.remove();
+        };
+
+        contextMenu.appendChild(download);
+        contextMenu.appendChild(prop);
+        document.body.appendChild(contextMenu);
+      });
+    });
+
+    // モーダル閉じる
+    overlay.addEventListener("click", () => {
+      modal.style.display = "none";
+      overlay.style.display = "none";
+    });
+
+    // 他クリックでコンテキストメニュー消す
+    document.addEventListener("click", e => {
+      if (contextMenu && !e.target.closest(".context-menu")) {
+        contextMenu.remove();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
