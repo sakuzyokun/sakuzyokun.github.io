@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>System Monitor - Know system information</title>
+  <style>
+    body {
+      font-family: "MS UI Gothic", sans-serif;
+      background-color: #C0C0C0;
+      color: black;
+      margin: 20px;
+    }
+    .window {
+      border: 2px solid #000080;
+      background-color: #FFFFFF;
+      padding: 10px;
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 18px;
+      background-color: #000080;
+      color: white;
+      padding: 4px;
+      margin: 0 -10px 10px -10px;
+    }
+    .button {
+      display: inline-block;
+      padding: 6px 12px;
+      margin-top: 10px;
+      background-color: #C0C0C0;
+      border: 2px outset #FFFFFF;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <h1>System Monitor</h1>
+    <a href="index.html" class="button">日本語ページ</a>
+    <p><strong>System Monitor</strong> is an app that gives you easy-to-understand information about your system.</p>
+    <p>It features high speed operation</p>
+
+    <h2>Key Features</h2>
+    <ul>
+      <p>== OS Info ==</p>
+      <li>Shows OS information and version</li>
+      <li>Shows CPU usage and memory information</li>
+      <p>== Process Info ==</p>
+      <li>Shows simple OS information, etc.</li>
+      <li>Shows a list of processes</li>
+    </ul>
+    <h2>How to use</h2>
+    <p>1. Install Python<br>(Win: Search for "python" in MSStore and install your favorite (must be version 3 or higher) Mac: brew install python Linux: sudo apt install python)</p>
+    <p>2. In the console (command prompt), go to the download folder (you can do this with cd Downloads) and type "python3 file_info.py" to start it</p>
+    <p>*If you get the message "No module named 'library name'"<br>1. pip install library name will allow you to use it</p>
+    <a href="os_info.py" class="button">OS Info Download</a>
+    <a href="process_info.py" class="button">Process Info Download</a>
+
+    <h2>Screenshot</h2>
+    <img src="osshot.png" alt="OS Info Screenshot" width="100%">
+    <img src="proshot.png" alt="Process Info Screenshot" width="100%">
+
+    <p>Author: Sakuzyokun<br>
+    License: Free software (personal use allowed)<br>
+    <a href="https://github.com/sakuzyokun/sakuzyokun.github.io/edit/main/app_distribution/file_info/file_info.py">Source code</a>
+    </p>
+    <p>Ver.1.00</p>
+  </div>
+</body>
+</html>
