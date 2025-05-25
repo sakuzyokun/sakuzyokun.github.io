@@ -170,8 +170,8 @@ class SystemMonitorGUI:
         self.root.config(menu=menubar)
 
         setting_menu = tk.Menu(menubar, tearoff=0)
-        setting_menu.add_command(label="更新間隔を変更", command=self.change_interval)
-        menubar.add_cascade(label="設定", menu=setting_menu)
+        setting_menu.add_command(label="Change the update interval", command=self.change_interval)
+        menubar.add_cascade(label="Setting", menu=setting_menu)
 
     def build_layout(self):
         frame = ttk.Frame(self.root, padding=20)
@@ -211,15 +211,15 @@ class SystemMonitorGUI:
         self.root.after(int(self.interval * 1000), self.update_dynamic)
 
     def change_interval(self):
-        new_value = simpledialog.askfloat("更新間隔", "更新間隔（秒）を入力：", minvalue=0.5, maxvalue=60)
+        new_value = simpledialog.askfloat("Update interval", "Enter the update interval (seconds)：", minvalue=0.5, maxvalue=60)
         if new_value:
             self.interval = new_value
 
 # ===== Main =====
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--gui", action="store_true", help="GUIモードで表示")
-    parser.add_argument("--interval", type=float, default=1.0, help="更新間隔（秒）")
+    parser.add_argument("--gui", action="store_true", help="View in GUI mode")
+    parser.add_argument("--interval", type=float, default=1.0, help="Update interval (seconds)")
     args = parser.parse_args()
 
     if args.gui:
