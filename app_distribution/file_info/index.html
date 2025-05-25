@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ファイル情報ビューア - ファイルの情報がわかる</title>
+  <style>
+    body {
+      font-family: "MS UI Gothic", sans-serif;
+      background-color: #C0C0C0;
+      color: black;
+      margin: 20px;
+    }
+    .window {
+      border: 2px solid #000080;
+      background-color: #FFFFFF;
+      padding: 10px;
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 18px;
+      background-color: #000080;
+      color: white;
+      padding: 4px;
+      margin: 0 -10px 10px -10px;
+    }
+    .button {
+      display: inline-block;
+      padding: 6px 12px;
+      margin-top: 10px;
+      background-color: #C0C0C0;
+      border: 2px outset #FFFFFF;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <h1>ファイル情報ビューア</h1>
+    <p><strong>ファイル情報ビューア</strong> は ファイルの情報をわかりやすく教えてくれるアプリ</p>
+    <p>高速な動作を特徴としています</p>
+
+    <h2>主な機能</h2>
+    <ul>
+      <li>ファイルの読み込み</li>
+      <li>ファイルの情報表示</li>
+      <li>zipファイルの内容表示</li>
+      <li>txt,batファイルなどの内容表示</li>
+      <li>zip,exeファイルなどのバイナリヘッダー</li>
+    </ul>
+    <h2>使用方法</h2>
+    <p>1. Pythonをインストール<br>(Win:MSStoreで「python」と検索し、お好きなものをインストール(絶対バージョン3以上) Mac:brew install python Linux: sudo apt install python)</p>
+    <p>2. コンソール(コマンドプロンプト)でダウンロードフォルダに移動(cd Downloads で可能)し、「python3 file_info.py」と打てば起動します</p>
+    <p>※もし「No module named 'ライブラリの名前'」と出た場合<br>1. pip install ライブラリの名前 とすると使えるようになります</p>
+    <a href="file_info.py" class="button">ダウンロード</a>
+
+    <h2>スクリーンショット</h2>
+    <img src="infoshot.png" alt="MP4→GFT変換のスクリーンショット" width="100%">
+
+    <p>作者：削除くん<br>
+    ライセンス：フリーソフト（個人利用可）<br>
+    <a href="https://github.com/sakuzyokun/sakuzyokun.github.io/blob/main/gft/libs/mp4_gft.py">ソースコード</a>
+  </p>
+    <p>Ver.1.00</p>
+  </div>
+</body>
+</html>
