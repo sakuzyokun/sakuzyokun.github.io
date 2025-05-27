@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gooble</title>
+  <style>
+    :root {
+      --bg-color: #fff;
+      --text-color: #202124;
+      --button-bg: #f8f9fa;
+      --button-hover: #e8e8e8;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #202124;
+        --text-color: #e8eaed;
+        --button-bg: #303134;
+        --button-hover: #3c4043;
+      }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      text-align: center;
+    }
+
+    header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 10px 20px;
+    }
+
+    header a, .icon-button {
+      margin-left: 10px;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .icon-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .icon-button img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .login-button {
+      background-color: #1a73e8;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .logo {
+      font-size: 60px;
+      margin-top: 100px;
+      font-weight: bold;
+    }
+
+    .logo span:nth-child(1) { color: #4285F4; }
+    .logo span:nth-child(2) { color: #DB4437; }
+    .logo span:nth-child(3) { color: #F4B400; }
+    .logo span:nth-child(4) { color: #4285F4; }
+    .logo span:nth-child(5) { color: #0F9D58; }
+    .logo span:nth-child(6) { color: #DB4437; }
+
+    .search-box {
+      margin-top: 30px;
+    }
+
+    input[type="text"] {
+      width: 80%;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 18px;
+      border: 1px solid #dfe1e5;
+      border-radius: 24px;
+      outline: none;
+    }
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    .buttons input {
+      padding: 10px 20px;
+      margin: 0 5px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      background-color: var(--button-bg);
+      cursor: pointer;
+    }
+
+    .buttons input:hover {
+      background-color: var(--button-hover);
+    }
+
+    .app-menu {
+      display: none;
+      position: absolute;
+      top: 35px;
+      right: 0;
+      background: var(--bg-color);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      width: 200px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+
+    .app-menu a {
+      display: block;
+      padding: 8px;
+      text-align: left;
+      color: var(--text-color);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .app-menu a:hover {
+      background-color: var(--button-hover);
+      border-radius: 4px;
+    }
+
+    @media (max-width: 600px) {
+      .logo {
+        font-size: 40px;
+        margin-top: 60px;
+      }
+
+      input[type="text"] {
+        width: 90%;
+      }
+
+      header {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="https://mail.google.com" target="_blank">Gmail</a>
+    <a href="https://www.google.com/imghp" target="_blank">画像</a>
+    <div style="position: relative;">
+      <button class="icon-button" onclick="toggleMenu()">
+        <image src="https://ssl.gstatic.com/gb/images/bar/al-icon.png" alt="" height="24" width="24" style="border:none;display:none \9"></image>
+        <!--<svg class="gb_F" focusable="false" viewBox="0 0 24 24"><path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path><image src="https://ssl.gstatic.com/gb/images/bar/al-icon.png" alt="" height="24" width="24" style="border:none;display:none \9"></image></svg>
+        <p>…</p>
+        <img src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png" alt="アプリ">-->
+      </button>
+      <div class="app-menu" id="appMenu">
+        <a href="https://www.google.co.jp/" target="_blank">Google 検索</a>
+        <a href="https://www.youtube.com/" target="_blank">YouTube</a>
+        <a href="https://drive.google.com/" target="_blank">Google Drive</a>
+        <a href="https://maps.google.com/" target="_blank">Google Maps</a>
+        <a href="https://news.google.com/" target="_blank">Google ニュース</a>
+      </div>
+    </div>
+    <a href="https://accounts.google.com/signin" target="_blank" class="login-button">ログイン</a>
+  </header>
+
+  <div class="logo">
+    <span>G</span><span>o</span><span>o</span><span>b</span><span>l</span><span>e</span>
+  </div>
+
+  <form class="search-box" action="https://www.google.com/search" method="GET" target="_blank">
+    <input type="text" name="q" placeholder="Gooble 検索">
+    <div class="buttons">
+      <input type="submit" value="Gooble 検索">
+      <input type="submit" value="I'm Feeling Lucky" name="btnI">
+    </div>
+  </form>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('appMenu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    window.addEventListener('click', function(event) {
+      const menu = document.getElementById('appMenu');
+      if (!event.target.closest('.icon-button')) {
+        menu.style.display = 'none';
+      }
+    });
+  </script>
+
+</body>
+</html>
