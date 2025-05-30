@@ -6,8 +6,14 @@
     <title>削除くんのホームページ コマンドプロンプト</title>
     <link rel="icon" href="favicon.ico">
     <style>
+        @font-face {
+            font-family: 'CascadiaCode';
+            src: url('fonts/CascadiaCode.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
         body {
-            font-family: monospace;
+            font-family: 'CascadiaCode',monospace;
             background-color: #1c1c1c;
             color: #a6a6a6;
             margin: 0;
@@ -87,7 +93,7 @@
                     appendMessage('SAKUZYO-DOS バージョン:1.52');
                     break;
                 case 'info':
-                    appendMessage('ホームページ バージョン:5.7.5');
+                    appendMessage('ホームページ バージョン:6.0.9');
                     break;
                 case 'error':
                     location.href = '404.html';
