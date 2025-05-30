@@ -84,8 +84,17 @@
           .map(line => line.trim())
           .filter(line => line && !line.startsWith('duration'));
 
-        while (pixelLines.length < width * height) {
-          pixelLines.push('00000000');
+        if (pixelLines.length === 1) {
+          // 色コードが1つだけ → 全ピクセルをそれで埋める
+          const fillColor = pixelLines[0];
+          while (pixelLines.length < width * height) {
+            pixelLines.push(fillColor);
+          }
+        } else {
+          // 足りないピクセルは透明で埋める
+          while (pixelLines.length < width * height) {
+            pixelLines.push('00000000');
+          }
         }
 
         return { duration, pixels: pixelLines };
