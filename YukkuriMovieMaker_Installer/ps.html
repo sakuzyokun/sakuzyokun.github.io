@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>PowerShellについて - 削除くんのホームページ</title>
+  <style>
+    body {
+      font-family: "MS UI Gothic", sans-serif;
+      background-color: #C0C0C0;
+      color: black;
+      margin: 20px;
+    }
+    .window {
+      border: 2px solid #000080;
+      background-color: #FFFFFF;
+      padding: 10px;
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 18px;
+      background-color: #000080;
+      color: white;
+      padding: 4px;
+      margin: 0 -10px 10px -10px;
+    }
+    .button {
+      display: inline-block;
+      padding: 6px 12px;
+      margin-top: 10px;
+      background-color: #C0C0C0;
+      border: 2px outset #FFFFFF;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <h1>PowerShellについて</h1>
+    <p><strong>PowerShellについて</strong> は PowerShellびついての情報が書いてあるぺーじです</p>
+    <h2>バージョン確認方法</h2>
+    <p>1. Windowsロゴ + R キーを押して「powershell」と入力します</p>
+    <p>2. $PSVersionTable 左の文章を選択し、「コピー」をクリックし、PowerShellに戻り、右クリックして Enter キーを押します</p>
+    <p>3. 一番上の「PSVersion」というところの右が 5.0 以上だったら使用できます</p>
+    <p>※ 1. でエラーが出た場合は インストール方法 へ</p>
+    <h2>アップデート方法</h2>
+    <p>1. Windowsロゴ + R キーを押して「cmd」と入力します</p>
+    <p>2. winget search Microsoft.PowerShell 左の文章を先ほどと同じようにコピーをクリックし、右クリックしてEnterを押します</p>
+    <p>3. 同意するかしないか聞かれるので同意するならy しないならn を押してEnter (聞かれない場合もあります)</p>
+    <p>4. 同意した場合は PowerShellの一覧が出てくると思います</p>
+    <p>5. winget update --id Microsoft.PowerShell --source winget 左の文章をコピーし、右クリックしてEnter</p>
+    <h2>インストール方法</h2>
+    <p>1. Windowsロゴ + R キーを押して「cmd」と入力します</p>
+    <p>2. winget search Microsoft.PowerShell 左の文章を先ほどと同じようにコピーをクリックし、右クリックしてEnterを押します</p>
+    <p>3. 同意するかしないか聞かれるので同意するならy しないならn を押してEnter (聞かれない場合もあります)</p>
+    <p>4. 同意した場合は PowerShellの一覧が出てくると思います</p>
+    <p>5. winget install --id Microsoft.PowerShell --source winget 左の文章をコピーし、右クリックしてEnter</p>
+  </div>
+</body>
+</html>
