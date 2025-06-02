@@ -20,7 +20,7 @@ Aqua.cssの使い方
 <!-- [名前].css was created by sakuzyokun -->
 ```
 ***
-PythonやVisualStudioのソースコードを改造し公開する場合は``README.md``やソースコードのコメントアウトにこう書いてください
+PythonやVisualStudioなどのソースコードを改造し公開する場合は``README.md``やソースコードのコメントアウトにこう書いてください
 ```py
 # [アプリの名前] was created by sakuzyokun
 ```  
