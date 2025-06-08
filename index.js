@@ -38,12 +38,14 @@ function closeMessageBox() {
 
 // メッセージボックスを移動させる関数
 function moveMessageBox() {
-    const messageBox = document.getElementById('messageBox');
-    const x = Math.floor(Math.random() * (window.innerWidth - messageBox.clientWidth));
-    const y = Math.floor(Math.random() * (window.innerHeight - messageBox.clientHeight));
-    messageBox.style.left = `${x}px`;
-    messageBox.style.top = `${y}px`;
+    const mb = document.getElementById('messageBox');
+    mb.style.transition = 'left 0.8s ease-out, top 0.8s ease-out';
+    const x = Math.random() * (window.innerWidth - mb.clientWidth);
+    const y = Math.random() * (window.innerHeight - mb.clientHeight);
+    mb.style.left = x + 'px';
+    mb.style.top = y + 'px';
 }
+
 
 // リンクを新しいタブで開く関数
 function web() {
@@ -218,6 +220,23 @@ function hideMessageBox() {
     clearInterval(moveMessageBoxInterval); // メッセージボックスの動きを停止
     hideMenus();
 }
+
+//スクロール
+window.addEventListener('scroll', () => {
+  document.querySelectorAll('ul li').forEach(el => {
+    if (!el.classList.contains('visible') && el.getBoundingClientRect().top < window.innerHeight - 50) {
+      el.classList.add('visible');
+    }
+  });
+});
+
+//ボタン
+document.querySelectorAll('button').forEach(btn => {
+  btn.style.transition = 'transform 0.2s';
+  btn.addEventListener('mouseover', () => btn.style.transform = 'scale(1.1)');
+  btn.addEventListener('mouseout', () => btn.style.transform = 'scale(1)');
+});
+
 /*
 //画面の下の方で右クリックしても見えるように
 document.addEventListener("contextmenu", function (event) {
