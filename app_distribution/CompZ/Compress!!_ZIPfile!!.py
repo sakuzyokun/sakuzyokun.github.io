@@ -134,10 +134,10 @@ def run_gui():
         threading.Thread(target=run).start()
 
     # ボタン
-    tk.Button(root, text="ファイル選択", command=select_files).pack(pady=5)
-    tk.Button(root, text="フォルダ選択", command=select_folder).pack(pady=5)
-    tk.Button(root, text="圧縮開始！", command=compress).pack(pady=10)
-    tk.Button(root, text="解凍する", command=extract).pack(pady=5)
+    tk.Button(root, text="📄ファイル選択", command=select_files).pack(pady=5)
+    tk.Button(root, text="📂フォルダ選択", command=select_folder).pack(pady=5)
+    tk.Button(root, text="📦圧縮開始！", command=compress).pack(pady=10)
+    tk.Button(root, text="📂解凍する", command=extract).pack(pady=5)
 
     root.mainloop()
 
