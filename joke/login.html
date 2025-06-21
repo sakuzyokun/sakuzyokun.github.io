@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>アカウント作成</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f2f2f2;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    h1 {
+      color: #ff0000;
+    }
+
+    form {
+      background: #fff;
+      padding: 40px;
+      margin: auto;
+      width: 320px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #aaa;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+    }
+
+    .error {
+      color: red;
+      font-weight: bold;
+      display: none;
+    }
+
+    .submit-btn {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>アカウント作成</h1>
+  <form onsubmit="return blockSubmission()">
+    <input type="text" id="username" placeholder="ユーザー名">
+    <div id="userError" class="error">全角、半角、数字、記号は使用できません。</div>
+
+    <input type="password" id="password" placeholder="パスワード">
+    <div id="passError" class="error">パスワードが簡単すぎます（全部）。</div>
+
+    <input type="date" id="birthday">
+    <div id="birthError" class="error"></div>
+
+    <input type="email" id="email" placeholder="メールアドレス">
+    <div id="mailError" class="error"></div>
+
+    <label>
+      <input type="checkbox" id="agree">
+      利用規約に同意しません
+    </label>
+    <div id="agreeError" class="error">同意する場合は登録できません。</div>
+
+    <label>
+      <input type="checkbox" id="captcha">
+      私はロボットです
+    </label>
+    <div id="captchaError" class="error">ロボットの方は登録できません。</div>
+
+    <br>
+    <button type="submit" class="submit-btn">アカウントを作成する</button>
+    <div id="finalError" class="error">申し訳ありません。この世界にアカウントは存在できません。</div>
+  </form>
+
+  <script>
+    function blockSubmission() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      const agree = document.getElementById('agree').checked;
+      const birthday = document.getElementById('birthday').value;
+      const email = document.getElementById('email').value;
+      const captcha = document.getElementById('captcha').checked;
+
+      const today = new Date();
+      const birthDate = new Date(birthday);
+
+      let blocked = false;
+
+      // ユーザー名チェック
+      if (user.length > 0) {
+        document.getElementById('userError').style.display = 'block';
+        blocked = true;
+      } else {
+        document.getElementById('userError').style.display = 'none';
+      }
+
+      // パスワードチェック
+      if (pass.length > 0) {
+        document.getElementById('passError').style.display = 'block';
+        blocked = true;
+      } else {
+        document.getElementById('passError').style.display = 'none';
+      }
+
+      // 誕生日チェック
+      const birthError = document.getElementById('birthError');
+      if (!birthday) {
+        birthError.textContent = '生年月日を入力してください。';
+        birthError.style.display = 'block';
+        blocked = true;
+      } else if (birthDate > today) {
+        birthError.textContent = '0歳以上ではないためアカウントを作成できませんでした。';
+        birthError.style.display = 'block';
+        blocked = true;
+      } else {
+        birthError.textContent = '正しい生年月日を入力してください。';
+        birthError.style.display = 'block';
+        blocked = true;
+      }
+
+      // メールアドレスチェック
+      const mailError = document.getElementById('mailError');
+      if (email.includes("@")) {
+        mailError.textContent = "@マークは使用できません。";
+        mailError.style.display = 'block';
+        blocked = true;
+      } else {
+        mailError.textContent = "このメールアドレスは無効です。";
+        mailError.style.display = 'block';
+        blocked = true;
+      }
+
+      // 規約チェック
+      if (!agree) {
+        document.getElementById('agreeError').style.display = 'block';
+        blocked = true;
+      } else {
+        document.getElementById('agreeError').style.display = 'none';
+      }
+
+      // CAPTCHAチェック（ロボット前提）
+      if (captcha) {
+        document.getElementById('captchaError').style.display = 'block';
+        blocked = true;
+      } else {
+        document.getElementById('captchaError').style.display = 'none';
+      }
+
+      if (blocked) {
+        document.getElementById('finalError').style.display = 'block';
+        return false;
+      }
+
+      alert("エラー：宇宙がバグりました。");
+      return false;
+    }
+  </script>
+</body>
+</html>
