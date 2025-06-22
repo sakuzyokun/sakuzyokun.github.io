@@ -21,8 +21,8 @@ def create_shortcut(name, target, shortcut_dir):
 # ---- インストール対象ファイル ----
 INSTALL_FILES = {
     "Windows": [
-        {"name": "Lite Explorer", "url": "https://sakuzyokun.github.io/LiteExplorer/files/LiteExplorer.exe"},
-        {"name": "Lite Explorer (32bit版,x86)", "url": "https://sakuzyokun.github.io/LiteExplorer/files/LiteExplorer_x86.exe"},
+        {"name": "Lite Explorer", "url": "https://github.com/sakuzyokun/LiteExplorer/releases/download/1.10/LiteExplorer.exe"},
+        {"name": "Lite Explorer (32bit版,x86)", "url": "https://github.com/sakuzyokun/LiteExplorer/releases/download/1.10/LiteExplorer_x86.exe"},
         {"name": "GFT Viewer & Editor", "url": "https://sakuzyokun.github.io/gft/libs/GFT.py"},
         {"name": "MP4→GFT変換", "url": "https://sakuzyokun.github.io/gft/libs/mp4_gft.py"},
         {"name": "ファイル情報ビューア", "url": "https://sakuzyokun.github.io/app_distribution/file_info/file_info.py"},
