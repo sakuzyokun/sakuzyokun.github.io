@@ -2,108 +2,353 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>アプリ配布ページ - Windows風のページ</title>
+  <title>アプリ配布ページ - エクスプローラー</title>
   <style>
     body {
+      margin: 0;
       font-family: "MS UI Gothic", sans-serif;
       background-color: #C0C0C0;
-      color: black;
-      margin: 20px;
     }
-    .window {
-      border: 2px solid #000080;
-      background-color: #FFFFFF;
-      padding: 10px;
-      max-width: 600px;
-    }
-    h1 {
-      font-size: 18px;
-      background-color: #000080;
+
+    /* Explorer部分 */
+    .title-bar {
+      background: linear-gradient(to right, #08246B, #A5CBF7);
       color: white;
-      padding: 4px;
-      margin: 0 -10px 10px -10px;
+      padding: 3px 8px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .button {
+
+    .title-buttons span {
       display: inline-block;
-      padding: 6px 12px;
-      margin-top: 10px;
+      padding: 0.75px 1.5px;
+      margin-top: 2.5px;
       background-color: #C0C0C0;
       border: 2px outset #FFFFFF;
       text-decoration: none;
       color: black;
       font-weight: bold;
+      cursor: default;
+    }
+
+    .explorer-window {
+      display: flex;
+      height: 90vh;
+      margin: 10px;
+      border: 2px inset #808080;
+      background-color: #FFFFFF;
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #E0E0E0;
+      border-right: 2px solid #A0A0A0;
+      padding: 8px;
+      font-size: 13px;
+    }
+
+    .folder {
+      margin: 4px 0;
       cursor: pointer;
+    }
+
+    .folder-children {
+      margin-left: 16px;
+      display: none;
+    }
+
+    .main-view {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #FFFFFF;
+    }
+
+    .file-item {
+      font-size: 13px;
+      margin: 8px 0;
+      cursor: pointer;
+    }
+
+    .footer {
+      background-color: #D4D0C8;
+      border-top: 2px solid #A0A0A0;
+      padding: 4px;
+      text-align: right;
+      font-size: 12px;
+    }
+
+    .icon-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .icon-item {
+      width: 100px;
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .icon-item img {
+      width: 48px;
+      height: 48px;
+      border: 1px solid #A0A0A0;
+    }
+
+    /* メモ帳風ウィンドウ */
+    .notepad {
+      width: 400px;
+      position: absolute;
+      top: 80px;
+      left: 80px;
+      border: 2px solid #000;
+      background-color: #FFFFFF;
+      box-shadow: 4px 4px rgba(128,128,128,0.4);
+      z-index: 100;
+    }
+
+    .notepad .title-bar {
+      background: linear-gradient(to right, #08246B, #A5CBF7);
+      color: white;
+      padding: 3px 8px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: move;
+    }
+
+    .notepad-menu {
+      background-color: #D4D0C8;
+      padding: 2px 8px;
+      font-size: 12px;
+      color: #404040;
+      border-bottom: 1px solid #808080;
+    }
+
+    .notepad-text {
+      padding: 8px;
+      font-family: "MS Gothic", monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+
+    .title-buttons span {
+      display: inline-block;
+      padding: 0.75px 1.5px;
+      margin-top: 1.25px;
+      background-color: #C0C0C0;
+      border: 2px outset #FFFFFF;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      cursor: default;
     }
   </style>
 </head>
 <body>
-  <div class="window">
-    <h1>アプリケーション配布ページ</h1>
-    <p><strong>アプリケーション配布ページ</strong> は Windows 95 / 98 / Me 風のページです</p>
-    <p>いろいろなアプリを配布しています</p>
-    <p>クラシックな見た目を重視し、見やすくなっています</p><br>
-    <h2>おすすめアプリ</h2>
-    <img src="installer/saishot.png" alt="Sakuzyokun application Installerのスクリーンショット" width="50%"><br>
-    <p>Sakuzyokun application Installer</p>
-    <p>このアプリは下のアプリをまとめてインストールしてくれる便利なアプリです</p>
-    <p>もちろん、インストール時にインストールするアプリを選択することもできます</p>
-    <p><b>とりあえずアプリ試したいって人はおすすめです</b></p>
-    <a href="installer/" class="button">詳しくはこちら</a>
-    <a href="installer/installer.py" class="button">ダウンロードはこちら</a>
-    <br><hr>
-    <h2>配布・開発中</h2>
-    <p class="button" onclick="toggle('vs')">Visual Studio</p><br>
-    <div id="vs" style="display: none;">
-      <hr>
-      <a href="../LiteExplorer/" class="button">LiteExplorer</a><br>
-      <img src="../LiteExplorer/files/screenshot.png" alt="LiteExplorerのスクリーンショット" width="50%"><br>
-      <hr>
-    </div>
-    <p class="button" onclick="toggle('py')">Python</p><br>
-    <div id="py" style="display: none;">
-      <hr>
-      <a href="GFT/GFT_Viewer.html" class="button">GFT Viewer & Editor</a><br>
-      <img src="GFT/files/vieshot.png" alt="GFT Viewer & Editorのスクリーンショット" width="50%"><br>
-      <a href="GFT/MP4_GFT.html" class="button">MP4→GFT変換</a><br>
-      <img src="GFT/files/mp4shot.png" alt="MP4→GFT変換のスクリーンショット" width="50%"><br>
-      <a href="file_info/" class="button">ファイル情報ビューア</a><br>
-      <img src="file_info/infoshot.png" alt="ファイル情報ビューアのスクリーンショット" width="50%"><br>
-      <a href="os_info/" class="button">OS Info / Process Info</a><br><br>
-      <img src="os_info/osshot.png" alt="OSInfoのスクリーンショット" width="50%"><br>
-      <a href="CompZ/" class="button">圧縮！！ZIPファイル！！</a><br><br>
-      <img src="CompZ/czshot.png" alt="圧縮ZIPファイルのスクリーンショット" width="50%"><br>
-      <a href="RomajiLang/" class="button">RomajiLang</a><br><br>
-      <img src="RomajiLang/rlshot.png" alt="RomajiLang" width="50%"><br>
-      <hr>
-    </div>
-    <p class="button" onclick="toggle('bat')">Batファイル</p><br>
-    <div id="bat" style="display: none;">
-      <hr>
-      <a href="WQL/" class="button">WinQuickLauncher</a><br><br>
-      <img src="WQL/wqlshot.png" alt="WQLのスクリーンショット" width="50%"><br>
-      <a href="TCT/" class="button">Temp & Cache Cleanup Tool</a><br><br>
-      <img src="TCT/tctshot.png" alt="TCTのスクリーンショット" width="50%"><br>
-      <a href="../YukkuriMovieMaker_Installer/" class="button">YukkuriMovieMaker Installer</a><br><br>
-      <img src="../YukkuriMovieMaker_Installer/ymmshot.png" alt="YukkuriMovieMaker Installerのスクリーンショット" width="50%"><br>
-      <hr>
-    </div>
-    <h2>作成・開発中</h2>
-    <p>※正常に動作しない場合があります</p>
-    <p>無し</p>
-    <h2>開発終了</h2>
-    <p>無し</p>
-<br><br>
-    <p>作者：削除くん<br>
-    ライセンス：フリーソフト（個人利用可）<br>
-    あまり更新しないと思われますがご了承ください<br>
-    <a href="https://github.com/sakuzyokun/">削除くんのGithub</a>
-  </p>
+
+<div class="title-bar">
+  アプリ配布
+  <div class="title-buttons">
+    <span>−</span> <span>□</span> <span>×</span>
   </div>
-  <script>
-    function toggle(id) {
-      const elem = document.getElementById(id);
-      elem.style.display = (elem.style.display === "none") ? "block" : "none";
-    }
-  </script>
+</div>
+
+<div class="explorer-window">
+  <div class="sidebar">
+    <div class="folder" onclick="toggleTree('info')">📁 info</div>
+    <div class="folder-children" id="info">
+      <p onclick="showInfo()">▶ 表示</p>
+    </div>
+    <div class="folder" onclick="toggleTree('dist')">📁 配布中</div>
+    <div class="folder-children" id="dist">
+      <p onclick="showCategory('dist')">▶ 表示</p>
+    </div>
+    <div class="folder" onclick="toggleTree('dev')">📁 作成中</div>
+    <div class="folder-children" id="dev">
+      <p>(なし)</p>
+    </div>
+    <div class="folder" onclick="toggleTree('end')">📁 サポート終了</div>
+    <div class="folder-children" id="end">
+      <p>(なし)</p>
+    </div>
+  </div>
+  <div class="main-view" id="main-view">
+    <p>フォルダを選択してください。</p>
+  </div>
+</div>
+
+<div class="footer">
+  Windows 2000 エクスプローラー © 削除くん
+</div>
+
+<!-- メモ帳ウィンドウ：README -->
+<div class="notepad" id="readmeWindow" style="display: none;">
+  <div class="title-bar" onmousedown="startDrag(event, 'readmeWindow')">
+    README.txt - メモ帳
+    <div class="title-buttons">
+      <span style="opacity: 0.5;">−</span>
+      <span style="opacity: 0.5;">□</span>
+      <span onclick="closeWindow('readmeWindow')">×</span>
+    </div>
+  </div>
+  <div class="notepad-menu">ファイル 編集 書式 表示 ヘルプ</div>
+  <div class="notepad-text">
+作者: 削除くん  
+ライセンス: フリーソフト（個人利用可・改造自由）
+
+このページではWindows風のアプリケーションを配布しています。  
+アプリケーションは以下の3つのカテゴリに分けられています：
+
+・配布中　→　安定して使用可能
+・作成中　→　現在開発中で未完成  
+・サポート終了　→　開発終了済・更新予定なし
+
+掲載されているすべてのアプリは「自己責任」で使用してください。  
+動作保証やサポートは基本的にありません。
+  </div>
+</div>
+
+<!-- メモ帳ウィンドウ：Installer -->
+<div class="notepad" id="installerWindow" style="top: 160px; left: 160px; display: none;">
+  <div class="title-bar" onmousedown="startDrag(event, 'installerWindow')">
+    Installer.txt - メモ帳
+    <div class="title-buttons">
+      <span style="opacity: 0.5;">−</span>
+      <span style="opacity: 0.5;">□</span>
+      <span onclick="closeWindow('installerWindow')">×</span>
+    </div>
+  </div>
+  <div class="notepad-menu">ファイル 編集 書式 表示 ヘルプ</div>
+  <div class="notepad-text">
+Sakuzyokun App Installer は  
+複数のアプリをまとめてインストールできる便利なアプリです。  
+
+主な特徴：  
+・対応アプリを一括または選択してインストール可能  
+・インストーラー形式で、セットアップが簡単  
+・Python製でソースコードも公開中  
+
+初心者にもオススメの導入ツールです。
+  </div>
+</div>
+
+<script>
+  function toggleTree(id) {
+    const el = document.getElementById(id);
+    el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
+  }
+
+  function showCategory(cat) {
+      const view = document.getElementById("main-view");
+
+      const apps = [
+        {
+          name: "LiteExplorer",
+          img: "../LiteExplorer/files/screenshot.png",
+          link: "../LiteExplorer/"
+        },
+        {
+          name: "GFT Viewer",
+          img: "GFT/files/vieshot.png",
+          link: "GFT/GFT_Viewer.html"
+        },
+        {
+          name: "MP4→GFT",
+          img: "GFT/files/mp4shot.png",
+          link: "GFT/MP4_GFT.html"
+        },
+        {
+          name: "ファイル情報ビューア",
+          img: "file_info/infoshot.png",
+          link: "file_info/"
+        },
+        {
+          name: "OS Info / Process Info",
+          img: "os_info/osshot.png",
+          link: "os_info/"
+        },
+        {
+          name: "ZIP圧縮ツール",
+          img: "CompZ/czshot.png",
+          link: "CompZ/"
+        },
+        {
+          name: "RomajiLang",
+          img: "RomajiLang/rlshot.png",
+          link: "RomajiLang/"
+        },
+        {
+          name: "WinQuickLauncher",
+          img: "WQL/wqlshot.png",
+          link: "WQL/"
+        },
+        {
+          name: "TCTクリーナー",
+          img: "TCT/tctshot.png",
+          link: "TCT/"
+        },
+        {
+          name: "YMMインストーラー",
+          img: "../YukkuriMovieMaker_Installer/ymmshot.png",
+          link: "../YukkuriMovieMaker_Installer/"
+        }
+      ];
+      view.innerHTML = "<div class='icon-grid'>" + apps.map(app => `
+        <div class="icon-item">
+          <a href="${app.link}">
+            <img src="${app.img}" alt="${app.name}">
+            <div>${app.name}</div>
+          </a>
+        </div>
+      `).join('') + "</div>";
+  }
+
+  function showInfo() {
+    const view = document.getElementById("main-view");
+    view.innerHTML = `
+      <div class="file-item" onclick="openWindow('readmeWindow')">📄 README.txt</div>
+      <div class="file-item" onclick="openWindow('installerWindow')">📄 Installer.txt</div>
+    `;
+  }
+
+  function openWindow(id) {
+    document.getElementById(id).style.display = "block";
+  }
+
+  function closeWindow(id) {
+    document.getElementById(id).style.display = "none";
+  }
+
+  // ウィンドウ移動
+  let dragTarget = null;
+  let offsetX = 0, offsetY = 0;
+
+  function startDrag(e, id) {
+    dragTarget = document.getElementById(id);
+    offsetX = e.clientX - dragTarget.offsetLeft;
+    offsetY = e.clientY - dragTarget.offsetTop;
+    document.onmousemove = dragWindow;
+    document.onmouseup = stopDrag;
+  }
+
+  function dragWindow(e) {
+    if (!dragTarget) return;
+    dragTarget.style.left = (e.clientX - offsetX) + "px";
+    dragTarget.style.top = (e.clientY - offsetY) + "px";
+  }
+
+  function stopDrag() {
+    dragTarget = null;
+    document.onmousemove = null;
+    document.onmouseup = null;
+  }
+</script>
+
 </body>
 </html>
