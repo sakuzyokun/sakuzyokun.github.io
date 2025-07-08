@@ -116,6 +116,12 @@
     </select>
     <input type="number" id="progressInput" min="0" max="100" value="0">
 
+    <label>進行速度（秒/1%）:</label>
+    <input type="number" id="progressSpeed" min="0.1" step="0.1" value="0.2">
+
+    <label>停止位置（%）:</label>
+    <input type="number" id="progressStopAt" min="1" max="100" value="100">
+
     <label>停止コード:</label>
     <input type="text" id="stopcodeInput" value="MEMORY_MANAGEMENT_FAULT">
   </div>
@@ -135,6 +141,11 @@
     const toggleBtn = document.getElementById("toggleEditor");
     const editorPanel = document.getElementById("editorPanel");
 
+    const progressSpeedInput = document.getElementById("progressSpeed");
+    const progressStopAtInput = document.getElementById("progressStopAt");
+
+    let progressTimer = null;
+
     let autoProgress = 0;
     let autoMode = true;
 
@@ -151,6 +162,8 @@
       params.set("stop", stopcodeInput.value);
       params.set("progress", progressInput.value);
       params.set("mode", progressMode.value);
+      params.set("speed", progressSpeedInput.value);
+      params.set("stopat", progressStopAtInput.value);
       history.replaceState(null, "", "?" + params.toString());
     }
 
@@ -161,7 +174,23 @@
       if (params.has("stop")) stopcodeInput.value = params.get("stop");
       if (params.has("progress")) progressInput.value = params.get("progress");
       if (params.has("mode")) progressMode.value = params.get("mode");
+      if (params.has("speed")) progressSpeedInput.value = params.get("speed");
+      if (params.has("stopat")) progressStopAtInput.value = params.get("stopat");
     }
+
+    function startAutoProgress() {
+  if (progressTimer) clearInterval(progressTimer);
+  autoProgress = parseInt(progressInput.value) || 0;
+  const speed = parseFloat(progressSpeedInput.value) * 1000;
+  const stopAt = parseInt(progressStopAtInput.value) || 100;
+
+  progressTimer = setInterval(() => {
+    if (autoMode && autoProgress < stopAt) {
+      autoProgress++;
+      updateView();
+    }
+  }, speed);
+}
 
     emojiInput.addEventListener("input", () => { updateView(); updateURL(); });
     messageInput.addEventListener("input", () => { updateView(); updateURL(); });
@@ -177,6 +206,20 @@
       toggleBtn.textContent = (editorPanel.style.display === "none") ? "設定を表示" : "設定を隠す";
     });
 
+    progressSpeedInput.addEventListener("input", () => {
+  updateURL(); startAutoProgress();
+});
+progressStopAtInput.addEventListener("input", () => {
+  updateURL();
+});
+
+progressMode.addEventListener("change", () => {
+  autoMode = progressMode.value === "auto";
+  updateView(); updateURL();
+  if (autoMode) startAutoProgress();
+  else if (progressTimer) clearInterval(progressTimer);
+});
+
     // 自動進行ループ
     setInterval(() => {
       if (autoMode) {
@@ -187,6 +230,7 @@
 
     loadFromURL();
     updateView();
+    if (progressMode.value === "auto") startAutoProgress();
   </script>
 </body>
 </html>
