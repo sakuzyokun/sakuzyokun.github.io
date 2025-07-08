@@ -131,6 +131,8 @@
     const messageInput = document.getElementById("messageInput");
     const progressMode = document.getElementById("progressMode");
     const progressInput = document.getElementById("progressInput");
+    const progressSpeedInput = document.getElementById("progressSpeed");
+    const progressStopAtInput = document.getElementById("progressStopAt");
     const stopcodeInput = document.getElementById("stopcodeInput");
 
     const emoji = document.getElementById("emoji");
@@ -141,13 +143,9 @@
     const toggleBtn = document.getElementById("toggleEditor");
     const editorPanel = document.getElementById("editorPanel");
 
-    const progressSpeedInput = document.getElementById("progressSpeed");
-    const progressStopAtInput = document.getElementById("progressStopAt");
-
-    let progressTimer = null;
-
     let autoProgress = 0;
     let autoMode = true;
+    let progressTimer = null;
 
     function updateView() {
       emoji.textContent = emojiInput.value;
@@ -179,54 +177,37 @@
     }
 
     function startAutoProgress() {
-  if (progressTimer) clearInterval(progressTimer);
-  autoProgress = parseInt(progressInput.value) || 0;
-  const speed = parseFloat(progressSpeedInput.value) * 1000;
-  const stopAt = parseInt(progressStopAtInput.value) || 100;
+      if (progressTimer) clearInterval(progressTimer);
+      autoProgress = parseInt(progressInput.value) || 0;
+      const speed = parseFloat(progressSpeedInput.value) * 1000;
+      const stopAt = parseInt(progressStopAtInput.value) || 100;
 
-  progressTimer = setInterval(() => {
-    if (autoMode && autoProgress < stopAt) {
-      autoProgress++;
-      updateView();
+      progressTimer = setInterval(() => {
+        if (autoMode && autoProgress < stopAt) {
+          autoProgress++;
+          updateView();
+        }
+      }, speed);
     }
-  }, speed);
-}
 
     emojiInput.addEventListener("input", () => { updateView(); updateURL(); });
     messageInput.addEventListener("input", () => { updateView(); updateURL(); });
     stopcodeInput.addEventListener("input", () => { updateView(); updateURL(); });
     progressInput.addEventListener("input", () => { updateView(); updateURL(); });
+    progressSpeedInput.addEventListener("input", () => { updateURL(); startAutoProgress(); });
+    progressStopAtInput.addEventListener("input", () => { updateURL(); });
+
     progressMode.addEventListener("change", () => {
       autoMode = progressMode.value === "auto";
       updateView(); updateURL();
+      if (autoMode) startAutoProgress();
+      else if (progressTimer) clearInterval(progressTimer);
     });
 
     toggleBtn.addEventListener("click", () => {
       editorPanel.style.display = (editorPanel.style.display === "none") ? "block" : "none";
       toggleBtn.textContent = (editorPanel.style.display === "none") ? "設定を表示" : "設定を隠す";
     });
-
-    progressSpeedInput.addEventListener("input", () => {
-  updateURL(); startAutoProgress();
-});
-progressStopAtInput.addEventListener("input", () => {
-  updateURL();
-});
-
-progressMode.addEventListener("change", () => {
-  autoMode = progressMode.value === "auto";
-  updateView(); updateURL();
-  if (autoMode) startAutoProgress();
-  else if (progressTimer) clearInterval(progressTimer);
-});
-
-    // 自動進行ループ
-    setInterval(() => {
-      if (autoMode) {
-        autoProgress = Math.min(autoProgress + 1, 100);
-        updateView();
-      }
-    }, 200);
 
     loadFromURL();
     updateView();
