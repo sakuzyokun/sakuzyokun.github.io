@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>BSoDジェネレーター</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #0078D7;
+      color: white;
+      font-family: "Segoe UI", sans-serif;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .bsod-container {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: left;
+      padding: 30px;
+    }
+
+    .bsod-content {
+      max-width: 800px;
+      font-size: 1.5em;
+      line-height: 1.6;
+    }
+
+    .emoji {
+      font-size: 5em;
+      margin-bottom: 20px;
+    }
+
+    .small {
+      font-size: 0.7em;
+      margin-top: 50px;
+    }
+
+    .editor {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 14px;
+      z-index: 2;
+    }
+
+    .editor input, .editor textarea, .editor select {
+      width: 100%;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      padding: 5px;
+      font-family: inherit;
+    }
+
+    .editor label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    #toggleEditor {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255,255,255,0.2);
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      z-index: 3;
+    }
+  </style>
+</head>
+<body>
+  <button id="toggleEditor">設定を隠す</button>
+
+  <div class="bsod-container">
+    <div class="bsod-content">
+      <div class="emoji" id="emoji">:(</div>
+      <div id="message">
+        あなたの記憶に問題が発生したため、<br>
+        あなたを再起動する必要があります。<br>
+        情報を収集しています。自動的に再起動されます。<br><br>
+        進行状況: <span id="progress">0%</span> 完了
+      </div>
+      <div class="small" id="details">
+        詳細については、<br>
+        https://memory_crash.notreal/help を参照してください。<br><br>
+        停止コード: <span id="stopcode">MEMORY_MANAGEMENT_FAULT</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="editor" id="editorPanel">
+    <label>絵文字:</label>
+    <input type="text" id="emojiInput" value=":(">
+
+    <label>メッセージ:</label>
+    <textarea id="messageInput">あなたの記憶に問題が発生したため、\nあなたを再起動する必要があります。\n情報を収集しています。自動的に再起動されます。</textarea>
+
+    <label>進行状況:</label>
+    <select id="progressMode">
+      <option value="auto">自動で進める</option>
+      <option value="manual">手動で入力する</option>
+    </select>
+    <input type="number" id="progressInput" min="0" max="100" value="0">
+
+    <label>停止コード:</label>
+    <input type="text" id="stopcodeInput" value="MEMORY_MANAGEMENT_FAULT">
+  </div>
+
+  <script>
+    const emojiInput = document.getElementById("emojiInput");
+    const messageInput = document.getElementById("messageInput");
+    const progressMode = document.getElementById("progressMode");
+    const progressInput = document.getElementById("progressInput");
+    const stopcodeInput = document.getElementById("stopcodeInput");
+
+    const emoji = document.getElementById("emoji");
+    const message = document.getElementById("message");
+    const progress = document.getElementById("progress");
+    const stopcode = document.getElementById("stopcode");
+
+    const toggleBtn = document.getElementById("toggleEditor");
+    const editorPanel = document.getElementById("editorPanel");
+
+    let autoProgress = 0;
+    let autoMode = true;
+
+    function updateView() {
+      emoji.textContent = emojiInput.value;
+      message.innerHTML = messageInput.value.replace(/\\n/g, "<br>") + `<br><br>進行状況: <span id="progress">${autoMode ? autoProgress : progressInput.value}%</span> 完了`;
+      stopcode.textContent = stopcodeInput.value;
+    }
+
+    function updateURL() {
+      const params = new URLSearchParams();
+      params.set("emoji", emojiInput.value);
+      params.set("message", messageInput.value);
+      params.set("stop", stopcodeInput.value);
+      params.set("progress", progressInput.value);
+      params.set("mode", progressMode.value);
+      history.replaceState(null, "", "?" + params.toString());
+    }
+
+    function loadFromURL() {
+      const params = new URLSearchParams(location.search);
+      if (params.has("emoji")) emojiInput.value = params.get("emoji");
+      if (params.has("message")) messageInput.value = params.get("message");
+      if (params.has("stop")) stopcodeInput.value = params.get("stop");
+      if (params.has("progress")) progressInput.value = params.get("progress");
+      if (params.has("mode")) progressMode.value = params.get("mode");
+    }
+
+    emojiInput.addEventListener("input", () => { updateView(); updateURL(); });
+    messageInput.addEventListener("input", () => { updateView(); updateURL(); });
+    stopcodeInput.addEventListener("input", () => { updateView(); updateURL(); });
+    progressInput.addEventListener("input", () => { updateView(); updateURL(); });
+    progressMode.addEventListener("change", () => {
+      autoMode = progressMode.value === "auto";
+      updateView(); updateURL();
+    });
+
+    toggleBtn.addEventListener("click", () => {
+      editorPanel.style.display = (editorPanel.style.display === "none") ? "block" : "none";
+      toggleBtn.textContent = (editorPanel.style.display === "none") ? "設定を表示" : "設定を隠す";
+    });
+
+    // 自動進行ループ
+    setInterval(() => {
+      if (autoMode) {
+        autoProgress = Math.min(autoProgress + 1, 100);
+        updateView();
+      }
+    }, 200);
+
+    loadFromURL();
+    updateView();
+  </script>
+</body>
+</html>
