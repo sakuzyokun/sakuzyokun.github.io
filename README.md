@@ -1,6 +1,7 @@
 # https://sakuzyokun.github.io  
 削除くんの公式ホームページです。  
-お好きに使っていいですが使う際はScratchかDiscordでDMかなんかで送ってください  
+お好きに使っていいですが使う際はScratchかDiscordでDMかなんかで送ってください。  
+追加してほしい機能などあれば[Issues](https://github.com/sakuzyokun/sakuzyokun.github.io/issues)に書き込んでください。  
 ***
 10.cssの使い方  
 ```html
