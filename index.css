@@ -5,6 +5,7 @@ body {
     color: #ffffff;
     margin: 0;
     padding: 20px;
+    scrollbar-color: #ffa500;
 }
 
 body.light-mode {
@@ -78,6 +79,7 @@ ul li {
 ul li.visible {
   opacity: 1;
   transform: translateY(0) scale(1.02);
+  list-style-type: none;
 }
 ul li a {
   display: block;
