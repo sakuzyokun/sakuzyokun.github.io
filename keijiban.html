@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>📢 伝言板</title>
+  <style>
+    :root {
+      --bg-color-light: #f9f9f9;
+      --text-color-light: #222;
+      --box-bg-light: #fff;
+
+      --bg-color-dark: #1e1e1e;
+      --text-color-dark: #ddd;
+      --box-bg-dark: #2a2a2a;
+    }
+
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 100px 20px;
+      background-color: var(--bg-color-light);
+      color: var(--text-color-light);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .message-box {
+      background: var(--box-bg-light);
+      border-radius: 12px;
+      padding: 20px;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+
+    .no-msg {
+      color: gray;
+    }
+
+    input, button {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    input {
+      width: 280px;
+      margin-right: 5px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: var(--bg-color-dark);
+        color: var(--text-color-dark);
+      }
+      .message-box {
+        background: var(--box-bg-dark);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="message-box" id="output">
+    <span class="no-msg">💡 クエリ（?msg=内容）を指定してね！</span>
+  </div>
+
+  <div>
+    <input type="text" id="messageInput" placeholder="伝言を入力（必須）">
+    <input type="text" id="nameInput" placeholder="名前（任意）">
+    <button onclick="createURL()">URL作成</button>
+  </div>
+
+  <script>
+    // クエリ取得
+    const params = new URLSearchParams(location.search);
+    const msg = params.get("msg");
+    const name = params.get("name");
+    const output = document.getElementById("output");
+
+    if (msg) {
+      const safeMsg = decodeURIComponent(msg);
+      const safeName = name ? `📝 from ${decodeURIComponent(name)}` : "";
+      output.innerHTML = `<h2>💬 ${safeMsg}</h2><p>${safeName}</p>`;
+    }
+
+    // URL作成関数
+    function createURL() {
+      const msgValue = document.getElementById("messageInput").value.trim();
+      const nameValue = document.getElementById("nameInput").value.trim();
+
+      if (!msgValue) {
+        alert("⚠️ 伝言内容は必須だよ！");
+        return;
+      }
+
+      const encodedMsg = encodeURIComponent(msgValue);
+      const encodedName = nameValue ? `&name=${encodeURIComponent(nameValue)}` : "";
+      const url = `${location.origin}${location.pathname}?msg=${encodedMsg}${encodedName}`;
+
+      navigator.clipboard.writeText(url).then(() => {
+        alert("✅ URLをコピーしたよ！\n" + url);
+      });
+    }
+  </script>
+
+</body>
+</html>
