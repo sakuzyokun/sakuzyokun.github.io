@@ -17,28 +17,30 @@
     </header>
     <main>
         <h1>為替レート変換ツール</h1>
+        <p>申し訳ありませんが、本サービスは終了いたしました。</p>
+        <p>※終了理由：APIキーが外部から悪用される可能性があるため、セキュリティ上の観点から停止いたしました。</p><!--
         <input type="number" id="amount" placeholder="金額を入力">
         <select id="from-currency">
             <option value="USD">アメリカドル (USD)</option>
             <option value="EUR">ユーロ (EUR)</option>
             <option value="JPY">日本円 (JPY)</option>
-            <!-- 他の通貨も追加可能 -->
+            <!-- 他の通貨も追加可能 --
         </select>
         <select id="to-currency">
             <option value="USD">アメリカドル (USD)</option>
             <option value="EUR">ユーロ (EUR)</option>
             <option value="JPY">日本円 (JPY)</option>
-            <!-- 他の通貨も追加可能 -->
+            <!-- 他の通貨も追加可能 --
         </select>
         <button onclick="convertCurrency()">変換</button>
-        <p id="result"></p>
+        <p id="result"></p>-->
     </main>
     <script>
         async function convertCurrency() {
             const amount = document.getElementById('amount').value;
             const fromCurrency = document.getElementById('from-currency').value;
             const toCurrency = document.getElementById('to-currency').value;
-            const apiKey = 'd987c4590c4f30b51b1e24df'; // 為替レートAPIのキーをここに入力
+            const apiKey = ''; // 為替レートAPIのキーをここに入力
             const url = `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`;
             
             try {
