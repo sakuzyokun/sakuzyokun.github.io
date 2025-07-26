@@ -17,6 +17,8 @@
     </header>
     <main>
         <h1>GPS天気予報ツール</h1>
+        <p>申し訳ありませんが、本サービスは終了いたしました。</p>
+        <p>※終了理由：APIキーが外部から悪用される可能性があるため、セキュリティ上の観点から停止いたしました。</p><!--
         <p>GPSが使えない場合は下の手動の物を使ってください<br>
         また、サポートされていない地域があります。その場合は手動の物に県庁所在地を入力するといいとおもいます</p>
         <button onclick="getLocation()">現在地を取得</button>
@@ -27,7 +29,7 @@
         また、入力された文字はサーバーに送信されずブラウザ内で処理されます</p>
         <input type="text" id="city" placeholder="都市名を入力してください">
         <button onclick="getWeather()">天気を表示</button>
-        <div id="weather"></div>
+        <div id="weather"></div>-->
     </main>
     <script>
         function getLocation() {
@@ -48,7 +50,7 @@
         }
 
         function getWeather(lat, lon) {
-            const apiKey = '327780fce90bf88b1f040547fbc8a758'; // OpenWeatherMap APIのAPIキーをここに入力
+            const apiKey = ''; // OpenWeatherMap APIのAPIキーをここに入力
             const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=ja`;
 
             fetch(url)
@@ -64,7 +66,7 @@
 
         async function getWeather() {
             const city = document.getElementById('city').value;
-            const apiKey = '327780fce90bf88b1f040547fbc8a758'; // OpenWeatherMap APIキーをここに入力してください
+            const apiKey = ''; // OpenWeatherMap APIキーをここに入力してください
             const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ja`;
             
             try {
