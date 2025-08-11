@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Win11風ウィンドウ管理デモ</title>
+<link rel="stylesheet" href="https://sakuzyokun.github.io/11.css/11.css">
+<style>
+  /* タスクバー */
+  body {
+    margin: 0;
+    font-family: "Segoe UI", "Noto Sans JP", sans-serif;
+    background: url('https://sakuzyokun.github.io/11.css/Windows11_Dark.jpg') center/cover no-repeat;
+    overflow: hidden;
+  }
+  .taskbar {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%; height: 48px;
+    background: rgba(255,255,255,0.5);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  .start-btn {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.8);
+    cursor: pointer;
+    font-size: 18px;
+  }
+</style>
+</head>
+<body>
+
+<!-- スタートメニュー -->
+<div class="start-menu" id="startMenu" style="display:none; position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); width: 400px; background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); border-radius: 12px; padding: 20px; box-sizing: border-box;">
+  <h3>スタート</h3>
+  <p>ここにアプリ一覧などを配置できます</p>
+</div>
+
+<!-- タスクバー -->
+<div class="taskbar">
+  <button class="start-btn" id="startBtn">⊞</button>
+</div>
+
+<!-- ウィンドウ1 -->
+<div class="win11-window" id="win1" style="position:absolute; top:100px; left:100px; width:400px;">
+  <div class="win11-title-bar" aria-label="ウィンドウ1タイトルバー">
+    <span>このWebページの詳細</span>
+    <div class="win11-controls">
+      <button aria-label="Minimize">🗕</button>
+      <button aria-label="Maximize">🗖</button>
+      <button class="close" aria-label="Close">✕</button>
+    </div>
+  </div>
+  <div class="win11-window-body">
+    <p>このサイトのフォントはWindowsではSegoe UI、その他のOSではNoto Sans JPで表示されます</p>
+    <div style="text-align: right; margin-top: 20px;">
+      <button>OK</button>
+      <button>キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<!-- ウィンドウ2（サンプル） -->
+<div class="win11-window" id="win2" style="position:absolute; top:150px; left:550px; width:400px;">
+  <div class="win11-title-bar" aria-label="ウィンドウ2タイトルバー">
+    <span>メモ帳</span>
+    <div class="win11-controls">
+      <button aria-label="Minimize">🗕</button>
+      <button aria-label="Maximize">🗖</button>
+      <button class="close" aria-label="Close">✕</button>
+    </div>
+  </div>
+  <div class="win11-window-body">
+    <textarea style="width:100%; height:200px; resize:none;">ここにメモを書けます。</textarea>
+  </div>
+</div>
+
+<script>
+  const windows = document.querySelectorAll('.win11-window');
+  const taskbar = document.querySelector('.taskbar');
+  const startBtn = document.getElementById('startBtn');
+  const startMenu = document.getElementById('startMenu');
+
+  let topZ = 10;
+  let minimizedWindows = new Map();
+  let minimizedBtns = {};
+
+  // スタートメニュー開閉
+  startBtn.addEventListener('click', () => {
+    if (startMenu.style.display === 'block') {
+      startMenu.style.display = 'none';
+    } else {
+      startMenu.style.display = 'block';
+    }
+  });
+
+  // 最前面にする
+  function bringToFront(win) {
+    topZ++;
+    windows.forEach(w => {
+      if (w.style.display !== 'none') w.style.zIndex = 1;
+    });
+    win.style.zIndex = topZ;
+  }
+
+  windows.forEach(win => {
+    const titleBar = win.querySelector('.win11-title-bar');
+    const btnMin = win.querySelector('button[aria-label="Minimize"]');
+    const btnMax = win.querySelector('button[aria-label="Maximize"]');
+    const btnClose = win.querySelector('button.close, button[aria-label="Close"]');
+
+    // ドラッグ移動用変数
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // ドラッグ開始
+    titleBar.addEventListener('mousedown', e => {
+      dragging = true;
+      bringToFront(win);
+      offsetX = e.clientX - win.offsetLeft;
+      offsetY = e.clientY - win.offsetTop;
+      e.preventDefault();
+    });
+    // ドラッグ終了
+    document.addEventListener('mouseup', () => {
+      dragging = false;
+    });
+    // ドラッグ移動
+    document.addEventListener('mousemove', e => {
+      if (dragging) {
+        win.style.left = (e.clientX - offsetX) + 'px';
+        win.style.top = (e.clientY - offsetY) + 'px';
+      }
+    });
+
+    // 最大化・元サイズ復元用
+    let isMaximized = false;
+    let savedPos = { left: 0, top: 0, width: 0, height: 0 };
+
+    // 最大化ボタン
+    btnMax.addEventListener('click', () => {
+      bringToFront(win);
+      if (!isMaximized) {
+        savedPos.left = win.offsetLeft;
+        savedPos.top = win.offsetTop;
+        savedPos.width = win.offsetWidth;
+        savedPos.height = win.offsetHeight;
+        win.style.left = '0';
+        win.style.top = '0';
+        win.style.width = window.innerWidth + 'px';
+        win.style.height = (window.innerHeight - taskbar.offsetHeight) + 'px';
+        isMaximized = true;
+      } else {
+        win.style.left = savedPos.left + 'px';
+        win.style.top = savedPos.top + 'px';
+        win.style.width = savedPos.width + 'px';
+        win.style.height = savedPos.height + 'px';
+        isMaximized = false;
+      }
+    });
+
+    // 最小化ボタン
+    btnMin.addEventListener('click', () => {
+      bringToFront(win);
+      win.style.display = 'none';
+      minimizedWindows.set(win.id, win);
+      addTaskbarButton(win);
+    });
+
+    // 閉じるボタン
+    btnClose.addEventListener('click', () => {
+      win.remove();
+      minimizedWindows.delete(win.id);
+      removeTaskbarButton(win);
+    });
+
+    // ウィンドウクリックで最前面に
+    win.addEventListener('mousedown', () => {
+      bringToFront(win);
+    });
+  });
+
+  function addTaskbarButton(win) {
+    if (minimizedBtns[win.id]) return;
+    const btn = document.createElement('button');
+    btn.textContent = win.querySelector('.win11-title-bar span').textContent;
+    btn.classList.add('start-btn');
+    btn.style.marginLeft = '10px';
+    btn.addEventListener('click', () => {
+      win.style.display = 'block';
+      minimizedWindows.delete(win.id);
+      removeTaskbarButton(win);
+      bringToFront(win);
+    });
+    minimizedBtns[win.id] = btn;
+    taskbar.appendChild(btn);
+  }
+
+  function removeTaskbarButton(win) {
+    const btn = minimizedBtns[win.id];
+    if (!btn) return;
+    taskbar.removeChild(btn);
+    delete minimizedBtns[win.id];
+  }
+
+  // ウィンドウサイズ変更に合わせて最大化ウィンドウも調整
+  window.addEventListener('resize', () => {
+    windows.forEach(win => {
+      if (win.style.display !== 'none') {
+        const btnMax = win.querySelector('button[aria-label="Maximize"]');
+        if (!btnMax) return;
+        const isMaximized = win.style.width === window.innerWidth + 'px';
+        if (isMaximized) {
+          win.style.width = window.innerWidth + 'px';
+          win.style.height = (window.innerHeight - taskbar.offsetHeight) + 'px';
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
