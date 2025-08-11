@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Win11風ウィンドウ管理デモ</title>
+<title>11.css - Win11風ウィンドウ デモ</title>
 <link rel="stylesheet" href="https://sakuzyokun.github.io/11.css/11.css">
 <style>
   /* タスクバー */
@@ -50,32 +50,32 @@
 </div>
 
 <!-- ウィンドウ1 -->
-<div class="win11-window" id="win1" style="position:absolute; top:100px; left:100px; width:400px;">
-  <div class="win11-title-bar" aria-label="ウィンドウ1タイトルバー">
-    <span>このWebページの詳細</span>
-    <div class="win11-controls">
-      <button aria-label="Minimize">🗕</button>
-      <button aria-label="Maximize">🗖</button>
-      <button class="close" aria-label="Close">✕</button>
-    </div>
-  </div>
-  <div class="win11-window-body">
-    <p>このサイトのフォントはWindowsではSegoe UI、その他のOSではNoto Sans JPで表示されます</p>
-    <div style="text-align: right; margin-top: 20px;">
-      <button>OK</button>
-      <button>キャンセル</button>
-    </div>
+<div class="win11-window">
+    <div class="win11-title-bar">
+      <span class="win11-title">このWebページの詳細</span>
+      <div class="win11-controls">
+        <button class="win11-btn" aria-label="Minimize">🗕</button>
+        <button class="win11-btn" aria-label="Maximize">🗖</button>
+        <button class="win11-btn close" aria-label="Close">✕</button>
+      </div>
+      </div>
+      <div class="win11-window-body">
+      <p>このサイトのフォントはWindowsではSegoe UI、その他のOSではNoto Sans JPで表示されます</p>
+      <div style="text-align: right; margin-top: 20px;">
+        <button class="win11-button">OK</button>
+        <button class="win11-button">キャンセル</button>
+      </div>
   </div>
 </div>
 
 <!-- ウィンドウ2（サンプル） -->
 <div class="win11-window" id="win2" style="position:absolute; top:150px; left:550px; width:400px;">
   <div class="win11-title-bar" aria-label="ウィンドウ2タイトルバー">
-    <span>メモ帳</span>
+    <span class="win11-title">メモ帳</span>
     <div class="win11-controls">
-      <button aria-label="Minimize">🗕</button>
-      <button aria-label="Maximize">🗖</button>
-      <button class="close" aria-label="Close">✕</button>
+      <button class="win11-btn" aria-label="Minimize">🗕</button>
+      <button class="win11-btn" aria-label="Maximize">🗖</button>
+      <button class="win11-btn close" class="close" aria-label="Close">✕</button>
     </div>
   </div>
   <div class="win11-window-body">
