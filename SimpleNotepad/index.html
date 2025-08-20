@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>SimpleNotepad - Windows Vista 以降対応の軽量メモ帳</title>
+  <meta name="description" content="YouTuber削除くんが作ったアプリ「SimpleNotepad」の配布ページです">
+  <meta name="keywords" content="削除くん,削除君,削除くんのホームページ,削除君のホームページ,ホームページ,アプリ,メモ帳,SimpleNotepad,フリーソフト,ポータブルアプリ,インストール不要,Python,デスクトップアプリ,Tkinter">
+  <style>
+    body {
+      font-family: "MS UI Gothic", sans-serif;
+      background-color: #C0C0C0;
+      color: black;
+      margin: 20px;
+    }
+    .window {
+      border: 2px solid #000080;
+      background-color: #FFFFFF;
+      padding: 10px;
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 18px;
+      background-color: #000080;
+      color: white;
+      padding: 4px;
+      margin: 0 -10px 10px -10px;
+    }
+    .button {
+      display: inline-block;
+      padding: 6px 12px;
+      margin-top: 10px;
+      background-color: #C0C0C0;
+      border: 2px outset #FFFFFF;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <header>
+    <h1>SimpleStopwatch</h1>
+    </header>
+    <main>
+    <p><strong>SimpleNotepad</strong> は <!--Windows 95 / 98 / Me でも動作する-->Windows Vista / 7 / 8 / 8.1 / 10 / 11 で動作する、軽量でシンプルなメモ帳です。</p>
+    <p>高速な動作を特徴としており、古いPCでも快適に実行できます。</p>
+
+    <h2>主な機能</h2>
+    <ul>
+      <li>ファイルの開く / 保存</li>
+      <li>全選択 / 切り取り / コピー / ペースト</li>
+      <li>Python版があるためMac・Linuxでも動作可能！</li>
+    </ul>
+    <h2>注意</h2>
+    <p>1. Windows版の場合、下の画像のように「保護されました」と出る場合がありますが、詳細情報→実行　とすると実行できます</p>
+    <img src="https://sakuzyokun.github.io/LiteExplorer/files/AeroShot_b1.png" alt="保護1" width="50%">
+    <img src="https://sakuzyokun.github.io/LiteExplorer/files/AeroShot 1_b1.png" alt="保護2" width="50%"><br>
+    <p>2. Python版の使い方</p>
+    <ol>
+      <li>「Python版 ダウンロード」を押し、ファイルをダウンロードします</li>
+      <li>コマンドプロンプト(または 端末、ターミナル など)を開き 「cd Downloads」と入力します</li>
+      <ol>
+        できない場合は
+        <li>エクスプローラー(または Finder、ファイル など)でダウンロードフォルダ(Download、Downloads、ダウンロード など)を開く</li>
+        <li>右クリック(Macの場合は Ctrl、Control と書いてあるキーを押しながらクリック)をし、パスのコピー(または 上にあるパスが表示されているところを選択し、右クリック→コピー) (「端末で開く」がある場合は4まで飛ぶ)をする</li>
+        <li>コマンドプロンプト(または 端末、ターミナル など)を開き、「cd "コピーしたパス"」と入力します</li>
+        <li>これで完了です</li>
+      </ol>
+      <li>「python SimpleNotepad.py」と入力しEnterを押すと実行できます！！</li>
+      <ol>
+        pythonというコマンドが見つからないといわれた場合
+        <li>「python3 SimpleNotepad.py」と入力してEnterを押す→これで実行されたらOK!!</li>
+        <li>無理だった場合はPythonがインストールされてない可能性があるので<br>Mac / Windows の場合は<a href="https://www.python.org/downloads/">公式サイトのダウンロードページ</a>にアクセスして、一番上の「Download the latest version for Windows」(もしくはMac)の部分の「Download Python [バージョン番号]」のボタンを押し、ダウンロードされたファイルをダブルクリックしてインストールを開始します</li>
+        <li>Linuxの場合は ターミナル(もしくは 端末、コマンドプロンプト など)を開き「sudo apt install python」でPythonをインストールします</li>
+        <li>これで完了です。終わったら「2. Python版の使い方」からやりましょう</li>
+      </ol>
+    </ol>
+    <a href="https://github.com/sakuzyokun/SimpleNotepad/releases/download/1.0.0/SimpleNotepad.exe" class="button">Windows版 ダウンロード</a>
+    <a href="https://github.com/sakuzyokun/SimpleNotepad/releases/download/1.0.0/SimpleNotepad.py" class="button">Python版 ダウンロード</a>
+
+    <h2>スクリーンショット</h2>
+    <p>Windows 11 でSimpleNotepadを起動した様子 (v1.0.0)</p>
+    <img src="https://github.com/sakuzyokun/SimpleNotepad/blob/main/SimpleNotepad_b1.png?raw=true" alt="Windows11 SimpleNotepadの画面" width="100%">
+    <br>
+    </main>
+    <footer>
+    <p>作者：削除くん<br>
+    ライセンス：フリーソフト（個人利用可）<br>
+    <a href="https://github.com/sakuzyokun/SimpleNotepad">SimpleNotepad（ライセンスもこちら）</a>
+    </p>
+    <p>Ver.1.0.0</p>
+    </footer>
+  </div>
+</body>
+</html>
