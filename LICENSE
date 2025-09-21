@@ -1,21 +1,24 @@
-MIT License
+Sakuzyokun Software License 1.0
 
-Copyright (c) 2025 sakuzyokun
+本ソフトウェアの使用にあたっては、以下の使用許諾条件に同意いただく必要があります。
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. 本ソフトウェアは無保証で提供されます。
+2. 開発者は、本ソフトウェアの使用または使用不能から生じるいかなる損害についても責任を負いません。
+3. この使用許諾は、日本国の法律に準拠します。
+4. 本ソフトウェアの再配布は禁止されています。ただし、本ソフトウェアを改変した上での再配布は許可されます。その際は、改変したことを明記してください。
+5. 改変版を再配布する際は、本ソフトウェアの原作者として開発者名「sakuzyokun」を明記してください。
+6. 本ソフトウェアおよびその改変版の商用利用は禁止されています。
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+上記に同意しない場合、本ソフトウェアをインストールまたは使用しないでください。
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+[English]
+To use this software, you must agree to the following license terms.
+
+1. This software is provided without warranty.
+2. The developer is not liable for any damages arising from the use of or inability to use this software.
+3. This license is governed by the laws of Japan.
+4. Redistribution of this software is prohibited. However, redistribution of modified versions of this software is permitted. In such cases, you must clearly indicate that you have made the modifications.
+5. When redistributing a modified version, you must clearly indicate the developer's name, "sakuzyokun," as the original author of this software.
+6. Commercial use of this software and its modified versions is prohibited.
+
+If you do not agree to the above, do not install or use this software.
