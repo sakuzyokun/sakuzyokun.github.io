@@ -233,7 +233,7 @@
 <!-- メモ帳ウィンドウ：Installer -->
 <div class="notepad" id="installerWindow" style="/*top: 160px; left: 160px;*/ display: none;">
   <div class="title-bar" onmousedown="startDrag(event, 'installerWindow')">
-    Installer.txt - メモ帳
+    LICENSE.txt - メモ帳
     <div class="title-buttons">
       <span style="opacity: 0.5;">−</span>
       <span style="opacity: 0.5;">□</span>
@@ -242,16 +242,27 @@
   </div>
   <div class="notepad-menu">ファイル 編集 書式 表示 ヘルプ</div>
   <div class="notepad-text">
-Sakuzyokun App Installer は  
-複数のアプリをまとめてインストールできる便利なアプリです。  
+Sakuzyokun Software License 1.0
+削除くんソフトウェアライセンス 1.0
 
-主な特徴：  
-・対応アプリを一括または選択してインストール可能  
-・インストーラー形式で、セットアップが簡単  
-・Python製でソースコードも公開中  
+本ソフトウェアの使用にあたっては、以下の使用許諾条件に同意いただく必要があります。
+You must agree to the following terms before using this software.
 
-初心者にもオススメの導入ツールです。
-<a href="installer/">詳しくはこちら</a>
+1. 本ソフトウェアは無保証で提供されます。
+   This software is provided "as is", without any warranties.
+2. 開発者は、本ソフトウェアの使用または使用不能から生じるいかなる損害についても責任を負いません。
+   The developer shall not be liable for any damages arising from the use or inability to use this software.
+3. この使用許諾は、日本国の法律に準拠します。
+   This license is governed by the laws of Japan.
+4. 本ソフトウェアの再配布は禁止されています。ただし、本ソフトウェアを改変した上での再配布は許可されます。その際は、改変したことを明記してください。
+   Redistribution of this software is prohibited. Modified versions may be redistributed, provided that modifications are clearly indicated.
+5. 改変版を再配布する際は、本ソフトウェアの原作者として開発者名「sakuzyokun」を明記してください。
+   When redistributing a modified version, please credit the original author as "sakuzyokun".
+6. 本ソフトウェアおよびその改変版の商用利用は禁止されています。
+   Commercial use of this software or its modified versions is prohibited.
+
+上記に同意しない場合、本ソフトウェアをインストールまたは使用しないでください。
+If you do not agree to the above terms, do not install or use this software.
   </div>
 </div>
 
@@ -370,7 +381,7 @@ Sakuzyokun App Installer は
     const view = document.getElementById("main-view");
     view.innerHTML = `
       <div class="file-item" onclick="openWindow('readmeWindow')">📄 README.txt</div>
-      <div class="file-item" onclick="openWindow('installerWindow')">📄 Installer.txt</div>
+      <div class="file-item" onclick="openWindow('installerWindow')">📄 LICENSE.txt</div>
     `;
   }
 
