@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>アプリ配布ページ - エクスプローラー</title>
+  <script>
+      if (/Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent)) {
+          window.location.href = "mobile.html";
+      }
+  </script>
   <style>
     body {
       margin: 0;
