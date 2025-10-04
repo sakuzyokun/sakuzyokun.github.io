@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ★追加 -->
+  <title>アプリ配布ページ (スマホ) - エクスプローラー</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "MS UI Gothic", sans-serif;
+      background-color: #C0C0C0;
+    }
+
+    .title-bar {
+      background: linear-gradient(to right, #08246B, #A5CBF7);
+      color: white;
+      padding: 6px 10px; /* タップ用に余白UP */
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .title-buttons span {
+      display: inline-block;
+      padding: 4px 6px; /* タップしやすい大きさに */
+      margin-left: 4px;
+      background-color: #C0C0C0;
+      border: 2px outset #FFFFFF;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      cursor: default;
+      font-size: 14px;
+    }
+
+    .explorer-window {
+      display: flex;
+      height: calc(100vh - 60px);
+      margin: 5px;
+      border: 2px inset #808080;
+      background-color: #FFFFFF;
+    }
+
+    .sidebar {
+      width: 200px;
+      min-width: 160px;
+      background-color: #E0E0E0;
+      border-right: 2px solid #A0A0A0;
+      padding: 8px;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .folder {
+      margin: 8px 0;
+      cursor: pointer;
+    }
+
+    .folder-children {
+      margin-left: 16px;
+      display: none;
+    }
+
+    .main-view {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      background-color: #FFFFFF;
+      font-size: 14px;
+    }
+
+    .file-item {
+      font-size: 14px;
+      margin: 12px 0;
+      cursor: pointer;
+    }
+
+    .footer {
+      background-color: #D4D0C8;
+      border-top: 2px solid #A0A0A0;
+      padding: 6px;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .icon-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .icon-item {
+      width: 90px;
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .icon-item img {
+      width: 48px;
+      height: 48px;
+      border: 1px solid #A0A0A0;
+    }
+
+    /* メモ帳風ウィンドウ */
+    .notepad {
+      width: 90%;
+      max-width: 400px;
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 2px solid #000;
+      background-color: #FFFFFF;
+      box-shadow: 4px 4px rgba(128,128,128,0.4);
+      z-index: 100;
+    }
+
+    .notepad .title-bar {
+      cursor: move;
+      padding: 6px 10px;
+    }
+
+    .notepad-menu {
+      background-color: #D4D0C8;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #404040;
+      border-bottom: 1px solid #808080;
+    }
+
+    .notepad-text {
+      padding: 10px;
+      font-family: "MS Gothic", monospace;
+      font-size: 13px;
+      white-space: pre-wrap;
+    }
+
+    /* ★ モバイル用調整 */
+    @media (max-width: 768px) {
+      .explorer-window {
+        flex-direction: column; /* 縦並び */
+      }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #A0A0A0;
+      }
+      .icon-item {
+        width: 80px;
+      }
+      .title-bar {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .icon-item {
+        width: 70px;
+      }
+      .icon-item img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="title-bar">
+  アプリ配布
+  <div class="title-buttons">
+    <span>−</span> <span>□</span> <span>×</span>
+  </div>
+</div>
+
+<div class="explorer-window">
+  <div class="sidebar">
+    <div class="folder" onclick="toggleTree('info')">📁 info</div>
+    <div class="folder-children" id="info">
+      <p onclick="showInfo()">▶ クリックして表示します…</p>
+    </div>
+    <div class="folder" onclick="toggleTree('dist')">📁 配布中</div>
+    <div class="folder-children" id="dist">
+      <p onclick="showCategory('dist')">▶ クリックして表示します…</p>
+    </div>
+    <div class="folder" onclick="toggleTree('dev')">📁 作成中</div>
+    <div class="folder-children" id="dev">
+      <p>(なし)</p>
+    </div>
+    <div class="folder" onclick="toggleTree('end')">📁 サポート終了</div>
+    <div class="folder-children" id="end">
+      <p>(なし)</p>
+    </div>
+  </div>
+  <div class="main-view" id="main-view">
+    <p>フォルダを選択してください。</p>
+  </div>
+</div>
+
+<div class="footer">
+  Windows 2000 エクスプローラー © 削除くん
+</div>
+
+<!-- メモ帳ウィンドウ：README -->
+<div class="notepad" id="readmeWindow" style="display: none;">
+  <div class="title-bar" onmousedown="startDrag(event, 'readmeWindow')">
+    README.txt - メモ帳
+    <div class="title-buttons">
+      <span style="opacity: 0.5;">−</span>
+      <span style="opacity: 0.5;">□</span>
+      <span onclick="closeWindow('readmeWindow')">×</span>
+    </div>
+  </div>
+  <div class="notepad-menu">ファイル 編集 書式 表示 ヘルプ</div>
+  <div class="notepad-text">
+作者: 削除くん  
+ライセンス: フリーソフト（個人利用可・改造自由）
+
+このページではアプリケーションを配布しています。  
+アプリケーションは以下の3つのカテゴリに分けられています：
+
+・配布中　→　安定して使用可能
+・作成中　→　現在開発中で未完成  
+・サポート終了　→　開発終了済・更新予定なし
+
+掲載されているすべてのアプリは「自己責任」で使用してください。  
+動作保証やサポートは基本的にありません。
+  </div>
+</div>
+
+<!-- メモ帳ウィンドウ：Installer -->
+<div class="notepad" id="installerWindow" style="top: 160px; left: 160px; display: none;">
+  <div class="title-bar" onmousedown="startDrag(event, 'installerWindow')">
+    Installer.txt - メモ帳
+    <div class="title-buttons">
+      <span style="opacity: 0.5;">−</span>
+      <span style="opacity: 0.5;">□</span>
+      <span onclick="closeWindow('installerWindow')">×</span>
+    </div>
+  </div>
+  <div class="notepad-menu">ファイル 編集 書式 表示 ヘルプ</div>
+  <div class="notepad-text">
+Sakuzyokun App Installer は  
+複数のアプリをまとめてインストールできる便利なアプリです。  
+
+主な特徴：  
+・対応アプリを一括または選択してインストール可能  
+・インストーラー形式で、セットアップが簡単  
+・Python製でソースコードも公開中  
+
+初心者にもオススメの導入ツールです。
+<a href="installer/">詳しくはこちら</a>
+  </div>
+</div>
+
+<script>
+  function toggleTree(id) {
+    const el = document.getElementById(id);
+    el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
+  }
+
+  function showCategory(cat) {
+      const view = document.getElementById("main-view");
+
+      const apps = [
+        {
+          name: "LiteExplorer",
+          img: "../LiteExplorer/files/screenshot.png",
+          link: "../LiteExplorer/"
+        },
+        {
+          name: "SimpleStopwatch",
+          img: "https://github.com/sakuzyokun/SimpleStopwatch/blob/main/SimpleStopwatch_b1.png?raw=true",
+          link: "../SimpleStopwatch/"
+        },
+        {
+          name: "KeySoundApp",
+          img: "https://github.com/sakuzyokun/KeySoundApp/blob/main/KeyboardHook_b1.png?raw=true",
+          link: "../KeySoundApp/"
+        },
+        {
+          name: "逆Pause",
+          img: "https://github.com/sakuzyokun/reverse_pause/blob/main/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%20%E3%83%97%E3%83%AD%E3%83%B3%E3%83%97%E3%83%88_b1.png?raw=true",
+          link: "../Reverse_pause/"
+        },
+        {
+          name: "TalkingToDo",
+          img: "https://github.com/sakuzyokun/TalkingToDo/raw/main/TalkingToDo_b1.png?raw=true",
+          link: "../TalkingToDo/"
+        },
+        {
+          name: "ZipDropTool",
+          img: "https://github.com/sakuzyokun/ZipDropTool/raw/main/ZipDropTool_b1.png?raw=true",
+          link: "../ZipDropTool/"
+        },
+        {
+          name: "SimpleNotepad",
+          img: "https://github.com/sakuzyokun/SimpleNotepad/raw/main/SimpleNotepad_b1.png?raw=true",
+          link: "../SimpleNotepad/"
+        },
+        {
+          name: "SimpleRenamer",
+          img: "https://github.com/sakuzyokun/SimpleRenamer/raw/main/SimpleRenamer_b1.png?raw=true",
+          link: "../SimpleRenamer/"
+        },
+        {
+          name: "KeyVoiceReader",
+          img: "../KeyVoiceReader/files/icon.png",
+          link: "../KeyVoiceReader/"
+        },
+        {
+          name: "GFT Viewer",
+          img: "GFT/files/vieshot.png",
+          link: "GFT/GFT_Viewer"
+        },
+        {
+          name: "MP4→GFT",
+          img: "GFT/files/mp4shot.png",
+          link: "GFT/MP4_GFT"
+        },
+        {
+          name: "ファイル情報ビューア",
+          img: "file_info/infoshot.png",
+          link: "file_info/"
+        },
+        {
+          name: "OS Info / Process Info",
+          img: "os_info/osshot.png",
+          link: "os_info/"
+        },
+        {
+          name: "ZIP圧縮ツール",
+          img: "CompZ/czshot.png",
+          link: "CompZ/"
+        },
+        {
+          name: "RomajiLang",
+          img: "RomajiLang/rlshot.png",
+          link: "RomajiLang/"
+        },
+        {
+          name: "WinQuickLauncher",
+          img: "WQL/wqlshot.png",
+          link: "WQL/"
+        },
+        {
+          name: "TCTクリーナー",
+          img: "TCT/tctshot.png",
+          link: "TCT/"
+        },
+        {
+          name: "YMMインストーラー",
+          img: "../YukkuriMovieMaker_Installer/ymmshot.png",
+          link: "../YukkuriMovieMaker_Installer/"
+        }
+      ];
+      view.innerHTML = "<div class='icon-grid'>" + apps.map(app => `
+        <div class="icon-item">
+          <a href="${app.link}">
+            <img src="${app.img}" alt="${app.name}">
+            <div>${app.name}</div>
+          </a>
+        </div>
+      `).join('') + "</div>";
+  }
+
+  function showInfo() {
+    const view = document.getElementById("main-view");
+    view.innerHTML = `
+      <div class="file-item" onclick="openWindow('readmeWindow')">📄 README.txt</div>
+      <div class="file-item" onclick="openWindow('installerWindow')">📄 Installer.txt</div>
+    `;
+  }
+
+  function openWindow(id) {
+    document.getElementById(id).style.display = "block";
+  }
+
+  function closeWindow(id) {
+    document.getElementById(id).style.display = "none";
+  }
+
+  // ウィンドウ移動
+  let dragTarget = null;
+  let offsetX = 0, offsetY = 0;
+
+  function startDrag(e, id) {
+    dragTarget = document.getElementById(id);
+    offsetX = e.clientX - dragTarget.offsetLeft;
+    offsetY = e.clientY - dragTarget.offsetTop;
+    document.onmousemove = dragWindow;
+    document.onmouseup = stopDrag;
+  }
+
+  function dragWindow(e) {
+    if (!dragTarget) return;
+    dragTarget.style.left = (e.clientX - offsetX) + "px";
+    dragTarget.style.top = (e.clientY - offsetY) + "px";
+  }
+
+  function stopDrag() {
+    dragTarget = null;
+    document.onmousemove = null;
+    document.onmouseup = null;
+  }
+</script>
+</body>
+</html>
