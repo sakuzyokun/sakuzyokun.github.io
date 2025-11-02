@@ -73,7 +73,7 @@
 
         function appendOutput(command) {
             const output = document.createElement('div');
-            output.textContent = `C:/> ${command}`;
+            output.textContent = `C:\\> ${command}`;
             consoleElement.insertBefore(output, consoleElement.lastElementChild);
 
             const args = command.split(' ');
@@ -94,10 +94,10 @@
                     location.href = 'index.html';
                     break;
                 case 'ver':
-                    appendMessage('SAKUZYO-DOS バージョン:1.52');
+                    appendMessage('SAKUZYO-DOS バージョン:1.53');
                     break;
                 case 'info':
-                    appendMessage('ホームページ バージョン:6.0.9');
+                    appendMessage('ホームページ バージョン:6.6.0');
                     break;
                 case 'error':
                     location.href = '404.html';
@@ -118,23 +118,20 @@
                 case 'dir':
                     appendMessage('ドライブC:&nbsp;のボリュームラベルは&nbsp;Sakuzyo&nbsp;です');
                     appendMessage('ボリューム&nbsp;シリアル番号は&nbsp;30SA-90KU&nbsp;です');
-                    appendMessage('C:/ のディレクトリ');
-                    appendMessage('2024/12/24&nbsp;00:00&nbsp;&nbsp;&nbsp;&nbsp;[dir]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Files');
-                    appendMessage('2024/12/24&nbsp;00:00&nbsp;&nbsp;&nbsp;&nbsp;[dir]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Files (x86)');
-                    appendMessage('2025/05/09&nbsp;21:05&nbsp;&nbsp;&nbsp;&nbsp;[dir]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sakuzyo');
-                    appendMessage('2024/12/24&nbsp;00:00&nbsp;&nbsp;&nbsp;&nbsp;[dir]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Users');
+                    appendMessage('C:\\ のディレクトリ');
+                    appendMessage('2024/12/24&nbsp;00:00&nbsp;&nbsp;&nbsp;&nbsp;&lt;dir&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Files');
+                    appendMessage('2024/11/02&nbsp;00:00&nbsp;&nbsp;&nbsp;&nbsp;&lt;dir&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Program Files (x86)');
+                    appendMessage('2025/11/02&nbsp;21:05&nbsp;&nbsp;&nbsp;&nbsp;&lt;dir&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sakuzyo');
+                    appendMessage('2024/12/24&nbsp;00:00&nbsp;&nbsp;&nbsp;&nbsp;&lt;dir&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Users');
                     appendMessage('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0個のファイル&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0バイト');
-                    appendMessage('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4個のディレクトリ&nbsp;&nbsp;&nbsp;30,064,771,072バイトの空き領域');
+                    appendMessage('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4個のディレクトリ&nbsp;&nbsp;&nbsp;68,719,476,736バイトの空き領域');
                     break;
-                case 'copy':
-                    if (args[1] === 'con' && args[2]?.endsWith('.txt')) {
-                        editingFile = args[2];
-                        fileBuffer = [];
-                        appendMessage(`'${editingFile}' の編集を開始 (終了: Ctrl+Z + Enter)`);
-                        promptElement.textContent = '';
-                    } else {
-                        appendMessage(`無効なコマンド: ${command}`);
+                case 'sedit':
+                    if (!args[1]) {
+                        appendMessage('使用方法: SEDIT [ファイル名]');
+                        break;
                     }
+                    startSEdit(args[1]);
                     break;
                 case 'type':
                     if (args[1] && fileSystem[args[1]]) {
@@ -156,6 +153,16 @@
         }
 
         function handleCommand(event) {
+            if (seditMode === true) {
+                handleSEditInput(inputElement.value);
+                inputElement.value = '';
+                return;
+            } else if (seditMode === 'confirm') {
+                handleSEditConfirm(inputElement.value);
+                inputElement.value = '';
+                return;
+            }
+            
             if (event.key === 'Enter') {
                 if (editingFile) {
                     if (inputElement.value === '\u001A') { // Ctrl+Z
@@ -163,7 +170,7 @@
                         appendMessage(`ファイル '${editingFile}' を保存しました。`);
                         editingFile = null;
                         fileBuffer = [];
-                        promptElement.textContent = 'C:/> ';
+                        promptElement.textContent = 'C:\\> ';
                     } else {
                         fileBuffer.push(inputElement.value);
                         appendMessage(inputElement.value, false);
@@ -263,16 +270,67 @@
             }
         }
 
+        let seditMode = false;
+        let seditFile = '';
+        let seditBuffer = [];
+        let seditLine = 10;
+
+        function startSEdit(filename) {
+            seditMode = true;
+            seditFile = filename;
+            seditBuffer = fileSystem[filename]?.split('\n') || [];
+            appendMessage(`SEDIT: ${filename}`);
+            if (seditBuffer.length === 0) {
+                appendMessage('新規ファイルを作成します。');
+            } else {
+                appendMessage(`${seditBuffer.length}行の既存ファイルを開きました。`);
+            }
+            appendMessage('行番号を入力してください。');
+            appendMessage(formatLinePrompt());
+        }
+
+        function formatLinePrompt() {
+            return `${String(seditLine).padStart(4, '0')}: `;
+        }
+
+        function handleSEditInput(input) {
+            // 空行 → 編集終了
+            if (input.trim() === '') {
+                appendMessage('保存しますか (Y/N)? ');
+                seditMode = 'confirm'; // 保存確認モード
+                return;
+            }
+
+            // 通常の行入力
+            seditBuffer.push(`${String(seditLine).padStart(4, '0')}: ${input}`);
+            seditLine += 10;
+            appendMessage(formatLinePrompt());
+        }
+
+        function handleSEditConfirm(input) {
+            if (input.toUpperCase().startsWith('Y')) {
+                fileSystem[seditFile] = seditBuffer.map(line => line.replace(/^\d+:\s*/, '')).join('\n');
+                appendMessage(`ファイル '${seditFile}' を保存しました。`);
+            } else {
+                appendMessage('変更を破棄しました。');
+            }
+            seditMode = false;
+            seditFile = '';
+            seditBuffer = [];
+            seditLine = 10;
+            appendMessage('C:\\>');
+        }
+
         function getOS() {
             const userAgent = window.navigator.userAgent;
-            if (userAgent.indexOf('Windows NT 10.0') !== -1) return 'Win10,11';
-            if (userAgent.indexOf('Windows NT 6.3') !== -1) return 'Win8.1';
-            if (userAgent.indexOf('Windows NT 6.2') !== -1) return 'Win8';
-            if (userAgent.indexOf('Windows NT 6.1') !== -1) return 'Win7';
+            if (userAgent.indexOf('Windows NT 10.0') !== -1) return 'Win 10,11';
+            if (userAgent.indexOf('Windows NT 6.3') !== -1) return 'Win 8.1';
+            if (userAgent.indexOf('Windows NT 6.2') !== -1) return 'Win 8';
+            if (userAgent.indexOf('Windows NT 6.1') !== -1) return 'Win 7';
             if (userAgent.indexOf('Windows NT 6.0') !== -1) return 'Win Vista';
             if (userAgent.indexOf('Windows NT 5.1') !== -1) return 'Win XP';
-            if (userAgent.indexOf('Windows NT 5.0') !== -1) return 'Win2000';
-            if (userAgent.indexOf('Mac OS X') !== -1) return 'mac';
+            if (userAgent.indexOf('Windows NT 5.0') !== -1) return 'Win 2000';
+            if (userAgent.indexOf('Mac OS X') !== -1) return 'Mac';
             if (userAgent.indexOf('Android') !== -1) return 'Android';
             if (userAgent.indexOf('iPhone') !== -1) return 'iPhone';
             if (userAgent.indexOf('iPad') !== -1) return 'iPad';
@@ -312,7 +370,7 @@
         }, 5500);
         setTimeout(() => {
             const inputLine = document.querySelector('.input-line span');
-            inputLine.textContent = 'C:/> ';
+            inputLine.textContent = 'C:\\> ';
         }, 6500); // Display C:/ 0.5 seconds after the initial message
     </script>
 </body>
