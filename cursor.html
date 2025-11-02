@@ -1,46 +1,124 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>削除くんのホームページ マウスカーソル</title>
-    <link rel="icon" href="favicon.ico">
-    <link rel="stylesheet" href="cursor.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
-    <script>
-      function Cursor(VALUE) {
-        if(document.getElementById){
-          document.getElementById("CursorStyle").style.cursor = VALUE
-        }
-      }
-    </script>
+<meta charset="UTF-8">
+<title>削除くんのホームページ カーソルデモ</title>
+<style>
+body {
+  font-family: "Segoe UI", sans-serif;
+  text-align: center;
+  background: #f0f2f5;
+  padding: 40px;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+button {
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.15s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* --- カーソル種類ごとに指定 --- */
+.cursor-auto:hover { cursor: auto; }
+.cursor-default:hover { cursor: default; }
+.cursor-none:hover { cursor: none; }
+.cursor-context-menu:hover { cursor: context-menu; }
+.cursor-help:hover { cursor: help; }
+.cursor-pointer:hover { cursor: pointer; }
+.cursor-progress:hover { cursor: progress; }
+.cursor-wait:hover { cursor: wait; }
+.cursor-cell:hover { cursor: cell; }
+.cursor-crosshair:hover { cursor: crosshair; }
+.cursor-text:hover { cursor: text; }
+.cursor-vertical-text:hover { cursor: vertical-text; }
+.cursor-alias:hover { cursor: alias; }
+.cursor-copy:hover { cursor: copy; }
+.cursor-move:hover { cursor: move; }
+.cursor-no-drop:hover { cursor: no-drop; }
+.cursor-not-allowed:hover { cursor: not-allowed; }
+.cursor-grab:hover { cursor: grab; }
+.cursor-grabbing:hover { cursor: grabbing; }
+.cursor-all-scroll:hover { cursor: all-scroll; }
+.cursor-col-resize:hover { cursor: col-resize; }
+.cursor-row-resize:hover { cursor: row-resize; }
+.cursor-n-resize:hover { cursor: n-resize; }
+.cursor-e-resize:hover { cursor: e-resize; }
+.cursor-s-resize:hover { cursor: s-resize; }
+.cursor-w-resize:hover { cursor: w-resize; }
+.cursor-ne-resize:hover { cursor: ne-resize; }
+.cursor-nw-resize:hover { cursor: nw-resize; }
+.cursor-se-resize:hover { cursor: se-resize; }
+.cursor-sw-resize:hover { cursor: sw-resize; }
+.cursor-ew-resize:hover { cursor: ew-resize; }
+.cursor-ns-resize:hover { cursor: ns-resize; }
+.cursor-nesw-resize:hover { cursor: nesw-resize; }
+.cursor-nwse-resize:hover { cursor: nwse-resize; }
+.cursor-zoom-in:hover { cursor: zoom-in; }
+.cursor-zoom-out:hover { cursor: zoom-out; }
+.cursor-initial:hover { cursor: initial; }
+.cursor-unset:hover { cursor: unset; }
+</style>
 </head>
 <body>
-    <header>
-        <h1>削除くんのホームページ</h1>
-        <a href="index.html" class="home-link">ホームに戻る</a>
-    </header>
-    <main>
-        <h2>マウスカーソル</h2>
-        <div id="CursorStyle">ここにカーソルを持ってくると形が変わります</div>
-        <hr>
-        <input type="button" value=" default " onClick="Cursor('default')"><br>
-        <input type="button" value=" pointer " onClick="Cursor('pointer')"><br>
-        <input type="button" value=" crosshair " onClick="Cursor('crosshair')"><br>
-        <input type="button" value=" move " onClick="Cursor('move')"><br>
-        <input type="button" value=" text " onClick="Cursor('text')"><br>
-        <input type="button" value=" wait " onClick="Cursor('wait')"><br>
-        <input type="button" value=" help " onClick="Cursor('help')"><br>
-        <input type="button" value=" n-resize " onClick="Cursor('n-resize')"><br>
-        <input type="button" value=" s-resize " onClick="Crusor('s-resize')"><br>
-        <input type="button" value=" w-resize " onClick="Cursor('w-resize')"><br>
-        <input type="button" value=" e-resize " onClick="Cursor('e-resize')"><br>
-        <input type="button" value=" ne-resize " onClick="Cursor('ne-resize')"><br>
-        <input type="button" value=" nw-resize " onClick="Cursor('nw-resize')"><br>
-        <input type="button" value=" se-resize " onClick="Cursor('se-resize')"><br>
-        <input type="button" value=" sw-resize " onClick="Cursor('sw-resize')"><br>
-    </main>
+  <h1>CSS カーソル完全デモ</h1>
+  <div class="container">
+    <button class="cursor-auto">auto</button>
+    <button class="cursor-default">default</button>
+    <button class="cursor-none">none</button>
+    <button class="cursor-context-menu">context-menu</button>
+    <button class="cursor-help">help</button>
+    <button class="cursor-pointer">pointer</button>
+    <button class="cursor-progress">progress</button>
+    <button class="cursor-wait">wait</button>
+    <button class="cursor-cell">cell</button>
+    <button class="cursor-crosshair">crosshair</button>
+    <button class="cursor-text">text</button>
+    <button class="cursor-vertical-text">vertical-text</button>
+    <button class="cursor-alias">alias</button>
+    <button class="cursor-copy">copy</button>
+    <button class="cursor-move">move</button>
+    <button class="cursor-no-drop">no-drop</button>
+    <button class="cursor-not-allowed">not-allowed</button>
+    <button class="cursor-grab">grab</button>
+    <button class="cursor-grabbing">grabbing</button>
+    <button class="cursor-all-scroll">all-scroll</button>
+    <button class="cursor-col-resize">col-resize</button>
+    <button class="cursor-row-resize">row-resize</button>
+    <button class="cursor-n-resize">n-resize</button>
+    <button class="cursor-e-resize">e-resize</button>
+    <button class="cursor-s-resize">s-resize</button>
+    <button class="cursor-w-resize">w-resize</button>
+    <button class="cursor-ne-resize">ne-resize</button>
+    <button class="cursor-nw-resize">nw-resize</button>
+    <button class="cursor-se-resize">se-resize</button>
+    <button class="cursor-sw-resize">sw-resize</button>
+    <button class="cursor-ew-resize">ew-resize</button>
+    <button class="cursor-ns-resize">ns-resize</button>
+    <button class="cursor-nesw-resize">nesw-resize</button>
+    <button class="cursor-nwse-resize">nwse-resize</button>
+    <button class="cursor-zoom-in">zoom-in</button>
+    <button class="cursor-zoom-out">zoom-out</button>
+    <button class="cursor-initial">initial</button>
+    <button class="cursor-unset">unset</button>
+  </div>
 </body>
 </html>
