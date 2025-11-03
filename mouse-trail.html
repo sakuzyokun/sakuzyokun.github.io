@@ -1,0 +1,182 @@
+<!doctype html>
+
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>マウス移動軌跡デモ</title>
+  <style>
+    :root{
+      --ui-bg: rgba(20,20,20,0.6);
+      --panel-w: 320px;
+    }
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Hiragino Kaku Gothic ProN',Meiryo,Arial}
+    canvas{display:block; width:100%; height:100%; background:linear-gradient(180deg,#0b1220,#071224);}
+    .panel{
+      position:fixed; top:12px; right:12px; width:var(--panel-w); padding:12px; border-radius:10px; background:var(--ui-bg); color:#fff; backdrop-filter:blur(6px); box-shadow:0 6px 18px rgba(0,0,0,0.6);
+      font-size:13px;
+    }
+    .panel h3{margin:0 0 8px 0;font-size:15px}
+    .row{display:flex;gap:8px;align-items:center;margin:6px 0}
+    label{font-size:12px;min-width:72px}
+    input[type=range]{flex:1}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.12);padding:6px 8px;border-radius:6px;color:#fff;cursor:pointer}
+    .btn:active{transform:translateY(1px)}
+    .small{font-size:12px;color:#ddd}
+    .footer{margin-top:8px;font-size:11px;color:#cfcfcf}
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>  <div class="panel" id="panel">
+    <h3>マウス軌跡コントロール</h3>
+    <div class="row"><label>色</label><input id="color" type="color" value="#00ffd0"></div>
+    <div class="row"><label>サイズ</label><input id="size" type="range" min="1" max="60" value="18"></div>
+    <div class="row"><label>透明度減衰</label><input id="decay" type="range" min="0.01" max="1.0" step="0.01" value="0.25"></div>
+    <div class="row"><label>最大点数</label><input id="max" type="range" min="10" max="2000" value="450"></div>
+    <div class="row"><label>線をつなぐ</label><input id="connect" type="checkbox" checked></div>
+    <div class="row"><button class="btn" id="clear">クリア</button><button class="btn" id="pause">一時停止</button></div>
+    <div class="footer">タッチ対応 / スムーズ化あり · Space: 一時停止 · C: クリア</div>
+  </div>  <script>
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    let DPR = Math.max(1, window.devicePixelRatio || 1);
+
+    function fit(){
+      canvas.width = Math.floor(innerWidth * DPR);
+      canvas.height = Math.floor(innerHeight * DPR);
+      canvas.style.width = innerWidth + 'px';
+      canvas.style.height = innerHeight + 'px';
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    fit();
+    addEventListener('resize', fit);
+
+    // controls
+    const colorEl = document.getElementById('color');
+    const sizeEl  = document.getElementById('size');
+    const decayEl = document.getElementById('decay');
+    const maxEl   = document.getElementById('max');
+    const connectEl = document.getElementById('connect');
+    const clearBtn = document.getElementById('clear');
+    const pauseBtn = document.getElementById('pause');
+
+    let running = true;
+    pauseBtn.addEventListener('click', ()=>{ running = !running; pauseBtn.textContent = running? '一時停止' : '再開'; });
+    clearBtn.addEventListener('click', ()=>{ points.length = 0; });
+
+    // points: {x,y,life}
+    const points = [];
+
+    // simple smoothing (exponential moving average)
+    let lastPos = null;
+    const smoothing = 0.18;
+
+    function addPointer(x,y){
+      if(lastPos){
+        const sx = lastPos.x + (x - lastPos.x) * smoothing;
+        const sy = lastPos.y + (y - lastPos.y) * smoothing;
+        lastPos = {x:sx,y:sy};
+      } else lastPos = {x,y};
+      points.push({x:lastPos.x, y:lastPos.y, life:1});
+      // trim
+      const max = parseInt(maxEl.value,10);
+      while(points.length > max) points.shift();
+    }
+
+    // pointer events
+    let isDown = false;
+    const pointerToXY = (e)=>{
+      if(e.touches) {
+        const t = e.touches[0];
+        return {x: t.clientX, y: t.clientY};
+      }
+      return {x: e.clientX, y: e.clientY};
+    }
+
+    function onPointerMove(e){
+      if(!running) return;
+      const p = pointerToXY(e);
+      addPointer(p.x, p.y);
+    }
+    function onPointerDown(e){ isDown = true; const p = pointerToXY(e); addPointer(p.x,p.y); }
+    function onPointerUp(e){ isDown = false; lastPos = null; }
+
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mouseup', onPointerUp);
+
+    window.addEventListener('touchstart', (e)=>{ onPointerDown(e); }, {passive:true});
+    window.addEventListener('touchmove', (e)=>{ onPointerMove(e); }, {passive:true});
+    window.addEventListener('touchend', onPointerUp, {passive:true});
+
+    // keyboard shortcuts
+    window.addEventListener('keydown',(e)=>{
+      if(e.code === 'Space'){ e.preventDefault(); running = !running; pauseBtn.textContent = running? '一時停止' : '再開'; }
+      if(e.key.toLowerCase() === 'c'){ points.length = 0; }
+    });
+
+    function hexToRgb(hex){
+      const v = hex.replace('#','');
+      return [parseInt(v.substring(0,2),16), parseInt(v.substring(2,4),16), parseInt(v.substring(4,6),16)];
+    }
+
+    function render(){
+      requestAnimationFrame(render);
+      if(!running) return;
+      // fade background softly
+      ctx.clearRect(0,0,canvas.width/DPR, canvas.height/DPR);
+
+      // draw points with life-based alpha
+      const baseSize = parseFloat(sizeEl.value);
+      const decay = parseFloat(decayEl.value);
+      const connect = connectEl.checked;
+      const rgb = hexToRgb(colorEl.value);
+
+      // age points
+      for(let i=0;i<points.length;i++){
+        points[i].life -= decay * 0.016; // assuming 60fps
+        if(points[i].life < 0) points[i].life = 0;
+      }
+      // remove dead ones
+      while(points.length && points[0].life <= 0) points.shift();
+
+      if(points.length === 0) return;
+
+      // draw lines if wanted
+      if(connect && points.length>1){
+        ctx.lineWidth = Math.max(1, baseSize/4);
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        for(let i=0;i<points.length;i++){
+          const p = points[i];
+          const a = p.life; // 0..1
+          if(i===0) ctx.moveTo(p.x, p.y);
+          else ctx.lineTo(p.x, p.y);
+        }
+        // gradient stroke with fading
+        const last = points[points.length-1];
+        ctx.strokeStyle = `rgba(${rgb[0]},${rgb[1]},${rgb[2]},0.9)`;
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.stroke();
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      // draw blobs
+      for(let i=0;i<points.length;i++){
+        const p = points[i];
+        const a = Math.pow(p.life, 1.2);
+        const size = baseSize * (0.6 + 0.8 * a);
+        const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, size);
+        grd.addColorStop(0, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${0.95 * a})`);
+        grd.addColorStop(0.6, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${0.35 * a})`);
+        grd.addColorStop(1, `rgba(${rgb[0]},${rgb[1]},${rgb[2]},0)`);
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI*2);
+        ctx.fill();
+      }
+    }
+
+    render();
+  </script></body>
+</html>
