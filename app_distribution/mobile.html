@@ -389,6 +389,7 @@ If you do not agree to the above terms, do not install or use this software.
     view.innerHTML = `
       <div class="file-item" onclick="openWindow('readmeWindow')">📄 README.txt</div>
       <div class="file-item" onclick="openWindow('installerWindow')">📄 LICENSE.txt</div>
+      <div class="file-item" onclick="setNoMobile()">🖥️ PC版ページ.lnk</div>
     `;
   }
 
@@ -398,6 +399,15 @@ If you do not agree to the above terms, do not install or use this software.
 
   function closeWindow(id) {
     document.getElementById(id).style.display = "none";
+  }
+
+  function setNoMobile() {
+    const days = 1;
+    const d = new Date();
+    d.setTime(d.getTime() + (days*24*60*60*1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = "noMobile=1; " + expires + "; path=/";
+    window.location.href = "https://sakuzyokun.github.io/app_distribution/index";
   }
 
   // ウィンドウ移動
