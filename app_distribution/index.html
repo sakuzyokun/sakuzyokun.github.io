@@ -11,9 +11,17 @@
   <meta property="og:type" content="website">
   <title>アプリ配布ページ - エクスプローラー</title>
   <script>
-      if (/Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent)) {
-          window.location.href = "mobile.html";
-      }
+    // cookieに noMobile があるか確認
+    const hasNoMobileCookie = document.cookie.split('; ').some(c => c.startsWith('noMobile='));
+
+    // モバイル端末判定
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
+
+    if (isMobile && !hasNoMobileCookie) {
+      // リダイレクト前に noMobile クッキー削除
+      document.cookie = "noMobile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      window.location.href = "mobile.html";
+    }
   </script>
   <style>
     body {
