@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML実行ページ</title>
+    <link rel="icon" href="favicon.ico">
+    <!--<link rel="stylesheet" href="html.css">-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>削除くんのホームページ</h1>
+        <a href="index.html" class="home-link">ホームに戻る</a>
+    </header>
+    <main>
+        <h1>HTML実行ページ</h1>
+        <textarea id="inputHtml" placeholder="ここにHTMLコードを入力してください..."></textarea>
+        <button onclick="runHtml()">実行</button>
+        <div id="output"></div>
+    </main>
+    <script>
+        function runHtml() {
+            const inputHtml = document.getElementById('inputHtml').value;
+            const output = document.getElementById('output');
+            output.innerHTML = inputHtml;
+        }
+    </script>
+</body>
+</html>
