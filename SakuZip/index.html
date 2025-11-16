@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>SakuZip (S-Zip) - .sz 圧縮/解凍ツール</title>
+  <style>
+    body {
+      font-family: "MS UI Gothic", sans-serif;
+      background-color: #C0C0C0;
+      color: black;
+      margin: 20px;
+    }
+    .window {
+      border: 2px solid #000080;
+      background-color: #FFFFFF;
+      padding: 10px;
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 18px;
+      background-color: #000080;
+      color: white;
+      padding: 4px;
+      margin: 0 -10px 10px -10px;
+    }
+    .button {
+      display: inline-block;
+      padding: 6px 12px;
+      margin-top: 10px;
+      background-color: #C0C0C0;
+      border: 2px outset #FFFFFF;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <h1>SakuZip (S-Zip)</h1>
+    <p><strong>SakuZip</strong> は 独自の <code>.sz</code> 形式を使った、手軽に使える圧縮＆解凍ツールです</p>
+    <p>GUI と CLI の両方を備え、Python だけで動作します (gzip + Base64 ベースのシンプル仕様)</p>
+
+    <h2>主な機能</h2>
+    <ul>
+      <li>独自拡張子 <code>.sz</code> に対応（中身は gzip + Base64）</li>
+      <li>GUI（Tkinter）で簡単に操作、進捗バーとログ表示あり</li>
+      <li>CLI でバッチ処理や自動化が可能</li>
+      <li>軽量でコードが読みやすく、改造・学習用にも最適</li>
+    </ul>
+    
+    <h2>使い方（GUI）</h2>
+    <ol>
+      <li>Python をインストール（3.9 以上推奨）</li>
+      <li>必要なライブラリをインストール: <code>pip install tqdm</code></li>
+      <li>ダウンロードしたフォルダ内で <code>python S-Zip_GUI.py</code> を実行</li>
+      <li>「Extract / Compress」を選び、入力・出力を指定して Start を押す</li>
+    </ol>
+
+    <h2>使い方（CLI）</h2>
+    <p>圧縮（フォルダ → .sz）:</p>
+    <pre><code>python SZip_Compress.py &lt;input_folder&gt; &lt;output_name&gt;</code></pre>
+
+    <p>解凍（.sz → フォルダ）:</p>
+    <pre><code>python SZip_Extract.py &lt;input.sz&gt; &lt;output_folder&gt;</code></pre>
+
+    <h2>S-Zip フォーマット（簡易）</h2>
+    <pre><code>[Files]
+{folder1/
+file.txt
+}
+image.png
+
+[folder1/file.txt]
+&lt;gzip_base64&gt;
+
+[image.png]
+&lt;gzip_base64&gt;
+</code></pre>
+    <p class="meta">※ テキストで中身が見えるのがこの形式の特徴です（Base64 により人間が開けられる）。</p>
+
+    <h2>スクリーンショット</h2>
+    <img src="szip_screenshot.png" alt="S-Zip screenshot" width="100%">
+    
+    <h2>ダウンロード</h2>
+    <p>最新版をダウンロード（リリース ZIP）:</p>
+    <a href="https://github.com/sakuzyokun/SakuZip/archive/refs/tags/1.0.0.zip" download="S-Zip_v1.0.0.zip" class="button">Download S-Zip_v1.0.0.zip</a>
+    <p style="margin-top:8px;" class="meta">（リポジトリ: <a href="https://github.com/USER/s-zip" target="_blank">github.com/USER/s-zip</a>）</p>
+
+    <h2>ライセンス & 作者</h2>
+    <p><a href="https://github.com/sakuzyokun/sakuzyokun.github.io/raw/refs/heads/main/LICENSE">ライセンス</a></p>
+    <p>作者: 削除くん (Sakuzyokun)</p>
+
+    <h2>備考 / FAQ</h2>
+    <ul>
+      <li>生成される .sz はテキスト形式のため、Base64 によるサイズ増加が起きます（小さめのファイルや学習用途向け）。</li>
+      <li>不具合報告や改良提案は GitHub Issues へお願いします。</li>
+    </ul>
+
+    <p style="margin-top:12px;">Version: 1.0.0</p>
+  </div>
+</body>
+</html>
