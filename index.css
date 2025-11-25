@@ -38,6 +38,12 @@ header h1 {
     margin: 0;
 }
 
+header .gt {
+    color: #ffa500;
+    font-size: 1.5em;
+    margin: 0;
+}
+
 /* Remove any additional mode-specific background colors for the header */
 header.light-mode, header.dark-mode, header.photo-mode {
     background-color: transparent;
