@@ -21,7 +21,7 @@ body.dark-mode {
 }
 
 body.photo-mode {
-    background: url('Minecraft world.jpeg') no-repeat center center fixed;
+    background: url('/Minecraft world.jpeg') no-repeat center center fixed;
     background-size: cover;
     color: #ffffff;
 }
