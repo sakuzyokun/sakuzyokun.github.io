@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>対応ブラウザのご案内</title>
+  <style>
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .box {
+      background: white;
+      border: 2px solid #000;
+      padding: 30px;
+      max-width: 520px;
+    }
+    h2 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="box" id="msg">
+    読み込み中...
+  </div>
+
+  <script>
+    (function () {
+      var ua = navigator.userAgent;
+      var msg = document.getElementById("msg");
+
+      // IE判定（IE11以下）
+      var isIE = ua.indexOf("MSIE") !== -1 || ua.indexOf("Trident/") !== -1;
+
+      if (isIE) {
+        msg.innerHTML = `
+          <h2>ご利用のブラウザには対応していません</h2>
+          <p>
+            このサイトは <b>Internet Explorer</b> に対応していません。<br>
+            安心してお使いいただくために、<br>
+            <b>Chrome、Safari、Firefox</b> をご使用ください。
+          </p>
+        `;
+      } else {
+        msg.innerHTML = `
+          <h2>ご利用のブラウザには対応していません</h2>
+          <p>
+            このサイトは <b>Chrome、Safari、Firefox</b> に対応していません。<br>
+            安心してお使いいただくために、<br>
+            <b>Internet Explorer</b> をご使用ください。
+          </p>
+        `;
+      }
+    })();
+  </script>
+</body>
+</html>
