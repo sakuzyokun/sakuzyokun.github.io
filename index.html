@@ -180,5 +180,16 @@ console.log(`
 Have fun & Happy hacking (合法の範囲で！)
 `);
 </script>
+<script>
+const url = location.href;
+
+function sendCount() {
+  const qs = new URLSearchParams();
+  qs.set('uc', 'guest');
+  qs.set('url', url);
+
+  fetch('https://sakuzyo.net/count.php?' + qs.toString());
+}
+</script>
 </body>
 </html>
