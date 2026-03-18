@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>周波数ジェネレーター</title>
+</head>
+<body>
+
+<h2>周波数ジェネレーター</h2>
+
+<input type="number" id="freq" value="440"> Hz
+<br><br>
+
+<button onclick="start()">再生</button>
+<button onclick="stop()">停止</button>
+
+<script>
+let audioCtx;
+let oscillator;
+
+function start() {
+    if (audioCtx) return;
+
+    const freq = document.getElementById("freq").value;
+
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    oscillator = audioCtx.createOscillator();
+
+    oscillator.type = "sine"; // sine / square / sawtooth / triangle
+    oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+    oscillator.connect(audioCtx.destination);
+    oscillator.start();
+}
+
+function stop() {
+    if (!audioCtx) return;
+
+    oscillator.stop();
+    audioCtx.close();
+
+    audioCtx = null;
+}
+</script>
+
+</body>
+</html>
