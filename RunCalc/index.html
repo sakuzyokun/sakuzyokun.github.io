@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RunCalc - 「名前を指定して実行」で計算ができる便利ソフト</title>
+  <meta name="description" content="YouTuber 削除くんが作ったアプリ「RunCalc」の配布ページです">
+  <meta name="keywords" content="削除くん,削除君,削除くんのホームページ,削除君のホームページ,ホームページ,アプリ,.NET,framework,Clock,App,Apps,Application,net8,dotnet8">
+  <style>
+    :root {
+      --bg-color: #008080; /* 定番のWindows 95風の背景色（セルリアンブルー/ターコイズ） */
+      --win-bg: #c0c0c0;
+      --win-title: #000080;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "MS UI Gothic", "Segoe UI", sans-serif;
+      background-color: var(--bg-color);
+      color: #000;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    /* Windowsウィンドウ風の立体フレーム */
+    .window {
+      background-color: var(--win-bg);
+      border: 2px solid;
+      border-color: #ffffff #808080 #808080 #ffffff;
+      box-shadow: 2px 2px 0px #000;
+      padding: 3px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    /* タイトルバー */
+    h1 {
+      font-size: 14px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #000080, #1084d0);
+      color: white;
+      padding: 3px 6px;
+      margin: 0 0 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* コンテンツエリア */
+    .window-body {
+      padding: 8px;
+    }
+
+    h2 {
+      font-size: 14px;
+      border-bottom: 1px solid #808080;
+      padding-bottom: 2px;
+      margin-top: 20px;
+    }
+
+    /* レトロボタン */
+    .button {
+      display: inline-block;
+      padding: 6px 16px;
+      margin-top: 10px;
+      background-color: var(--win-bg);
+      border: 2px solid;
+      border-color: #ffffff #808080 #808080 #ffffff;
+      box-shadow: 1px 1px 0px #000;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .button:active {
+      border-color: #808080 #ffffff #ffffff #808080;
+      box-shadow: none;
+      padding: 7px 15px 5px 17px; /* 押した時に凹む効果 */
+    }
+
+    .note {
+      font-size: 12px;
+      color: #404040;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid;
+      border-color: #808080 #ffffff #ffffff #808080; /* 凹んだような枠線 */
+    }
+
+    footer {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 2px solid;
+      border-color: #808080 #ffffff #ffffff #808080;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="window">
+    <header>
+      <!-- h1をRunCalcに修正 -->
+      <h1><span>RunCalc.exe</span></h1>
+    </header>
+    
+    <div class="window-body">
+      <main>
+        <p><a href="en">English Page</a></p>
+        <p><strong>RunCalc</strong> は Windows 7 / 8 / 10 / 11 で動作する、シンプルな計算機です。</p>
+        <p>高速な動作を特徴としており、古いPCでも快適に実行できます。</p>
+
+        <h2>主な機能</h2>
+        <ul>
+          <li>「名前を指定して実行 (Win+R)」からの高速計算</li>
+        </ul>
+
+        <h2>使用方法</h2>
+        <!-- olを1つに統合 -->
+        <ol>
+          <li><code>Win + R</code> を押し、<code>rc 計算式</code>（例: <code>rc 1+1</code>）と入力してEnter</li>
+          <li>答えが表示され、自動的にクリップボードにコピーされます（エラー時はコピーされません）</li>
+          <li>また、<code>Calc...</code> を押すと連続で計算が可能です</li>
+        </ol>
+        <p class="note">※半角で入力（掛け算は <code>*</code>、割り算は <code>/</code> を使用）</p>
+
+        <h2>スクリーンショット</h2>
+        <p>Windows 11 で RunCalc を起動した様子 (v1.0.0)</p>
+        <img src="https://github.com/sakuzyokun/RunCalc/blob/main/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202026-08-26%20162928.png?raw=true" alt="Windows11 RunCalc の画面">
+        <br>
+
+        <h2>ダウンロード</h2>
+        <a href="https://github.com/sakuzyokun/RunCalc/releases/tag/latest" class="button">ダウンロード (v1.0.0)</a>
+      </main>
+
+      <footer>
+        <p>作者：削除くん<br>
+        ライセンス：フリーソフト（個人利用可）<br>
+        <a href="https://github.com/sakuzyokun/RunCalc">RunCalc GitHub リポジトリ（ライセンス等）</a>
+        </p>
+        <p>Ver.1.0.0</p>
+      </footer>
+    </div>
+  </div>
+
+</body>
+</html>
