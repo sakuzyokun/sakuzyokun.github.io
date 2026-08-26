@@ -2,76 +2,109 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="削除くんが開発したWindows・Android・Pythonなどのアプリを配布しています">
-  <meta name="keywords" content="削除くん,削除君,削除くんのホームページ,削除君のホームページ,ホームページ,windows app,windows application,windowsアプリ,windows アプリ,windows アプリケーション,windowsアプリケーション,windows,アプリ,androidアプリ,android アプリ,android アプリケーション,androidアプリケーション,android,android app,android application,apk,python アプリ,pythonアプリ,python アプリ,python アプリケーション,pythonアプリケーション,python app,python application,デスクトップアプリ,デスクトップアプリケーション,mac アプリ,macアプリ,mac アプリケーション,macアプリケーション,mac,mac app,mac application,linux アプリ,linuxアプリ,linux アプリケーション,linuxアプリケーション,mac app,mac application,maui,dotnat,frmework">
+  <meta name="keywords" content="削除くん,削除君,ホームページ,Windowsアプリ,Androidアプリ,Python,デスクトップアプリ,.NET">
+  
   <meta property="og:title" content="削除くんのアプリ配布ページ">
   <meta property="og:description" content="削除くんが開発したWindows・Android・Pythonなどのアプリを配布しています！">
   <meta property="og:image" content="https://sakuzyokun.github.io/image/logo.jpg">
   <meta property="og:url" content="https://sakuzyokun.github.io/app_distribution/">
   <meta property="og:type" content="website">
+  
   <title>アプリ配布ページ - エクスプローラー</title>
+  
   <script>
-    // cookieに noMobile があるか確認
+    // モバイル判定＆リダイレクト
     const hasNoMobileCookie = document.cookie.split('; ').some(c => c.startsWith('noMobile='));
-
-    // モバイル端末判定
     const isMobile = /Mobi|Android|iPhone|iPad|iPod/.test(navigator.userAgent);
 
     if (isMobile && !hasNoMobileCookie) {
-      // リダイレクト前に noMobile クッキー削除
       document.cookie = "noMobile=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       window.location.href = "mobile.html";
     }
   </script>
+  
   <style>
-    body {
-      margin: 0;
-      font-family: "MS UI Gothic", sans-serif;
-      background-color: #C0C0C0;
+    :root {
+      --win-bg: #c0c0c0;
+      --win-border-light: #ffffff;
+      --win-border-dark: #808080;
     }
 
-    /* Explorer部分 */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "MS UI Gothic", "Segoe UI", sans-serif;
+      background-color: var(--win-bg);
+      user-select: none; /* ドラッグ時のテキスト選択防止 */
+    }
+
+    /* タイトルバー */
     .title-bar {
       background: linear-gradient(to right, #08246B, #A5CBF7);
       color: white;
       padding: 3px 8px;
       font-size: 14px;
+      font-weight: bold;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    .title-buttons span {
-      display: inline-block;
-      padding: 0.75px 1.5px;
-      margin-top: 2.5px;
-      background-color: #C0C0C0;
-      border: 2px outset #FFFFFF;
-      text-decoration: none;
-      color: black;
-      font-weight: bold;
-      cursor: default;
+    /* 最小化・最大化・閉じるボタン */
+    .title-buttons {
+      display: flex;
+      gap: 2px;
     }
 
+    .title-buttons span {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 16px;
+      height: 14px;
+      background-color: var(--win-bg);
+      border: 2px solid;
+      border-color: #ffffff #808080 #808080 #ffffff;
+      color: black;
+      font-size: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .title-buttons span:active {
+      border-color: #808080 #ffffff #ffffff #808080;
+      padding: 1px 0 0 1px;
+    }
+
+    /* エクスプローラー本体 */
     .explorer-window {
       display: flex;
-      height: 90vh;
-      margin: 10px;
+      height: calc(100vh - 55px);
+      margin: 8px;
       border: 2px inset #808080;
       background-color: #FFFFFF;
     }
 
+    /* サイドバー */
     .sidebar {
       width: 200px;
       background-color: #E0E0E0;
       border-right: 2px solid #A0A0A0;
       padding: 8px;
       font-size: 13px;
+      overflow-y: auto;
     }
 
     .folder {
-      margin: 4px 0;
+      margin: 6px 0;
       cursor: pointer;
+      font-weight: bold;
     }
 
     .folder-children {
@@ -79,9 +112,17 @@
       display: none;
     }
 
+    .folder-children p {
+      margin: 4px 0;
+      cursor: pointer;
+      font-weight: normal;
+      color: #0000ee;
+    }
+
+    /* メイン表示エリア */
     .main-view {
       flex: 1;
-      padding: 10px;
+      padding: 12px;
       overflow-y: auto;
       background-color: #FFFFFF;
     }
@@ -90,14 +131,8 @@
       font-size: 13px;
       margin: 8px 0;
       cursor: pointer;
-    }
-
-    .footer {
-      background-color: #D4D0C8;
-      border-top: 2px solid #A0A0A0;
-      padding: 4px;
-      text-align: right;
-      font-size: 12px;
+      color: #0000ee;
+      text-decoration: underline;
     }
 
     .icon-grid {
@@ -110,35 +145,53 @@
       width: 100px;
       text-align: center;
       font-size: 12px;
-      cursor: pointer;
+    }
+
+    .icon-item a {
+      text-decoration: none;
+      color: black;
+      display: block;
+      padding: 4px;
+    }
+
+    .icon-item a:hover {
+      background-color: #000080;
+      color: white;
     }
 
     .icon-item img {
       width: 48px;
       height: 48px;
+      object-fit: contain;
       border: 1px solid #A0A0A0;
+      background-color: #fff;
+      margin-bottom: 4px;
     }
 
-    /* メモ帳風ウィンドウ */
+    /* フッター */
+    .footer {
+      background-color: #D4D0C8;
+      border-top: 2px solid #A0A0A0;
+      padding: 4px 8px;
+      text-align: right;
+      font-size: 12px;
+    }
+
+    /* メモ帳ウィンドウ */
     .notepad {
-      width: 400px;
+      width: 420px;
       position: absolute;
       top: 80px;
       left: 80px;
-      border: 2px solid #000;
-      background-color: #FFFFFF;
-      box-shadow: 4px 4px rgba(128,128,128,0.4);
+      border: 2px solid;
+      border-color: #ffffff #808080 #808080 #ffffff;
+      background-color: var(--win-bg);
+      box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
       z-index: 100;
+      user-select: text; /* メモ帳内はテキスト選択可能に */
     }
 
     .notepad .title-bar {
-      background: linear-gradient(to right, #08246B, #A5CBF7);
-      color: white;
-      padding: 3px 8px;
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       cursor: move;
     }
 
@@ -146,34 +199,27 @@
       background-color: #D4D0C8;
       padding: 2px 8px;
       font-size: 12px;
-      color: #404040;
+      color: #000;
       border-bottom: 1px solid #808080;
     }
 
     .notepad-text {
       padding: 8px;
+      background-color: #ffffff;
       font-family: "MS Gothic", monospace;
       font-size: 13px;
       white-space: pre-wrap;
-    }
-
-    .title-buttons span {
-      display: inline-block;
-      padding: 0.75px 1.5px;
-      margin-top: 1.25px;
-      background-color: #C0C0C0;
-      border: 2px outset #FFFFFF;
-      text-decoration: none;
-      color: black;
-      font-weight: bold;
-      cursor: default;
+      border: 2px inset #808080;
+      margin: 2px;
+      height: 200px;
+      overflow-y: auto;
     }
   </style>
 </head>
 <body>
 
 <div class="title-bar">
-  アプリ配布
+  <span>アプリ配布 - エクスプローラー</span>
   <div class="title-buttons">
     <span>−</span> <span>□</span> <span>×</span>
   </div>
@@ -183,23 +229,27 @@
   <div class="sidebar">
     <div class="folder" onclick="toggleTree('info')">📁 info</div>
     <div class="folder-children" id="info">
-      <p onclick="showInfo()">▶ クリックして表示します…</p>
+      <p onclick="showInfo()">▶ クリックして表示</p>
     </div>
+    
     <div class="folder" onclick="toggleTree('dist')">📁 配布中</div>
     <div class="folder-children" id="dist">
-      <p onclick="showCategory('dist')">▶ クリックして表示します…</p>
+      <p onclick="showCategory('dist')">▶ クリックして表示</p>
     </div>
+    
     <div class="folder" onclick="toggleTree('dev')">📁 作成中</div>
     <div class="folder-children" id="dev">
-      <p>(なし)</p>
+      <p style="color:#666; text-decoration:none;">(なし)</p>
     </div>
+    
     <div class="folder" onclick="toggleTree('end')">📁 サポート終了</div>
     <div class="folder-children" id="end">
-      <p>(なし)</p>
+      <p style="color:#666; text-decoration:none;">(なし)</p>
     </div>
   </div>
+
   <div class="main-view" id="main-view">
-    <p>フォルダを選択してください。</p>
+    <p>左のフォルダを選択してください。</p>
   </div>
 </div>
 
@@ -208,45 +258,42 @@
 </div>
 
 <!-- メモ帳ウィンドウ：README -->
-<div class="notepad" id="readmeWindow" style="display: none;">
+<div class="notepad" id="readmeWindow" style="display: none;" onclick="bringToFront(this)">
   <div class="title-bar" onmousedown="startDrag(event, 'readmeWindow')">
-    README.txt - メモ帳
+    <span>README.txt - メモ帳</span>
     <div class="title-buttons">
       <span style="opacity: 0.5;">−</span>
       <span style="opacity: 0.5;">□</span>
       <span onclick="closeWindow('readmeWindow')">×</span>
     </div>
   </div>
-  <div class="notepad-menu">ファイル 編集 書式 表示 ヘルプ</div>
-  <div class="notepad-text">
-作者: 削除くん  
+  <div class="notepad-menu">ファイル(F)  編集(E)  書式(O)  表示(V)  ヘルプ(H)</div>
+  <div class="notepad-text">作者: 削除くん  
 ライセンス: フリーソフト（個人利用可・改造自由）
 
 このページではアプリケーションを配布しています。  
 アプリケーションは以下の3つのカテゴリに分けられています：
 
-・配布中　→　安定して使用可能
-・作成中　→　現在開発中で未完成  
-・サポート終了　→　開発終了済・更新予定なし
+・配布中 → 安定して使用可能
+・作成中 → 現在開発中で未完成  
+・サポート終了 → 開発終了済・更新予定なし
 
 掲載されているすべてのアプリは「自己責任」で使用してください。  
-動作保証やサポートは基本的にありません。
-  </div>
+動作保証やサポートは基本的にありません。</div>
 </div>
 
 <!-- メモ帳ウィンドウ：Installer -->
-<div class="notepad" id="installerWindow" style="display: none;">
+<div class="notepad" id="installerWindow" style="display: none;" onclick="bringToFront(this)">
   <div class="title-bar" onmousedown="startDrag(event, 'installerWindow')">
-    Installer.txt - メモ帳
+    <span>Installer.txt - メモ帳</span>
     <div class="title-buttons">
       <span style="opacity: 0.5;">−</span>
       <span style="opacity: 0.5;">□</span>
       <span onclick="closeWindow('installerWindow')">×</span>
     </div>
   </div>
-  <div class="notepad-menu">ファイル 編集 書式 表示 ヘルプ</div>
-  <div class="notepad-text">
-Sakuzyokun App Installer は  
+  <div class="notepad-menu">ファイル(F)  編集(E)  書式(O)  表示(V)  ヘルプ(H)</div>
+  <div class="notepad-text">Sakuzyokun App Installer は  
 複数のアプリをまとめてインストールできる便利なアプリです。  
 
 主な特徴：  
@@ -255,23 +302,21 @@ Sakuzyokun App Installer は
 ・Python製でソースコードも公開中  
 
 初心者にもオススメの導入ツールです。
-<a href="installer/">詳しくはこちら</a>
-  </div>
+<a href="/installer/" target="_blank">詳しくはこちら</a></div>
 </div>
 
-  <!-- メモ帳ウィンドウ：LICENSE -->
-<div class="notepad" id="licenseWindow" style="display: none;">
+<!-- メモ帳ウィンドウ：LICENSE -->
+<div class="notepad" id="licenseWindow" style="display: none;" onclick="bringToFront(this)">
   <div class="title-bar" onmousedown="startDrag(event, 'licenseWindow')">
-    LICENSE.txt - メモ帳
+    <span>LICENSE.txt - メモ帳</span>
     <div class="title-buttons">
       <span style="opacity: 0.5;">−</span>
       <span style="opacity: 0.5;">□</span>
       <span onclick="closeWindow('licenseWindow')">×</span>
     </div>
   </div>
-  <div class="notepad-menu">ファイル 編集 書式 表示 ヘルプ</div>
-  <div class="notepad-text">
-MIT License
+  <div class="notepad-menu">ファイル(F)  編集(E)  書式(O)  表示(V)  ヘルプ(H)</div>
+  <div class="notepad-text">MIT License
 
 Copyright (c) 2026 sakuzyokun
 
@@ -291,159 +336,58 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-  </div>
+SOFTWARE.</div>
 </div>
 
 <script>
+  let topZIndex = 100;
+
   function toggleTree(id) {
     const el = document.getElementById(id);
     el.style.display = (el.style.display === 'none' || el.style.display === '') ? 'block' : 'none';
   }
 
   function showCategory(cat) {
-      const view = document.getElementById("main-view");
+    const view = document.getElementById("main-view");
 
-      const apps = [
-        {
-          name: "LiteExplorer",
-          img: "/LiteExplorer/files/screenshot.png",
-          link: "/LiteExplorer/"
-        },
-        {
-          name: "SakuZip",
-          img: "/SakuZip/S-zip%20Utility_b1.png",
-          link: "/SakuZip/"
-        },
-        {
-          name: "SimpleStopwatch",
-          img: "https://github.com/sakuzyokun/SimpleStopwatch/blob/main/SimpleStopwatch_b1.png?raw=true",
-          link: "/SimpleStopwatch/"
-        },
-        {
-          name: "Clock-MAUI",
-          img: "https://github.com/sakuzyokun/Clock-MAUI/blob/main/Clock_b1.png?raw=true",
-          link: "/Clock-MAUI/"
-        },
-        {
-          name: "SafeWalkOverlay",
-          img: "https://sakuzyo.net/android_app/SafeWalkOverlay/img/Screenshot2.png",
-          link: "https://sakuzyo.net/android_app/SafeWalkOverlay/"
-        },
-        {
-          name: "Clock-CLI",
-          img: "https://github.com/sakuzyokun/Clock-CLI/blob/main/Clock-CLI.exe_b1.png?raw=true",
-          link: "/Clock-CLI/"
-        },
-        {
-          name: "KeySoundApp",
-          img: "https://github.com/sakuzyokun/KeySoundApp/blob/main/KeyboardHook_b1.png?raw=true",
-          link: "/KeySoundApp/"
-        },
-        {
-          name: "LinuxCommand",
-          img: "/LinuxCommand/コマンド プロンプト_b1.png",
-          link: "/LinuxCommand/"
-        },
-        {
-          name: "逆Pause",
-          img: "https://github.com/sakuzyokun/reverse_pause/blob/main/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%20%E3%83%97%E3%83%AD%E3%83%B3%E3%83%97%E3%83%88_b1.png?raw=true",
-          link: "/Reverse_pause/"
-        },
-        {
-          name: "Windows 11 end of support (11_eos)",
-          img: "/11_eos/icon.png",
-          link: "/11_eos/"
-        },
-        {
-          name: "MessageBox",
-          img: "https://github.com/sakuzyokun/MessageBox/raw/refs/heads/main/MessageBox/Windows_Error.ico",
-          link: "/MessageBox"
-        },
-        {
-          name: "TalkingToDo",
-          img: "https://github.com/sakuzyokun/TalkingToDo/raw/main/TalkingToDo_b1.png?raw=true",
-          link: "/TalkingToDo/"
-        },
-        {
-          name: "ZipDropTool",
-          img: "https://github.com/sakuzyokun/ZipDropTool/raw/main/ZipDropTool_b1.png?raw=true",
-          link: "/ZipDropTool/"
-        },
-        {
-          name: "SimpleNotepad",
-          img: "https://github.com/sakuzyokun/SimpleNotepad/raw/main/SimpleNotepad_b1.png?raw=true",
-          link: "/SimpleNotepad/"
-        },
-        {
-          name: "SimpleRenamer",
-          img: "https://github.com/sakuzyokun/SimpleRenamer/raw/main/SimpleRenamer_b1.png?raw=true",
-          link: "/SimpleRenamer/"
-        },
-        {
-          name: "KeyVoiceReader",
-          img: "../KeyVoiceReader/files/icon.png",
-          link: "/KeyVoiceReader/"
-        },
-        {
-          name: "RunCalc",
-          img: "https://github.com/sakuzyokun/RunCalc/blob/main/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202026-08-26%20162928.png?raw=true",
-          link: "/RunCalc/"
-        },
-        {
-          name: "GFT Viewer",
-          img: "GFT/files/vieshot.png",
-          link: "GFT/GFT_Viewer"
-        },
-        {
-          name: "MP4→GFT",
-          img: "GFT/files/mp4shot.png",
-          link: "GFT/MP4_GFT"
-        },
-        {
-          name: "ファイル情報ビューア",
-          img: "file_info/infoshot.png",
-          link: "file_info/"
-        },
-        {
-          name: "OS Info / Process Info",
-          img: "os_info/osshot.png",
-          link: "os_info/"
-        },
-        {
-          name: "ZIP圧縮ツール",
-          img: "CompZ/czshot.png",
-          link: "CompZ/"
-        },
-        {
-          name: "RomajiLang",
-          img: "RomajiLang/rlshot.png",
-          link: "RomajiLang/"
-        },
-        {
-          name: "WinQuickLauncher",
-          img: "WQL/wqlshot.png",
-          link: "WQL/"
-        },
-        {
-          name: "TCTクリーナー",
-          img: "TCT/tctshot.png",
-          link: "TCT/"
-        },
-        {
-          name: "YMMインストーラー",
-          img: "/YukkuriMovieMaker_Installer/ymmshot.png",
-          link: "/YukkuriMovieMaker_Installer/"
-        }
-      ];
-      view.innerHTML = "<div class='icon-grid'>" + apps.map(app => `
-        <div class="icon-item">
-          <a href="${app.link}">
-            <img src="${app.img}" alt="${app.name}">
-            <div>${app.name}</div>
-          </a>
-        </div>
-      `).join('') + "</div>";
+    // 各アプリのURL・画像パスを正規化
+    const apps = [
+      { name: "LiteExplorer", img: "/LiteExplorer/files/screenshot.png", link: "/LiteExplorer/" },
+      { name: "SakuZip", img: "/SakuZip/S-zip%20Utility_b1.png", link: "/SakuZip/" },
+      { name: "SimpleStopwatch", img: "https://github.com/sakuzyokun/SimpleStopwatch/blob/main/SimpleStopwatch_b1.png?raw=true", link: "/SimpleStopwatch/" },
+      { name: "Clock-MAUI", img: "https://github.com/sakuzyokun/Clock-MAUI/blob/main/Clock_b1.png?raw=true", link: "/Clock-MAUI/" },
+      { name: "SafeWalkOverlay", img: "https://sakuzyo.net/android_app/SafeWalkOverlay/img/Screenshot2.png", link: "https://sakuzyo.net/android_app/SafeWalkOverlay/" },
+      { name: "Clock-CLI", img: "https://github.com/sakuzyokun/Clock-CLI/blob/main/Clock-CLI.exe_b1.png?raw=true", link: "/Clock-CLI/" },
+      { name: "KeySoundApp", img: "https://github.com/sakuzyokun/KeySoundApp/blob/main/KeyboardHook_b1.png?raw=true", link: "/KeySoundApp/" },
+      { name: "LinuxCommand", img: "/LinuxCommand/コマンド%20プロンプト_b1.png", link: "/LinuxCommand/" },
+      { name: "逆Pause", img: "https://github.com/sakuzyokun/reverse_pause/blob/main/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%20%E3%83%97%E3%83%AD%E3%83%B3%E3%83%97%E3%83%88_b1.png?raw=true", link: "/Reverse_pause/" },
+      { name: "Windows 11 end of support (11_eos)", img: "/11_eos/icon.png", link: "/11_eos/" },
+      { name: "MessageBox", img: "https://github.com/sakuzyokun/MessageBox/raw/refs/heads/main/MessageBox/Windows_Error.ico", link: "/MessageBox/" },
+      { name: "TalkingToDo", img: "https://github.com/sakuzyokun/TalkingToDo/raw/main/TalkingToDo_b1.png?raw=true", link: "/TalkingToDo/" },
+      { name: "ZipDropTool", img: "https://github.com/sakuzyokun/ZipDropTool/raw/main/ZipDropTool_b1.png?raw=true", link: "/ZipDropTool/" },
+      { name: "SimpleNotepad", img: "https://github.com/sakuzyokun/SimpleNotepad/raw/main/SimpleNotepad_b1.png?raw=true", link: "/SimpleNotepad/" },
+      { name: "SimpleRenamer", img: "https://github.com/sakuzyokun/SimpleRenamer/raw/main/SimpleRenamer_b1.png?raw=true", link: "/SimpleRenamer/" },
+      { name: "KeyVoiceReader", img: "/KeyVoiceReader/files/icon.png", link: "/KeyVoiceReader/" },
+      { name: "RunCalc", img: "https://github.com/sakuzyokun/RunCalc/blob/main/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202026-08-26%20162928.png?raw=true", link: "/RunCalc/" },
+      { name: "GFT Viewer", img: "/GFT/files/vieshot.png", link: "/GFT/GFT_Viewer/" },
+      { name: "MP4→GFT", img: "/GFT/files/mp4shot.png", link: "/GFT/MP4_GFT/" },
+      { name: "ファイル情報ビューア", img: "/file_info/infoshot.png", link: "/file_info/" },
+      { name: "OS Info / Process Info", img: "/os_info/osshot.png", link: "/os_info/" },
+      { name: "ZIP圧縮ツール", img: "/CompZ/czshot.png", link: "/CompZ/" },
+      { name: "RomajiLang", img: "/RomajiLang/rlshot.png", link: "/RomajiLang/" },
+      { name: "WinQuickLauncher", img: "/WQL/wqlshot.png", link: "/WQL/" },
+      { name: "TCTクリーナー", img: "/TCT/tctshot.png", link: "/TCT/" },
+      { name: "YMMインストーラー", img: "/YukkuriMovieMaker_Installer/ymmshot.png", link: "/YukkuriMovieMaker_Installer/" }
+    ];
+
+    view.innerHTML = "<div class='icon-grid'>" + apps.map(app => `
+      <div class="icon-item">
+        <a href="${app.link}">
+          <img src="${app.img}" alt="${app.name}" onerror="this.src='https://github.com/sakuzyokun/MessageBox/raw/refs/heads/main/MessageBox/Windows_Error.ico'">
+          <div>${app.name}</div>
+        </a>
+      </div>
+    `).join('') + "</div>";
   }
 
   function showInfo() {
@@ -456,19 +400,28 @@ SOFTWARE.
   }
 
   function openWindow(id) {
-    document.getElementById(id).style.display = "block";
+    const win = document.getElementById(id);
+    win.style.display = "block";
+    bringToFront(win);
   }
 
   function closeWindow(id) {
     document.getElementById(id).style.display = "none";
   }
 
-  // ウィンドウ移動
+  // クリックしたメモ帳ウィンドウを最前面に移動
+  function bringToFront(element) {
+    topZIndex++;
+    element.style.zIndex = topZIndex;
+  }
+
+  // ウィンドウのドラッグ移動
   let dragTarget = null;
   let offsetX = 0, offsetY = 0;
 
   function startDrag(e, id) {
     dragTarget = document.getElementById(id);
+    bringToFront(dragTarget);
     offsetX = e.clientX - dragTarget.offsetLeft;
     offsetY = e.clientY - dragTarget.offsetTop;
     document.onmousemove = dragWindow;
