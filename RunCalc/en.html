@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RunCalc - Quick Calculator via "Run" Dialog</title>
+  <meta name="description" content="Official distribution page for RunCalc, a lightweight calculator app created by Sakuzyokun.">
+  <meta name="keywords" content="Sakuzyokun, RunCalc, Windows App, Calculator, CLI, .NET 8, dotnet8">
+  <style>
+    :root {
+      --bg-color: #008080; /* Classic Windows 95 Teal */
+      --win-bg: #c0c0c0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "MS UI Gothic", "Segoe UI", sans-serif;
+      background-color: var(--bg-color);
+      color: #000;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    /* Classic Windows Frame */
+    .window {
+      background-color: var(--win-bg);
+      border: 2px solid;
+      border-color: #ffffff #808080 #808080 #ffffff;
+      box-shadow: 2px 2px 0px #000;
+      padding: 3px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    /* Title Bar */
+    h1 {
+      font-size: 14px;
+      font-weight: bold;
+      background: linear-gradient(90deg, #000080, #1084d0);
+      color: white;
+      padding: 3px 6px;
+      margin: 0 0 10px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Content Area */
+    .window-body {
+      padding: 8px;
+    }
+
+    h2 {
+      font-size: 14px;
+      border-bottom: 1px solid #808080;
+      padding-bottom: 2px;
+      margin-top: 20px;
+    }
+
+    /* Retro Button */
+    .button {
+      display: inline-block;
+      padding: 6px 16px;
+      margin-top: 10px;
+      background-color: var(--win-bg);
+      border: 2px solid;
+      border-color: #ffffff #808080 #808080 #ffffff;
+      box-shadow: 1px 1px 0px #000;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .button:active {
+      border-color: #808080 #ffffff #ffffff #808080;
+      box-shadow: none;
+      padding: 7px 15px 5px 17px;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #404040;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid;
+      border-color: #808080 #ffffff #ffffff #808080;
+    }
+
+    footer {
+      margin-top: 20px;
+      padding-top: 10px;
+      border-top: 2px solid;
+      border-color: #808080 #ffffff #ffffff #808080;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="window">
+    <header>
+      <h1><span>RunCalc.exe</span></h1>
+    </header>
+    
+    <div class="window-body">
+      <main>
+        <!-- 日本語ページへのリンク -->
+        <p><a href="./">日本語ページ (Japanese)</a></p>
+        <p><strong>RunCalc</strong> is a simple calculator designed to run on Windows 7 / 8 / 10 / 11.</p>
+        <p>It features lightweight and high-speed execution, working smoothly even on low-spec PCs.</p>
+
+        <h2>Key Features</h2>
+        <ul>
+          <li>Instant calculations directly from the Windows "Run" dialog (<code>Win + R</code>)</li>
+        </ul>
+
+        <h2>How to Use</h2>
+        <ol>
+          <li>Press <code>Win + R</code>, type <code>rc [expression]</code> (e.g., <code>rc 1+1</code>), and hit Enter.</li>
+          <li>The result will be displayed and automatically copied to your clipboard. (Will not copy if an error occurs)</li>
+          <li>You can also click <code>Calc...</code> to perform multiple calculations continuously.</li>
+        </ol>
+        <p class="note">※ Use half-width characters. (Use <code>*</code> for multiplication, <code>/</code> for division)</p>
+
+        <h2>Screenshot</h2>
+        <p>RunCalc running on Windows 11 (v1.0.0)</p>
+        <img src="https://github.com/sakuzyokun/RunCalc/blob/main/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88%202026-08-26%20162928.png?raw=true" alt="RunCalc running on Windows 11">
+        <br>
+
+        <h2>Download</h2>
+        <!-- 最新版に飛ばすURLに設定 -->
+        <a href="https://github.com/sakuzyokun/RunCalc/releases/latest" class="button">Download RunCalc</a>
+      </main>
+
+      <footer>
+        <p>Author: Sakuzyokun<br>
+        License: Freeware (Free for personal use)<br>
+        <a href="https://github.com/sakuzyokun/RunCalc">RunCalc GitHub Repository (License & Source Code)</a>
+        </p>
+        <p>Ver.1.0.0</p>
+      </footer>
+    </div>
+  </div>
+
+</body>
+</html>
